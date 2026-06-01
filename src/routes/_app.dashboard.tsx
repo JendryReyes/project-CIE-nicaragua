@@ -138,6 +138,8 @@ function Dashboard() {
               })}
             </div>
           </div>
+
+          <AlertaEstancamiento />
         </div>
       </div>
     </div>
