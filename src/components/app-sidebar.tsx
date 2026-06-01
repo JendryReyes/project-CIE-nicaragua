@@ -1,0 +1,104 @@
+import { Link, useRouterState } from "@tanstack/react-router";
+import {
+  LayoutDashboard,
+  Users,
+  CalendarDays,
+  ClipboardCheck,
+  Receipt,
+  Heart,
+  BarChart3,
+  LogOut,
+} from "lucide-react";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarFooter,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import { logout } from "@/lib/auth";
+import { useNavigate } from "@tanstack/react-router";
+
+const operativo = [
+  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { title: "Niños y niñas", url: "/ninos", icon: Users },
+  { title: "Horario", url: "/horario", icon: CalendarDays },
+  { title: "Asistencia", url: "/asistencia", icon: ClipboardCheck },
+];
+
+const gestion = [
+  { title: "Facturación INSS", url: "/facturacion", icon: Receipt },
+  { title: "Familias", url: "/familias", icon: Heart },
+];
+
+const estrategia = [
+  { title: "Benchmark", url: "/benchmark", icon: BarChart3 },
+];
+
+export function AppSidebar() {
+  const pathname = useRouterState({ select: (r) => r.location.pathname });
+  const navigate = useNavigate();
+  const isActive = (url: string) => pathname === url || pathname.startsWith(url + "/");
+
+  const handleLogout = () => {
+    logout();
+    navigate({ to: "/" });
+  };
+
+  const renderSection = (label: string, items: typeof operativo) => (
+    <SidebarGroup>
+      <SidebarGroupLabel className="text-[0.65rem] uppercase tracking-[0.12em] text-muted-foreground/80">
+        {label}
+      </SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {items.map((item) => (
+            <SidebarMenuItem key={item.url}>
+              <SidebarMenuButton asChild isActive={isActive(item.url)} className="data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium">
+                <Link to={item.url} className="flex items-center gap-3">
+                  <item.icon className="h-4 w-4" />
+                  <span>{item.title}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
+
+  return (
+    <Sidebar collapsible="icon">
+      <SidebarHeader className="border-b border-sidebar-border/60 p-4">
+        <Link to="/dashboard" className="flex items-center gap-2.5">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+            <Heart className="h-5 w-5" fill="currentColor" />
+          </div>
+          <div className="flex flex-col leading-tight">
+            <span className="font-display text-lg font-semibold">CIE</span>
+            <span className="text-[0.65rem] text-muted-foreground">Centro Edu-Terapéutico</span>
+          </div>
+        </Link>
+      </SidebarHeader>
+      <SidebarContent>
+        {renderSection("Operación", operativo)}
+        {renderSection("Gestión", gestion)}
+        {renderSection("Estrategia", estrategia)}
+      </SidebarContent>
+      <SidebarFooter className="border-t border-sidebar-border/60 p-3">
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-sidebar-accent hover:text-foreground"
+        >
+          <LogOut className="h-4 w-4" />
+          <span>Cerrar sesión</span>
+        </button>
+      </SidebarFooter>
+    </Sidebar>
+  );
+}

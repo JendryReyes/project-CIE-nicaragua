@@ -9,38 +9,153 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppHorarioRouteImport } from './routes/_app.horario'
+import { Route as AppFamiliasRouteImport } from './routes/_app.familias'
+import { Route as AppFacturacionRouteImport } from './routes/_app.facturacion'
+import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppBenchmarkRouteImport } from './routes/_app.benchmark'
+import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
+import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
+import { Route as AppNinosIdRouteImport } from './routes/_app.ninos.$id'
 
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppHorarioRoute = AppHorarioRouteImport.update({
+  id: '/horario',
+  path: '/horario',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFamiliasRoute = AppFamiliasRouteImport.update({
+  id: '/familias',
+  path: '/familias',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFacturacionRoute = AppFacturacionRouteImport.update({
+  id: '/facturacion',
+  path: '/facturacion',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBenchmarkRoute = AppBenchmarkRouteImport.update({
+  id: '/benchmark',
+  path: '/benchmark',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAsistenciaRoute = AppAsistenciaRouteImport.update({
+  id: '/asistencia',
+  path: '/asistencia',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNinosIndexRoute = AppNinosIndexRouteImport.update({
+  id: '/ninos/',
+  path: '/ninos/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNinosIdRoute = AppNinosIdRouteImport.update({
+  id: '/ninos/$id',
+  path: '/ninos/$id',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/asistencia': typeof AppAsistenciaRoute
+  '/benchmark': typeof AppBenchmarkRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/facturacion': typeof AppFacturacionRoute
+  '/familias': typeof AppFamiliasRoute
+  '/horario': typeof AppHorarioRoute
+  '/ninos/$id': typeof AppNinosIdRoute
+  '/ninos/': typeof AppNinosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/asistencia': typeof AppAsistenciaRoute
+  '/benchmark': typeof AppBenchmarkRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/facturacion': typeof AppFacturacionRoute
+  '/familias': typeof AppFamiliasRoute
+  '/horario': typeof AppHorarioRoute
+  '/ninos/$id': typeof AppNinosIdRoute
+  '/ninos': typeof AppNinosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/asistencia': typeof AppAsistenciaRoute
+  '/_app/benchmark': typeof AppBenchmarkRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/facturacion': typeof AppFacturacionRoute
+  '/_app/familias': typeof AppFamiliasRoute
+  '/_app/horario': typeof AppHorarioRoute
+  '/_app/ninos/$id': typeof AppNinosIdRoute
+  '/_app/ninos/': typeof AppNinosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/asistencia'
+    | '/benchmark'
+    | '/dashboard'
+    | '/facturacion'
+    | '/familias'
+    | '/horario'
+    | '/ninos/$id'
+    | '/ninos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/asistencia'
+    | '/benchmark'
+    | '/dashboard'
+    | '/facturacion'
+    | '/familias'
+    | '/horario'
+    | '/ninos/$id'
+    | '/ninos'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/_app/asistencia'
+    | '/_app/benchmark'
+    | '/_app/dashboard'
+    | '/_app/facturacion'
+    | '/_app/familias'
+    | '/_app/horario'
+    | '/_app/ninos/$id'
+    | '/_app/ninos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +163,93 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/horario': {
+      id: '/_app/horario'
+      path: '/horario'
+      fullPath: '/horario'
+      preLoaderRoute: typeof AppHorarioRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/familias': {
+      id: '/_app/familias'
+      path: '/familias'
+      fullPath: '/familias'
+      preLoaderRoute: typeof AppFamiliasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/facturacion': {
+      id: '/_app/facturacion'
+      path: '/facturacion'
+      fullPath: '/facturacion'
+      preLoaderRoute: typeof AppFacturacionRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/benchmark': {
+      id: '/_app/benchmark'
+      path: '/benchmark'
+      fullPath: '/benchmark'
+      preLoaderRoute: typeof AppBenchmarkRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/asistencia': {
+      id: '/_app/asistencia'
+      path: '/asistencia'
+      fullPath: '/asistencia'
+      preLoaderRoute: typeof AppAsistenciaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/ninos/': {
+      id: '/_app/ninos/'
+      path: '/ninos'
+      fullPath: '/ninos/'
+      preLoaderRoute: typeof AppNinosIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/ninos/$id': {
+      id: '/_app/ninos/$id'
+      path: '/ninos/$id'
+      fullPath: '/ninos/$id'
+      preLoaderRoute: typeof AppNinosIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppAsistenciaRoute: typeof AppAsistenciaRoute
+  AppBenchmarkRoute: typeof AppBenchmarkRoute
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppFacturacionRoute: typeof AppFacturacionRoute
+  AppFamiliasRoute: typeof AppFamiliasRoute
+  AppHorarioRoute: typeof AppHorarioRoute
+  AppNinosIdRoute: typeof AppNinosIdRoute
+  AppNinosIndexRoute: typeof AppNinosIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAsistenciaRoute: AppAsistenciaRoute,
+  AppBenchmarkRoute: AppBenchmarkRoute,
+  AppDashboardRoute: AppDashboardRoute,
+  AppFacturacionRoute: AppFacturacionRoute,
+  AppFamiliasRoute: AppFamiliasRoute,
+  AppHorarioRoute: AppHorarioRoute,
+  AppNinosIdRoute: AppNinosIdRoute,
+  AppNinosIndexRoute: AppNinosIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
