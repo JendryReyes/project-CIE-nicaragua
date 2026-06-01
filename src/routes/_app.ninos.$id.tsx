@@ -23,6 +23,9 @@ function NinoDetalle() {
   if (!n) throw notFound();
   const [tab, setTab] = useState<(typeof tabs)[number]>("Resumen");
   const sesionesNino = sesionesHoy.filter((s) => s.ninoId === id);
+  const checklist = checklistPorNino(id);
+  const activable = puedeActivar(checklist);
+  const faltantes = checklist.filter((c) => c.obligatorio && !c.completo).map((c) => c.nombre);
 
   return (
     <div className="space-y-6 max-w-[1400px]">
@@ -54,11 +57,26 @@ function NinoDetalle() {
             <button className="rounded-full border border-border px-4 py-2 text-sm hover:bg-muted">
               <Download className="h-3.5 w-3.5 inline mr-1.5" /> Exportar
             </button>
-            <button className="rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm hover:opacity-90">
-              <Plus className="h-3.5 w-3.5 inline mr-1.5" /> Nueva sesión
+            <button
+              disabled={!activable}
+              title={activable ? "Activar intervención" : `Faltan documentos: ${faltantes.join(", ")}`}
+              className={`rounded-full px-4 py-2 text-sm inline-flex items-center gap-1.5 ${activable ? "bg-primary text-primary-foreground hover:opacity-90" : "bg-muted text-muted-foreground cursor-not-allowed"}`}
+            >
+              {activable ? <Plus className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
+              {activable ? "Activar intervención" : "Bloqueado por INSS"}
             </button>
           </div>
         </div>
+
+        {!activable && (
+          <div className="mt-4 flex items-start gap-2 rounded-lg border border-[oklch(0.78_0.13_75)]/50 bg-[oklch(0.97_0.04_75)]/60 p-3 text-xs">
+            <Lock className="h-3.5 w-3.5 mt-0.5 text-[oklch(0.55_0.13_60)] shrink-0" />
+            <div>
+              <span className="font-medium">Expediente bloqueado por checklist INSS.</span>{" "}
+              Faltan: {faltantes.join(" · ")}. Revísalo en la pestaña Familia y documentos.
+            </div>
+          </div>
+        )}
 
         {/* Tabs */}
         <div className="flex gap-1 mt-6 border-b border-border/60 -mb-6 -mx-6 px-6">
@@ -75,9 +93,46 @@ function NinoDetalle() {
       </div>
 
       {tab === "Resumen" && <Resumen n={n} />}
+      {tab === "Programas clínicos" && <Programas />}
       {tab === "Áreas terapéuticas" && <Areas n={n} />}
       {tab === "Sesiones" && <Sesiones sesiones={sesionesNino} />}
-      {tab === "Familia y documentos" && <Familia n={n} />}
+      {tab === "Familia y documentos" && <Familia n={n} checklist={checklist} />}
+    </div>
+  );
+}
+
+function Programas() {
+  const [modelo, setModelo] = useState<ModeloClinico>("aba");
+  const programas = programasDemo.filter((p) => p.modelo === modelo);
+
+  return (
+    <div className="space-y-6">
+      <div className="rounded-2xl border border-border/70 bg-card p-5">
+        <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+          <div>
+            <h3 className="font-display text-lg">Modelo clínico activo</h3>
+            <p className="text-xs text-muted-foreground mt-0.5">Selecciona el marco terapéutico para ver sus programas.</p>
+          </div>
+          <div className="flex gap-1 rounded-full bg-muted p-1">
+            {(Object.keys(modeloLabels) as ModeloClinico[]).map((m) => (
+              <button
+                key={m}
+                onClick={() => setModelo(m)}
+                className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${modelo === m ? "bg-card shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                {modeloLabels[m]}
+              </button>
+            ))}
+          </div>
+        </div>
+        <p className="text-sm text-muted-foreground border-t border-border/40 pt-3">{modeloDescripciones[modelo]}</p>
+      </div>
+
+      {modelo === "hanley" && <HanleyCrisisCard />}
+
+      {programas.map((p) => (
+        <ProgramaClinicoCard key={p.id} programa={p} />
+      ))}
     </div>
   );
 }
