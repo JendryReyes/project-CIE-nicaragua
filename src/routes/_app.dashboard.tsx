@@ -3,6 +3,9 @@ import { sesionesHoy, ninoById, lotesINSS, ninos, areaLabels } from "@/lib/demo-
 import { AreaBadge } from "@/components/area-badge";
 import { Avatar } from "@/components/avatar";
 import { TrendingUp, Clock, AlertTriangle, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { useSede, matchesSede, sedeLabel } from "@/lib/sedes";
+import { AlertaEstancamiento } from "@/components/alerta-estancamiento";
+import { IoaBadge } from "@/components/ioa-badge";
 
 export const Route = createFileRoute("/_app/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard · CIE" }] }),
@@ -12,12 +15,17 @@ export const Route = createFileRoute("/_app/dashboard")({
 function Dashboard() {
   const hoy = new Date("2026-06-01");
   const fechaTxt = hoy.toLocaleDateString("es-NI", { weekday: "long", day: "numeric", month: "long" });
+  const { sede } = useSede();
 
-  const asistio = sesionesHoy.filter((s) => s.estado === "asistio").length;
-  const enCurso = sesionesHoy.filter((s) => s.estado === "en_curso").length;
-  const pend = sesionesHoy.filter((s) => s.estado === "programada").length;
-  const total = sesionesHoy.length;
-  const activos = ninos.filter((n) => n.estado === "activo").length;
+  const ninosVis = ninos.filter((n) => matchesSede(n.sede, sede));
+  const ninosVisIds = new Set(ninosVis.map((n) => n.id));
+  const sesionesVis = sesionesHoy.filter((s) => ninosVisIds.has(s.ninoId));
+
+  const asistio = sesionesVis.filter((s) => s.estado === "asistio").length;
+  const enCurso = sesionesVis.filter((s) => s.estado === "en_curso").length;
+  const pend = sesionesVis.filter((s) => s.estado === "programada").length;
+  const total = sesionesVis.length;
+  const activos = ninosVis.filter((n) => n.estado === "activo").length;
   const inssMes = lotesINSS.find((l) => l.estado === "enviado");
 
   return (
@@ -28,9 +36,17 @@ function Dashboard() {
           <p className="text-sm text-muted-foreground capitalize">{fechaTxt}</p>
           <h1 className="font-display text-4xl mt-1">Buenos días, María.</h1>
           <p className="text-muted-foreground mt-2">
-            Hoy tenemos <span className="text-foreground font-medium">{total} sesiones</span> programadas en la sede Managua.
+            Hoy tenemos <span className="text-foreground font-medium">{total} sesiones</span> programadas en <span className="text-foreground font-medium">{sedeLabel(sede)}</span>.
           </p>
         </div>
+        <Link
+          to="/asistencia"
+          className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90"
+        >
+          Tomar asistencia
+          <ArrowUpRight className="h-4 w-4" />
+        </Link>
+      </div>
         <Link
           to="/asistencia"
           className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90"
