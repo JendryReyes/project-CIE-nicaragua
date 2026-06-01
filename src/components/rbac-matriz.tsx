@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { matriz, permisos, roles } from "@/lib/rbac";
 import { Check, Eye, Minus } from "lucide-react";
 
@@ -23,8 +24,8 @@ export function RbacMatriz() {
           </thead>
           <tbody>
             {Object.entries(agrupados).map(([area, items]) => (
-              <>
-                <tr key={`g-${area}`} className="bg-cream/60 border-b border-border/40">
+              <Fragment key={area}>
+                <tr className="bg-cream/60 border-b border-border/40">
                   <td colSpan={roles.length + 1} className="px-3 py-1.5 text-[0.65rem] uppercase tracking-wider text-muted-foreground sticky left-0">
                     {area}
                   </td>
@@ -44,7 +45,7 @@ export function RbacMatriz() {
                     })}
                   </tr>
                 ))}
-              </>
+              </Fragment>
             ))}
           </tbody>
         </table>
