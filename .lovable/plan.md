@@ -1,77 +1,72 @@
+# Plan — Sprint demo 1 + 2 (CIE Nicaragua)
 
-## Visión
+Acercar el prototipo a lo que pide el TDR v2: sistema clínico defendible, no solo dashboard. Todo sigue siendo mock (sin backend), pero la UI ya refleja el modelo del CIE.
 
-Construir un prototipo navegable del **sistema operativo del CIE Nicaragua** para terapeutas y coordinadores. La ventaja sobre Hi Rasmus / CentralReach / Office Puzzle:
+## Qué se agrega (visible para el usuario)
 
-1. **Modelo integral edu-terapéutico** (diagnóstico + fisioterapia sensorial + logopedia + conducta en un solo expediente) — no solo ABA.
-2. **Adaptado a Nicaragua / INSS** — flujo de colillas, facturación INSS, español nativo, marco jurídico local.
-3. **Experiencia para familias** integrada — portal de padres simple, consentimientos digitales, reportes claros.
+### Sprint demo 1 — núcleo clínico + multi-sede
 
-## Benchmark express (incorporado en el diseño)
+1. **Selector de sede en el header** (Santo Domingo, Las Colinas, Estelí, Masaya, León) + opción "Consolidado nacional". Filtra dashboard, niños, horario y facturación.
+2. **Nueva pestaña "Programas clínicos"** dentro del expediente `/ninos/:id`, con:
+   - Selector de **modelo clínico**: ABA · ESDM-Denver · Hanley/PFA.
+   - Jerarquía visible: Dominio → Programa → Target → Ítem/SD.
+   - 1 programa de ejemplo por modelo, ya cargado con datos demo.
+   - **Gráfico de línea de fase** (Recharts) con líneas verticales de cambio de fase y badge de masterización (umbral · consistencia · generalización).
+   - **Plan de crisis Hanley** visible como tarjeta destacada cuando el niño tiene modelo Hanley y riesgo alto.
+3. **Catálogo CIE** en `/biblioteca` (nueva ruta): servicios nativos (IT, PFA, Habilidades Sociales, Fisio, Logo, Evaluaciones, Familia) con cupos INSS, rango de edad y modalidad.
 
-| Plataforma | Fortaleza | Debilidad que explotamos |
-|---|---|---|
-| **CentralReach** | Suite ABA completa, billing US | UI cargada, gringa, cara, no INSS |
-| **Hi Rasmus** | Data collection moderna, EU | Solo ABA, sin fisio/logopedia, sin facturación local |
-| **Office Puzzle** | Bilingüe, scheduling | UX anticuada, foco clínico estrecho |
+### Sprint demo 2 — gobernanza y calidad
 
-CIE gana siendo **integral + local + cálido**.
+4. **Matriz RBAC visual** en `/equipo` (nueva ruta): roles del organigrama CIE (Dir. Clínica, Subdirección, Supervisor, Coordinador, Terapeuta, Esp. Familia, TI) × permisos. Solo lectura, demostrativa.
+5. **Checklist INSS bloqueante** en el expediente: si faltan documentos requeridos, el botón "Activar intervención" queda deshabilitado con tooltip explicando qué falta.
+6. **Badge IOA** (acuerdo entre observadores) en sesiones marcadas como dobles, con % de acuerdo simulado.
+7. **Alerta de estancamiento** en el dashboard: tarjeta que lista niños sin progreso > 3 semanas en algún target.
 
-## Pantallas del prototipo (rutas)
+## Arquitectura (sección técnica)
 
+```text
+src/lib/
+  sedes.ts                 -> catálogo de sedes + hook useSedeActiva (localStorage)
+  modelos-clinicos.ts      -> ABA | ESDM | Hanley + programas demo por modelo
+  rbac.ts                  -> roles, permisos, matriz
+  catalogo-cie.ts          -> servicios CIE con cupos INSS
+  checklist-inss.ts        -> documentos requeridos + estado por niño
+
+src/components/
+  sede-selector.tsx        -> dropdown en header
+  programa-clinico-card.tsx
+  fase-chart.tsx           -> Recharts line + ReferenceLine
+  masterizacion-badge.tsx
+  hanley-crisis-card.tsx
+  rbac-matriz.tsx
+  ioa-badge.tsx
+  alerta-estancamiento.tsx
+
+src/routes/
+  _app.biblioteca.tsx      -> catálogo CIE
+  _app.equipo.tsx          -> matriz RBAC
+  _app.ninos.$id.tsx       -> añadir tab "Programas clínicos" + checklist INSS bloqueante
+  _app.tsx                 -> integrar SedeSelector en header
+  _app.dashboard.tsx       -> añadir alerta de estancamiento + filtro por sede
 ```
-/                       Login (mock, entra como Coordinador)
-/dashboard              Resumen del día: sesiones, asistencia, alertas INSS
-/ninos                  Lista de niños/as con filtros por área y estado
-/ninos/$id              Expediente integral (4 tabs):
-                        - Resumen + diagnóstico
-                        - Diagnóstico / Fisio / Logopedia / Conducta
-                        - Sesiones y progreso
-                        - Familia y documentos
-/horario                Grilla semanal de sesiones por terapeuta/sala
-/asistencia             Toma de asistencia del día + colilla INSS
-/facturacion            Cobro INSS — lotes, soportes, estado
-/familias               Portal: comunicación con padres, consentimientos
-/benchmark              Página comparativa CIE vs los 3 competidores
-```
 
-Todo con `_authenticated` layout + sidebar shadcn colapsable.
+- Toda la data sigue en `demo-data.ts` extendida; sin Cloud.
+- El filtro por sede vive en un `useSedeActiva()` (Context + localStorage) que cada vista consume.
+- Sidebar: agregar "Biblioteca clínica" en Operación y "Equipo y permisos" en Gestión.
 
-## Dirección visual — "Cálido y humano"
+## Lo que NO entra (queda para fase real con backend)
 
-- **Paleta** (tokens HSL en `src/styles.css`):
-  - Fondo crema `#FBF7F2`, superficie blanca rota
-  - Primario terracota suave `#C26B4D` (el corazón del logo CIE)
-  - Acento verde salvia `#7BA68C` (terapia, calma)
-  - Texto carbón cálido `#2B2420`
-  - Estados: éxito salvia, alerta ámbar miel, error coral
-- **Tipografía**: Fraunces (display, headings) + Inter (UI/body). Headings con tracking ajustado, números tabulares para datos.
-- **Forma**: bordes 14px, sombras suaves multicapa, separadores con opacidad baja
-- **Motivo visual**: pieza de rompecabezas como acento sutil (no decoración pesada), avatares con iniciales en círculos pastel por área terapéutica
-- **Densidad**: cómoda — no SaaS frío denso, no infantil de más; cards generosas, números grandes en KPIs
+- Offline-first en sesión, log inmutable 7 años, firmas digitales.
+- Motor de reglas de versionado (semver clínico) editable.
+- IOA real con doble registro en vivo.
+- Reportes INSS firmados/exportables a PDF oficial.
 
-## Datos demo
+Estos quedan documentados como "Fase real" pero no se prototipan ahora para mantener el demo navegable y honesto.
 
-`src/lib/demo-data.ts` con ~12 niños, 6 terapeutas, sesiones de la semana, lotes INSS. Sin backend — todo en memoria con `@tanstack/react-query` para que se sienta real.
+## Resultado esperado del demo
 
-## Aspectos técnicos
-
-- **Stack**: TanStack Start + Tailwind v4 + shadcn. Sin Cloud todavía (es prototipo demo).
-- **Rutas** bajo `_authenticated` con login mock que solo setea un flag en localStorage.
-- **Sidebar** shadcn con navegación entre módulos, colapsable.
-- **Componentes clave**: `KpiCard`, `SesionRow`, `ExpedienteHeader`, `AreaBadge` (color por área: diagnóstico/fisio/logopedia/conducta), `INSSStatusPill`.
-- **i18n**: todo en español de Nicaragua (no es i18n real, copy directo).
-- **Página `/benchmark`** como pieza comercial dentro del producto: tabla comparativa visual CIE vs los 3, con secciones "lo que ellos no hacen" centradas en INSS, integralidad y familias.
-
-## Lo que NO entra en esta fase
-
-- Backend real / autenticación real / persistencia
-- Recolección de datos de sesión ABA detallada (gráficas de comportamiento)
-- App móvil de padres
-- Reportes PDF reales
-
-Se dejan los espacios diseñados para sumarlos después.
-
-## Resultado esperado
-
-Un prototipo que cualquier persona del CIE pueda recorrer y entender en 3 minutos por qué es mejor que las plataformas extranjeras — y que sirva como base real para construir el producto.
+El prototipo podrá mostrar al CIE:
+- Multi-sede con consolidación.
+- Un expediente con los 3 modelos clínicos del TDR funcionando visualmente.
+- Gráfico de fase + masterización + crisis Hanley.
+- Gobernanza (RBAC + checklist bloqueante) que diferencia del software importado.
