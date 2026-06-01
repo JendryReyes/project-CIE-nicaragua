@@ -67,7 +67,7 @@ function Dashboard() {
             <Link to="/horario" className="text-sm text-primary hover:underline">Ver semana →</Link>
           </div>
           <ul className="divide-y divide-border/60">
-            {sesionesHoy.slice(0, 8).map((s) => {
+            {sesionesVis.slice(0, 8).map((s, idx) => {
               const n = ninoById(s.ninoId)!;
               return (
                 <li key={s.id} className="flex items-center gap-4 p-4 hover:bg-muted/40 transition-colors">
@@ -80,11 +80,16 @@ function Dashboard() {
                     <div className="font-medium truncate">{n.nombre}</div>
                     <div className="text-xs text-muted-foreground truncate">{s.terapeuta} · {s.sala}</div>
                   </div>
+                  {idx === 0 && <IoaBadge pct={94} />}
+                  {idx === 3 && <IoaBadge pct={82} />}
                   <AreaBadge area={s.area} />
                   <EstadoChip estado={s.estado} />
                 </li>
               );
             })}
+            {sesionesVis.length === 0 && (
+              <li className="p-8 text-center text-sm text-muted-foreground">Sin sesiones en esta sede hoy.</li>
+            )}
           </ul>
         </div>
 
@@ -117,8 +122,8 @@ function Dashboard() {
             <h3 className="font-display text-lg mb-4">Distribución por área</h3>
             <div className="space-y-3">
               {(["conducta", "logopedia", "fisio", "diagnostico"] as const).map((a) => {
-                const c = ninos.filter((n) => n.areas.includes(a)).length;
-                const pct = Math.round((c / ninos.length) * 100);
+                const c = ninosVis.filter((n) => n.areas.includes(a)).length;
+                const pct = ninosVis.length ? Math.round((c / ninosVis.length) * 100) : 0;
                 return (
                   <div key={a}>
                     <div className="flex justify-between text-xs mb-1.5">
