@@ -3,6 +3,9 @@ import { sesionesHoy, ninoById, lotesINSS, ninos, areaLabels } from "@/lib/demo-
 import { AreaBadge } from "@/components/area-badge";
 import { Avatar } from "@/components/avatar";
 import { TrendingUp, Clock, AlertTriangle, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { useSede, matchesSede, sedeLabel } from "@/lib/sedes";
+import { AlertaEstancamiento } from "@/components/alerta-estancamiento";
+import { IoaBadge } from "@/components/ioa-badge";
 
 export const Route = createFileRoute("/_app/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard · CIE" }] }),
@@ -12,12 +15,17 @@ export const Route = createFileRoute("/_app/dashboard")({
 function Dashboard() {
   const hoy = new Date("2026-06-01");
   const fechaTxt = hoy.toLocaleDateString("es-NI", { weekday: "long", day: "numeric", month: "long" });
+  const { sede } = useSede();
 
-  const asistio = sesionesHoy.filter((s) => s.estado === "asistio").length;
-  const enCurso = sesionesHoy.filter((s) => s.estado === "en_curso").length;
-  const pend = sesionesHoy.filter((s) => s.estado === "programada").length;
-  const total = sesionesHoy.length;
-  const activos = ninos.filter((n) => n.estado === "activo").length;
+  const ninosVis = ninos.filter((n) => matchesSede(n.sede, sede));
+  const ninosVisIds = new Set(ninosVis.map((n) => n.id));
+  const sesionesVis = sesionesHoy.filter((s) => ninosVisIds.has(s.ninoId));
+
+  const asistio = sesionesVis.filter((s) => s.estado === "asistio").length;
+  const enCurso = sesionesVis.filter((s) => s.estado === "en_curso").length;
+  const pend = sesionesVis.filter((s) => s.estado === "programada").length;
+  const total = sesionesVis.length;
+  const activos = ninosVis.filter((n) => n.estado === "activo").length;
   const inssMes = lotesINSS.find((l) => l.estado === "enviado");
 
   return (
@@ -28,7 +36,7 @@ function Dashboard() {
           <p className="text-sm text-muted-foreground capitalize">{fechaTxt}</p>
           <h1 className="font-display text-4xl mt-1">Buenos días, María.</h1>
           <p className="text-muted-foreground mt-2">
-            Hoy tenemos <span className="text-foreground font-medium">{total} sesiones</span> programadas en la sede Managua.
+            Hoy tenemos <span className="text-foreground font-medium">{total} sesiones</span> programadas en <span className="text-foreground font-medium">{sedeLabel(sede)}</span>.
           </p>
         </div>
         <Link
@@ -59,7 +67,7 @@ function Dashboard() {
             <Link to="/horario" className="text-sm text-primary hover:underline">Ver semana →</Link>
           </div>
           <ul className="divide-y divide-border/60">
-            {sesionesHoy.slice(0, 8).map((s) => {
+            {sesionesVis.slice(0, 8).map((s, idx) => {
               const n = ninoById(s.ninoId)!;
               return (
                 <li key={s.id} className="flex items-center gap-4 p-4 hover:bg-muted/40 transition-colors">
@@ -72,11 +80,16 @@ function Dashboard() {
                     <div className="font-medium truncate">{n.nombre}</div>
                     <div className="text-xs text-muted-foreground truncate">{s.terapeuta} · {s.sala}</div>
                   </div>
+                  {idx === 0 && <IoaBadge pct={94} />}
+                  {idx === 3 && <IoaBadge pct={82} />}
                   <AreaBadge area={s.area} />
                   <EstadoChip estado={s.estado} />
                 </li>
               );
             })}
+            {sesionesVis.length === 0 && (
+              <li className="p-8 text-center text-sm text-muted-foreground">Sin sesiones en esta sede hoy.</li>
+            )}
           </ul>
         </div>
 
@@ -109,8 +122,8 @@ function Dashboard() {
             <h3 className="font-display text-lg mb-4">Distribución por área</h3>
             <div className="space-y-3">
               {(["conducta", "logopedia", "fisio", "diagnostico"] as const).map((a) => {
-                const c = ninos.filter((n) => n.areas.includes(a)).length;
-                const pct = Math.round((c / ninos.length) * 100);
+                const c = ninosVis.filter((n) => n.areas.includes(a)).length;
+                const pct = ninosVis.length ? Math.round((c / ninosVis.length) * 100) : 0;
                 return (
                   <div key={a}>
                     <div className="flex justify-between text-xs mb-1.5">
@@ -125,6 +138,8 @@ function Dashboard() {
               })}
             </div>
           </div>
+
+          <AlertaEstancamiento />
         </div>
       </div>
     </div>

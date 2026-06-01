@@ -14,8 +14,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppHorarioRouteImport } from './routes/_app.horario'
 import { Route as AppFamiliasRouteImport } from './routes/_app.familias'
 import { Route as AppFacturacionRouteImport } from './routes/_app.facturacion'
+import { Route as AppEquipoRouteImport } from './routes/_app.equipo'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
-import { Route as AppBenchmarkRouteImport } from './routes/_app.benchmark'
+import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
 import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
 import { Route as AppNinosIdRouteImport } from './routes/_app.ninos.$id'
@@ -44,14 +45,19 @@ const AppFacturacionRoute = AppFacturacionRouteImport.update({
   path: '/facturacion',
   getParentRoute: () => AppRoute,
 } as any)
+const AppEquipoRoute = AppEquipoRouteImport.update({
+  id: '/equipo',
+  path: '/equipo',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
-const AppBenchmarkRoute = AppBenchmarkRouteImport.update({
-  id: '/benchmark',
-  path: '/benchmark',
+const AppBibliotecaRoute = AppBibliotecaRouteImport.update({
+  id: '/biblioteca',
+  path: '/biblioteca',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAsistenciaRoute = AppAsistenciaRouteImport.update({
@@ -73,8 +79,9 @@ const AppNinosIdRoute = AppNinosIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/asistencia': typeof AppAsistenciaRoute
-  '/benchmark': typeof AppBenchmarkRoute
+  '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
+  '/equipo': typeof AppEquipoRoute
   '/facturacion': typeof AppFacturacionRoute
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
@@ -84,8 +91,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/asistencia': typeof AppAsistenciaRoute
-  '/benchmark': typeof AppBenchmarkRoute
+  '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
+  '/equipo': typeof AppEquipoRoute
   '/facturacion': typeof AppFacturacionRoute
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
@@ -97,8 +105,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/_app/asistencia': typeof AppAsistenciaRoute
-  '/_app/benchmark': typeof AppBenchmarkRoute
+  '/_app/biblioteca': typeof AppBibliotecaRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/equipo': typeof AppEquipoRoute
   '/_app/facturacion': typeof AppFacturacionRoute
   '/_app/familias': typeof AppFamiliasRoute
   '/_app/horario': typeof AppHorarioRoute
@@ -110,8 +119,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/asistencia'
-    | '/benchmark'
+    | '/biblioteca'
     | '/dashboard'
+    | '/equipo'
     | '/facturacion'
     | '/familias'
     | '/horario'
@@ -121,8 +131,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/asistencia'
-    | '/benchmark'
+    | '/biblioteca'
     | '/dashboard'
+    | '/equipo'
     | '/facturacion'
     | '/familias'
     | '/horario'
@@ -133,8 +144,9 @@ export interface FileRouteTypes {
     | '/'
     | '/_app'
     | '/_app/asistencia'
-    | '/_app/benchmark'
+    | '/_app/biblioteca'
     | '/_app/dashboard'
+    | '/_app/equipo'
     | '/_app/facturacion'
     | '/_app/familias'
     | '/_app/horario'
@@ -184,6 +196,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppFacturacionRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/equipo': {
+      id: '/_app/equipo'
+      path: '/equipo'
+      fullPath: '/equipo'
+      preLoaderRoute: typeof AppEquipoRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/dashboard': {
       id: '/_app/dashboard'
       path: '/dashboard'
@@ -191,11 +210,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/benchmark': {
-      id: '/_app/benchmark'
-      path: '/benchmark'
-      fullPath: '/benchmark'
-      preLoaderRoute: typeof AppBenchmarkRouteImport
+    '/_app/biblioteca': {
+      id: '/_app/biblioteca'
+      path: '/biblioteca'
+      fullPath: '/biblioteca'
+      preLoaderRoute: typeof AppBibliotecaRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/asistencia': {
@@ -224,8 +243,9 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppAsistenciaRoute: typeof AppAsistenciaRoute
-  AppBenchmarkRoute: typeof AppBenchmarkRoute
+  AppBibliotecaRoute: typeof AppBibliotecaRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppEquipoRoute: typeof AppEquipoRoute
   AppFacturacionRoute: typeof AppFacturacionRoute
   AppFamiliasRoute: typeof AppFamiliasRoute
   AppHorarioRoute: typeof AppHorarioRoute
@@ -235,8 +255,9 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppAsistenciaRoute: AppAsistenciaRoute,
-  AppBenchmarkRoute: AppBenchmarkRoute,
+  AppBibliotecaRoute: AppBibliotecaRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppEquipoRoute: AppEquipoRoute,
   AppFacturacionRoute: AppFacturacionRoute,
   AppFamiliasRoute: AppFamiliasRoute,
   AppHorarioRoute: AppHorarioRoute,

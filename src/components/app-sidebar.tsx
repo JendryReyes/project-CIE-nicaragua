@@ -6,7 +6,8 @@ import {
   ClipboardCheck,
   Receipt,
   Heart,
-  BarChart3,
+  BookOpen,
+  Shield,
   LogOut,
 } from "lucide-react";
 import {
@@ -29,15 +30,13 @@ const operativo = [
   { title: "Niños y niñas", url: "/ninos", icon: Users },
   { title: "Horario", url: "/horario", icon: CalendarDays },
   { title: "Asistencia", url: "/asistencia", icon: ClipboardCheck },
+  { title: "Biblioteca clínica", url: "/biblioteca", icon: BookOpen },
 ];
 
 const gestion = [
   { title: "Facturación INSS", url: "/facturacion", icon: Receipt },
   { title: "Familias", url: "/familias", icon: Heart },
-];
-
-const estrategia = [
-  { title: "Benchmark", url: "/benchmark", icon: BarChart3 },
+  { title: "Equipo y permisos", url: "/equipo", icon: Shield },
 ];
 
 export function AppSidebar() {
@@ -88,7 +87,6 @@ export function AppSidebar() {
       <SidebarContent>
         {renderSection("Operación", operativo)}
         {renderSection("Gestión", gestion)}
-        {renderSection("Estrategia", estrategia)}
       </SidebarContent>
       <SidebarFooter className="border-t border-sidebar-border/60 p-3">
         <button
