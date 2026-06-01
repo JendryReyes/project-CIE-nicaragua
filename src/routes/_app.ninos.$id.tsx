@@ -3,15 +3,19 @@ import { useState } from "react";
 import { ninoById, sesionesHoy, areaLabels } from "@/lib/demo-data";
 import { AreaBadge } from "@/components/area-badge";
 import { Avatar } from "@/components/avatar";
-import { ArrowLeft, FileText, Calendar, MessageSquare, Phone, Mail, MapPin, Download, Plus } from "lucide-react";
+import { ArrowLeft, FileText, MessageSquare, Phone, Mail, MapPin, Download, Plus, Lock, CheckCircle2, Circle as CircleIcon } from "lucide-react";
+import { programasDemo, modeloLabels, modeloDescripciones, type ModeloClinico } from "@/lib/modelos-clinicos";
+import { ProgramaClinicoCard } from "@/components/programa-clinico-card";
+import { HanleyCrisisCard } from "@/components/hanley-crisis-card";
+import { checklistPorNino, puedeActivar } from "@/lib/checklist-inss";
 
 export const Route = createFileRoute("/_app/ninos/$id")({
-  head: ({ params }) => ({ meta: [{ title: `Expediente · CIE` }] }),
+  head: () => ({ meta: [{ title: `Expediente · CIE` }] }),
   component: NinoDetalle,
   notFoundComponent: () => <div className="p-12 text-center"><p>Expediente no encontrado.</p><Link to="/ninos" className="text-primary">Volver</Link></div>,
 });
 
-const tabs = ["Resumen", "Áreas terapéuticas", "Sesiones", "Familia y documentos"] as const;
+const tabs = ["Resumen", "Programas clínicos", "Áreas terapéuticas", "Sesiones", "Familia y documentos"] as const;
 
 function NinoDetalle() {
   const { id } = Route.useParams();
