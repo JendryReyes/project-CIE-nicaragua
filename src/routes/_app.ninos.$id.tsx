@@ -244,7 +244,7 @@ function Sesiones({ sesiones }: { sesiones: typeof sesionesHoy }) {
   );
 }
 
-function Familia({ n }: { n: ReturnType<typeof ninoById> }) {
+function Familia({ n, checklist }: { n: ReturnType<typeof ninoById>; checklist: ReturnType<typeof checklistPorNino> }) {
   if (!n) return null;
   return (
     <div className="grid lg:grid-cols-2 gap-6">
@@ -265,21 +265,22 @@ function Familia({ n }: { n: ReturnType<typeof ninoById> }) {
           <MessageSquare className="h-4 w-4" /> Enviar mensaje
         </button>
       </Card>
-      <Card title="Documentos">
+      <Card title="Checklist INSS · documentos requeridos">
         <ul className="space-y-2">
-          {[
-            "Consentimiento informado",
-            "Contrato de prestación de servicios",
-            "Autorización de uso de imagen",
-            "Colilla INSS (mayo 2026)",
-            "Reglamento para tutores firmado",
-          ].map((d) => (
-            <li key={d} className="flex items-center justify-between text-sm py-2 border-b border-border/40 last:border-0">
-              <div className="flex items-center gap-2">
-                <FileText className="h-4 w-4 text-muted-foreground" />
-                <span>{d}</span>
+          {checklist.map((c) => (
+            <li key={c.id} className="flex items-center gap-2.5 text-sm py-2 border-b border-border/40 last:border-0">
+              {c.completo ? (
+                <CheckCircle2 className="h-4 w-4 text-[oklch(0.5_0.11_155)]" />
+              ) : (
+                <CircleIcon className="h-4 w-4 text-[oklch(0.55_0.13_60)]" />
+              )}
+              <div className="flex-1">
+                <div className={c.completo ? "" : "text-foreground"}>{c.nombre}</div>
+                {!c.completo && c.obligatorio && (
+                  <div className="text-[0.65rem] uppercase tracking-wider text-[oklch(0.55_0.13_60)]">Obligatorio · bloquea intervención</div>
+                )}
               </div>
-              <button className="text-xs text-primary hover:underline">Ver</button>
+              <FileText className="h-4 w-4 text-muted-foreground" />
             </li>
           ))}
         </ul>
