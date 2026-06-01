@@ -47,14 +47,6 @@ function Dashboard() {
           <ArrowUpRight className="h-4 w-4" />
         </Link>
       </div>
-        <Link
-          to="/asistencia"
-          className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90"
-        >
-          Tomar asistencia
-          <ArrowUpRight className="h-4 w-4" />
-        </Link>
-      </div>
 
       {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
