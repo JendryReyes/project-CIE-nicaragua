@@ -10,6 +10,10 @@ import {
   Shield,
   LogOut,
 } from "lucide-react";
+import cieLogo from "@/assets/cie-logo.png.asset.json";
+import {
+
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -75,9 +79,10 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border/60 p-4">
         <Link to="/dashboard" className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-            <Heart className="h-5 w-5" fill="currentColor" />
+          <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-border/60">
+            <img src={cieLogo.url} alt="CIE" className="h-full w-full object-contain" />
           </div>
+
           <div className="flex flex-col leading-tight">
             <span className="font-display text-lg font-semibold">CIE</span>
             <span className="text-[0.65rem] text-muted-foreground">Centro Edu-Terapéutico</span>
