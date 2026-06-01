@@ -11,7 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppHorarioRouteImport } from './routes/_app.horario'
+import { Route as AppFamiliasRouteImport } from './routes/_app.familias'
+import { Route as AppFacturacionRouteImport } from './routes/_app.facturacion'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppBenchmarkRouteImport } from './routes/_app.benchmark'
+import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
 import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
 import { Route as AppNinosIdRouteImport } from './routes/_app.ninos.$id'
 
@@ -24,9 +29,34 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppHorarioRoute = AppHorarioRouteImport.update({
+  id: '/horario',
+  path: '/horario',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFamiliasRoute = AppFamiliasRouteImport.update({
+  id: '/familias',
+  path: '/familias',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFacturacionRoute = AppFacturacionRouteImport.update({
+  id: '/facturacion',
+  path: '/facturacion',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBenchmarkRoute = AppBenchmarkRouteImport.update({
+  id: '/benchmark',
+  path: '/benchmark',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAsistenciaRoute = AppAsistenciaRouteImport.update({
+  id: '/asistencia',
+  path: '/asistencia',
   getParentRoute: () => AppRoute,
 } as any)
 const AppNinosIndexRoute = AppNinosIndexRouteImport.update({
@@ -42,13 +72,23 @@ const AppNinosIdRoute = AppNinosIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/asistencia': typeof AppAsistenciaRoute
+  '/benchmark': typeof AppBenchmarkRoute
   '/dashboard': typeof AppDashboardRoute
+  '/facturacion': typeof AppFacturacionRoute
+  '/familias': typeof AppFamiliasRoute
+  '/horario': typeof AppHorarioRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/ninos/': typeof AppNinosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/asistencia': typeof AppAsistenciaRoute
+  '/benchmark': typeof AppBenchmarkRoute
   '/dashboard': typeof AppDashboardRoute
+  '/facturacion': typeof AppFacturacionRoute
+  '/familias': typeof AppFamiliasRoute
+  '/horario': typeof AppHorarioRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/ninos': typeof AppNinosIndexRoute
 }
@@ -56,20 +96,48 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
+  '/_app/asistencia': typeof AppAsistenciaRoute
+  '/_app/benchmark': typeof AppBenchmarkRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/facturacion': typeof AppFacturacionRoute
+  '/_app/familias': typeof AppFamiliasRoute
+  '/_app/horario': typeof AppHorarioRoute
   '/_app/ninos/$id': typeof AppNinosIdRoute
   '/_app/ninos/': typeof AppNinosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/ninos/$id' | '/ninos/'
+  fullPaths:
+    | '/'
+    | '/asistencia'
+    | '/benchmark'
+    | '/dashboard'
+    | '/facturacion'
+    | '/familias'
+    | '/horario'
+    | '/ninos/$id'
+    | '/ninos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/ninos/$id' | '/ninos'
+  to:
+    | '/'
+    | '/asistencia'
+    | '/benchmark'
+    | '/dashboard'
+    | '/facturacion'
+    | '/familias'
+    | '/horario'
+    | '/ninos/$id'
+    | '/ninos'
   id:
     | '__root__'
     | '/'
     | '/_app'
+    | '/_app/asistencia'
+    | '/_app/benchmark'
     | '/_app/dashboard'
+    | '/_app/facturacion'
+    | '/_app/familias'
+    | '/_app/horario'
     | '/_app/ninos/$id'
     | '/_app/ninos/'
   fileRoutesById: FileRoutesById
@@ -95,11 +163,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/horario': {
+      id: '/_app/horario'
+      path: '/horario'
+      fullPath: '/horario'
+      preLoaderRoute: typeof AppHorarioRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/familias': {
+      id: '/_app/familias'
+      path: '/familias'
+      fullPath: '/familias'
+      preLoaderRoute: typeof AppFamiliasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/facturacion': {
+      id: '/_app/facturacion'
+      path: '/facturacion'
+      fullPath: '/facturacion'
+      preLoaderRoute: typeof AppFacturacionRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/dashboard': {
       id: '/_app/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/benchmark': {
+      id: '/_app/benchmark'
+      path: '/benchmark'
+      fullPath: '/benchmark'
+      preLoaderRoute: typeof AppBenchmarkRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/asistencia': {
+      id: '/_app/asistencia'
+      path: '/asistencia'
+      fullPath: '/asistencia'
+      preLoaderRoute: typeof AppAsistenciaRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/ninos/': {
@@ -120,13 +223,23 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppAsistenciaRoute: typeof AppAsistenciaRoute
+  AppBenchmarkRoute: typeof AppBenchmarkRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppFacturacionRoute: typeof AppFacturacionRoute
+  AppFamiliasRoute: typeof AppFamiliasRoute
+  AppHorarioRoute: typeof AppHorarioRoute
   AppNinosIdRoute: typeof AppNinosIdRoute
   AppNinosIndexRoute: typeof AppNinosIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAsistenciaRoute: AppAsistenciaRoute,
+  AppBenchmarkRoute: AppBenchmarkRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppFacturacionRoute: AppFacturacionRoute,
+  AppFamiliasRoute: AppFamiliasRoute,
+  AppHorarioRoute: AppHorarioRoute,
   AppNinosIdRoute: AppNinosIdRoute,
   AppNinosIndexRoute: AppNinosIndexRoute,
 }
