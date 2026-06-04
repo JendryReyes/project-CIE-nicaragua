@@ -13,7 +13,7 @@ export const Route = createFileRoute("/_app/dashboard")({
 });
 
 function Dashboard() {
-  const hoy = new Date("2026-06-01");
+  const hoy = new Date();
   const fechaTxt = hoy.toLocaleDateString("es-NI", { weekday: "long", day: "numeric", month: "long" });
   const { sede } = useSede();
 
