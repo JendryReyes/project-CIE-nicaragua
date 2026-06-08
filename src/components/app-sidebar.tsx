@@ -13,7 +13,6 @@ import {
   UserPlus,
   Activity,
   FileBarChart,
-  FileText,
   Building2,
 } from "lucide-react";
 import cieLogo from "@/assets/cie-logo.png.asset.json";
@@ -46,7 +45,6 @@ const principal = [
 const administracion = [
   { title: "Panel de sedes", url: "/sedes", icon: Building2 },
   { title: "Facturación", url: "/facturacion", icon: Receipt },
-  { title: "Cartas INSS", url: "/facturacion/cartas", icon: FileText },
   { title: "Reportes", url: "/reportes", icon: FileBarChart },
   { title: "Familias", url: "/familias", icon: Heart },
   { title: "Equipo y permisos", url: "/equipo", icon: Shield },

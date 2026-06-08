@@ -5,6 +5,7 @@ import { sedesFact, calcularNino, tarifa, areaColor, type AreaFact, type NinoFac
 import { loteDemo } from "@/lib/facturacion-inss";
 import { lotesINSS } from "@/lib/demo-data";
 import { CierreQuincenaPanel } from "@/components/facturacion/cierre-quincena";
+import { CartasINSSPanel } from "@/components/facturacion/cartas-inss-panel";
 
 export const Route = createFileRoute("/_app/facturacion")({
   head: () => ({ meta: [{ title: "Módulo de Facturación · CIE" }] }),
@@ -15,7 +16,7 @@ const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 const anios = ["2025","2026"];
 
 function Facturacion() {
-  const [tab, setTab] = useState<"general" | "cierre">("general");
+  const [tab, setTab] = useState<"general" | "cierre" | "cartas">("general");
   const [mes, setMes] = useState("Mayo");
   const [anio, setAnio] = useState("2026");
   const [quincena, setQuincena] = useState<"Q1" | "Q2">("Q2");
@@ -46,32 +47,31 @@ function Facturacion() {
         <div>
           <h1 className="font-display text-3xl">Módulo de Facturación</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            General · Quincena {quincena === "Q1" ? "1 (1-15)" : "2 (16-30)"} · {mes} {anio}
+            {tab === "general" && `Vista general · Quincena ${quincena === "Q1" ? "1 (1-15)" : "2 (16-30)"} · ${mes} ${anio}`}
+            {tab === "cierre" && `Cierre de quincena · ${mes} ${anio}`}
+            {tab === "cartas" && "Cartas INSS · Vigencia de aprobaciones semestrales"}
           </p>
         </div>
       </div>
 
       <div className="flex items-center gap-1 border-b border-border/60">
-        <button
-          onClick={() => setTab("general")}
-          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-            tab === "general"
-              ? "border-primary text-foreground"
-              : "border-transparent text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          Vista general
-        </button>
-        <button
-          onClick={() => setTab("cierre")}
-          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-            tab === "cierre"
-              ? "border-primary text-foreground"
-              : "border-transparent text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          Cierre de quincena
-        </button>
+        {([
+          ["general", "Vista general"],
+          ["cierre", "Cierre de quincena"],
+          ["cartas", "Cartas INSS"],
+        ] as const).map(([key, label]) => (
+          <button
+            key={key}
+            onClick={() => setTab(key)}
+            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+              tab === key
+                ? "border-primary text-foreground"
+                : "border-transparent text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
       </div>
 
       {tab === "general" && (
@@ -87,6 +87,7 @@ function Facturacion() {
         />
       )}
       {tab === "cierre" && <CierreQuincenaPanel />}
+      {tab === "cartas" && <CartasINSSPanel />}
     </div>
   );
 }
