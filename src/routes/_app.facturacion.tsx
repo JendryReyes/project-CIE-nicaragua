@@ -20,6 +20,7 @@ function Facturacion() {
   const totalAnual = lotesINSS.reduce((a, l) => a + l.monto, 0);
   const pagado = lotesINSS.filter((l) => l.estado === "pagado").reduce((a, l) => a + l.monto, 0);
   const porCobrar = totalAnual - pagado;
+  const resumenLoteActual = resumenLote(loteDemo);
 
   return (
     <div className="space-y-6 max-w-[1400px]">
