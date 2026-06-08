@@ -2,10 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { sesionesHoy, ninoById, lotesINSS, ninos, areaLabels } from "@/lib/demo-data";
 import { AreaBadge } from "@/components/area-badge";
 import { Avatar } from "@/components/avatar";
-import { TrendingUp, Clock, AlertTriangle, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { TrendingUp, Clock, AlertTriangle, CheckCircle2, ArrowUpRight, FileText, XCircle } from "lucide-react";
 import { useSede, matchesSede, sedeLabel } from "@/lib/sedes";
 import { AlertaEstancamiento } from "@/components/alerta-estancamiento";
 import { IoaBadge } from "@/components/ioa-badge";
+import { cartasPorVencer } from "@/lib/cartas-inss";
 
 export const Route = createFileRoute("/_app/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard · CIE" }] }),
