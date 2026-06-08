@@ -4,6 +4,7 @@ import { AlertTriangle, FileText, Printer, FileSpreadsheet, Plus, ArrowRight } f
 import { sedesFact, calcularNino, tarifa, areaColor, type AreaFact, type NinoFact } from "@/lib/modulos-data";
 import { loteDemo } from "@/lib/facturacion-inss";
 import { lotesINSS } from "@/lib/demo-data";
+import { CierreQuincenaPanel } from "@/components/facturacion/cierre-quincena";
 
 export const Route = createFileRoute("/_app/facturacion")({
   head: () => ({ meta: [{ title: "Módulo de Facturación · CIE" }] }),
