@@ -110,8 +110,20 @@ function LoteDetalle() {
                 const c = calcularLinea(l);
                 const hayExcedente = c.excedente > 0;
                 const sinCarta = !l.cartaVigente && l.tipo === "INSS";
+                const pctUso = l.horasAprobadas > 0 ? l.horasEjecutadas / l.horasAprobadas : 0;
+                const rowTone =
+                  sinCarta || (hayExcedente && !l.constanciaMedica)
+                    ? "bg-[oklch(0.97_0.03_25)] hover:bg-[oklch(0.95_0.04_25)]"
+                    : hayExcedente
+                    ? "bg-[oklch(0.97_0.04_75)] hover:bg-[oklch(0.95_0.05_75)]"
+                    : pctUso >= 0.85 && l.tipo === "INSS"
+                    ? "bg-[oklch(0.98_0.025_75)] hover:bg-[oklch(0.96_0.04_75)]"
+                    : l.tipo === "INSS"
+                    ? "bg-[oklch(0.98_0.02_155)] hover:bg-[oklch(0.96_0.03_155)]"
+                    : "hover:bg-muted/40";
                 return (
-                  <tr key={i} className="hover:bg-muted/40">
+                  <tr key={i} className={rowTone}>
+
                     <td className="px-5 py-3">
                       <Link to="/ninos/$id" params={{ id: l.ninoId }} className="hover:underline">
                         <div className="font-medium">{l.nino}</div>
