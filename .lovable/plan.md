@@ -1,78 +1,94 @@
+# Plan de implementación — 5 pendientes CIETrack
 
-# Implementación de las 5 prioridades — CIETrack
-
-Alcance: implementar todas las funciones como **frontend con datos demo en memoria** (sin backend real). Se mantienen los colores y la paleta actuales. Cada prioridad es un bloque entregable.
-
-> Nota técnica: el proyecto usa **TanStack Start + Vite + Tailwind** (no Next.js 14 como dice el brief). Las rutas se crean como archivos en `src/routes/_app.<ruta>.tsx`. La paleta y tipografía actuales se respetan.
+Objetivo: cerrar las brechas restantes del checklist sin romper lo ya implementado ni cambiar la paleta. Todo es frontend con datos mock (`src/lib/`).
 
 ---
 
-## Prioridad 1 — Asistencia → Facturación
+## 1. Alertas de vencimiento de cartas INSS (Problema #6)
 
-**Datos / lógica (`src/lib/facturacion-motor.ts`)**
-- Tipos `SesionRegistrada`, `ResumenFacturacionNino`, `CartaINSS`.
-- `calcularFacturacionQuincena(ninoId, quincena, mes, anio, tarifas, carta)` con las reglas: IT/PFA 45h, TA/TS 25h, Fisio/Logo 15h, carta vencida → 0, suspensión → 0, baja → excluido.
-- `getResumenSede(...)` que itera todos los niños y retorna estado verde/ámbar/rojo.
+**Qué se construye**
+- Nuevo módulo de datos `src/lib/cartas-inss.ts`: estructura `CartaINSS { ninoId, numero, area, emitida, vence, estado: 'vigente'|'por_vencer'|'vencida'|'renovada' }` y semilla con ~20 cartas en distintos estados.
+- Helpers `diasParaVencer(carta)` y `estadoDesdeFecha(carta)` (umbrales: 30 días = por_vencer, 0 = vencida).
+- Widget "Cartas INSS por vencer" en `/dashboard` (top, junto a los KPIs): conteo + lista compacta de las 5 más próximas con badge ámbar/rojo.
+- Nueva ruta `/_app.facturacion.cartas.tsx`: tabla filtrable por sede/área/estado, semáforo por fila, botón "Marcar como renovada" (mock), botón "Descargar carta vigente" (PDF jsPDF).
+- Entrada en sidebar bajo "Administración → Cartas INSS".
+- En el perfil del niño (`/ninos/$id`, tab Facturación) mostrar el bloque "Carta INSS vigente" con fecha y semáforo.
 
-**Pantallas**
-- `src/routes/_app.facturacion.cierre.tsx` — Panel de cierre de quincena (tabla con filas verde/ámbar/rojo, botón "Calcular quincena", botón "Confirmar y generar documentos").
-- Modal de conciliación por niño dentro de la misma ruta (timeline de sesiones + carga de constancia inline + recálculo).
-- Actualizar `_app.asistencia.tsx`: mini-barra "X / Y horas aprobadas" por sesión con color verde / ámbar / rojo y toast al pasar 100%.
-
----
-
-## Prioridad 2 — Perfil del niño en Gestión Clínica
-
-Reescribir `src/routes/_app.ninos.$id.tsx` con:
-- Header rico (avatar, diagnóstico, estado, progreso global).
-- 8 tabs: Resumen · Programas · Sesiones · Evaluaciones · Conducta · Familia · Expediente · Facturación.
-- Datos demo extendidos en `src/lib/perfil-nino-data.ts` (programas, evaluaciones VB-MAPP, planes de conducta, documentos, historial de facturación).
-- `calcularProgreso(ninoId)` usado también en la lista de Gestión Clínica.
-- Botón "Ver gráfica" enlaza a Gráficas ABA con el programa preseleccionado.
+**Criterio de éxito:** desde el dashboard se ve cuántas cartas vencen en 30 días y un clic lleva al detalle por niño.
 
 ---
 
-## Prioridad 3 — Kiosko QR
+## 2. Suspensiones que descuentan horas en facturación (Problema #7)
 
-- `src/routes/kiosko.tsx` (fuera del shell `_app`, pantalla completa fondo oscuro, animación de escáner, simulación de escaneo con input/cámara mock).
-- `src/routes/_app.asistencia.carnets.tsx` — lista de niños + generación de PDF de carnet con QR (usando `qrcode` + `jspdf`), botón "Generar todos" → ZIP (`jszip`).
-- En `_app.asistencia.tsx`: sección "Pendientes del día" con botón "Marcar manualmente" (modal Asistió / Ausente / Justificado + constancia).
-- Helpers `generarQRNino` / `procesarScanQR` en `src/lib/qr-asistencia.ts`.
+**Qué se construye**
+- Extender `src/lib/modulos-data.ts` (o `perfil-nino-data.ts`) con `suspensiones: { ninoId, desde, hasta?, motivo }[]`.
+- En `src/lib/facturacion-motor.ts`:
+  - Función `horasDescontadasPorSuspension(ninoId, periodo)` que calcula horas programadas dentro del rango de suspensión.
+  - Modificar `calcularResumenSede` para restar esas horas de `horasFacturables` y exponer un campo nuevo `horasSuspension` por área.
+- En `/facturacion/cierre`: nueva columna "Suspensión" y nota al pie por niño afectado ("12h descontadas — suspendido 14–28 may").
+- En el reporte R1 del Excel agregar la columna "Horas suspensión" para auditoría.
 
----
-
-## Prioridad 4 — Familias
-
-- `src/routes/_app.familias.tsx` rediseñado: lista con estado de portal, firmas pendientes, botón "Invitar".
-- `src/routes/mi-hijo.tsx` (fuera del shell): portal cálido crema, secciones Resumen semana / Firmas pendientes (canvas de firma con `react-signature-canvas` o `<canvas>` propio) / Historial / Comunicación.
-- `src/lib/firmas-digitales.ts` con tipo `FirmaDigital` y store en memoria; al firmar se actualiza estado en Asistencia.
+**Criterio de éxito:** un niño suspendido en mayo aparece con horas reducidas en el cierre y el Excel del INSS lo refleja.
 
 ---
 
-## Prioridad 5 — Reportes
+## 3. Carta de cobro personalizada (lo que pide el equipo)
 
-- `src/routes/_app.reportes.tsx` — grid con los 6 reportes y filtros (mes, quincena, sede, área).
-- Generación real:
-  - Excel: `exceljs` (Reporte 1, 2, 5) con cabeceras verdes y filas alternas.
-  - PDF: `jspdf` + `jspdf-autotable` (Reportes 2, 3, 4 con mini-gráficas).
-  - ZIP: `jszip` (Reporte 6 — Paquete INSS) con checklist de verificación previa.
-- Nombres de archivo: `CIE_Facturacion_<Sede>_Q<n>_<Mes><Año>.xlsx`.
+**Qué se construye**
+- Nuevo helper `src/lib/carta-cobro.ts` con función `generarCartaCobroPDF(periodo, sedeId, resumen)` usando jsPDF:
+  - Encabezado: nombre del CIE, dirección, RUC, teléfono (mock realista nicaragüense).
+  - Destinatario: INSS — Dirección de Atención al Asegurado.
+  - Cuerpo dinámico: "Por medio de la presente, el Centro CIE solicita el cobro de NNN horas terapéuticas brindadas en el período XXX, distribuidas en…" con tabla por área.
+  - Total a cobrar en córdobas + dólares.
+  - Firma: Dra. directora + sello (placeholder).
+  - Pie: número de carta (`CIE-2026-Q2-005`), fecha y QR de verificación interno (usa `qrcode`).
+- Reemplazar el PDF genérico actual en el ZIP del reporte R6 por esta carta.
+- Botón nuevo "Generar carta de cobro" en `/facturacion/cierre` (independiente del ZIP completo).
+- Plantilla previsualizable desde el modal de vista previa del reporte R6.
+
+**Criterio de éxito:** la carta descargada incluye membrete CIE, monto correcto del período y se ve presentable.
 
 ---
 
-## Dependencias nuevas
+## 4. Vista consolidada multi-sede (Problema #4)
 
-`bun add exceljs jspdf jspdf-autotable jszip qrcode` (y tipos correspondientes).
+**Qué se construye**
+- Nueva ruta `/_app.sedes.tsx` titulada "Panel de sedes" en el sidebar (sección Administración).
+- Cards lado a lado por las 5 sedes con KPIs:
+  - Niños activos · Sesiones hoy · Asistencia % · Horas facturables del período · Cartas por vencer · Suspensiones activas.
+- Barra superior con tabs: Hoy · Semana · Quincena.
+- Tabla comparativa al final ("Mejor / Peor" por métrica) usando los datos de `facturacion-motor.ts` y `cartas-inss.ts`.
+- Mini-grafo de tendencia (sparkline SVG simple, sin librería extra) para sesiones por día.
 
-## Integración cruzada
+**Criterio de éxito:** dirección ve las 5 sedes en una sola pantalla y detecta sede con menor asistencia.
 
-- Asistencia registra → motor recalcula → Facturación.cierre lo refleja → Familia firma → Reporte 6 lo empaqueta.
-- Todo opera sobre un store demo compartido (`src/lib/store-demo.ts`) en memoria para que los flujos se vean conectados.
+---
 
-## Lo que NO incluye
+## 5. Workflow "cerrar quincena → bloquear → enviar" (Problema #1, cierre del flujo)
 
-- Backend real, base de datos, autenticación, envío de emails/WhatsApp.
-- Cambios de paleta o tipografía.
-- OCR de constancias médicas (sólo subida simulada).
+**Qué se construye**
+- Extender `facturacion-motor.ts` con estado de quincena: `EstadoQuincena = 'abierta' | 'lista' | 'cerrada' | 'enviada'`.
+- En `/facturacion/cierre`:
+  - Stepper visual en la cabecera: Revisar → Validar → Cerrar → Enviar al INSS.
+  - Botón "Validar período" que ejecuta checklist (todas las firmas, sin excedentes sin justificar, cartas vigentes) y muestra modal con resultado.
+  - Botón "Cerrar quincena" (deshabilitado hasta validar): cambia estado a `cerrada` (estado local en `useState` + `localStorage` para persistir entre recargas).
+  - Cuando está `cerrada`, los datos de ese período se muestran en modo "solo lectura" con badge "Cerrada el DD/MM por Usuario X".
+  - Botón "Marcar como enviada al INSS" registra fecha de envío y muestra confirmación.
+- Banner en el dashboard cuando una quincena queda lista pero no enviada.
 
-¿Procedo con esta implementación completa, o quieres que arranque sólo por la Prioridad 1 y vayamos validando una a una?
+**Criterio de éxito:** el usuario puede recorrer el flujo completo desde "abierta" hasta "enviada" y los datos cerrados no se pueden re-editar.
+
+---
+
+## Notas técnicas
+
+- Sin cambios de backend ni nuevas dependencias (ya están `jspdf`, `qrcode`, `jszip`, `exceljs`).
+- Persistencia con `localStorage` solo donde aplica (estado de quincena, cartas renovadas) — el resto sigue siendo mock en memoria.
+- Respeta paleta y tipografía actuales: `bg-card`, `border-border/70`, `font-display`, badges con `bg-primary/15`.
+- Cada prioridad se entrega como commit lógico independiente para poder validar paso a paso.
+
+## Orden de entrega sugerido
+
+1 → 2 → 3 → 5 → 4 (dejar el panel multi-sede al final porque consume datos generados por las primeras 3).
+
+¿Avanzo así o querés reordenar / recortar algo?
