@@ -26,6 +26,7 @@ import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
 import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
 import { Route as AppNinosIdRouteImport } from './routes/_app.ninos.$id'
 import { Route as AppFacturacionCierreRouteImport } from './routes/_app.facturacion.cierre'
+import { Route as AppFacturacionCartasRouteImport } from './routes/_app.facturacion.cartas'
 import { Route as AppFacturacionLoteIdRouteImport } from './routes/_app.facturacion.$loteId'
 import { Route as AppClinicoGraficasRouteImport } from './routes/_app.clinico.graficas'
 import { Route as AppAsistenciaCarnetsRouteImport } from './routes/_app.asistencia.carnets'
@@ -114,6 +115,11 @@ const AppFacturacionCierreRoute = AppFacturacionCierreRouteImport.update({
   path: '/cierre',
   getParentRoute: () => AppFacturacionRoute,
 } as any)
+const AppFacturacionCartasRoute = AppFacturacionCartasRouteImport.update({
+  id: '/cartas',
+  path: '/cartas',
+  getParentRoute: () => AppFacturacionRoute,
+} as any)
 const AppFacturacionLoteIdRoute = AppFacturacionLoteIdRouteImport.update({
   id: '/$loteId',
   path: '/$loteId',
@@ -147,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
+  '/facturacion/cartas': typeof AppFacturacionCartasRoute
   '/facturacion/cierre': typeof AppFacturacionCierreRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/ninos/': typeof AppNinosIndexRoute
@@ -168,6 +175,7 @@ export interface FileRoutesByTo {
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
+  '/facturacion/cartas': typeof AppFacturacionCartasRoute
   '/facturacion/cierre': typeof AppFacturacionCierreRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/ninos': typeof AppNinosIndexRoute
@@ -191,6 +199,7 @@ export interface FileRoutesById {
   '/_app/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/_app/clinico/graficas': typeof AppClinicoGraficasRoute
   '/_app/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
+  '/_app/facturacion/cartas': typeof AppFacturacionCartasRoute
   '/_app/facturacion/cierre': typeof AppFacturacionCierreRoute
   '/_app/ninos/$id': typeof AppNinosIdRoute
   '/_app/ninos/': typeof AppNinosIndexRoute
@@ -214,6 +223,7 @@ export interface FileRouteTypes {
     | '/asistencia/carnets'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
+    | '/facturacion/cartas'
     | '/facturacion/cierre'
     | '/ninos/$id'
     | '/ninos/'
@@ -235,6 +245,7 @@ export interface FileRouteTypes {
     | '/asistencia/carnets'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
+    | '/facturacion/cartas'
     | '/facturacion/cierre'
     | '/ninos/$id'
     | '/ninos'
@@ -257,6 +268,7 @@ export interface FileRouteTypes {
     | '/_app/asistencia/carnets'
     | '/_app/clinico/graficas'
     | '/_app/facturacion/$loteId'
+    | '/_app/facturacion/cartas'
     | '/_app/facturacion/cierre'
     | '/_app/ninos/$id'
     | '/_app/ninos/'
@@ -390,6 +402,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppFacturacionCierreRouteImport
       parentRoute: typeof AppFacturacionRoute
     }
+    '/_app/facturacion/cartas': {
+      id: '/_app/facturacion/cartas'
+      path: '/cartas'
+      fullPath: '/facturacion/cartas'
+      preLoaderRoute: typeof AppFacturacionCartasRouteImport
+      parentRoute: typeof AppFacturacionRoute
+    }
     '/_app/facturacion/$loteId': {
       id: '/_app/facturacion/$loteId'
       path: '/$loteId'
@@ -428,11 +447,13 @@ const AppAsistenciaRouteWithChildren = AppAsistenciaRoute._addFileChildren(
 
 interface AppFacturacionRouteChildren {
   AppFacturacionLoteIdRoute: typeof AppFacturacionLoteIdRoute
+  AppFacturacionCartasRoute: typeof AppFacturacionCartasRoute
   AppFacturacionCierreRoute: typeof AppFacturacionCierreRoute
 }
 
 const AppFacturacionRouteChildren: AppFacturacionRouteChildren = {
   AppFacturacionLoteIdRoute: AppFacturacionLoteIdRoute,
+  AppFacturacionCartasRoute: AppFacturacionCartasRoute,
   AppFacturacionCierreRoute: AppFacturacionCierreRoute,
 }
 
@@ -483,3 +504,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
