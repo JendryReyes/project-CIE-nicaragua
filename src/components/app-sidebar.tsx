@@ -46,8 +46,10 @@ const principal = [
 ];
 
 const administracion = [
+  { title: "Panel de sedes", url: "/sedes", icon: Building2 },
   { title: "Facturación", url: "/facturacion", icon: Receipt },
   { title: "Cierre quincena", url: "/facturacion/cierre", icon: CheckSquare },
+  { title: "Cartas INSS", url: "/facturacion/cartas", icon: FileText },
   { title: "Reportes", url: "/reportes", icon: FileBarChart },
   { title: "Familias", url: "/familias", icon: Heart },
   { title: "Equipo y permisos", url: "/equipo", icon: Shield },
