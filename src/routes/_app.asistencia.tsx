@@ -267,6 +267,9 @@ function Asistencia() {
         </ul>
       </div>
 
+      {/* Historial de check-ins de hoy */}
+      <HistorialCheckins checkins={checkins} />
+
       <KioskoQR
         open={kioskoAbierto}
         onClose={() => setKioskoAbierto(false)}
