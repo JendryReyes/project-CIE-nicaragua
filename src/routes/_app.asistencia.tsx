@@ -131,6 +131,12 @@ function Asistencia() {
           >
             <ScanLine className="h-4 w-4" /> Abrir kiosko QR
           </button>
+          <Link
+            to="/asistencia/carnets"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-muted"
+          >
+            <Printer className="h-4 w-4" /> Imprimir carnets QR
+          </Link>
           <button className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:opacity-90">
             <FileCheck2 className="h-4 w-4" /> Exportar asistencia
           </button>
