@@ -188,7 +188,7 @@ function TabResumen({ nino, sesiones }: { nino: any; sesiones: any[] }) {
   );
 }
 
-function TabProgramas({ programas }: { programas: ReturnType<typeof getPrograma> }) {
+function TabProgramas({ programas, onVerGrafica }: { programas: ReturnType<typeof getPrograma>; onVerGrafica: (p: ReturnType<typeof getPrograma>[number]) => void }) {
   const [filtro, setFiltro] = useState<string>("todos");
   const lista = filtro === "todos" ? programas : programas.filter((p) => p.estado === filtro);
   return (
