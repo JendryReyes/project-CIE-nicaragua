@@ -32,6 +32,7 @@ function NinoDetalle() {
   const n = ninoById(id);
   if (!n) throw notFound();
   const [tab, setTab] = useState<Tab>("Resumen");
+  const [grafica, setGrafica] = useState<{ nombre: string; area?: string } | null>(null);
   const programas = getPrograma(id);
   const evaluaciones = getEvaluaciones(id);
   const planes = getPlanesConducta(id);
