@@ -26,6 +26,7 @@ function Reportes() {
   const [periodo, setPeriodo] = useState({ mes: 5, anio: 2026, quincena: 2 as 1 | 2 });
   const [sedeId, setSedeId] = useState<string>("todas");
   const [generando, setGenerando] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   const generarReporte1 = async () => {
     setGenerando("r1");
