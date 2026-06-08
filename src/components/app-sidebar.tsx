@@ -12,7 +12,6 @@ import {
   LineChart,
   UserPlus,
   Activity,
-  Stethoscope,
 } from "lucide-react";
 import cieLogo from "@/assets/cie-logo.png.asset.json";
 import {
