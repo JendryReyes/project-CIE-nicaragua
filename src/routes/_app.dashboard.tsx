@@ -29,19 +29,19 @@ function Dashboard() {
   const inssMes = lotesINSS.find((l) => l.estado === "enviado");
 
   return (
-    <div className="space-y-8 max-w-[1400px]">
+    <div className="w-full max-w-[1400px] space-y-6 overflow-hidden lg:space-y-8">
       {/* Greeting */}
-      <div className="flex items-end justify-between gap-4 flex-wrap">
-        <div>
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+        <div className="min-w-0">
           <p className="text-sm text-muted-foreground capitalize">{fechaTxt}</p>
-          <h1 className="font-display text-4xl mt-1">Buenos días, María.</h1>
+          <h1 className="font-display mt-1 text-3xl leading-tight sm:text-4xl">Buenos días, María.</h1>
           <p className="text-muted-foreground mt-2">
             Hoy tenemos <span className="text-foreground font-medium">{total} sesiones</span> programadas en <span className="text-foreground font-medium">{sedeLabel(sede)}</span>.
           </p>
         </div>
         <Link
           to="/asistencia"
-          className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:opacity-90"
+          className="inline-flex w-fit items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90"
         >
           Tomar asistencia
           <ArrowUpRight className="h-4 w-4" />
@@ -49,16 +49,16 @@ function Dashboard() {
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4 xl:gap-4">
         <Kpi icon={<CheckCircle2 className="h-4 w-4" />} label="Sesiones completadas" value={`${asistio}/${total}`} hint="hoy" tone="success" />
         <Kpi icon={<Clock className="h-4 w-4" />} label="En curso ahora" value={String(enCurso)} hint={`${pend} pendientes`} />
         <Kpi icon={<TrendingUp className="h-4 w-4" />} label="Niños activos" value={String(activos)} hint="+2 este mes" tone="primary" />
         <Kpi icon={<AlertTriangle className="h-4 w-4" />} label="INSS por aprobar" value={`$${inssMes?.monto.toLocaleString()}`} hint={inssMes?.periodo} tone="warning" />
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid gap-5 xl:grid-cols-3 xl:gap-6">
         {/* Agenda */}
-        <div className="lg:col-span-2 rounded-2xl border border-border/70 bg-card">
+        <div className="min-w-0 rounded-2xl border border-border/70 bg-card xl:col-span-2">
           <div className="flex items-center justify-between p-5 border-b border-border/60">
             <div>
               <h2 className="font-display text-xl">Agenda de hoy</h2>
@@ -70,8 +70,8 @@ function Dashboard() {
             {sesionesVis.slice(0, 8).map((s, idx) => {
               const n = ninoById(s.ninoId)!;
               return (
-                <li key={s.id} className="flex items-center gap-4 p-4 hover:bg-muted/40 transition-colors">
-                  <div className="w-14 text-center">
+                <li key={s.id} className="grid grid-cols-[3rem_2.25rem_minmax(0,1fr)] items-center gap-3 p-4 transition-colors hover:bg-muted/40 sm:grid-cols-[3.5rem_2.5rem_minmax(0,1fr)_auto_auto] xl:flex xl:gap-4">
+                  <div className="w-12 text-center sm:w-14">
                     <div className="font-display text-lg tabular leading-none">{s.hora}</div>
                     <div className="text-[0.65rem] text-muted-foreground mt-1">{s.duracion}min</div>
                   </div>
@@ -80,10 +80,12 @@ function Dashboard() {
                     <div className="font-medium truncate">{n.nombre}</div>
                     <div className="text-xs text-muted-foreground truncate">{s.terapeuta} · {s.sala}</div>
                   </div>
-                  {idx === 0 && <IoaBadge pct={94} />}
-                  {idx === 3 && <IoaBadge pct={82} />}
-                  <AreaBadge area={s.area} />
-                  <EstadoChip estado={s.estado} />
+                  <div className="col-span-3 flex flex-wrap items-center gap-2 sm:col-span-2 sm:justify-end xl:col-span-1 xl:contents">
+                    {idx === 0 && <IoaBadge pct={94} />}
+                    {idx === 3 && <IoaBadge pct={82} />}
+                    <AreaBadge area={s.area} />
+                    <EstadoChip estado={s.estado} />
+                  </div>
                 </li>
               );
             })}
@@ -94,7 +96,7 @@ function Dashboard() {
         </div>
 
         {/* Right column */}
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-5 xl:space-y-6">
           {/* INSS card */}
           <div className="rounded-2xl border border-border/70 bg-card p-5">
             <div className="flex items-center justify-between mb-4">

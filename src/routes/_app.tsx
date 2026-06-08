@@ -33,27 +33,27 @@ function AppLayout() {
   return (
     <SedeProvider>
       <SidebarProvider>
-        <div className="flex min-h-screen w-full bg-background">
+        <div className="flex min-h-screen w-full overflow-x-hidden bg-background">
           <AppSidebar />
-          <div className="flex flex-1 flex-col">
-            <header className="sticky top-0 z-20 flex h-16 items-center gap-4 border-b border-border/60 bg-background/85 px-6 backdrop-blur">
+          <div className="flex min-w-0 flex-1 flex-col">
+            <header className="sticky top-0 z-20 flex min-h-16 items-center gap-2 border-b border-border/60 bg-background/85 px-3 backdrop-blur sm:gap-3 sm:px-5 lg:gap-4 lg:px-6">
               <SidebarTrigger />
-              <div className="hidden md:flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="hidden min-w-0 flex-1 items-center gap-2 text-sm text-muted-foreground lg:flex">
                 <Search className="h-4 w-4" />
                 <input
                   placeholder="Buscar niño, terapeuta, expediente…"
-                  className="bg-transparent outline-none placeholder:text-muted-foreground/70 w-64"
+                  className="w-full max-w-md bg-transparent outline-none placeholder:text-muted-foreground/70"
                 />
               </div>
-              <div className="ml-auto flex items-center gap-3">
+              <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2 lg:gap-3">
                 <TourGuiado />
                 <SedeSelector />
-                <button className="rounded-full p-2 hover:bg-muted relative">
+                <button className="relative hidden rounded-full p-2 hover:bg-muted sm:inline-flex">
                   <Bell className="h-4 w-4" />
                   <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-primary" />
                 </button>
-                <div className="flex items-center gap-2.5">
-                  <div className="text-right leading-tight hidden sm:block">
+                <div className="flex min-w-0 items-center gap-2.5">
+                  <div className="hidden max-w-36 text-right leading-tight xl:block">
                     <div className="text-sm font-medium">{user?.nombre}</div>
                     <div className="text-xs text-muted-foreground">{user?.rol}</div>
                   </div>
