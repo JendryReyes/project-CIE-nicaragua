@@ -87,9 +87,12 @@ function NinoDetalle() {
             <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs hover:bg-muted">
               <FileText className="h-3.5 w-3.5" /> Generar informe
             </button>
-            <Link to="/clinico/graficas" className="inline-flex items-center gap-1.5 rounded-md bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium">
+            <button
+              onClick={() => setGrafica({ nombre: programas[0]?.nombre ?? "Programa", area: programas[0]?.area })}
+              className="inline-flex items-center gap-1.5 rounded-md bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium"
+            >
               <LineChart className="h-3.5 w-3.5" /> Ver gráficas
-            </Link>
+            </button>
           </div>
         </div>
       </header>
