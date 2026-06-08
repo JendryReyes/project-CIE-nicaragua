@@ -77,11 +77,7 @@ export function TourGuiado() {
 
       {abierto && (
         <>
-          <div
-            className="fixed inset-0 z-40 bg-foreground/20 backdrop-blur-[2px]"
-            onClick={() => setAbierto(false)}
-          />
-          <div className="fixed bottom-6 right-6 z-50 w-[360px] rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
+          <div className="fixed bottom-4 right-4 z-50 w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:right-6">
             <div className="flex items-center justify-between bg-gradient-to-r from-[oklch(0.95_0.05_300)] to-[oklch(0.95_0.04_200)] px-4 py-2.5 border-b border-border/60">
               <div className="flex items-center gap-2 text-[oklch(0.35_0.15_300)]">
                 <Sparkles className="h-3.5 w-3.5" />
@@ -99,7 +95,7 @@ export function TourGuiado() {
 
             <div className="p-5 space-y-3">
               <h3 className="font-display text-lg leading-tight">{actual.titulo}</h3>
-              <p className="text-sm text-foreground/80 leading-relaxed">{actual.descripcion}</p>
+              <p className="text-sm leading-relaxed text-foreground/80">{actual.descripcion}</p>
               {actual.ruta && (
                 <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
                   <MapPin className="h-3 w-3" />

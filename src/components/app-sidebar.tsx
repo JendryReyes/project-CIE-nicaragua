@@ -13,9 +13,6 @@ import {
 } from "lucide-react";
 import cieLogo from "@/assets/cie-logo.png.asset.json";
 import {
-
-} from "lucide-react";
-import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
