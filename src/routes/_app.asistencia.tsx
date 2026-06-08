@@ -214,18 +214,25 @@ function Asistencia() {
               <li key={s.id} className="p-4 space-y-3">
                 <div className="flex items-center gap-4 flex-wrap">
                   <div className="font-display text-lg tabular w-14">{s.hora}</div>
-                  <Avatar nombre={n.nombre} />
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium truncate flex items-center gap-2">
-                      {n.nombre}
-                      {checkin?.via === "qr" && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-foreground/90 text-background text-[10px] px-2 py-0.5 font-medium">
-                          <QrCode className="h-3 w-3" /> QR · {checkin.hora}
-                        </span>
-                      )}
+                  <button
+                    type="button"
+                    onClick={() => setSel({ nino: n, sesion: s })}
+                    className="flex items-center gap-4 flex-1 min-w-0 text-left rounded-lg -mx-2 px-2 py-1 hover:bg-muted/40 transition-colors"
+                    title="Ver perfil del niño"
+                  >
+                    <Avatar nombre={n.nombre} />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium truncate flex items-center gap-2">
+                        {n.nombre}
+                        {checkin?.via === "qr" && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-foreground/90 text-background text-[10px] px-2 py-0.5 font-medium">
+                            <QrCode className="h-3 w-3" /> QR · {checkin.hora}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-xs text-muted-foreground">{s.terapeuta} · {s.sala}</div>
                     </div>
-                    <div className="text-xs text-muted-foreground">{s.terapeuta} · {s.sala}</div>
-                  </div>
+                  </button>
                   <AreaBadge area={s.area} />
                   <div className="flex gap-1.5 flex-wrap">
                     <ActionBtn active={e === "asistio"} variant="success" onClick={() => set(s.id, "asistio", "manual")}>
