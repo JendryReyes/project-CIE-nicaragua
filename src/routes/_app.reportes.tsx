@@ -3,7 +3,7 @@ import { useState } from "react";
 import ExcelJS from "exceljs";
 import jsPDF from "jspdf";
 import JSZip from "jszip";
-import { FileSpreadsheet, FileText, Package, Download, Calendar, AlertTriangle, CheckCircle2, XCircle } from "lucide-react";
+import { FileSpreadsheet, FileText, Package, Download, Calendar, AlertTriangle, CheckCircle2, XCircle, Eye, X } from "lucide-react";
 import { sedesFact } from "@/lib/modulos-data";
 import { calcularResumenSede } from "@/lib/facturacion-motor";
 import { toast } from "sonner";
