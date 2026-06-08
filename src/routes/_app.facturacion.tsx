@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { lotesINSS } from "@/lib/demo-data";
-import { Download, FileText, Plus, Receipt, TrendingUp } from "lucide-react";
+import { loteDemo, resumenLote } from "@/lib/facturacion-inss";
+import { AlertTriangle, Download, FileText, Plus, Receipt, TrendingUp, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/_app/facturacion")({
   head: () => ({ meta: [{ title: "Facturación INSS · CIE" }] }),
