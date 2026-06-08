@@ -4,6 +4,7 @@ import { AlertTriangle, FileText, Printer, FileSpreadsheet, Plus, ArrowRight } f
 import { sedesFact, calcularNino, tarifa, areaColor, type AreaFact, type NinoFact } from "@/lib/modulos-data";
 import { loteDemo } from "@/lib/facturacion-inss";
 import { lotesINSS } from "@/lib/demo-data";
+import { CierreQuincenaPanel } from "@/components/facturacion/cierre-quincena";
 
 export const Route = createFileRoute("/_app/facturacion")({
   head: () => ({ meta: [{ title: "Módulo de Facturación · CIE" }] }),
@@ -14,6 +15,7 @@ const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 const anios = ["2025","2026"];
 
 function Facturacion() {
+  const [tab, setTab] = useState<"general" | "cierre">("general");
   const [mes, setMes] = useState("Mayo");
   const [anio, setAnio] = useState("2026");
   const [quincena, setQuincena] = useState<"Q1" | "Q2">("Q2");
@@ -39,7 +41,7 @@ function Facturacion() {
 
   return (
     <div className="space-y-6 max-w-[1400px]">
-      {/* Header + acciones */}
+      {/* Header + tabs */}
       <div className="flex items-end justify-between flex-wrap gap-3">
         <div>
           <h1 className="font-display text-3xl">Módulo de Facturación</h1>
@@ -47,21 +49,102 @@ function Facturacion() {
             General · Quincena {quincena === "Q1" ? "1 (1-15)" : "2 (16-30)"} · {mes} {anio}
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <button className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 px-3 py-1.5 text-xs hover:bg-muted">
-            <Printer className="h-3.5 w-3.5" /> Imprimir
-          </button>
-          <button className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 px-3 py-1.5 text-xs hover:bg-muted">
-            <FileSpreadsheet className="h-3.5 w-3.5" /> Excel
-          </button>
-          <Link
-            to="/facturacion/$loteId"
-            params={{ loteId: loteDemo.id }}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.16_155)] text-white px-3 py-1.5 text-xs font-medium hover:opacity-90"
-          >
-            <FileText className="h-3.5 w-3.5" /> Carta de cobro
-          </Link>
-        </div>
+      </div>
+
+      <div className="flex items-center gap-1 border-b border-border/60">
+        <button
+          onClick={() => setTab("general")}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            tab === "general"
+              ? "border-primary text-foreground"
+              : "border-transparent text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          Vista general
+        </button>
+        <button
+          onClick={() => setTab("cierre")}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            tab === "cierre"
+              ? "border-primary text-foreground"
+              : "border-transparent text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          Cierre de quincena
+        </button>
+      </div>
+
+      {tab === "general" && (
+        <GeneralTab
+          mes={mes}
+          setMes={setMes}
+          anio={anio}
+          setAnio={setAnio}
+          quincena={quincena}
+          setQuincena={setQuincena}
+          sedeId={sedeId}
+          setSedeId={setSedeId}
+        />
+      )}
+      {tab === "cierre" && <CierreQuincenaPanel />}
+    </div>
+  );
+}
+
+function GeneralTab({
+  mes,
+  setMes,
+  anio,
+  setAnio,
+  quincena,
+  setQuincena,
+  sedeId,
+  setSedeId,
+}: {
+  mes: string;
+  setMes: (v: string) => void;
+  anio: string;
+  setAnio: (v: string) => void;
+  quincena: "Q1" | "Q2";
+  setQuincena: (v: "Q1" | "Q2") => void;
+  sedeId: string;
+  setSedeId: (v: string) => void;
+}) {
+  const sedesVisibles = useMemo(
+    () => (sedeId === "todas" ? sedesFact : sedesFact.filter((s) => s.id === sedeId)),
+    [sedeId]
+  );
+
+  const totales = useMemo(() => {
+    let monto = 0, alertas = 0, niños = 0;
+    for (const s of sedesVisibles) {
+      for (const n of s.ninos) {
+        niños++;
+        const r = calcularNino(n);
+        monto += r.total;
+        if (r.tieneExcede && !n.constancia) alertas++;
+      }
+    }
+    return { monto, alertas, niños };
+  }, [sedesVisibles]);
+
+  return (
+    <div className="space-y-6">
+      {/* Acciones */}
+      <div className="flex items-center gap-2">
+        <button className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 px-3 py-1.5 text-xs hover:bg-muted">
+          <Printer className="h-3.5 w-3.5" /> Imprimir
+        </button>
+        <button className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 px-3 py-1.5 text-xs hover:bg-muted">
+          <FileSpreadsheet className="h-3.5 w-3.5" /> Excel
+        </button>
+        <Link
+          to="/facturacion/$loteId"
+          params={{ loteId: loteDemo.id }}
+          className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.16_155)] text-white px-3 py-1.5 text-xs font-medium hover:opacity-90"
+        >
+          <FileText className="h-3.5 w-3.5" /> Carta de cobro
+        </Link>
       </div>
 
       {/* Filtros */}
