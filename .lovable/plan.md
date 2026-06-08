@@ -1,55 +1,78 @@
-## Objetivo
 
-Convertir el módulo de Matrícula en una vista que permita **ver detalle real** de cada niño matriculado, no solo conteos. Hoy las tarjetas de "Movimientos recientes" tienen nombre y motivo; las pestañas **Ingresos / Egresos / Suspensiones** están vacías. Vamos a llenarlas y agregar un panel de detalle.
+# Implementación de las 5 prioridades — CIETrack
 
-## Cambios
+Alcance: implementar todas las funciones como **frontend con datos demo en memoria** (sin backend real). Se mantienen los colores y la paleta actuales. Cada prioridad es un bloque entregable.
 
-### 1. Enriquecer el dataset (`src/lib/modulos-data.ts`)
-Ampliar `MovimientoNino` con datos específicos que faltan:
+> Nota técnica: el proyecto usa **TanStack Start + Vite + Tailwind** (no Next.js 14 como dice el brief). Las rutas se crean como archivos en `src/routes/_app.<ruta>.tsx`. La paleta y tipografía actuales se respetan.
 
-- `edad`, `fechaNacimiento`, `sede`
-- `tutor` (nombre + parentesco), `telefono`, `correo`, `direccion`
-- `cobertura` ("INSS" | "Privado"), `areas` (conducta, logopedia, fisio, ocupacional)
-- `terapeutaAsignado`
-- `documentosOk` / `documentosFaltantes[]` (vinculado al checklist INSS)
-- En suspensiones: `motivoSuspension`, `fechaReinicio`, `responsable`
-- En egresos: `destino`, `informeEgreso`
+---
 
-Aumentar la lista a ~10–12 registros para que las tres pestañas tengan contenido real.
+## Prioridad 1 — Asistencia → Facturación
 
-### 2. Pestañas con tablas detalladas (`src/routes/_app.matricula.tsx`)
+**Datos / lógica (`src/lib/facturacion-motor.ts`)**
+- Tipos `SesionRegistrada`, `ResumenFacturacionNino`, `CartaINSS`.
+- `calcularFacturacionQuincena(ninoId, quincena, mes, anio, tarifas, carta)` con las reglas: IT/PFA 45h, TA/TS 25h, Fisio/Logo 15h, carta vencida → 0, suspensión → 0, baja → excluido.
+- `getResumenSede(...)` que itera todos los niños y retorna estado verde/ámbar/rojo.
 
-Cada pestaña ya no muestra el mismo resumen:
+**Pantallas**
+- `src/routes/_app.facturacion.cierre.tsx` — Panel de cierre de quincena (tabla con filas verde/ámbar/rojo, botón "Calcular quincena", botón "Confirmar y generar documentos").
+- Modal de conciliación por niño dentro de la misma ruta (timeline de sesiones + carga de constancia inline + recálculo).
+- Actualizar `_app.asistencia.tsx`: mini-barra "X / Y horas aprobadas" por sesión con color verde / ámbar / rojo y toast al pasar 100%.
 
-- **Resumen general** → queda como está (KPIs + gráfico + "Movimientos recientes" actualizado).
-- **Ingresos** → tabla con: Niño · Edad · Sede · Tutor · Teléfono · Áreas · Fecha ingreso · Cobertura · Estado documentos.
-- **Egresos** → tabla con: Niño · Sede · Fecha egreso · Motivo · Destino · Informe.
-- **Suspensiones** → tarjetas en alerta con: Niño · Sede · Motivo · Fecha suspensión · Fecha estimada de reinicio · Responsable del seguimiento. Botón "Reactivar" y "Ver expediente".
+---
 
-Todas las tablas con buscador, filtro por sede y orden por fecha. Botón "Exportar CSV" (mock).
+## Prioridad 2 — Perfil del niño en Gestión Clínica
 
-### 3. Panel lateral de detalle (drawer)
-Al hacer clic en cualquier fila o tarjeta se abre un **drawer derecho** con la ficha completa del niño matriculado:
+Reescribir `src/routes/_app.ninos.$id.tsx` con:
+- Header rico (avatar, diagnóstico, estado, progreso global).
+- 8 tabs: Resumen · Programas · Sesiones · Evaluaciones · Conducta · Familia · Expediente · Facturación.
+- Datos demo extendidos en `src/lib/perfil-nino-data.ts` (programas, evaluaciones VB-MAPP, planes de conducta, documentos, historial de facturación).
+- `calcularProgreso(ninoId)` usado también en la lista de Gestión Clínica.
+- Botón "Ver gráfica" enlaza a Gráficas ABA con el programa preseleccionado.
 
-- Cabecera: avatar, nombre, expediente, edad, sede, pill de tipo (ingreso/egreso/suspensión).
-- Sección **Datos personales**: fecha de nacimiento, dirección.
-- Sección **Familia**: tutor, parentesco, teléfono, correo, botón "Mensaje".
-- Sección **Plan terapéutico**: áreas asignadas (badges), terapeuta principal, cobertura INSS / privado.
-- Sección **Documentación**: lista de documentos cumplidos / pendientes (mini checklist INSS).
-- Sección **Historial del movimiento**: fecha, motivo, responsable.
-- Footer del drawer: enlaces "Abrir expediente completo" (a `/ninos/$id`) y "Editar matrícula".
+---
 
-### 4. KPI "Activos" clicable
-Hacer que la tarjeta **Activos (27)** abra una vista/tabla con los 27 niños actualmente matriculados (no solo los movimientos del mes). Reutilizar el mismo drawer de detalle.
+## Prioridad 3 — Kiosko QR
 
-## Detalles técnicos
+- `src/routes/kiosko.tsx` (fuera del shell `_app`, pantalla completa fondo oscuro, animación de escáner, simulación de escaneo con input/cámara mock).
+- `src/routes/_app.asistencia.carnets.tsx` — lista de niños + generación de PDF de carnet con QR (usando `qrcode` + `jspdf`), botón "Generar todos" → ZIP (`jszip`).
+- En `_app.asistencia.tsx`: sección "Pendientes del día" con botón "Marcar manualmente" (modal Asistió / Ausente / Justificado + constancia).
+- Helpers `generarQRNino` / `procesarScanQR` en `src/lib/qr-asistencia.ts`.
 
-- Todo se mantiene con datos mock locales (mismo patrón actual).
-- Drawer reutiliza estilo de `Dialog` lateral con `fixed inset-y-0 right-0 w-[480px]`. Sin librería nueva.
-- El enlace "Abrir expediente completo" usa `Link to="/ninos/$id"` si el expediente existe; si es mock sin contraparte, queda como botón informativo.
-- No se toca la lógica de Asistencia / QR / Diagnóstico.
+---
 
-## Lo que NO se toca
-- Diseño de los KPIs ni gráfico de barras.
-- Lista de niños en `/ninos` (este módulo se enfoca en altas/bajas/suspensiones, no reemplaza la gestión clínica).
-- Backend: sigue siendo mock; cuando se conecte Lovable Cloud se mapea a tablas reales.
+## Prioridad 4 — Familias
+
+- `src/routes/_app.familias.tsx` rediseñado: lista con estado de portal, firmas pendientes, botón "Invitar".
+- `src/routes/mi-hijo.tsx` (fuera del shell): portal cálido crema, secciones Resumen semana / Firmas pendientes (canvas de firma con `react-signature-canvas` o `<canvas>` propio) / Historial / Comunicación.
+- `src/lib/firmas-digitales.ts` con tipo `FirmaDigital` y store en memoria; al firmar se actualiza estado en Asistencia.
+
+---
+
+## Prioridad 5 — Reportes
+
+- `src/routes/_app.reportes.tsx` — grid con los 6 reportes y filtros (mes, quincena, sede, área).
+- Generación real:
+  - Excel: `exceljs` (Reporte 1, 2, 5) con cabeceras verdes y filas alternas.
+  - PDF: `jspdf` + `jspdf-autotable` (Reportes 2, 3, 4 con mini-gráficas).
+  - ZIP: `jszip` (Reporte 6 — Paquete INSS) con checklist de verificación previa.
+- Nombres de archivo: `CIE_Facturacion_<Sede>_Q<n>_<Mes><Año>.xlsx`.
+
+---
+
+## Dependencias nuevas
+
+`bun add exceljs jspdf jspdf-autotable jszip qrcode` (y tipos correspondientes).
+
+## Integración cruzada
+
+- Asistencia registra → motor recalcula → Facturación.cierre lo refleja → Familia firma → Reporte 6 lo empaqueta.
+- Todo opera sobre un store demo compartido (`src/lib/store-demo.ts`) en memoria para que los flujos se vean conectados.
+
+## Lo que NO incluye
+
+- Backend real, base de datos, autenticación, envío de emails/WhatsApp.
+- Cambios de paleta o tipografía.
+- OCR de constancias médicas (sólo subida simulada).
+
+¿Procedo con esta implementación completa, o quieres que arranque sólo por la Prioridad 1 y vayamos validando una a una?
