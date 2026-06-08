@@ -116,18 +116,67 @@ export function calcularNino(n: NinoFact) {
 }
 
 // --- Matrícula ---
+export type MatriculaArea = "conducta" | "logopedia" | "fisio" | "ocupacional";
 export type MovimientoNino = {
   nino: string; iniciales: string; expediente: string;
   tipo: "ingreso" | "egreso" | "suspension";
   fecha: string; motivo: string;
+  edad: number; fechaNacimiento: string; sede: "Managua" | "León" | "Granada";
+  tutor: string; parentesco: string; telefono: string; correo: string; direccion: string;
+  cobertura: "INSS" | "Privado";
+  areas: MatriculaArea[];
+  terapeutaAsignado: string;
+  documentosOk: string[]; documentosFaltantes: string[];
+  // Suspensión
+  motivoSuspension?: string; fechaReinicio?: string; responsable?: string;
+  // Egreso
+  destino?: string; informeEgreso?: string;
+  ninoIdRef?: string; // expediente real si existe en /ninos
 };
 
 export const movimientosNinos: MovimientoNino[] = [
-  { nino: "Daniel Mora", iniciales: "DM", expediente: "ID · SD 1", tipo: "ingreso", fecha: "2026-05-06", motivo: "Diagnóstico aleatorio – alta clínica" },
-  { nino: "Camila Fuentes", iniciales: "CF", expediente: "ID · SD 2", tipo: "ingreso", fecha: "2026-05-12", motivo: "Traslado desde otra unidad" },
-  { nino: "Martín López", iniciales: "ML", expediente: "ID · LC", tipo: "egreso", fecha: "2026-05-18", motivo: "Mudanza familiar" },
-  { nino: "Valeria Ortiz", iniciales: "VO", expediente: "ID · SD 1", tipo: "ingreso", fecha: "2026-05-22", motivo: "Diagnóstico aleatorio – alta clínica" },
+  { nino: "Daniel Mora", iniciales: "DM", expediente: "EXP-2026-014", tipo: "ingreso", fecha: "2026-05-06", motivo: "Diagnóstico TEA nivel 1 – alta clínica",
+    edad: 4, fechaNacimiento: "2021-09-14", sede: "Managua",
+    tutor: "Patricia Mora", parentesco: "Madre", telefono: "+505 8712 4456", correo: "patricia.mora@correo.com", direccion: "Managua, Bolonia",
+    cobertura: "INSS", areas: ["conducta", "logopedia"], terapeutaAsignado: "Lic. Andrea Rivas",
+    documentosOk: ["Acta de nacimiento", "Colilla INSS", "Diagnóstico médico"], documentosFaltantes: ["Contrato firmado"] },
+  { nino: "Camila Fuentes", iniciales: "CF", expediente: "EXP-2026-015", tipo: "ingreso", fecha: "2026-05-12", motivo: "Traslado desde Clínica San Jerónimo",
+    edad: 6, fechaNacimiento: "2019-11-03", sede: "León",
+    tutor: "Marcos Fuentes", parentesco: "Padre", telefono: "+505 8823 1199", correo: "m.fuentes@correo.com", direccion: "León, Sutiava",
+    cobertura: "Privado", areas: ["logopedia", "ocupacional"], terapeutaAsignado: "Lic. Sofía Hernández",
+    documentosOk: ["Acta de nacimiento", "Diagnóstico médico", "Contrato firmado"], documentosFaltantes: [] },
+  { nino: "Valeria Ortiz", iniciales: "VO", expediente: "EXP-2026-016", tipo: "ingreso", fecha: "2026-05-22", motivo: "Diagnóstico TEA nivel 2 – alta clínica",
+    edad: 3, fechaNacimiento: "2022-08-19", sede: "Managua",
+    tutor: "Lucía Ortiz", parentesco: "Madre", telefono: "+505 8745 9988", correo: "lucia.ortiz@correo.com", direccion: "Managua, Las Colinas",
+    cobertura: "INSS", areas: ["conducta", "logopedia", "fisio"], terapeutaAsignado: "Lic. Andrea Rivas",
+    documentosOk: ["Acta de nacimiento", "Colilla INSS"], documentosFaltantes: ["Diagnóstico médico", "Contrato firmado"] },
+  { nino: "Martín López", iniciales: "ML", expediente: "EXP-2025-008", tipo: "egreso", fecha: "2026-05-18", motivo: "Mudanza familiar",
+    edad: 7, fechaNacimiento: "2018-04-22", sede: "Managua",
+    tutor: "Roberto López", parentesco: "Padre", telefono: "+505 8801 4422", correo: "r.lopez@correo.com", direccion: "Managua → Costa Rica",
+    cobertura: "Privado", areas: ["conducta"], terapeutaAsignado: "Lic. Carlos Bermúdez",
+    documentosOk: ["Acta de nacimiento", "Contrato firmado", "Informe de cierre"], documentosFaltantes: [],
+    destino: "Centro hermano · San José, CR", informeEgreso: "Informe-egreso-ML.pdf" },
+  { nino: "Andrés Pérez", iniciales: "AP", expediente: "EXP-2025-011", tipo: "egreso", fecha: "2026-05-09", motivo: "Alta terapéutica por objetivos cumplidos",
+    edad: 8, fechaNacimiento: "2017-06-30", sede: "Granada",
+    tutor: "Karla Pérez", parentesco: "Madre", telefono: "+505 8866 7711", correo: "karla.p@correo.com", direccion: "Granada, Centro",
+    cobertura: "INSS", areas: ["logopedia"], terapeutaAsignado: "Lic. Sofía Hernández",
+    documentosOk: ["Acta de nacimiento", "Colilla INSS", "Informe de cierre"], documentosFaltantes: [],
+    destino: "Seguimiento ambulatorio externo", informeEgreso: "Informe-alta-AP.pdf" },
+  { nino: "Mateo Gutiérrez", iniciales: "MG", expediente: "001", tipo: "suspension", fecha: "2026-05-14", motivo: "Crisis conductual recurrente – revisar plan",
+    edad: 5, fechaNacimiento: "2020-12-01", sede: "Managua",
+    tutor: "Laura López", parentesco: "Madre", telefono: "+505 8765 4321", correo: "laura@correo.com", direccion: "Managua, Distrito V",
+    cobertura: "INSS", areas: ["conducta", "logopedia"], terapeutaAsignado: "Lic. Andrea Rivas",
+    documentosOk: ["Acta de nacimiento", "Colilla INSS"], documentosFaltantes: ["Diagnóstico médico", "Contrato firmado"],
+    motivoSuspension: "Necesita reevaluación conductual antes de reingresar al plan regular.", fechaReinicio: "2026-06-15", responsable: "Dra. María Castro",
+    ninoIdRef: "001" },
+  { nino: "Sofía Ramírez", iniciales: "SR", expediente: "EXP-2025-019", tipo: "suspension", fecha: "2026-05-20", motivo: "Falta reiterada – revisar adherencia familiar",
+    edad: 6, fechaNacimiento: "2019-03-11", sede: "León",
+    tutor: "Jorge Ramírez", parentesco: "Padre", telefono: "+505 8709 3322", correo: "j.ramirez@correo.com", direccion: "León, Subtiava",
+    cobertura: "Privado", areas: ["ocupacional"], terapeutaAsignado: "Lic. Carlos Bermúdez",
+    documentosOk: ["Acta de nacimiento", "Contrato firmado"], documentosFaltantes: [],
+    motivoSuspension: "Inasistencia >40% en el mes. Pendiente reunión con tutor.", fechaReinicio: "2026-06-03", responsable: "Coord. Andrea Rivas" },
 ];
+
 
 export const resumenMatricula = {
   activos: 27,
