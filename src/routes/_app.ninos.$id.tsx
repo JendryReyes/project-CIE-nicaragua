@@ -110,13 +110,21 @@ function NinoDetalle() {
       </div>
 
       {tab === "Resumen" && <TabResumen nino={n} sesiones={sesionesNino} />}
-      {tab === "Programas" && <TabProgramas programas={programas} />}
+      {tab === "Programas" && <TabProgramas programas={programas} onVerGrafica={(p) => setGrafica({ nombre: p.nombre, area: p.area })} />}
       {tab === "Sesiones" && <TabSesiones ninoId={id} />}
       {tab === "Evaluaciones" && <TabEvaluaciones evaluaciones={evaluaciones} />}
       {tab === "Conducta" && <TabConducta planes={planes} />}
       {tab === "Familia" && <TabFamilia nino={n} />}
       {tab === "Expediente" && <TabExpediente documentos={documentos} />}
       {tab === "Facturación" && <TabFacturacion facturacion={facturacion} />}
+
+      <GraficaProgramaModal
+        open={!!grafica}
+        onClose={() => setGrafica(null)}
+        ninoNombre={n.nombre}
+        programaNombre={grafica?.nombre ?? ""}
+        area={grafica?.area}
+      />
     </div>
   );
 }
