@@ -10,6 +10,7 @@ import {
   getPrograma, getEvaluaciones, getPlanesConducta, getDocumentos, getFacturacion,
   calcularProgresoClinico, documentosObligatorios,
 } from "@/lib/perfil-nino-data";
+import { cartasPorNino, estadoCartaColor } from "@/lib/cartas-inss";
 
 export const Route = createFileRoute("/_app/ninos/$id")({
   head: () => ({ meta: [{ title: "Expediente · CIE" }] }),
