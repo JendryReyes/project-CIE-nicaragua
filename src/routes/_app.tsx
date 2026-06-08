@@ -46,6 +46,7 @@ function AppLayout() {
                 />
               </div>
               <div className="ml-auto flex items-center gap-3">
+                <TourGuiado />
                 <SedeSelector />
                 <button className="rounded-full p-2 hover:bg-muted relative">
                   <Bell className="h-4 w-4" />
