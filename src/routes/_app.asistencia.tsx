@@ -266,6 +266,8 @@ function Asistencia() {
         onClose={() => setKioskoAbierto(false)}
         onScan={registrarPorQR}
       />
+
+      {sel && <PerfilDrawer nino={sel.nino} sesion={sel.sesion} onClose={() => setSel(null)} />}
     </div>
   );
 }
