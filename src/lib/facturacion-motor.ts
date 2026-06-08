@@ -67,6 +67,9 @@ export function calcularResumenNino(
   periodo: { quincena: 1 | 2; mes: number; anio: number }
 ): ResumenFacturacionNino {
   const r = calcularNino(nino);
+  const suspension = suspensionDelPeriodo(nino.id, periodo);
+  const horasSuspendidas = suspension?.horasDescontadas ?? 0;
+
   const porArea: ResumenAreaNino[] = r.detalles.map((d) => {
     const tieneConstancia = !!nino.constancia;
     const justificadas = tieneConstancia ? d.excede : 0;
@@ -83,6 +86,26 @@ export function calcularResumenNino(
       tieneConstancia,
     };
   });
+
+  // Descontar proporcionalmente las horas suspendidas
+  let horasRestantes = horasSuspendidas;
+  let montoSuspendido = 0;
+  if (horasRestantes > 0) {
+    const totalFact = porArea.reduce((s, a) => s + a.horasFacturables, 0);
+    if (totalFact > 0) {
+      for (const a of porArea) {
+        if (horasRestantes <= 0) break;
+        const cuota = Math.min(a.horasFacturables, Math.round((a.horasFacturables / totalFact) * horasSuspendidas));
+        const descuento = Math.min(cuota, horasRestantes);
+        a.horasFacturables -= descuento;
+        const dineroDesc = descuento * tarifa[a.area];
+        a.montoFacturable -= dineroDesc;
+        montoSuspendido += dineroDesc;
+        horasRestantes -= descuento;
+      }
+    }
+  }
+
   const totalFacturable = porArea.reduce((s, a) => s + a.montoFacturable, 0);
   const totalNoFacturable = porArea.reduce(
     (s, a) => s + a.horasNoFacturables * tarifa[a.area],
@@ -95,8 +118,8 @@ export function calcularResumenNino(
   const tieneExcedente = porArea.some((a) => a.horasExcedentes > 0);
   const tieneConstancia = !!nino.constancia;
   const noOk = porArea.some((a) => a.horasNoFacturables > 0);
-  const estado: "ok" | "revisar" | "bloqueado" =
-    noOk ? "bloqueado" : tieneExcedente ? "revisar" : "ok";
+  const estado: "ok" | "revisar" | "bloqueado" | "suspendido" =
+    suspension ? "suspendido" : noOk ? "bloqueado" : tieneExcedente ? "revisar" : "ok";
   return {
     ninoId: nino.id,
     nombre: nino.nombre,
@@ -109,6 +132,9 @@ export function calcularResumenNino(
     totalFacturable,
     totalNoFacturable,
     totalHoras,
+    horasSuspendidas,
+    montoSuspendido,
+    suspension,
     porcentajeUsado,
     tieneExcedente,
     tieneConstancia,
@@ -116,6 +142,7 @@ export function calcularResumenNino(
     estado,
   };
 }
+
 
 export function calcularResumenSede(
   sedeId: string | "todas",
