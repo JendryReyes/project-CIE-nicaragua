@@ -223,9 +223,9 @@ function TabProgramas({ programas, onVerGrafica }: { programas: ReturnType<typeo
                 <div className="h-full bg-primary" style={{ width: `${p.avance}%` }} />
               </div>
             </div>
-            <Link to="/clinico/graficas" className="mt-3 inline-flex items-center gap-1 text-xs text-primary hover:underline">
+            <button onClick={() => onVerGrafica(p)} className="mt-3 inline-flex items-center gap-1 text-xs text-primary hover:underline">
               Ver gráfica <ExternalLink className="h-3 w-3" />
-            </Link>
+            </button>
           </article>
         ))}
       </div>
