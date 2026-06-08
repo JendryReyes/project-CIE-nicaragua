@@ -24,17 +24,18 @@ function PanelSedes() {
       const ninos = resumenes.length;
       const excedentes = resumenes.filter((r) => r.tieneExcedente && !r.tieneConstancia).length;
       const suspensiones = resumenes.filter((r) => r.estado === "suspendido").length;
-      const cartas = cartasDemo.filter((c) => c.sedeId === s.id);
+      const ninoIds = new Set(s.ninos.map((n) => n.id));
+      const cartas = cartasINSS.filter((c) => ninoIds.has(c.ninoId));
       const cartasPorVencer = cartas.filter((c) => {
-        const d = diasParaVencer(c.fechaVencimiento);
+        const d = diasParaVencer(c);
         return d >= 0 && d <= 30;
       }).length;
-      const cartasVencidas = cartas.filter((c) => diasParaVencer(c.fechaVencimiento) < 0).length;
-      // Sparkline mock: 7 puntos basados en el monto total
+      const cartasVencidas = cartas.filter((c) => diasParaVencer(c) < 0).length;
       const spark = Array.from({ length: 7 }, (_, i) => Math.round(monto * (0.6 + Math.sin(i + s.id.length) * 0.15 + i * 0.05)));
       return { sede: s, monto, horas, ninos, excedentes, suspensiones, cartas: cartas.length, cartasPorVencer, cartasVencidas, spark };
     });
   }, []);
+
 
   const totales = useMemo(() => ({
     monto: data.reduce((s, d) => s + d.monto, 0),
