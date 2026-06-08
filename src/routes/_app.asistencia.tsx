@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { sesionesHoy, ninoById, ninos, iniciales } from "@/lib/demo-data";
+import { sesionesHoy, ninoById, ninos, iniciales, type Nino, type Sesion } from "@/lib/demo-data";
 import { AreaBadge } from "@/components/area-badge";
 import { Avatar } from "@/components/avatar";
 import {
@@ -16,6 +16,11 @@ import {
   Smartphone,
   Zap,
   Printer,
+  Clock,
+  MapPin,
+  User,
+  Phone,
+  ExternalLink,
 } from "lucide-react";
 import {
   Dialog,
@@ -55,6 +60,7 @@ function Asistencia() {
     return init;
   });
   const [kioskoAbierto, setKioskoAbierto] = useState(false);
+  const [sel, setSel] = useState<{ nino: Nino; sesion: Sesion } | null>(null);
 
   const set = (id: string, e: Estado, via?: "qr" | "manual") => {
     setEstados((s) => ({ ...s, [id]: e }));
@@ -208,18 +214,25 @@ function Asistencia() {
               <li key={s.id} className="p-4 space-y-3">
                 <div className="flex items-center gap-4 flex-wrap">
                   <div className="font-display text-lg tabular w-14">{s.hora}</div>
-                  <Avatar nombre={n.nombre} />
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium truncate flex items-center gap-2">
-                      {n.nombre}
-                      {checkin?.via === "qr" && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-foreground/90 text-background text-[10px] px-2 py-0.5 font-medium">
-                          <QrCode className="h-3 w-3" /> QR · {checkin.hora}
-                        </span>
-                      )}
+                  <button
+                    type="button"
+                    onClick={() => setSel({ nino: n, sesion: s })}
+                    className="flex items-center gap-4 flex-1 min-w-0 text-left rounded-lg -mx-2 px-2 py-1 hover:bg-muted/40 transition-colors"
+                    title="Ver perfil del niño"
+                  >
+                    <Avatar nombre={n.nombre} />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium truncate flex items-center gap-2">
+                        {n.nombre}
+                        {checkin?.via === "qr" && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-foreground/90 text-background text-[10px] px-2 py-0.5 font-medium">
+                            <QrCode className="h-3 w-3" /> QR · {checkin.hora}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-xs text-muted-foreground">{s.terapeuta} · {s.sala}</div>
                     </div>
-                    <div className="text-xs text-muted-foreground">{s.terapeuta} · {s.sala}</div>
-                  </div>
+                  </button>
                   <AreaBadge area={s.area} />
                   <div className="flex gap-1.5 flex-wrap">
                     <ActionBtn active={e === "asistio"} variant="success" onClick={() => set(s.id, "asistio", "manual")}>
@@ -253,6 +266,8 @@ function Asistencia() {
         onClose={() => setKioskoAbierto(false)}
         onScan={registrarPorQR}
       />
+
+      {sel && <PerfilDrawer nino={sel.nino} sesion={sel.sesion} onClose={() => setSel(null)} />}
     </div>
   );
 }
@@ -510,4 +525,102 @@ function ActionBtn({ children, active, variant, onClick }: { children: React.Rea
       : "bg-foreground text-background border-transparent"
     : "bg-background text-muted-foreground border-border hover:bg-muted";
   return <button onClick={onClick} className={`${base} ${styles}`}>{children}</button>;
+}
+
+function PerfilDrawer({ nino, sesion, onClose }: { nino: Nino; sesion: Sesion; onClose: () => void }) {
+  const sesionesDelNino = sesionesHoy.filter((s) => s.ninoId === nino.id);
+
+  return (
+    <div className="fixed inset-0 z-50 flex" onClick={onClose}>
+      <div className="flex-1 bg-black/40" />
+      <aside className="w-full max-w-[460px] h-full bg-card border-l border-border overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 bg-card border-b border-border p-5 flex items-start justify-between gap-3 z-10">
+          <div className="flex items-center gap-3">
+            <div className="h-12 w-12 rounded-full grid place-items-center text-sm font-medium" style={{ background: `color-mix(in oklab, var(--color-area-${sesion.area}) 30%, var(--color-card))` }}>
+              {iniciales(nino.nombre)}
+            </div>
+            <div>
+              <div className="text-[11px] text-muted-foreground">Expediente #{nino.id}</div>
+              <h2 className="font-display text-xl leading-tight">{nino.nombre}</h2>
+              <div className="text-xs text-muted-foreground">{nino.edad} años · {nino.diagnostico}</div>
+            </div>
+          </div>
+          <button onClick={onClose} className="p-1 rounded hover:bg-muted"><X className="h-4 w-4" /></button>
+        </div>
+
+        <div className="p-5 space-y-5">
+          <div className="rounded-xl p-4" style={{ background: `color-mix(in oklab, var(--color-area-${sesion.area}) 18%, var(--color-card))`, borderLeft: `3px solid var(--color-area-${sesion.area})` }}>
+            <div className="flex items-center justify-between gap-3 mb-2">
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Sesión seleccionada</span>
+              <AreaBadge area={sesion.area} />
+            </div>
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-muted-foreground" /><span className="tabular">{sesion.hora} · {sesion.duracion} min</span></div>
+              <div className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-muted-foreground" /><span>{sesion.sala}</span></div>
+              <div className="flex items-center gap-1.5 col-span-2"><User className="h-3.5 w-3.5 text-muted-foreground" /><span>{sesion.terapeuta}</span></div>
+            </div>
+          </div>
+
+          <DSection title="Áreas terapéuticas activas">
+            <div className="flex flex-wrap gap-1.5">
+              {nino.areas.map((a) => <AreaBadge key={a} area={a} />)}
+            </div>
+          </DSection>
+
+          <DSection title="Datos del expediente">
+            <DRow k="Sede" v={nino.sede} />
+            <DRow k="Terapeuta principal" v={nino.terapeuta} />
+            <DRow k="Cobertura" v={nino.inss ? "INSS" : "Privado"} />
+            <DRow k="Estado" v={nino.estado === "activo" ? "Activo" : nino.estado === "evaluacion" ? "En evaluación" : "Pausa"} />
+            <DRow k="Progreso global" v={`${nino.progreso}%`} />
+          </DSection>
+
+          <DSection title="Tutor / familia">
+            <DRow k="Tutor legal" v={nino.tutor} />
+            <div className="flex items-center gap-2 text-sm text-muted-foreground pt-1">
+              <Phone className="h-3.5 w-3.5" /><span className="text-foreground tabular">+505 8700 0000</span>
+            </div>
+          </DSection>
+
+          <DSection title="Sesiones de hoy">
+            <ul className="space-y-2">
+              {sesionesDelNino.map((s) => (
+                <li key={s.id} className={`flex items-center gap-3 text-sm rounded-lg px-2 py-1.5 ${s.id === sesion.id ? "bg-muted/60" : ""}`}>
+                  <span className="tabular font-medium w-14">{s.hora}</span>
+                  <AreaBadge area={s.area} />
+                  <span className="text-xs text-muted-foreground flex-1 truncate">{s.sala}</span>
+                </li>
+              ))}
+            </ul>
+          </DSection>
+        </div>
+
+        <div className="sticky bottom-0 bg-card border-t border-border p-4 flex gap-2">
+          <Link to="/ninos/$id" params={{ id: nino.id }} className="flex-1 rounded-lg bg-primary text-primary-foreground py-2 text-sm font-medium hover:opacity-90 inline-flex items-center justify-center gap-2">
+            <ExternalLink className="h-4 w-4" /> Abrir expediente
+          </Link>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+function DSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h3 className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium mb-2">{title}</h3>
+      <div className="rounded-xl border border-border/60 bg-background/50 p-3 space-y-1.5">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function DRow({ k, v }: { k: string; v: string }) {
+  return (
+    <div className="flex justify-between gap-3 text-sm">
+      <dt className="text-muted-foreground">{k}</dt>
+      <dd className="text-right">{v}</dd>
+    </div>
+  );
 }
