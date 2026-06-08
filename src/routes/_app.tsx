@@ -7,6 +7,7 @@ import { Bell, Search } from "lucide-react";
 import { Avatar } from "@/components/avatar";
 import { SedeProvider } from "@/lib/sedes";
 import { SedeSelector } from "@/components/sede-selector";
+import { TourGuiado } from "@/components/tour-guiado";
 
 export const Route = createFileRoute("/_app")({
   component: AppLayout,
@@ -45,6 +46,7 @@ function AppLayout() {
                 />
               </div>
               <div className="ml-auto flex items-center gap-3">
+                <TourGuiado />
                 <SedeSelector />
                 <button className="rounded-full p-2 hover:bg-muted relative">
                   <Bell className="h-4 w-4" />
