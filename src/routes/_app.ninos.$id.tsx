@@ -180,6 +180,25 @@ function Resumen({ n }: { n: ReturnType<typeof ninoById> }) {
         </Card>
       </div>
       <div className="space-y-6">
+        {n.inss && (
+          <Card title="Cobertura INSS · quincena en curso">
+            <INSSBadge
+              horasUsadas={Math.round((n.progreso / 100) * 32)}
+              horasAprobadas={32}
+              label="Horas autorizadas"
+            />
+            <div className="mt-3 pt-3 border-t border-border/40 grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <div className="text-muted-foreground">Tarifa hora</div>
+                <div className="tabular font-medium">$18.50</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground">Próximo corte</div>
+                <div className="tabular font-medium">15/06/2026</div>
+              </div>
+            </div>
+          </Card>
+        )}
         <Card title="Datos">
           <dl className="space-y-2.5 text-sm">
             <Row k="Tutor legal" v={n.tutor} />
