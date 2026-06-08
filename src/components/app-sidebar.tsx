@@ -44,7 +44,6 @@ const administracion = [
   { title: "Facturación", url: "/facturacion", icon: Receipt },
   { title: "Familias", url: "/familias", icon: Heart },
   { title: "Equipo y permisos", url: "/equipo", icon: Shield },
-  { title: "Diagnóstico", url: "/clinico/graficas", icon: Stethoscope },
 ];
 
 export function AppSidebar() {
