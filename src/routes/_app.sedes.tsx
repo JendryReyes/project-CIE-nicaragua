@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { Building2, ArrowUpRight, AlertTriangle, PauseCircle, CheckCircle2 } from "lucide-react";
 import { sedesFact } from "@/lib/modulos-data";
 import { calcularResumenSede } from "@/lib/facturacion-motor";
-import { cartasDemo, diasParaVencer } from "@/lib/cartas-inss";
+import { cartasINSS, diasParaVencer } from "@/lib/cartas-inss";
 
 export const Route = createFileRoute("/_app/sedes")({
   head: () => ({ meta: [{ title: "Panel de sedes · CIE" }] }),
