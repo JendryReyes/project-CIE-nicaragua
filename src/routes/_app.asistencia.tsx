@@ -32,19 +32,19 @@ function Asistencia() {
     <div className="space-y-6 max-w-[1200px]">
       <div className="flex items-end justify-between flex-wrap gap-3">
         <div>
-          <h1 className="font-display text-3xl">Asistencia del día</h1>
-          <p className="text-sm text-muted-foreground mt-1">Lunes 1 de junio · Sede Managua</p>
+          <h1 className="font-display text-3xl">Asistencia de niños</h1>
+          <p className="text-sm text-muted-foreground mt-1">Registro de asistencia de los niños a sus sesiones · Lunes 1 de junio · Sede Managua</p>
         </div>
         <button className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:opacity-90">
-          <FileCheck2 className="h-4 w-4" /> Generar reporte INSS
+          <FileCheck2 className="h-4 w-4" /> Exportar asistencia del día
         </button>
       </div>
 
       {/* Bar */}
       <div className="rounded-2xl border border-border/70 bg-card p-5">
         <div className="flex justify-between text-sm mb-3">
-          <span className="text-muted-foreground">Progreso del día</span>
-          <span className="tabular font-medium">{asistio + ausente} / {total} registradas</span>
+          <span className="text-muted-foreground">Niños registrados hoy</span>
+          <span className="tabular font-medium">{asistio + ausente} / {total} niños</span>
         </div>
         <div className="flex h-2.5 rounded-full overflow-hidden bg-muted">
           <div className="bg-[oklch(0.62_0.11_155)]" style={{ width: `${(asistio / total) * 100}%` }} />
@@ -61,9 +61,9 @@ function Asistencia() {
       <div className="flex items-start gap-3 rounded-xl bg-accent/20 border border-accent/40 p-4 text-sm">
         <AlertCircle className="h-4 w-4 text-accent-foreground mt-0.5 shrink-0" />
         <div>
-          <div className="font-medium">Recordatorio INSS</div>
+          <div className="font-medium">Respaldo de asistencia</div>
           <div className="text-muted-foreground text-xs mt-1">
-            Cada asistencia debe respaldarse con colilla del cotizante. Faltan 3 colillas por subir esta semana.
+            Las ausencias deben justificarse con constancia médica o aviso de la familia para no afectar la facturación de horas aprobadas del niño.
           </div>
         </div>
       </div>
