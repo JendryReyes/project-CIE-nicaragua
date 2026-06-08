@@ -204,17 +204,17 @@ function CartasPorVencerCard() {
   );
 }
 
-function Kpi({ icon, label, value, hint, tone }: { icon: React.ReactNode; label: string; value: string; hint?: string; tone?: "primary" | "success" | "warning" }) {
+function Kpi({ to, icon, label, value, hint, tone }: { to: string; icon: React.ReactNode; label: string; value: string; hint?: string; tone?: "primary" | "success" | "warning" }) {
   const toneCls = tone === "primary" ? "text-primary" : tone === "success" ? "text-[oklch(0.55_0.1_155)]" : tone === "warning" ? "text-[oklch(0.55_0.13_60)]" : "text-muted-foreground";
   return (
-    <div className="rounded-2xl border border-border/70 bg-card p-5">
+    <Link to={to} className="block rounded-2xl border border-border/70 bg-card p-5 transition-colors hover:border-primary/40 hover:bg-muted/40">
       <div className={`flex items-center gap-2 text-xs uppercase tracking-wider ${toneCls}`}>
         {icon}
         <span>{label}</span>
       </div>
       <div className="font-display text-3xl mt-2 tabular">{value}</div>
       {hint && <div className="text-xs text-muted-foreground mt-1">{hint}</div>}
-    </div>
+    </Link>
   );
 }
 
