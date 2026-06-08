@@ -44,12 +44,16 @@ export type ResumenFacturacionNino = {
   totalFacturable: number;
   totalNoFacturable: number;
   totalHoras: number;
+  horasSuspendidas: number;
+  montoSuspendido: number;
+  suspension?: Suspension;
   porcentajeUsado: number;
   tieneExcedente: boolean;
   tieneConstancia: boolean;
   requiereRevision: boolean;
-  estado: "ok" | "revisar" | "bloqueado";
+  estado: "ok" | "revisar" | "bloqueado" | "suspendido";
 };
+
 
 export const limites = {
   IT_PFA_total: 45,
