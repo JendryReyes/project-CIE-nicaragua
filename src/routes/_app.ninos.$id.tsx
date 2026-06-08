@@ -11,6 +11,7 @@ import {
   calcularProgresoClinico, documentosObligatorios,
 } from "@/lib/perfil-nino-data";
 import { cartasPorNino, estadoCartaColor } from "@/lib/cartas-inss";
+import { GraficaProgramaModal } from "@/components/grafica-programa-modal";
 
 export const Route = createFileRoute("/_app/ninos/$id")({
   head: () => ({ meta: [{ title: "Expediente · CIE" }] }),
