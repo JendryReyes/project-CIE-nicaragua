@@ -11,6 +11,7 @@ import {
   calcularProgresoClinico, documentosObligatorios,
 } from "@/lib/perfil-nino-data";
 import { cartasPorNino, estadoCartaColor } from "@/lib/cartas-inss";
+import { GraficaProgramaModal } from "@/components/grafica-programa-modal";
 
 export const Route = createFileRoute("/_app/ninos/$id")({
   head: () => ({ meta: [{ title: "Expediente · CIE" }] }),
@@ -31,6 +32,7 @@ function NinoDetalle() {
   const n = ninoById(id);
   if (!n) throw notFound();
   const [tab, setTab] = useState<Tab>("Resumen");
+  const [grafica, setGrafica] = useState<{ nombre: string; area?: string } | null>(null);
   const programas = getPrograma(id);
   const evaluaciones = getEvaluaciones(id);
   const planes = getPlanesConducta(id);
@@ -85,9 +87,12 @@ function NinoDetalle() {
             <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs hover:bg-muted">
               <FileText className="h-3.5 w-3.5" /> Generar informe
             </button>
-            <Link to="/clinico/graficas" className="inline-flex items-center gap-1.5 rounded-md bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium">
+            <button
+              onClick={() => setGrafica({ nombre: programas[0]?.nombre ?? "Programa", area: programas[0]?.area })}
+              className="inline-flex items-center gap-1.5 rounded-md bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium"
+            >
               <LineChart className="h-3.5 w-3.5" /> Ver gráficas
-            </Link>
+            </button>
           </div>
         </div>
       </header>
@@ -105,13 +110,21 @@ function NinoDetalle() {
       </div>
 
       {tab === "Resumen" && <TabResumen nino={n} sesiones={sesionesNino} />}
-      {tab === "Programas" && <TabProgramas programas={programas} />}
+      {tab === "Programas" && <TabProgramas programas={programas} onVerGrafica={(p) => setGrafica({ nombre: p.nombre, area: p.area })} />}
       {tab === "Sesiones" && <TabSesiones ninoId={id} />}
       {tab === "Evaluaciones" && <TabEvaluaciones evaluaciones={evaluaciones} />}
       {tab === "Conducta" && <TabConducta planes={planes} />}
       {tab === "Familia" && <TabFamilia nino={n} />}
       {tab === "Expediente" && <TabExpediente documentos={documentos} />}
       {tab === "Facturación" && <TabFacturacion facturacion={facturacion} />}
+
+      <GraficaProgramaModal
+        open={!!grafica}
+        onClose={() => setGrafica(null)}
+        ninoNombre={n.nombre}
+        programaNombre={grafica?.nombre ?? ""}
+        area={grafica?.area}
+      />
     </div>
   );
 }
@@ -175,7 +188,7 @@ function TabResumen({ nino, sesiones }: { nino: any; sesiones: any[] }) {
   );
 }
 
-function TabProgramas({ programas }: { programas: ReturnType<typeof getPrograma> }) {
+function TabProgramas({ programas, onVerGrafica }: { programas: ReturnType<typeof getPrograma>; onVerGrafica: (p: ReturnType<typeof getPrograma>[number]) => void }) {
   const [filtro, setFiltro] = useState<string>("todos");
   const lista = filtro === "todos" ? programas : programas.filter((p) => p.estado === filtro);
   return (
@@ -210,9 +223,9 @@ function TabProgramas({ programas }: { programas: ReturnType<typeof getPrograma>
                 <div className="h-full bg-primary" style={{ width: `${p.avance}%` }} />
               </div>
             </div>
-            <Link to="/clinico/graficas" className="mt-3 inline-flex items-center gap-1 text-xs text-primary hover:underline">
+            <button onClick={() => onVerGrafica(p)} className="mt-3 inline-flex items-center gap-1 text-xs text-primary hover:underline">
               Ver gráfica <ExternalLink className="h-3 w-3" />
-            </Link>
+            </button>
           </article>
         ))}
       </div>
