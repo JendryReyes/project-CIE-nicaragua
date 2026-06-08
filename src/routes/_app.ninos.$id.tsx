@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ninoById, sesionesHoy, areaLabels } from "@/lib/demo-data";
 import { AreaBadge } from "@/components/area-badge";
 import { Avatar } from "@/components/avatar";
-import { ArrowLeft, FileText, MessageSquare, Phone, Mail, MapPin, Download, Plus, Lock, CheckCircle2, Circle as CircleIcon } from "lucide-react";
+import { ArrowLeft, FileText, MessageSquare, Phone, Mail, MapPin, Download, Plus, Lock, CheckCircle2, Circle as CircleIcon, Stethoscope, Upload, ClipboardList, History, FilePlus2 } from "lucide-react";
 import { programasDemo, modeloLabels, modeloDescripciones, type ModeloClinico } from "@/lib/modelos-clinicos";
 import { ProgramaClinicoCard } from "@/components/programa-clinico-card";
 import { HanleyCrisisCard } from "@/components/hanley-crisis-card";
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_app/ninos/$id")({
   notFoundComponent: () => <div className="p-12 text-center"><p>Expediente no encontrado.</p><Link to="/ninos" className="text-primary">Volver</Link></div>,
 });
 
-const tabs = ["Resumen", "Programas clínicos", "Áreas terapéuticas", "Sesiones", "Familia y documentos"] as const;
+const tabs = ["Resumen", "Programas clínicos", "Áreas terapéuticas", "Diagnóstico", "Sesiones", "Familia y documentos"] as const;
 
 function NinoDetalle() {
   const { id } = Route.useParams();
@@ -96,6 +96,7 @@ function NinoDetalle() {
       {tab === "Resumen" && <Resumen n={n} />}
       {tab === "Programas clínicos" && <Programas />}
       {tab === "Áreas terapéuticas" && <Areas n={n} />}
+      {tab === "Diagnóstico" && <Diagnostico n={n} onIrAFamilia={() => setTab("Familia y documentos")} />}
       {tab === "Sesiones" && <Sesiones sesiones={sesionesNino} />}
       {tab === "Familia y documentos" && <Familia n={n} checklist={checklist} />}
     </div>
