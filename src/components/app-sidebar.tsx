@@ -13,8 +13,6 @@ import {
   UserPlus,
   Activity,
   FileBarChart,
-  QrCode,
-  CheckSquare,
   FileText,
   Building2,
 } from "lucide-react";
