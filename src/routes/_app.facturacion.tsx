@@ -41,7 +41,7 @@ function Facturacion() {
 
   return (
     <div className="space-y-6 max-w-[1400px]">
-      {/* Header + acciones */}
+      {/* Header + tabs */}
       <div className="flex items-end justify-between flex-wrap gap-3">
         <div>
           <h1 className="font-display text-3xl">Módulo de Facturación</h1>
@@ -49,89 +49,44 @@ function Facturacion() {
             General · Quincena {quincena === "Q1" ? "1 (1-15)" : "2 (16-30)"} · {mes} {anio}
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <button className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 px-3 py-1.5 text-xs hover:bg-muted">
-            <Printer className="h-3.5 w-3.5" /> Imprimir
-          </button>
-          <button className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 px-3 py-1.5 text-xs hover:bg-muted">
-            <FileSpreadsheet className="h-3.5 w-3.5" /> Excel
-          </button>
-          <Link
-            to="/facturacion/$loteId"
-            params={{ loteId: loteDemo.id }}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.16_155)] text-white px-3 py-1.5 text-xs font-medium hover:opacity-90"
-          >
-            <FileText className="h-3.5 w-3.5" /> Carta de cobro
-          </Link>
-        </div>
       </div>
 
-      {/* Filtros */}
-      <div className="rounded-2xl border border-border/70 bg-card p-3 flex flex-wrap items-center gap-3 text-sm">
-        <Field label="Mes">
-          <select value={mes} onChange={(e)=>setMes(e.target.value)} className="rounded-md border border-border bg-background px-2 py-1 text-sm">
-            {meses.map((m)=> <option key={m}>{m}</option>)}
-          </select>
-        </Field>
-        <Field label="Año">
-          <select value={anio} onChange={(e)=>setAnio(e.target.value)} className="rounded-md border border-border bg-background px-2 py-1 text-sm">
-            {anios.map((m)=> <option key={m}>{m}</option>)}
-          </select>
-        </Field>
-        <Field label="Quincena">
-          <div className="inline-flex rounded-md border border-border overflow-hidden">
-            <button onClick={()=>setQuincena("Q1")} className={`px-3 py-1 text-xs ${quincena==="Q1"?"bg-primary text-primary-foreground":"hover:bg-muted"}`}>1ra · 1-15</button>
-            <button onClick={()=>setQuincena("Q2")} className={`px-3 py-1 text-xs ${quincena==="Q2"?"bg-primary text-primary-foreground":"hover:bg-muted"}`}>2da · 16-30</button>
-          </div>
-        </Field>
-        <Field label="Sede">
-          <select value={sedeId} onChange={(e)=>setSedeId(e.target.value)} className="rounded-md border border-border bg-background px-2 py-1 text-sm">
-            <option value="todas">Todas</option>
-            {sedesFact.map((s)=> <option key={s.id} value={s.id}>{s.nombre} · {s.ciudad}</option>)}
-          </select>
-        </Field>
-        <div className="ml-auto flex items-center gap-4 text-xs">
-          <Legend color={areaColor.ABA} label={`ABA $${tarifa.ABA.toFixed(2)}`} />
-          <Legend color={areaColor.Logo} label={`Logo $${tarifa.Logo.toFixed(2)}`} />
-          <Legend color={areaColor.Fisio} label={`Fisio $${tarifa.Fisio.toFixed(2)}`} />
-        </div>
+      <div className="flex items-center gap-1 border-b border-border/60">
+        <button
+          onClick={() => setTab("general")}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            tab === "general"
+              ? "border-primary text-foreground"
+              : "border-transparent text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          Vista general
+        </button>
+        <button
+          onClick={() => setTab("cierre")}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            tab === "cierre"
+              ? "border-primary text-foreground"
+              : "border-transparent text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          Cierre de quincena
+        </button>
       </div>
 
-      {/* KPIs rápidos */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <Stat label="Niños facturados" value={String(totales.niños)} />
-        <Stat label="Total quincena" value={`$${totales.monto.toFixed(2)}`} accent />
-        <Stat label="Excedentes sin constancia" value={String(totales.alertas)} warn={totales.alertas>0} />
-        <Stat label="Sedes incluidas" value={String(sedesVisibles.length)} />
-      </div>
-
-      {/* Sedes agrupadas */}
-      <div className="space-y-6">
-        {sedesVisibles.map((s) => (
-          <SedeBlock key={s.id} sede={s} />
-        ))}
-      </div>
-
-      {/* Lotes recientes (link rápido) */}
-      <div className="rounded-2xl border border-border/70 bg-card overflow-hidden">
-        <div className="flex items-center justify-between p-4 border-b border-border/60">
-          <h3 className="font-display text-base">Lotes recientes</h3>
-          <Link to="/facturacion/$loteId" params={{ loteId: loteDemo.id }} className="text-xs text-primary hover:underline inline-flex items-center gap-1">
-            Abrir lote en curso <ArrowRight className="h-3 w-3" />
-          </Link>
-        </div>
-        <div className="divide-y divide-border/50 text-sm">
-          {lotesINSS.slice(0, 4).map((l) => (
-            <div key={l.id} className="flex items-center gap-4 px-4 py-2.5">
-              <span className="font-medium tabular text-xs">{l.id}</span>
-              <span className="text-muted-foreground text-xs flex-1">{l.periodo}</span>
-              <span className="tabular text-xs text-muted-foreground">{l.horas}h · {l.ninos} niños</span>
-              <span className="tabular font-display">${l.monto.toLocaleString()}</span>
-              <span className="text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 bg-muted text-muted-foreground">{l.estado}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      {tab === "general" && (
+        <GeneralTab
+          mes={mes}
+          setMes={setMes}
+          anio={anio}
+          setAnio={setAnio}
+          quincena={quincena}
+          setQuincena={setQuincena}
+          sedeId={sedeId}
+          setSedeId={setSedeId}
+        />
+      )}
+      {tab === "cierre" && <CierreQuincenaPanel />}
     </div>
   );
 }
