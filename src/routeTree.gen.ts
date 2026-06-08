@@ -21,6 +21,7 @@ import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
 import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
 import { Route as AppNinosIdRouteImport } from './routes/_app.ninos.$id'
 import { Route as AppFacturacionLoteIdRouteImport } from './routes/_app.facturacion.$loteId'
+import { Route as AppClinicoGraficasRouteImport } from './routes/_app.clinico.graficas'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -81,6 +82,11 @@ const AppFacturacionLoteIdRoute = AppFacturacionLoteIdRouteImport.update({
   path: '/$loteId',
   getParentRoute: () => AppFacturacionRoute,
 } as any)
+const AppClinicoGraficasRoute = AppClinicoGraficasRouteImport.update({
+  id: '/clinico/graficas',
+  path: '/clinico/graficas',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/facturacion': typeof AppFacturacionRouteWithChildren
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
+  '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/ninos/': typeof AppNinosIndexRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/facturacion': typeof AppFacturacionRouteWithChildren
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
+  '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/ninos': typeof AppNinosIndexRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/_app/facturacion': typeof AppFacturacionRouteWithChildren
   '/_app/familias': typeof AppFamiliasRoute
   '/_app/horario': typeof AppHorarioRoute
+  '/_app/clinico/graficas': typeof AppClinicoGraficasRoute
   '/_app/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
   '/_app/ninos/$id': typeof AppNinosIdRoute
   '/_app/ninos/': typeof AppNinosIndexRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/facturacion'
     | '/familias'
     | '/horario'
+    | '/clinico/graficas'
     | '/facturacion/$loteId'
     | '/ninos/$id'
     | '/ninos/'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/facturacion'
     | '/familias'
     | '/horario'
+    | '/clinico/graficas'
     | '/facturacion/$loteId'
     | '/ninos/$id'
     | '/ninos'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/_app/facturacion'
     | '/_app/familias'
     | '/_app/horario'
+    | '/_app/clinico/graficas'
     | '/_app/facturacion/$loteId'
     | '/_app/ninos/$id'
     | '/_app/ninos/'
@@ -257,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppFacturacionLoteIdRouteImport
       parentRoute: typeof AppFacturacionRoute
     }
+    '/_app/clinico/graficas': {
+      id: '/_app/clinico/graficas'
+      path: '/clinico/graficas'
+      fullPath: '/clinico/graficas'
+      preLoaderRoute: typeof AppClinicoGraficasRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -280,6 +299,7 @@ interface AppRouteChildren {
   AppFacturacionRoute: typeof AppFacturacionRouteWithChildren
   AppFamiliasRoute: typeof AppFamiliasRoute
   AppHorarioRoute: typeof AppHorarioRoute
+  AppClinicoGraficasRoute: typeof AppClinicoGraficasRoute
   AppNinosIdRoute: typeof AppNinosIdRoute
   AppNinosIndexRoute: typeof AppNinosIndexRoute
 }
@@ -292,6 +312,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppFacturacionRoute: AppFacturacionRouteWithChildren,
   AppFamiliasRoute: AppFamiliasRoute,
   AppHorarioRoute: AppHorarioRoute,
+  AppClinicoGraficasRoute: AppClinicoGraficasRoute,
   AppNinosIdRoute: AppNinosIdRoute,
   AppNinosIndexRoute: AppNinosIndexRoute,
 }
@@ -305,3 +326,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
