@@ -8,6 +8,7 @@ import { programasDemo, modeloLabels, modeloDescripciones, type ModeloClinico } 
 import { ProgramaClinicoCard } from "@/components/programa-clinico-card";
 import { HanleyCrisisCard } from "@/components/hanley-crisis-card";
 import { checklistPorNino, puedeActivar } from "@/lib/checklist-inss";
+import { INSSBadge } from "@/components/inss-badge";
 
 export const Route = createFileRoute("/_app/ninos/$id")({
   head: () => ({ meta: [{ title: `Expediente · CIE` }] }),
