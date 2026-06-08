@@ -13,6 +13,7 @@ import { Route as MiHijoRouteImport } from './routes/mi-hijo'
 import { Route as KioskoRouteImport } from './routes/kiosko'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppSedesRouteImport } from './routes/_app.sedes'
 import { Route as AppReportesRouteImport } from './routes/_app.reportes'
 import { Route as AppMatriculaRouteImport } from './routes/_app.matricula'
 import { Route as AppHorarioRouteImport } from './routes/_app.horario'
@@ -49,6 +50,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppSedesRoute = AppSedesRouteImport.update({
+  id: '/sedes',
+  path: '/sedes',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppReportesRoute = AppReportesRouteImport.update({
   id: '/reportes',
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
   '/reportes': typeof AppReportesRoute
+  '/sedes': typeof AppSedesRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
   '/reportes': typeof AppReportesRoute
+  '/sedes': typeof AppSedesRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/_app/horario': typeof AppHorarioRoute
   '/_app/matricula': typeof AppMatriculaRoute
   '/_app/reportes': typeof AppReportesRoute
+  '/_app/sedes': typeof AppSedesRoute
   '/_app/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/_app/clinico/graficas': typeof AppClinicoGraficasRoute
   '/_app/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
     | '/horario'
     | '/matricula'
     | '/reportes'
+    | '/sedes'
     | '/asistencia/carnets'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/horario'
     | '/matricula'
     | '/reportes'
+    | '/sedes'
     | '/asistencia/carnets'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/_app/horario'
     | '/_app/matricula'
     | '/_app/reportes'
+    | '/_app/sedes'
     | '/_app/asistencia/carnets'
     | '/_app/clinico/graficas'
     | '/_app/facturacion/$loteId'
@@ -310,6 +322,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_app/sedes': {
+      id: '/_app/sedes'
+      path: '/sedes'
+      fullPath: '/sedes'
+      preLoaderRoute: typeof AppSedesRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/reportes': {
       id: '/_app/reportes'
@@ -472,6 +491,7 @@ interface AppRouteChildren {
   AppHorarioRoute: typeof AppHorarioRoute
   AppMatriculaRoute: typeof AppMatriculaRoute
   AppReportesRoute: typeof AppReportesRoute
+  AppSedesRoute: typeof AppSedesRoute
   AppClinicoGraficasRoute: typeof AppClinicoGraficasRoute
   AppNinosIdRoute: typeof AppNinosIdRoute
   AppNinosIndexRoute: typeof AppNinosIndexRoute
@@ -488,6 +508,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppHorarioRoute: AppHorarioRoute,
   AppMatriculaRoute: AppMatriculaRoute,
   AppReportesRoute: AppReportesRoute,
+  AppSedesRoute: AppSedesRoute,
   AppClinicoGraficasRoute: AppClinicoGraficasRoute,
   AppNinosIdRoute: AppNinosIdRoute,
   AppNinosIndexRoute: AppNinosIndexRoute,
