@@ -15,6 +15,8 @@ import {
   FileBarChart,
   QrCode,
   CheckSquare,
+  FileText,
+  Building2,
 } from "lucide-react";
 import cieLogo from "@/assets/cie-logo.png.asset.json";
 import {
