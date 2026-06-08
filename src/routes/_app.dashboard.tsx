@@ -120,6 +120,9 @@ function Dashboard() {
             </div>
           </div>
 
+          {/* Cartas INSS por vencer */}
+          <CartasPorVencerCard />
+
           {/* Areas summary */}
           <div className="rounded-2xl border border-border/70 bg-card p-5">
             <h3 className="font-display text-lg mb-4">Distribución por área</h3>
@@ -145,6 +148,43 @@ function Dashboard() {
           <AlertaEstancamiento />
         </div>
       </div>
+    </div>
+  );
+}
+
+function CartasPorVencerCard() {
+  const cartas = cartasPorVencer().slice(0, 5);
+  const vencidas = cartas.filter((c) => c.estado === "vencida").length;
+  const porVencer = cartas.filter((c) => c.estado === "por_vencer").length;
+  if (cartas.length === 0) return null;
+  return (
+    <div className="rounded-2xl border border-[oklch(0.7_0.13_75/0.4)] bg-[oklch(0.98_0.04_75)] p-5">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <FileText className="h-4 w-4 text-[oklch(0.5_0.13_75)]" />
+          <h3 className="font-display text-lg">Cartas INSS por vencer</h3>
+        </div>
+        <Link to="/facturacion/cartas" className="text-xs text-primary hover:underline">Gestionar</Link>
+      </div>
+      <p className="text-xs text-muted-foreground mb-3">
+        {vencidas > 0 && <span className="text-[oklch(0.5_0.15_25)] font-medium">{vencidas} vencidas</span>}
+        {vencidas > 0 && porVencer > 0 && " · "}
+        {porVencer > 0 && <span>{porVencer} por vencer en 30 días</span>}
+      </p>
+      <ul className="space-y-1.5">
+        {cartas.map((c) => (
+          <li key={c.id} className="flex items-center justify-between text-xs gap-2 py-1.5 border-t border-border/40 first:border-t-0">
+            <div className="min-w-0 flex-1">
+              <div className="font-medium truncate">{c.ninoNombre}</div>
+              <div className="text-[10px] text-muted-foreground truncate">{c.area} · {c.numero}</div>
+            </div>
+            <div className={`shrink-0 inline-flex items-center gap-1 text-[10px] font-medium ${c.diasRestantes < 0 ? "text-[oklch(0.5_0.15_25)]" : "text-[oklch(0.5_0.13_75)]"}`}>
+              {c.diasRestantes < 0 ? <XCircle className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
+              {c.diasRestantes < 0 ? `Hace ${-c.diasRestantes}d` : `${c.diasRestantes}d`}
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
