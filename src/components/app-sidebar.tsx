@@ -12,6 +12,9 @@ import {
   LineChart,
   UserPlus,
   Activity,
+  FileBarChart,
+  QrCode,
+  CheckSquare,
 } from "lucide-react";
 import cieLogo from "@/assets/cie-logo.png.asset.json";
 import {
@@ -36,12 +39,15 @@ const principal = [
   { title: "Ejecución", url: "/ejecucion", icon: Activity },
   { title: "Gestión Clínica", url: "/ninos", icon: Users },
   { title: "Asistencia", url: "/asistencia", icon: ClipboardCheck },
+  { title: "Carnets QR", url: "/asistencia/carnets", icon: QrCode },
   { title: "Biblioteca", url: "/biblioteca", icon: BookOpen },
   { title: "Gráficas ABA", url: "/clinico/graficas", icon: LineChart },
 ];
 
 const administracion = [
   { title: "Facturación", url: "/facturacion", icon: Receipt },
+  { title: "Cierre quincena", url: "/facturacion/cierre", icon: CheckSquare },
+  { title: "Reportes", url: "/reportes", icon: FileBarChart },
   { title: "Familias", url: "/familias", icon: Heart },
   { title: "Equipo y permisos", url: "/equipo", icon: Shield },
 ];
