@@ -10,6 +10,7 @@ import {
   getPrograma, getEvaluaciones, getPlanesConducta, getDocumentos, getFacturacion,
   calcularProgresoClinico, documentosObligatorios,
 } from "@/lib/perfil-nino-data";
+import { cartasPorNino, estadoCartaColor } from "@/lib/cartas-inss";
 
 export const Route = createFileRoute("/_app/ninos/$id")({
   head: () => ({ meta: [{ title: "Expediente · CIE" }] }),
@@ -386,28 +387,60 @@ function TabExpediente({ documentos }: { documentos: ReturnType<typeof getDocume
 }
 
 function TabFacturacion({ facturacion }: { facturacion: ReturnType<typeof getFacturacion> }) {
+  const { id } = Route.useParams();
   const totalAnio = facturacion.reduce((s, f) => s + f.monto, 0);
+  const cartas = cartasPorNino(id);
   return (
-    <Section title="Historial de facturación" action={<Link to="/facturacion/cierre" className="text-xs text-primary hover:underline">Ir a Cierre</Link>}>
-      <div className="text-xs text-muted-foreground mb-3">Total acumulado año: <span className="font-display text-sm text-foreground tabular">${totalAnio.toFixed(2)}</span></div>
-      <table className="w-full text-sm">
-        <thead className="text-[10px] uppercase tracking-wider text-muted-foreground">
-          <tr><th className="text-left pb-2">Período</th><th className="text-left">Horas</th><th className="text-right">Monto</th><th className="text-center">Estado</th></tr>
-        </thead>
-        <tbody>
-          {facturacion.map((f, i) => (
-            <tr key={i} className="border-t border-border/40">
-              <td className="py-2">{f.mes} · Q{f.quincena}</td>
-              <td className="text-xs text-muted-foreground">{Object.entries(f.horas).map(([k, v]) => `${v}h ${k}`).join(" · ")}</td>
-              <td className="text-right tabular font-display">${f.monto.toFixed(2)}</td>
-              <td className="text-center">
-                <span className={`text-[10px] uppercase rounded-full px-2 py-0.5 ${f.estado === "cobrado" ? "bg-[oklch(0.94_0.05_155)] text-[oklch(0.35_0.12_155)]" : "bg-muted text-muted-foreground"}`}>{f.estado}</span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </Section>
+    <div className="space-y-4">
+      {cartas.length > 0 && (
+        <Section title="Cartas INSS de aprobación">
+          <ul className="space-y-2">
+            {cartas.map((c) => {
+              const col = estadoCartaColor(c.estado);
+              return (
+                <li key={c.id} className="flex items-center gap-3 p-3 rounded-xl border border-border/60">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium truncate">{c.numero} · {c.area}</div>
+                    <div className="text-[11px] text-muted-foreground tabular">
+                      Vence {c.vence} · {c.horasAprobadas}h aprobadas
+                    </div>
+                  </div>
+                  <span className={`inline-flex items-center text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 ${col.bg} ${col.text}`}>
+                    {col.label}
+                  </span>
+                  <span className={`text-[11px] tabular w-16 text-right ${c.diasRestantes < 0 ? "text-[oklch(0.5_0.15_25)]" : c.diasRestantes <= 30 ? "text-[oklch(0.5_0.13_75)]" : "text-muted-foreground"}`}>
+                    {c.diasRestantes < 0 ? `−${-c.diasRestantes}d` : `${c.diasRestantes}d`}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+          <Link to="/facturacion/cartas" className="inline-block mt-3 text-xs text-primary hover:underline">
+            Gestionar cartas →
+          </Link>
+        </Section>
+      )}
+      <Section title="Historial de facturación" action={<Link to="/facturacion/cierre" className="text-xs text-primary hover:underline">Ir a Cierre</Link>}>
+        <div className="text-xs text-muted-foreground mb-3">Total acumulado año: <span className="font-display text-sm text-foreground tabular">${totalAnio.toFixed(2)}</span></div>
+        <table className="w-full text-sm">
+          <thead className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            <tr><th className="text-left pb-2">Período</th><th className="text-left">Horas</th><th className="text-right">Monto</th><th className="text-center">Estado</th></tr>
+          </thead>
+          <tbody>
+            {facturacion.map((f, i) => (
+              <tr key={i} className="border-t border-border/40">
+                <td className="py-2">{f.mes} · Q{f.quincena}</td>
+                <td className="text-xs text-muted-foreground">{Object.entries(f.horas).map(([k, v]) => `${v}h ${k}`).join(" · ")}</td>
+                <td className="text-right tabular font-display">${f.monto.toFixed(2)}</td>
+                <td className="text-center">
+                  <span className={`text-[10px] uppercase rounded-full px-2 py-0.5 ${f.estado === "cobrado" ? "bg-[oklch(0.94_0.05_155)] text-[oklch(0.35_0.12_155)]" : "bg-muted text-muted-foreground"}`}>{f.estado}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Section>
+    </div>
   );
 }
 
