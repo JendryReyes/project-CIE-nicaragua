@@ -77,7 +77,7 @@ export function TourGuiado() {
 
       {abierto && (
         <>
-          <div className="fixed bottom-4 right-4 z-50 w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-border bg-card shadow-2xl sm:bottom-6 sm:right-6">
+          <div className="fixed right-4 top-20 z-50 max-h-[calc(100dvh-6rem)] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-border bg-card shadow-2xl sm:right-6 lg:top-24">
             <div className="flex items-center justify-between bg-gradient-to-r from-[oklch(0.95_0.05_300)] to-[oklch(0.95_0.04_200)] px-4 py-2.5 border-b border-border/60">
               <div className="flex items-center gap-2 text-[oklch(0.35_0.15_300)]">
                 <Sparkles className="h-3.5 w-3.5" />
@@ -93,7 +93,7 @@ export function TourGuiado() {
               </button>
             </div>
 
-            <div className="p-5 space-y-3">
+            <div className="space-y-3 p-5">
               <h3 className="font-display text-lg leading-tight">{actual.titulo}</h3>
               <p className="text-sm leading-relaxed text-foreground/80">{actual.descripcion}</p>
               {actual.ruta && (
@@ -109,7 +109,7 @@ export function TourGuiado() {
               )}
             </div>
 
-            <div className="flex items-center justify-between gap-2 px-4 py-3 border-t border-border/60 bg-muted/30">
+            <div className="sticky bottom-0 flex items-center justify-between gap-2 border-t border-border/60 bg-muted/95 px-4 py-3 backdrop-blur">
               <div className="flex gap-1">
                 {PASOS.map((_, i) => (
                   <button
