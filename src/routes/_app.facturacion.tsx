@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { lotesINSS } from "@/lib/demo-data";
-import { Download, FileText, Plus, Receipt, TrendingUp } from "lucide-react";
+import { loteDemo, resumenLote } from "@/lib/facturacion-inss";
+import { AlertTriangle, Download, FileText, Plus, Receipt, TrendingUp, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/_app/facturacion")({
   head: () => ({ meta: [{ title: "Facturación INSS · CIE" }] }),
@@ -19,6 +20,7 @@ function Facturacion() {
   const totalAnual = lotesINSS.reduce((a, l) => a + l.monto, 0);
   const pagado = lotesINSS.filter((l) => l.estado === "pagado").reduce((a, l) => a + l.monto, 0);
   const porCobrar = totalAnual - pagado;
+  const resumenLoteActual = resumenLote(loteDemo);
 
   return (
     <div className="space-y-6 max-w-[1400px]">
@@ -39,6 +41,36 @@ function Facturacion() {
         <Stat icon={<FileText className="h-4 w-4 text-[oklch(0.55_0.13_60)]" />} label="Por cobrar" value={`$${porCobrar.toLocaleString()}`} hint="2 lotes" />
         <Stat icon={<TrendingUp className="h-4 w-4" />} label="Tasa de aprobación INSS" value="96.4%" hint="últimos 12 meses" />
       </div>
+
+      {/* Lote en curso destacado */}
+      <Link
+        to="/facturacion/$loteId"
+        params={{ loteId: loteDemo.id }}
+        className="block rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent p-5 hover:shadow-md transition-shadow"
+      >
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div className="text-xs uppercase tracking-wider text-primary font-medium">Quincena en curso · borrador</div>
+            <h3 className="font-display text-2xl mt-1">{loteDemo.id} · {loteDemo.periodo} Q2</h3>
+            <p className="text-sm text-muted-foreground mt-1">
+              Corte {loteDemo.fechaCorte} · sede {loteDemo.sede} · {resumenLoteActual.ninos} niños
+            </p>
+          </div>
+          <div className="flex items-center gap-6 text-sm">
+            <div>
+              <div className="text-xs text-muted-foreground">A facturar INSS</div>
+              <div className="font-display text-xl tabular">${resumenLoteActual.montoINSS.toLocaleString()}</div>
+            </div>
+            {resumenLoteActual.alertasExcedente > 0 && (
+              <div className="flex items-center gap-2 rounded-full bg-[oklch(0.95_0.06_25)] text-[oklch(0.45_0.15_25)] px-3 py-1.5">
+                <AlertTriangle className="h-4 w-4" />
+                <span className="text-sm font-medium">{resumenLoteActual.alertasExcedente} excedente(s) sin constancia</span>
+              </div>
+            )}
+            <ArrowRight className="h-5 w-5 text-primary" />
+          </div>
+        </div>
+      </Link>
 
       {/* Process flow */}
       <div className="rounded-2xl border border-border/70 bg-card p-5">

@@ -20,6 +20,7 @@ import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
 import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
 import { Route as AppNinosIdRouteImport } from './routes/_app.ninos.$id'
+import { Route as AppFacturacionLoteIdRouteImport } from './routes/_app.facturacion.$loteId'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -75,6 +76,11 @@ const AppNinosIdRoute = AppNinosIdRouteImport.update({
   path: '/ninos/$id',
   getParentRoute: () => AppRoute,
 } as any)
+const AppFacturacionLoteIdRoute = AppFacturacionLoteIdRouteImport.update({
+  id: '/$loteId',
+  path: '/$loteId',
+  getParentRoute: () => AppFacturacionRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,9 +88,10 @@ export interface FileRoutesByFullPath {
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
   '/equipo': typeof AppEquipoRoute
-  '/facturacion': typeof AppFacturacionRoute
+  '/facturacion': typeof AppFacturacionRouteWithChildren
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
+  '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/ninos/': typeof AppNinosIndexRoute
 }
@@ -94,9 +101,10 @@ export interface FileRoutesByTo {
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
   '/equipo': typeof AppEquipoRoute
-  '/facturacion': typeof AppFacturacionRoute
+  '/facturacion': typeof AppFacturacionRouteWithChildren
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
+  '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/ninos': typeof AppNinosIndexRoute
 }
@@ -108,9 +116,10 @@ export interface FileRoutesById {
   '/_app/biblioteca': typeof AppBibliotecaRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/equipo': typeof AppEquipoRoute
-  '/_app/facturacion': typeof AppFacturacionRoute
+  '/_app/facturacion': typeof AppFacturacionRouteWithChildren
   '/_app/familias': typeof AppFamiliasRoute
   '/_app/horario': typeof AppHorarioRoute
+  '/_app/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
   '/_app/ninos/$id': typeof AppNinosIdRoute
   '/_app/ninos/': typeof AppNinosIndexRoute
 }
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/facturacion'
     | '/familias'
     | '/horario'
+    | '/facturacion/$loteId'
     | '/ninos/$id'
     | '/ninos/'
   fileRoutesByTo: FileRoutesByTo
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/facturacion'
     | '/familias'
     | '/horario'
+    | '/facturacion/$loteId'
     | '/ninos/$id'
     | '/ninos'
   id:
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/_app/facturacion'
     | '/_app/familias'
     | '/_app/horario'
+    | '/_app/facturacion/$loteId'
     | '/_app/ninos/$id'
     | '/_app/ninos/'
   fileRoutesById: FileRoutesById
@@ -238,15 +250,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNinosIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/facturacion/$loteId': {
+      id: '/_app/facturacion/$loteId'
+      path: '/$loteId'
+      fullPath: '/facturacion/$loteId'
+      preLoaderRoute: typeof AppFacturacionLoteIdRouteImport
+      parentRoute: typeof AppFacturacionRoute
+    }
   }
 }
+
+interface AppFacturacionRouteChildren {
+  AppFacturacionLoteIdRoute: typeof AppFacturacionLoteIdRoute
+}
+
+const AppFacturacionRouteChildren: AppFacturacionRouteChildren = {
+  AppFacturacionLoteIdRoute: AppFacturacionLoteIdRoute,
+}
+
+const AppFacturacionRouteWithChildren = AppFacturacionRoute._addFileChildren(
+  AppFacturacionRouteChildren,
+)
 
 interface AppRouteChildren {
   AppAsistenciaRoute: typeof AppAsistenciaRoute
   AppBibliotecaRoute: typeof AppBibliotecaRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppEquipoRoute: typeof AppEquipoRoute
-  AppFacturacionRoute: typeof AppFacturacionRoute
+  AppFacturacionRoute: typeof AppFacturacionRouteWithChildren
   AppFamiliasRoute: typeof AppFamiliasRoute
   AppHorarioRoute: typeof AppHorarioRoute
   AppNinosIdRoute: typeof AppNinosIdRoute
@@ -258,7 +289,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppBibliotecaRoute: AppBibliotecaRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppEquipoRoute: AppEquipoRoute,
-  AppFacturacionRoute: AppFacturacionRoute,
+  AppFacturacionRoute: AppFacturacionRouteWithChildren,
   AppFamiliasRoute: AppFamiliasRoute,
   AppHorarioRoute: AppHorarioRoute,
   AppNinosIdRoute: AppNinosIdRoute,
@@ -274,13 +305,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
