@@ -50,13 +50,7 @@ function AppLayout() {
                 <TourGuiado />
                 <SedeSelector />
                 <NotificacionesPopover />
-                <div className="flex min-w-0 items-center gap-2.5">
-                  <div className="hidden max-w-36 text-right leading-tight xl:block">
-                    <div className="text-sm font-medium">{user?.nombre}</div>
-                    <div className="text-xs text-muted-foreground">{user?.rol}</div>
-                  </div>
-                  <Avatar nombre={user?.nombre ?? "C"} size={36} />
-                </div>
+                {user && <PerfilPopover user={user} />}
               </div>
             </header>
             <main className="flex-1 p-6 lg:p-8">
