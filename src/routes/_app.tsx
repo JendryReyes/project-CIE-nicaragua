@@ -2,13 +2,13 @@ import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
-import { getUser } from "@/lib/auth";
+import { getUser, type UserSesion } from "@/lib/auth";
 import { Search } from "lucide-react";
-import { Avatar } from "@/components/avatar";
 import { SedeProvider } from "@/lib/sedes";
 import { SedeSelector } from "@/components/sede-selector";
 import { TourGuiado } from "@/components/tour-guiado";
 import { NotificacionesPopover } from "@/components/notificaciones-popover";
+import { PerfilPopover } from "@/components/perfil-popover";
 
 export const Route = createFileRoute("/_app")({
   component: AppLayout,
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_app")({
 
 function AppLayout() {
   const navigate = useNavigate();
-  const [user, setUser] = useState<{ nombre: string; rol: string } | null>(null);
+  const [user, setUser] = useState<UserSesion | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -50,13 +50,7 @@ function AppLayout() {
                 <TourGuiado />
                 <SedeSelector />
                 <NotificacionesPopover />
-                <div className="flex min-w-0 items-center gap-2.5">
-                  <div className="hidden max-w-36 text-right leading-tight xl:block">
-                    <div className="text-sm font-medium">{user?.nombre}</div>
-                    <div className="text-xs text-muted-foreground">{user?.rol}</div>
-                  </div>
-                  <Avatar nombre={user?.nombre ?? "C"} size={36} />
-                </div>
+                {user && <PerfilPopover user={user} />}
               </div>
             </header>
             <main className="flex-1 p-6 lg:p-8">
