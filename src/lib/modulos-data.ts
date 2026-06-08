@@ -44,24 +44,19 @@ export type SedeGrupo = {
 // Mock alineado a las capturas (Marco Delgado, Diego Morales, Valentina, Mateo, Diego Solís, Isabella, Pedro, Camila, Emilio…)
 export const sedesFact: SedeGrupo[] = [
   {
-    id: "sd1", nombre: "SD 1", ciudad: "Santo Domingo",
+    id: "sd", nombre: "Santo Domingo", ciudad: "Managua",
     ninos: [
-      { id: "n-mr", nombre: "Mateo Rodríguez", iniciales: "MR", codigoINSS: "221-001", expediente: "IT · SD 1", inss: true, sedeId: "sd1",
+      { id: "n-mr", nombre: "Mateo Rodríguez", iniciales: "MR", codigoINSS: "221-001", expediente: "IT · SD", inss: true, sedeId: "sd",
         aprobadasMes: { ABA: 32, Logo: 8 }, q1: { ABA: 14, Logo: 4 }, ejecQ: { ABA: 18, Logo: 4 } },
-      { id: "n-et", nombre: "Emilio Torres", iniciales: "ET", codigoINSS: "221-005", expediente: "ET · SD 1", inss: true, sedeId: "sd1",
+      { id: "n-et", nombre: "Emilio Torres", iniciales: "ET", codigoINSS: "221-005", expediente: "ET · SD", inss: true, sedeId: "sd",
         aprobadasMes: { ABA: 32, Logo: 8 }, q1: { ABA: 11, Logo: 5 }, ejecQ: { ABA: 21, Logo: 3 } },
-      { id: "n-cr", nombre: "Camila Ríos", iniciales: "CR", codigoINSS: "221-008", expediente: "IT · SD 1", inss: true, sedeId: "sd1",
+      { id: "n-cr", nombre: "Camila Ríos", iniciales: "CR", codigoINSS: "221-008", expediente: "IT · SD", inss: true, sedeId: "sd",
         aprobadasMes: { ABA: 32 }, q1: { ABA: 16 }, ejecQ: { ABA: 16 } },
-      { id: "n-ds", nombre: "Diego Solís", iniciales: "DS", codigoINSS: "221-011", expediente: "PFA · SD 1", inss: true, sedeId: "sd1",
+      { id: "n-ds", nombre: "Diego Solís", iniciales: "DS", codigoINSS: "221-011", expediente: "PFA · SD", inss: true, sedeId: "sd",
         aprobadasMes: { ABA: 40 }, q1: { ABA: 20 }, ejecQ: { ABA: 20 } },
-    ],
-  },
-  {
-    id: "sd2", nombre: "SD 2", ciudad: "Santo Domingo",
-    ninos: [
-      { id: "n-iv", nombre: "Isabella Vega", iniciales: "IV", expediente: "TA · SD 2", inss: false, privado: true, sedeId: "sd2",
+      { id: "n-iv", nombre: "Isabella Vega", iniciales: "IV", expediente: "TA · SD", inss: false, privado: true, sedeId: "sd",
         aprobadasMes: { ABA: 24 }, q1: { ABA: 13 }, ejecQ: { ABA: 11 } },
-      { id: "n-pa", nombre: "Pedro Alvarado", iniciales: "PA", codigoINSS: "221-012", expediente: "TA · SD 2", inss: true, sedeId: "sd2",
+      { id: "n-pa", nombre: "Pedro Alvarado", iniciales: "PA", codigoINSS: "221-012", expediente: "TA · SD", inss: true, sedeId: "sd",
         aprobadasMes: { ABA: 12 }, q1: { ABA: 6 }, ejecQ: { ABA: 6 } },
     ],
   },
@@ -200,8 +195,7 @@ export const ejecucionAnual = [
 ];
 
 export const ejecucionSedes = [
-  { sede: "SD 1", ciudad: "Santo Domingo", prog: 165, ejec: 146, cumple: 88 },
-  { sede: "SD 2", ciudad: "Santo Domingo", prog: 92, ejec: 81, cumple: 88 },
+  { sede: "Santo Domingo", ciudad: "Managua", prog: 257, ejec: 227, cumple: 88 },
   { sede: "LC",   ciudad: "Las Colinas",   prog: 130, ejec: 124, cumple: 95 },
   { sede: "Estelí", ciudad: "Estelí",      prog: 84, ejec: 71, cumple: 85 },
   { sede: "Masaya", ciudad: "Masaya",      prog: 48, ejec: 43, cumple: 90 },
