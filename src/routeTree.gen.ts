@@ -9,9 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as MiHijoRouteImport } from './routes/mi-hijo'
 import { Route as KioskoRouteImport } from './routes/kiosko'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppReportesRouteImport } from './routes/_app.reportes'
 import { Route as AppMatriculaRouteImport } from './routes/_app.matricula'
 import { Route as AppHorarioRouteImport } from './routes/_app.horario'
 import { Route as AppFamiliasRouteImport } from './routes/_app.familias'
@@ -28,6 +30,11 @@ import { Route as AppFacturacionLoteIdRouteImport } from './routes/_app.facturac
 import { Route as AppClinicoGraficasRouteImport } from './routes/_app.clinico.graficas'
 import { Route as AppAsistenciaCarnetsRouteImport } from './routes/_app.asistencia.carnets'
 
+const MiHijoRoute = MiHijoRouteImport.update({
+  id: '/mi-hijo',
+  path: '/mi-hijo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KioskoRoute = KioskoRouteImport.update({
   id: '/kiosko',
   path: '/kiosko',
@@ -41,6 +48,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppReportesRoute = AppReportesRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppMatriculaRoute = AppMatriculaRouteImport.update({
   id: '/matricula',
@@ -121,6 +133,7 @@ const AppAsistenciaCarnetsRoute = AppAsistenciaCarnetsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/kiosko': typeof KioskoRoute
+  '/mi-hijo': typeof MiHijoRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
@@ -130,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
+  '/reportes': typeof AppReportesRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
@@ -140,6 +154,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/kiosko': typeof KioskoRoute
+  '/mi-hijo': typeof MiHijoRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
@@ -149,6 +164,7 @@ export interface FileRoutesByTo {
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
+  '/reportes': typeof AppReportesRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
@@ -161,6 +177,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/kiosko': typeof KioskoRoute
+  '/mi-hijo': typeof MiHijoRoute
   '/_app/asistencia': typeof AppAsistenciaRouteWithChildren
   '/_app/biblioteca': typeof AppBibliotecaRoute
   '/_app/dashboard': typeof AppDashboardRoute
@@ -170,6 +187,7 @@ export interface FileRoutesById {
   '/_app/familias': typeof AppFamiliasRoute
   '/_app/horario': typeof AppHorarioRoute
   '/_app/matricula': typeof AppMatriculaRoute
+  '/_app/reportes': typeof AppReportesRoute
   '/_app/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/_app/clinico/graficas': typeof AppClinicoGraficasRoute
   '/_app/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
@@ -182,6 +200,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/kiosko'
+    | '/mi-hijo'
     | '/asistencia'
     | '/biblioteca'
     | '/dashboard'
@@ -191,6 +210,7 @@ export interface FileRouteTypes {
     | '/familias'
     | '/horario'
     | '/matricula'
+    | '/reportes'
     | '/asistencia/carnets'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
@@ -201,6 +221,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/kiosko'
+    | '/mi-hijo'
     | '/asistencia'
     | '/biblioteca'
     | '/dashboard'
@@ -210,6 +231,7 @@ export interface FileRouteTypes {
     | '/familias'
     | '/horario'
     | '/matricula'
+    | '/reportes'
     | '/asistencia/carnets'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
@@ -221,6 +243,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_app'
     | '/kiosko'
+    | '/mi-hijo'
     | '/_app/asistencia'
     | '/_app/biblioteca'
     | '/_app/dashboard'
@@ -230,6 +253,7 @@ export interface FileRouteTypes {
     | '/_app/familias'
     | '/_app/horario'
     | '/_app/matricula'
+    | '/_app/reportes'
     | '/_app/asistencia/carnets'
     | '/_app/clinico/graficas'
     | '/_app/facturacion/$loteId'
@@ -242,10 +266,18 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   KioskoRoute: typeof KioskoRoute
+  MiHijoRoute: typeof MiHijoRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/mi-hijo': {
+      id: '/mi-hijo'
+      path: '/mi-hijo'
+      fullPath: '/mi-hijo'
+      preLoaderRoute: typeof MiHijoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kiosko': {
       id: '/kiosko'
       path: '/kiosko'
@@ -266,6 +298,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_app/reportes': {
+      id: '/_app/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof AppReportesRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/matricula': {
       id: '/_app/matricula'
@@ -411,6 +450,7 @@ interface AppRouteChildren {
   AppFamiliasRoute: typeof AppFamiliasRoute
   AppHorarioRoute: typeof AppHorarioRoute
   AppMatriculaRoute: typeof AppMatriculaRoute
+  AppReportesRoute: typeof AppReportesRoute
   AppClinicoGraficasRoute: typeof AppClinicoGraficasRoute
   AppNinosIdRoute: typeof AppNinosIdRoute
   AppNinosIndexRoute: typeof AppNinosIndexRoute
@@ -426,6 +466,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppFamiliasRoute: AppFamiliasRoute,
   AppHorarioRoute: AppHorarioRoute,
   AppMatriculaRoute: AppMatriculaRoute,
+  AppReportesRoute: AppReportesRoute,
   AppClinicoGraficasRoute: AppClinicoGraficasRoute,
   AppNinosIdRoute: AppNinosIdRoute,
   AppNinosIndexRoute: AppNinosIndexRoute,
@@ -437,6 +478,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   KioskoRoute: KioskoRoute,
+  MiHijoRoute: MiHijoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
