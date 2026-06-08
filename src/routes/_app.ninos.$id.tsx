@@ -211,10 +211,11 @@ function Resumen({ n }: { n: ReturnType<typeof ninoById> }) {
         <Card title="Próximas sesiones">
           <ul className="space-y-3">
             {sesionesHoy.filter((s) => s.ninoId === n.id).slice(0, 3).map((s) => (
-              <li key={s.id} className="flex items-center justify-between text-sm">
-                <div>
+              <li key={s.id} className="flex items-center justify-between gap-3 text-sm">
+                <div className="min-w-0">
                   <div className="font-medium">Hoy · {s.hora}</div>
-                  <div className="text-xs text-muted-foreground">{s.sala}</div>
+                  <div className="text-xs text-muted-foreground truncate">{s.terapeuta}</div>
+                  <div className="text-xs text-muted-foreground">{s.sala} · {s.duracion} min</div>
                 </div>
                 <AreaBadge area={s.area} />
               </li>
