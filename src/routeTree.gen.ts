@@ -11,10 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppMatriculaRouteImport } from './routes/_app.matricula'
 import { Route as AppHorarioRouteImport } from './routes/_app.horario'
 import { Route as AppFamiliasRouteImport } from './routes/_app.familias'
 import { Route as AppFacturacionRouteImport } from './routes/_app.facturacion'
 import { Route as AppEquipoRouteImport } from './routes/_app.equipo'
+import { Route as AppEjecucionRouteImport } from './routes/_app.ejecucion'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
@@ -31,6 +33,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppMatriculaRoute = AppMatriculaRouteImport.update({
+  id: '/matricula',
+  path: '/matricula',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppHorarioRoute = AppHorarioRouteImport.update({
   id: '/horario',
@@ -50,6 +57,11 @@ const AppFacturacionRoute = AppFacturacionRouteImport.update({
 const AppEquipoRoute = AppEquipoRouteImport.update({
   id: '/equipo',
   path: '/equipo',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEjecucionRoute = AppEjecucionRouteImport.update({
+  id: '/ejecucion',
+  path: '/ejecucion',
   getParentRoute: () => AppRoute,
 } as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
@@ -93,10 +105,12 @@ export interface FileRoutesByFullPath {
   '/asistencia': typeof AppAsistenciaRoute
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
+  '/ejecucion': typeof AppEjecucionRoute
   '/equipo': typeof AppEquipoRoute
   '/facturacion': typeof AppFacturacionRouteWithChildren
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
+  '/matricula': typeof AppMatriculaRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
   '/ninos/$id': typeof AppNinosIdRoute
@@ -107,10 +121,12 @@ export interface FileRoutesByTo {
   '/asistencia': typeof AppAsistenciaRoute
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
+  '/ejecucion': typeof AppEjecucionRoute
   '/equipo': typeof AppEquipoRoute
   '/facturacion': typeof AppFacturacionRouteWithChildren
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
+  '/matricula': typeof AppMatriculaRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
   '/ninos/$id': typeof AppNinosIdRoute
@@ -123,10 +139,12 @@ export interface FileRoutesById {
   '/_app/asistencia': typeof AppAsistenciaRoute
   '/_app/biblioteca': typeof AppBibliotecaRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/ejecucion': typeof AppEjecucionRoute
   '/_app/equipo': typeof AppEquipoRoute
   '/_app/facturacion': typeof AppFacturacionRouteWithChildren
   '/_app/familias': typeof AppFamiliasRoute
   '/_app/horario': typeof AppHorarioRoute
+  '/_app/matricula': typeof AppMatriculaRoute
   '/_app/clinico/graficas': typeof AppClinicoGraficasRoute
   '/_app/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
   '/_app/ninos/$id': typeof AppNinosIdRoute
@@ -139,10 +157,12 @@ export interface FileRouteTypes {
     | '/asistencia'
     | '/biblioteca'
     | '/dashboard'
+    | '/ejecucion'
     | '/equipo'
     | '/facturacion'
     | '/familias'
     | '/horario'
+    | '/matricula'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
     | '/ninos/$id'
@@ -153,10 +173,12 @@ export interface FileRouteTypes {
     | '/asistencia'
     | '/biblioteca'
     | '/dashboard'
+    | '/ejecucion'
     | '/equipo'
     | '/facturacion'
     | '/familias'
     | '/horario'
+    | '/matricula'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
     | '/ninos/$id'
@@ -168,10 +190,12 @@ export interface FileRouteTypes {
     | '/_app/asistencia'
     | '/_app/biblioteca'
     | '/_app/dashboard'
+    | '/_app/ejecucion'
     | '/_app/equipo'
     | '/_app/facturacion'
     | '/_app/familias'
     | '/_app/horario'
+    | '/_app/matricula'
     | '/_app/clinico/graficas'
     | '/_app/facturacion/$loteId'
     | '/_app/ninos/$id'
@@ -199,6 +223,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/matricula': {
+      id: '/_app/matricula'
+      path: '/matricula'
+      fullPath: '/matricula'
+      preLoaderRoute: typeof AppMatriculaRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/horario': {
       id: '/_app/horario'
       path: '/horario'
@@ -225,6 +256,13 @@ declare module '@tanstack/react-router' {
       path: '/equipo'
       fullPath: '/equipo'
       preLoaderRoute: typeof AppEquipoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/ejecucion': {
+      id: '/_app/ejecucion'
+      path: '/ejecucion'
+      fullPath: '/ejecucion'
+      preLoaderRoute: typeof AppEjecucionRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/dashboard': {
@@ -295,10 +333,12 @@ interface AppRouteChildren {
   AppAsistenciaRoute: typeof AppAsistenciaRoute
   AppBibliotecaRoute: typeof AppBibliotecaRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppEjecucionRoute: typeof AppEjecucionRoute
   AppEquipoRoute: typeof AppEquipoRoute
   AppFacturacionRoute: typeof AppFacturacionRouteWithChildren
   AppFamiliasRoute: typeof AppFamiliasRoute
   AppHorarioRoute: typeof AppHorarioRoute
+  AppMatriculaRoute: typeof AppMatriculaRoute
   AppClinicoGraficasRoute: typeof AppClinicoGraficasRoute
   AppNinosIdRoute: typeof AppNinosIdRoute
   AppNinosIndexRoute: typeof AppNinosIndexRoute
@@ -308,10 +348,12 @@ const AppRouteChildren: AppRouteChildren = {
   AppAsistenciaRoute: AppAsistenciaRoute,
   AppBibliotecaRoute: AppBibliotecaRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppEjecucionRoute: AppEjecucionRoute,
   AppEquipoRoute: AppEquipoRoute,
   AppFacturacionRoute: AppFacturacionRouteWithChildren,
   AppFamiliasRoute: AppFamiliasRoute,
   AppHorarioRoute: AppHorarioRoute,
+  AppMatriculaRoute: AppMatriculaRoute,
   AppClinicoGraficasRoute: AppClinicoGraficasRoute,
   AppNinosIdRoute: AppNinosIdRoute,
   AppNinosIndexRoute: AppNinosIndexRoute,
