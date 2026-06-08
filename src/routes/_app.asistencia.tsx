@@ -293,6 +293,77 @@ function MiniStat({ icon, label, value }: { icon: React.ReactNode; label: string
   );
 }
 
+function HistorialCheckins({ checkins }: { checkins: Record<string, CheckIn> }) {
+  const filas = useMemo(() => {
+    return sesionesHoy
+      .filter((s) => checkins[s.id])
+      .map((s) => {
+        const c = checkins[s.id];
+        const n = ninoById(s.ninoId)!;
+        return { sesionId: s.id, nino: n, sesion: s, ...c };
+      })
+      .sort((a, b) => b.hora.localeCompare(a.hora));
+  }, [checkins]);
+
+  const totalQR = filas.filter((f) => f.via === "qr").length;
+  const totalManual = filas.filter((f) => f.via === "manual").length;
+
+  return (
+    <div className="rounded-2xl border border-border/70 bg-card overflow-hidden">
+      <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-border/60 flex-wrap">
+        <div>
+          <h2 className="font-display text-lg flex items-center gap-2">
+            <Clock className="h-4 w-4 text-muted-foreground" /> Historial de check-ins de hoy
+          </h2>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            Registro cronológico de cada niño que llegó · {filas.length} {filas.length === 1 ? "ingreso" : "ingresos"}
+          </p>
+        </div>
+        <div className="flex gap-2 text-xs">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground/90 text-background px-3 py-1 font-medium">
+            <QrCode className="h-3 w-3" /> QR: <b className="tabular">{totalQR}</b>
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-muted-foreground">
+            <User className="h-3 w-3" /> Manual: <b className="tabular text-foreground">{totalManual}</b>
+          </span>
+        </div>
+      </div>
+
+      {filas.length === 0 ? (
+        <div className="px-5 py-10 text-center text-sm text-muted-foreground">
+          Aún no hay check-ins registrados. Abrí el kiosko QR o marcá manualmente la asistencia.
+        </div>
+      ) : (
+        <ul className="divide-y divide-border/60">
+          {filas.map((f) => (
+            <li key={f.sesionId} className="flex items-center gap-4 px-5 py-3">
+              <div className="font-display text-base tabular w-14 text-foreground">{f.hora}</div>
+              <Avatar nombre={f.nino.nombre} />
+              <div className="flex-1 min-w-0">
+                <div className="font-medium truncate text-sm">{f.nino.nombre}</div>
+                <div className="text-xs text-muted-foreground truncate">
+                  Sesión {f.sesion.hora} · {f.sesion.sala} · {f.sesion.terapeuta}
+                </div>
+              </div>
+              <AreaBadge area={f.sesion.area} />
+              {f.via === "qr" ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-foreground text-background text-[10px] px-2 py-0.5 font-medium">
+                  <QrCode className="h-3 w-3" /> QR
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 rounded-full border border-border text-[10px] px-2 py-0.5 font-medium text-muted-foreground">
+                  <User className="h-3 w-3" /> Manual
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+
 type Evento = { id: string; hora: string; mensaje: string; ok: boolean; nombre?: string };
 
 function KioskoQR({
