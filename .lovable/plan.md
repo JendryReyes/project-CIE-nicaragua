@@ -1,75 +1,55 @@
 ## Objetivo
 
-Mover el diagnóstico clínico al lugar donde realmente pertenece: **dentro del expediente de cada niño**, como una pestaña más. Y limpiar el sidebar quitando el ítem "Diagnóstico" de Administración (hoy duplica Gráficas ABA).
+Convertir el módulo de Matrícula en una vista que permita **ver detalle real** de cada niño matriculado, no solo conteos. Hoy las tarjetas de "Movimientos recientes" tienen nombre y motivo; las pestañas **Ingresos / Egresos / Suspensiones** están vacías. Vamos a llenarlas y agregar un panel de detalle.
 
 ## Cambios
 
-### 1. Nueva pestaña "Diagnóstico" en el expediente del niño
-Archivo: `src/routes/_app.ninos.$id.tsx`
+### 1. Enriquecer el dataset (`src/lib/modulos-data.ts`)
+Ampliar `MovimientoNino` con datos específicos que faltan:
 
-Se agrega una pestaña entre **Áreas terapéuticas** y **Sesiones**, con el siguiente contenido:
+- `edad`, `fechaNacimiento`, `sede`
+- `tutor` (nombre + parentesco), `telefono`, `correo`, `direccion`
+- `cobertura` ("INSS" | "Privado"), `areas` (conducta, logopedia, fisio, ocupacional)
+- `terapeutaAsignado`
+- `documentosOk` / `documentosFaltantes[]` (vinculado al checklist INSS)
+- En suspensiones: `motivoSuspension`, `fechaReinicio`, `responsable`
+- En egresos: `destino`, `informeEgreso`
 
-**a) Diagnóstico vigente** (tarjeta principal)
-- Diagnóstico principal con código CIE-10 (ej. `F84.0 — Trastorno del espectro autista`)
-- Nivel de severidad (TEA nivel 1/2/3 cuando aplique)
-- Fecha del diagnóstico
-- Profesional emisor (nombre, especialidad, número de colegiatura)
-- Centro / institución emisora
-- Estado: `Confirmado` / `Pre-diagnóstico` / `En evaluación`
+Aumentar la lista a ~10–12 registros para que las tres pestañas tengan contenido real.
 
-**b) Diagnósticos secundarios / comorbilidades**
-- Lista de diagnósticos adicionales con su CIE-10 (TDAH, ansiedad, retraso del lenguaje, etc.)
-- Botón para agregar uno nuevo
+### 2. Pestañas con tablas detalladas (`src/routes/_app.matricula.tsx`)
 
-**c) Proceso de evaluación**
-- Tarjeta con estado actual del proceso: evaluaciones programadas, completadas, pendientes
-- Lista de instrumentos aplicados (ADOS-2, ADI-R, CARS, M-CHAT-R, etc.) con fecha y resultado breve
-- Botón "Registrar evaluación"
+Cada pestaña ya no muestra el mismo resumen:
 
-**d) Informes diagnósticos adjuntos**
-- Lista de PDFs con fecha, autor y un botón de descarga/vista previa
-- Botón "Subir informe diagnóstico" (PDF, JPG, PNG)
-- Cuando se sube un informe nuevo, se marca el ítem **"Diagnóstico médico o pre-diagnóstico"** del checklist INSS como cumplido (esto desbloquea el banner naranja que aparece arriba del expediente)
+- **Resumen general** → queda como está (KPIs + gráfico + "Movimientos recientes" actualizado).
+- **Ingresos** → tabla con: Niño · Edad · Sede · Tutor · Teléfono · Áreas · Fecha ingreso · Cobertura · Estado documentos.
+- **Egresos** → tabla con: Niño · Sede · Fecha egreso · Motivo · Destino · Informe.
+- **Suspensiones** → tarjetas en alerta con: Niño · Sede · Motivo · Fecha suspensión · Fecha estimada de reinicio · Responsable del seguimiento. Botón "Reactivar" y "Ver expediente".
 
-**e) Historial de actualizaciones**
-- Timeline mostrando: cambios de diagnóstico, reevaluaciones, actualizaciones de severidad, autor y fecha de cada cambio
-- Útil para auditoría y para el seguimiento clínico longitudinal
+Todas las tablas con buscador, filtro por sede y orden por fecha. Botón "Exportar CSV" (mock).
 
-### 2. Limpieza del sidebar
-Archivo: `src/components/app-sidebar.tsx` (o donde esté definida la navegación)
+### 3. Panel lateral de detalle (drawer)
+Al hacer clic en cualquier fila o tarjeta se abre un **drawer derecho** con la ficha completa del niño matriculado:
 
-- Eliminar el ítem **"Diagnóstico"** que hoy está en la sección **Administración** y apunta a `/clinico/graficas`
-- **Gráficas ABA** queda como única entrada analítica del sidebar (sin cambios)
-- El acceso al diagnóstico de cada niño ahora es contextual: se entra desde el expediente
+- Cabecera: avatar, nombre, expediente, edad, sede, pill de tipo (ingreso/egreso/suspensión).
+- Sección **Datos personales**: fecha de nacimiento, dirección.
+- Sección **Familia**: tutor, parentesco, teléfono, correo, botón "Mensaje".
+- Sección **Plan terapéutico**: áreas asignadas (badges), terapeuta principal, cobertura INSS / privado.
+- Sección **Documentación**: lista de documentos cumplidos / pendientes (mini checklist INSS).
+- Sección **Historial del movimiento**: fecha, motivo, responsable.
+- Footer del drawer: enlaces "Abrir expediente completo" (a `/ninos/$id`) y "Editar matrícula".
 
-### 3. Integración con el checklist INSS
-- El banner naranja "Expediente bloqueado por checklist INSS" enlaza al ítem "Diagnóstico médico o pre-diagnóstico"
-- Al hacer clic en ese ítem desde el banner, lleva directamente a la nueva pestaña Diagnóstico
-- Al subir un informe diagnóstico válido, el ítem se marca como cumplido automáticamente y, si los demás requisitos están OK, se levanta el bloqueo
+### 4. KPI "Activos" clicable
+Hacer que la tarjeta **Activos (27)** abra una vista/tabla con los 27 niños actualmente matriculados (no solo los movimientos del mes). Reutilizar el mismo drawer de detalle.
 
 ## Detalles técnicos
 
-- Tipos nuevos en el mock de datos del niño:
-  ```ts
-  type Diagnostico = {
-    cie10: string;
-    nombre: string;
-    severidad?: string;
-    fecha: string;
-    profesional: { nombre: string; especialidad: string; colegiatura: string };
-    centro: string;
-    estado: "confirmado" | "pre-diagnostico" | "en-evaluacion";
-    esPrincipal: boolean;
-  };
-  type Evaluacion = { instrumento: string; fecha: string; resultado: string; profesional: string };
-  type InformeDiagnostico = { id: string; nombre: string; fecha: string; autor: string; url: string };
-  type CambioDiagnostico = { fecha: string; tipo: string; descripcion: string; autor: string };
-  ```
-- Todo se mantiene en estado local con datos mock (mismo patrón que el resto del expediente)
-- Componentes shadcn: `Tabs`, `Card`, `Badge`, `Button`, `Dialog` (para subir informe / agregar diagnóstico), `Table` para evaluaciones
-- Sin cambios de backend ni de rutas — la pestaña vive dentro de la ruta existente `/ninos/$id`
+- Todo se mantiene con datos mock locales (mismo patrón actual).
+- Drawer reutiliza estilo de `Dialog` lateral con `fixed inset-y-0 right-0 w-[480px]`. Sin librería nueva.
+- El enlace "Abrir expediente completo" usa `Link to="/ninos/$id"` si el expediente existe; si es mock sin contraparte, queda como botón informativo.
+- No se toca la lógica de Asistencia / QR / Diagnóstico.
 
 ## Lo que NO se toca
-- Gráficas ABA en sidebar y su ruta `/clinico/graficas`
-- Resto de pestañas del expediente
-- Lógica de QR, asistencia, constancias médicas
+- Diseño de los KPIs ni gráfico de barras.
+- Lista de niños en `/ninos` (este módulo se enfoca en altas/bajas/suspensiones, no reemplaza la gestión clínica).
+- Backend: sigue siendo mock; cuando se conecte Lovable Cloud se mapea a tablas reales.
