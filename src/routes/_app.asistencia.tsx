@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { sesionesHoy, ninoById, ninos, iniciales } from "@/lib/demo-data";
+import { sesionesHoy, ninoById, ninos, iniciales, type Nino, type Sesion } from "@/lib/demo-data";
 import { AreaBadge } from "@/components/area-badge";
 import { Avatar } from "@/components/avatar";
 import {
@@ -16,6 +16,11 @@ import {
   Smartphone,
   Zap,
   Printer,
+  Clock,
+  MapPin,
+  User,
+  Phone,
+  ExternalLink,
 } from "lucide-react";
 import {
   Dialog,
