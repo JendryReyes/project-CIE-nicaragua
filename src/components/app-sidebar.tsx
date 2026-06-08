@@ -9,6 +9,7 @@ import {
   BookOpen,
   Shield,
   LogOut,
+  LineChart,
 } from "lucide-react";
 import cieLogo from "@/assets/cie-logo.png.asset.json";
 import {
@@ -35,6 +36,7 @@ const operativo = [
   { title: "Horario", url: "/horario", icon: CalendarDays },
   { title: "Asistencia", url: "/asistencia", icon: ClipboardCheck },
   { title: "Biblioteca clínica", url: "/biblioteca", icon: BookOpen },
+  { title: "Gráficas ABA", url: "/clinico/graficas", icon: LineChart },
 ];
 
 const gestion = [
