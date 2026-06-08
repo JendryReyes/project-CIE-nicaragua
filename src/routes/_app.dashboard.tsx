@@ -186,17 +186,22 @@ function CartasPorVencerCard() {
         {vencidas > 0 && porVencer > 0 && " · "}
         {porVencer > 0 && <span>{porVencer} por vencer en 30 días</span>}
       </p>
-      <ul className="space-y-1.5">
+      <ul className="space-y-0.5">
         {cartas.map((c) => (
-          <li key={c.id} className="flex items-center justify-between text-xs gap-2 py-1.5 border-t border-border/40 first:border-t-0">
-            <div className="min-w-0 flex-1">
-              <div className="font-medium truncate">{c.ninoNombre}</div>
-              <div className="text-[10px] text-muted-foreground truncate">{c.area} · {c.numero}</div>
-            </div>
-            <div className={`shrink-0 inline-flex items-center gap-1 text-[10px] font-medium ${c.diasRestantes < 0 ? "text-[oklch(0.5_0.15_25)]" : "text-[oklch(0.5_0.13_75)]"}`}>
-              {c.diasRestantes < 0 ? <XCircle className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
-              {c.diasRestantes < 0 ? `Hace ${-c.diasRestantes}d` : `${c.diasRestantes}d`}
-            </div>
+          <li key={c.id} className="border-t border-border/40 first:border-t-0">
+            <Link
+              to="/facturacion/cartas"
+              className="flex items-center justify-between text-xs gap-2 py-1.5 px-2 -mx-2 rounded-md hover:bg-card transition-colors"
+            >
+              <div className="min-w-0 flex-1">
+                <div className="font-medium truncate">{c.ninoNombre}</div>
+                <div className="text-[10px] text-muted-foreground truncate">{c.area} · {c.numero}</div>
+              </div>
+              <div className={`shrink-0 inline-flex items-center gap-1 text-[10px] font-medium ${c.diasRestantes < 0 ? "text-[oklch(0.5_0.15_25)]" : "text-[oklch(0.5_0.13_75)]"}`}>
+                {c.diasRestantes < 0 ? <XCircle className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
+                {c.diasRestantes < 0 ? `Hace ${-c.diasRestantes}d` : `${c.diasRestantes}d`}
+              </div>
+            </Link>
           </li>
         ))}
       </ul>
