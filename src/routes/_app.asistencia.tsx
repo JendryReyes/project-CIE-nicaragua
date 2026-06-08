@@ -60,6 +60,7 @@ function Asistencia() {
     return init;
   });
   const [kioskoAbierto, setKioskoAbierto] = useState(false);
+  const [sel, setSel] = useState<{ nino: Nino; sesion: Sesion } | null>(null);
 
   const set = (id: string, e: Estado, via?: "qr" | "manual") => {
     setEstados((s) => ({ ...s, [id]: e }));
