@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as KioskoRouteImport } from './routes/kiosko'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppMatriculaRouteImport } from './routes/_app.matricula'
@@ -22,9 +23,16 @@ import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
 import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
 import { Route as AppNinosIdRouteImport } from './routes/_app.ninos.$id'
+import { Route as AppFacturacionCierreRouteImport } from './routes/_app.facturacion.cierre'
 import { Route as AppFacturacionLoteIdRouteImport } from './routes/_app.facturacion.$loteId'
 import { Route as AppClinicoGraficasRouteImport } from './routes/_app.clinico.graficas'
+import { Route as AppAsistenciaCarnetsRouteImport } from './routes/_app.asistencia.carnets'
 
+const KioskoRoute = KioskoRouteImport.update({
+  id: '/kiosko',
+  path: '/kiosko',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppRoute = AppRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
@@ -89,6 +97,11 @@ const AppNinosIdRoute = AppNinosIdRouteImport.update({
   path: '/ninos/$id',
   getParentRoute: () => AppRoute,
 } as any)
+const AppFacturacionCierreRoute = AppFacturacionCierreRouteImport.update({
+  id: '/cierre',
+  path: '/cierre',
+  getParentRoute: () => AppFacturacionRoute,
+} as any)
 const AppFacturacionLoteIdRoute = AppFacturacionLoteIdRouteImport.update({
   id: '/$loteId',
   path: '/$loteId',
@@ -99,10 +112,16 @@ const AppClinicoGraficasRoute = AppClinicoGraficasRouteImport.update({
   path: '/clinico/graficas',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAsistenciaCarnetsRoute = AppAsistenciaCarnetsRouteImport.update({
+  id: '/carnets',
+  path: '/carnets',
+  getParentRoute: () => AppAsistenciaRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/asistencia': typeof AppAsistenciaRoute
+  '/kiosko': typeof KioskoRoute
+  '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
   '/ejecucion': typeof AppEjecucionRoute
@@ -111,14 +130,17 @@ export interface FileRoutesByFullPath {
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
+  '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
+  '/facturacion/cierre': typeof AppFacturacionCierreRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/ninos/': typeof AppNinosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/asistencia': typeof AppAsistenciaRoute
+  '/kiosko': typeof KioskoRoute
+  '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
   '/ejecucion': typeof AppEjecucionRoute
@@ -127,8 +149,10 @@ export interface FileRoutesByTo {
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
+  '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
+  '/facturacion/cierre': typeof AppFacturacionCierreRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/ninos': typeof AppNinosIndexRoute
 }
@@ -136,7 +160,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
-  '/_app/asistencia': typeof AppAsistenciaRoute
+  '/kiosko': typeof KioskoRoute
+  '/_app/asistencia': typeof AppAsistenciaRouteWithChildren
   '/_app/biblioteca': typeof AppBibliotecaRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/ejecucion': typeof AppEjecucionRoute
@@ -145,8 +170,10 @@ export interface FileRoutesById {
   '/_app/familias': typeof AppFamiliasRoute
   '/_app/horario': typeof AppHorarioRoute
   '/_app/matricula': typeof AppMatriculaRoute
+  '/_app/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/_app/clinico/graficas': typeof AppClinicoGraficasRoute
   '/_app/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
+  '/_app/facturacion/cierre': typeof AppFacturacionCierreRoute
   '/_app/ninos/$id': typeof AppNinosIdRoute
   '/_app/ninos/': typeof AppNinosIndexRoute
 }
@@ -154,6 +181,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/kiosko'
     | '/asistencia'
     | '/biblioteca'
     | '/dashboard'
@@ -163,13 +191,16 @@ export interface FileRouteTypes {
     | '/familias'
     | '/horario'
     | '/matricula'
+    | '/asistencia/carnets'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
+    | '/facturacion/cierre'
     | '/ninos/$id'
     | '/ninos/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/kiosko'
     | '/asistencia'
     | '/biblioteca'
     | '/dashboard'
@@ -179,14 +210,17 @@ export interface FileRouteTypes {
     | '/familias'
     | '/horario'
     | '/matricula'
+    | '/asistencia/carnets'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
+    | '/facturacion/cierre'
     | '/ninos/$id'
     | '/ninos'
   id:
     | '__root__'
     | '/'
     | '/_app'
+    | '/kiosko'
     | '/_app/asistencia'
     | '/_app/biblioteca'
     | '/_app/dashboard'
@@ -196,8 +230,10 @@ export interface FileRouteTypes {
     | '/_app/familias'
     | '/_app/horario'
     | '/_app/matricula'
+    | '/_app/asistencia/carnets'
     | '/_app/clinico/graficas'
     | '/_app/facturacion/$loteId'
+    | '/_app/facturacion/cierre'
     | '/_app/ninos/$id'
     | '/_app/ninos/'
   fileRoutesById: FileRoutesById
@@ -205,10 +241,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  KioskoRoute: typeof KioskoRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/kiosko': {
+      id: '/kiosko'
+      path: '/kiosko'
+      fullPath: '/kiosko'
+      preLoaderRoute: typeof KioskoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_app': {
       id: '/_app'
       path: ''
@@ -300,6 +344,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNinosIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/facturacion/cierre': {
+      id: '/_app/facturacion/cierre'
+      path: '/cierre'
+      fullPath: '/facturacion/cierre'
+      preLoaderRoute: typeof AppFacturacionCierreRouteImport
+      parentRoute: typeof AppFacturacionRoute
+    }
     '/_app/facturacion/$loteId': {
       id: '/_app/facturacion/$loteId'
       path: '/$loteId'
@@ -314,15 +365,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClinicoGraficasRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/asistencia/carnets': {
+      id: '/_app/asistencia/carnets'
+      path: '/carnets'
+      fullPath: '/asistencia/carnets'
+      preLoaderRoute: typeof AppAsistenciaCarnetsRouteImport
+      parentRoute: typeof AppAsistenciaRoute
+    }
   }
 }
 
+interface AppAsistenciaRouteChildren {
+  AppAsistenciaCarnetsRoute: typeof AppAsistenciaCarnetsRoute
+}
+
+const AppAsistenciaRouteChildren: AppAsistenciaRouteChildren = {
+  AppAsistenciaCarnetsRoute: AppAsistenciaCarnetsRoute,
+}
+
+const AppAsistenciaRouteWithChildren = AppAsistenciaRoute._addFileChildren(
+  AppAsistenciaRouteChildren,
+)
+
 interface AppFacturacionRouteChildren {
   AppFacturacionLoteIdRoute: typeof AppFacturacionLoteIdRoute
+  AppFacturacionCierreRoute: typeof AppFacturacionCierreRoute
 }
 
 const AppFacturacionRouteChildren: AppFacturacionRouteChildren = {
   AppFacturacionLoteIdRoute: AppFacturacionLoteIdRoute,
+  AppFacturacionCierreRoute: AppFacturacionCierreRoute,
 }
 
 const AppFacturacionRouteWithChildren = AppFacturacionRoute._addFileChildren(
@@ -330,7 +402,7 @@ const AppFacturacionRouteWithChildren = AppFacturacionRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
-  AppAsistenciaRoute: typeof AppAsistenciaRoute
+  AppAsistenciaRoute: typeof AppAsistenciaRouteWithChildren
   AppBibliotecaRoute: typeof AppBibliotecaRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppEjecucionRoute: typeof AppEjecucionRoute
@@ -345,7 +417,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppAsistenciaRoute: AppAsistenciaRoute,
+  AppAsistenciaRoute: AppAsistenciaRouteWithChildren,
   AppBibliotecaRoute: AppBibliotecaRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppEjecucionRoute: AppEjecucionRoute,
@@ -364,6 +436,7 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  KioskoRoute: KioskoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
