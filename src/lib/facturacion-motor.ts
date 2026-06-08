@@ -2,6 +2,7 @@
 // Convierte sesiones registradas en resúmenes de facturación quincenal.
 
 import { sedesFact, calcularNino, tarifa, type NinoFact, type AreaFact } from "./modulos-data";
+import { suspensionDelPeriodo, type Suspension } from "./suspensiones";
 
 export type SesionRegistrada = {
   id: string;
