@@ -39,7 +39,6 @@ const principal = [
   { title: "Ejecución", url: "/ejecucion", icon: Activity },
   { title: "Gestión Clínica", url: "/ninos", icon: Users },
   { title: "Asistencia", url: "/asistencia", icon: ClipboardCheck },
-  { title: "Carnets QR", url: "/asistencia/carnets", icon: QrCode },
   { title: "Biblioteca", url: "/biblioteca", icon: BookOpen },
   { title: "Gráficas ABA", url: "/clinico/graficas", icon: LineChart },
 ];
