@@ -10,6 +10,9 @@ import {
   Shield,
   LogOut,
   LineChart,
+  UserPlus,
+  Activity,
+  Stethoscope,
 } from "lucide-react";
 import cieLogo from "@/assets/cie-logo.png.asset.json";
 import {
@@ -27,19 +30,22 @@ import {
 import { logout } from "@/lib/auth";
 import { useNavigate } from "@tanstack/react-router";
 
-const operativo = [
+const principal = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-  { title: "Niños y niñas", url: "/ninos", icon: Users },
-  { title: "Horario", url: "/horario", icon: CalendarDays },
+  { title: "Matrícula", url: "/matricula", icon: UserPlus },
+  { title: "Planificación", url: "/horario", icon: CalendarDays },
+  { title: "Ejecución", url: "/ejecucion", icon: Activity },
+  { title: "Gestión Clínica", url: "/ninos", icon: Users },
   { title: "Asistencia", url: "/asistencia", icon: ClipboardCheck },
-  { title: "Biblioteca clínica", url: "/biblioteca", icon: BookOpen },
+  { title: "Biblioteca", url: "/biblioteca", icon: BookOpen },
   { title: "Gráficas ABA", url: "/clinico/graficas", icon: LineChart },
 ];
 
-const gestion = [
-  { title: "Facturación INSS", url: "/facturacion", icon: Receipt },
+const administracion = [
+  { title: "Facturación", url: "/facturacion", icon: Receipt },
   { title: "Familias", url: "/familias", icon: Heart },
   { title: "Equipo y permisos", url: "/equipo", icon: Shield },
+  { title: "Diagnóstico", url: "/clinico/graficas", icon: Stethoscope },
 ];
 
 export function AppSidebar() {
@@ -52,7 +58,7 @@ export function AppSidebar() {
     navigate({ to: "/" });
   };
 
-  const renderSection = (label: string, items: typeof operativo) => (
+  const renderSection = (label: string, items: typeof principal) => (
     <SidebarGroup>
       <SidebarGroupLabel className="text-[0.65rem] uppercase tracking-[0.12em] text-muted-foreground/80">
         {label}
@@ -89,8 +95,8 @@ export function AppSidebar() {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        {renderSection("Operación", operativo)}
-        {renderSection("Gestión", gestion)}
+        {renderSection("Principal", principal)}
+        {renderSection("Administración", administracion)}
       </SidebarContent>
       <SidebarFooter className="border-t border-sidebar-border/60 p-3">
         <button
