@@ -58,22 +58,23 @@ export type NinoPlan = {
   area: "ABA" | "Logopedia" | "Fisio" | "T. Ocupacional";
   inssAprobadas: number;
   programadas: number;
+  asistencia: number; // % asistencia del niño
   motivoGap?: MotivoNoProgramada;
 };
 
 export const ninosPlan: NinoPlan[] = [
-  { nino: "Mateo Gutiérrez",   iniciales: "MG", sede: "Santo Domingo", supervisor: "Lic. María Castellón", area: "ABA",        inssAprobadas: 32, programadas: 32 },
-  { nino: "Valentina Rocha",   iniciales: "VR", sede: "Santo Domingo", supervisor: "Lic. Sofía Hernández", area: "Logopedia",  inssAprobadas: 16, programadas:  8, motivoGap: "Sin terapeuta disponible" },
-  { nino: "Liam Sandoval",     iniciales: "LS", sede: "Las Colinas",   supervisor: "Lic. Roberto Mendoza", area: "Fisio",      inssAprobadas: 24, programadas: 24 },
-  { nino: "Emma Padilla",      iniciales: "EP", sede: "Santo Domingo", supervisor: "Dra. Ana Lucía Pérez", area: "ABA",        inssAprobadas: 12, programadas:  4, motivoGap: "Checklist incompleto" },
-  { nino: "Noah Centeno",      iniciales: "NC", sede: "Santo Domingo", supervisor: "Lic. Jeyling Ortega",  area: "ABA",        inssAprobadas: 40, programadas: 40 },
-  { nino: "Sofía Aguilar",     iniciales: "SA", sede: "Estelí",        supervisor: "Lic. Sofía Hernández", area: "Logopedia",  inssAprobadas: 16, programadas:  6, motivoGap: "Familia sin transporte" },
-  { nino: "Diego Espinoza",    iniciales: "DE", sede: "Santo Domingo", supervisor: "Lic. Roberto Mendoza", area: "ABA",        inssAprobadas: 16, programadas:  0, motivoGap: "Suspensión activa" },
-  { nino: "Isabella Briones",  iniciales: "IB", sede: "Las Colinas",   supervisor: "Lic. Carlos Bermúdez", area: "Fisio",      inssAprobadas: 24, programadas: 22 },
-  { nino: "Samuel Membreño",   iniciales: "SM", sede: "Santo Domingo", supervisor: "Lic. María Castellón", area: "ABA",        inssAprobadas: 32, programadas: 28, motivoGap: "Sala ocupada" },
-  { nino: "Camila Zeledón",    iniciales: "CZ", sede: "Masaya",        supervisor: "Lic. Jeyling Ortega",  area: "Fisio",      inssAprobadas: 12, programadas:  8, motivoGap: "Sin carta INSS vigente" },
-  { nino: "Lucas Obregón",     iniciales: "LO", sede: "Santo Domingo", supervisor: "Dra. Ana Lucía Pérez", area: "ABA",        inssAprobadas: 16, programadas: 16 },
-  { nino: "Renata Cárcamo",    iniciales: "RC", sede: "Santo Domingo", supervisor: "Lic. Jeyling Ortega",  area: "ABA",        inssAprobadas: 40, programadas: 36, motivoGap: "Sin terapeuta disponible" },
+  { nino: "Mateo Gutiérrez",   iniciales: "MG", sede: "Santo Domingo", supervisor: "Lic. María Castellón", area: "ABA",        inssAprobadas: 32, programadas: 32, asistencia: 94 },
+  { nino: "Valentina Rocha",   iniciales: "VR", sede: "Santo Domingo", supervisor: "Lic. Sofía Hernández", area: "Logopedia",  inssAprobadas: 16, programadas:  8, asistencia: 72, motivoGap: "Sin terapeuta disponible" },
+  { nino: "Liam Sandoval",     iniciales: "LS", sede: "Las Colinas",   supervisor: "Lic. Roberto Mendoza", area: "Fisio",      inssAprobadas: 24, programadas: 24, asistencia: 91 },
+  { nino: "Emma Padilla",      iniciales: "EP", sede: "Santo Domingo", supervisor: "Dra. Ana Lucía Pérez", area: "ABA",        inssAprobadas: 12, programadas:  4, asistencia: 60, motivoGap: "Checklist incompleto" },
+  { nino: "Noah Centeno",      iniciales: "NC", sede: "Santo Domingo", supervisor: "Lic. Jeyling Ortega",  area: "ABA",        inssAprobadas: 40, programadas: 40, asistencia: 96 },
+  { nino: "Sofía Aguilar",     iniciales: "SA", sede: "Estelí",        supervisor: "Lic. Sofía Hernández", area: "Logopedia",  inssAprobadas: 16, programadas:  6, asistencia: 55, motivoGap: "Familia sin transporte" },
+  { nino: "Diego Espinoza",    iniciales: "DE", sede: "Santo Domingo", supervisor: "Lic. Roberto Mendoza", area: "ABA",        inssAprobadas: 16, programadas:  0, asistencia:  0, motivoGap: "Suspensión activa" },
+  { nino: "Isabella Briones",  iniciales: "IB", sede: "Las Colinas",   supervisor: "Lic. Carlos Bermúdez", area: "Fisio",      inssAprobadas: 24, programadas: 22, asistencia: 88 },
+  { nino: "Samuel Membreño",   iniciales: "SM", sede: "Santo Domingo", supervisor: "Lic. María Castellón", area: "ABA",        inssAprobadas: 32, programadas: 28, asistencia: 84, motivoGap: "Sala ocupada" },
+  { nino: "Camila Zeledón",    iniciales: "CZ", sede: "Masaya",        supervisor: "Lic. Jeyling Ortega",  area: "Fisio",      inssAprobadas: 12, programadas:  8, asistencia: 80, motivoGap: "Sin carta INSS vigente" },
+  { nino: "Lucas Obregón",     iniciales: "LO", sede: "Santo Domingo", supervisor: "Dra. Ana Lucía Pérez", area: "ABA",        inssAprobadas: 16, programadas: 16, asistencia: 92 },
+  { nino: "Renata Cárcamo",    iniciales: "RC", sede: "Santo Domingo", supervisor: "Lic. Jeyling Ortega",  area: "ABA",        inssAprobadas: 40, programadas: 36, asistencia: 87, motivoGap: "Sin terapeuta disponible" },
 ];
 
 export function totales() {
