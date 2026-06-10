@@ -114,16 +114,32 @@ function ResumenGeneral({ onOpen }: { onOpen: (m: MovimientoNino) => void }) {
         </div>
         <div className="rounded-2xl border border-border/70 bg-card p-5">
           <div className="flex items-baseline justify-between mb-3">
-            <h3 className="font-display text-base inline-flex items-center gap-2"><Clock className="h-4 w-4" /> Horas programadas</h3>
-            <span className="text-xs text-muted-foreground">mes</span>
+            <h3 className="font-display text-base inline-flex items-center gap-2"><Clock className="h-4 w-4" /> Horas del mes</h3>
+            <span className="text-xs text-muted-foreground">planificadas vs INSS</span>
           </div>
-          <div className="font-display text-4xl tabular">{r.horasProgramadas}h</div>
-          <div className="text-xs text-muted-foreground mt-1">de las cuales {r.horasSubrogadas}h subrogadas</div>
-          <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
-            <div className="h-full bg-primary" style={{ width: `${r.cobertura}%` }} />
+          <div className="space-y-3">
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span>Horas planificadas</span>
+                <span className="tabular font-medium">{r.horasProgramadas}h</span>
+              </div>
+              <div className="h-2 rounded-full bg-muted overflow-hidden">
+                <div className="h-full bg-primary" style={{ width: "100%" }} />
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span>Acreditadas por INSS</span>
+                <span className="tabular font-medium text-[oklch(0.45_0.13_155)]">{Math.round(r.horasProgramadas * (r.cobertura / 100))}h</span>
+              </div>
+              <div className="h-2 rounded-full bg-muted overflow-hidden">
+                <div className="h-full bg-[oklch(0.6_0.12_155)]" style={{ width: `${r.cobertura}%` }} />
+              </div>
+              <div className="text-[10px] text-muted-foreground mt-1 tabular">{r.cobertura}% cobertura · {r.horasSubrogadas}h subrogadas</div>
+            </div>
           </div>
-          <div className="flex justify-between text-[11px] text-muted-foreground mt-1">
-            <span>Cobertura</span><span className="tabular">{r.cobertura}%</span>
+          <div className="mt-3 pt-3 border-t border-border/40 text-[11px] text-muted-foreground">
+            Checklist del Manual: 1ª evaluación · entrevista a padres · consentimiento · colilla INSS · diagnóstico · contrato.
           </div>
         </div>
       </div>
