@@ -270,6 +270,9 @@ function Asistencia() {
       {/* Historial de check-ins de hoy */}
       <HistorialCheckins checkins={checkins} />
 
+      {/* Reporte de puntualidad por sede */}
+      <PuntualidadPorSede />
+
       <KioskoQR
         open={kioskoAbierto}
         onClose={() => setKioskoAbierto(false)}
