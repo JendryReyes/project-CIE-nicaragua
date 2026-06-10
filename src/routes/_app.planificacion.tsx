@@ -164,15 +164,16 @@ function PorNino() {
     <div className="rounded-2xl border border-border/70 bg-card overflow-hidden">
       <div className="p-4 border-b border-border/60">
         <h2 className="font-display text-lg">Detalle por niño</h2>
-        <p className="text-xs text-muted-foreground mt-0.5">Horas aprobadas por INSS vs. programadas. El motivo del gap es la causa por la cual no se pudieron programar.</p>
+        <p className="text-xs text-muted-foreground mt-0.5">
+          Bajo el nombre del niño aparece su <b>asistencia</b> y la <b>supervisión</b> a cargo. Horas aprobadas por INSS vs. programadas; el motivo del gap explica por qué no se pudieron programar.
+        </p>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="bg-muted/40 text-[11px] uppercase tracking-wider text-muted-foreground">
             <tr>
-              <th className="text-left px-4 py-2 font-medium">Niño</th>
+              <th className="text-left px-4 py-2 font-medium">Niño · Asistencia · Supervisión</th>
               <th className="text-left px-4 py-2 font-medium">Sede</th>
-              <th className="text-left px-4 py-2 font-medium">Supervisor</th>
               <th className="text-left px-4 py-2 font-medium">Área</th>
               <th className="text-right px-4 py-2 font-medium">INSS aprob.</th>
               <th className="text-right px-4 py-2 font-medium">Programadas</th>
@@ -182,16 +183,29 @@ function PorNino() {
           <tbody>
             {ninosPlan.map((n) => {
               const gap = n.inssAprobadas - n.programadas;
+              const asistTone =
+                n.asistencia >= 85 ? "bg-[oklch(0.93_0.06_155)] text-[oklch(0.35_0.11_155)]"
+                : n.asistencia >= 70 ? "bg-[oklch(0.95_0.07_60)] text-[oklch(0.45_0.13_60)]"
+                : "bg-[oklch(0.94_0.06_25)] text-[oklch(0.45_0.15_25)]";
               return (
                 <tr key={n.nino} className="border-t border-border/40 hover:bg-muted/30">
                   <td className="px-4 py-3">
-                    <div className="flex items-center gap-2.5">
-                      <div className="h-8 w-8 rounded-full bg-muted grid place-items-center text-[11px] font-medium">{n.iniciales}</div>
-                      <span className="font-medium">{n.nino}</span>
+                    <div className="flex items-start gap-2.5">
+                      <div className="h-9 w-9 shrink-0 rounded-full bg-muted grid place-items-center text-[11px] font-medium">{n.iniciales}</div>
+                      <div className="min-w-0">
+                        <div className="font-medium">{n.nino}</div>
+                        <div className="flex items-center gap-1.5 mt-1 text-[11px] flex-wrap">
+                          <span className={`px-1.5 py-0.5 rounded ${asistTone} tabular font-medium`}>
+                            Asistencia {n.asistencia}%
+                          </span>
+                        </div>
+                        <div className="text-[11px] text-muted-foreground mt-1 truncate">
+                          Supervisión: {n.supervisor}
+                        </div>
+                      </div>
                     </div>
                   </td>
                   <td className="px-4 py-3 text-xs">{n.sede}</td>
-                  <td className="px-4 py-3 text-xs">{n.supervisor}</td>
                   <td className="px-4 py-3 text-xs">{n.area}</td>
                   <td className="px-4 py-3 tabular text-right">{n.inssAprobadas}h</td>
                   <td className="px-4 py-3 tabular text-right">{n.programadas}h <span className="text-[11px] text-muted-foreground">({gap > 0 ? `-${gap}h` : "OK"})</span></td>
