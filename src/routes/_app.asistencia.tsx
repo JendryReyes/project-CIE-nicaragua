@@ -29,6 +29,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { puntualidadHoy, totalesPuntualidad } from "@/lib/puntualidad-data";
+import { Download, Timer } from "lucide-react";
 
 export const Route = createFileRoute("/_app/asistencia")({
   head: () => ({ meta: [{ title: "Asistencia · CIE" }] }),
