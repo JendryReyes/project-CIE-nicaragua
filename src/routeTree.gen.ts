@@ -15,6 +15,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppSedesRouteImport } from './routes/_app.sedes'
 import { Route as AppReportesRouteImport } from './routes/_app.reportes'
+import { Route as AppPlanificacionRouteImport } from './routes/_app.planificacion'
 import { Route as AppMatriculaRouteImport } from './routes/_app.matricula'
 import { Route as AppHorarioRouteImport } from './routes/_app.horario'
 import { Route as AppFamiliasRouteImport } from './routes/_app.familias'
@@ -59,6 +60,11 @@ const AppSedesRoute = AppSedesRouteImport.update({
 const AppReportesRoute = AppReportesRouteImport.update({
   id: '/reportes',
   path: '/reportes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPlanificacionRoute = AppPlanificacionRouteImport.update({
+  id: '/planificacion',
+  path: '/planificacion',
   getParentRoute: () => AppRoute,
 } as any)
 const AppMatriculaRoute = AppMatriculaRouteImport.update({
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
+  '/planificacion': typeof AppPlanificacionRoute
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
@@ -178,6 +185,7 @@ export interface FileRoutesByTo {
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
+  '/planificacion': typeof AppPlanificacionRoute
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/_app/familias': typeof AppFamiliasRoute
   '/_app/horario': typeof AppHorarioRoute
   '/_app/matricula': typeof AppMatriculaRoute
+  '/_app/planificacion': typeof AppPlanificacionRoute
   '/_app/reportes': typeof AppReportesRoute
   '/_app/sedes': typeof AppSedesRoute
   '/_app/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/familias'
     | '/horario'
     | '/matricula'
+    | '/planificacion'
     | '/reportes'
     | '/sedes'
     | '/asistencia/carnets'
@@ -251,6 +261,7 @@ export interface FileRouteTypes {
     | '/familias'
     | '/horario'
     | '/matricula'
+    | '/planificacion'
     | '/reportes'
     | '/sedes'
     | '/asistencia/carnets'
@@ -275,6 +286,7 @@ export interface FileRouteTypes {
     | '/_app/familias'
     | '/_app/horario'
     | '/_app/matricula'
+    | '/_app/planificacion'
     | '/_app/reportes'
     | '/_app/sedes'
     | '/_app/asistencia/carnets'
@@ -335,6 +347,13 @@ declare module '@tanstack/react-router' {
       path: '/reportes'
       fullPath: '/reportes'
       preLoaderRoute: typeof AppReportesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/planificacion': {
+      id: '/_app/planificacion'
+      path: '/planificacion'
+      fullPath: '/planificacion'
+      preLoaderRoute: typeof AppPlanificacionRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/matricula': {
@@ -490,6 +509,7 @@ interface AppRouteChildren {
   AppFamiliasRoute: typeof AppFamiliasRoute
   AppHorarioRoute: typeof AppHorarioRoute
   AppMatriculaRoute: typeof AppMatriculaRoute
+  AppPlanificacionRoute: typeof AppPlanificacionRoute
   AppReportesRoute: typeof AppReportesRoute
   AppSedesRoute: typeof AppSedesRoute
   AppClinicoGraficasRoute: typeof AppClinicoGraficasRoute
@@ -507,6 +527,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppFamiliasRoute: AppFamiliasRoute,
   AppHorarioRoute: AppHorarioRoute,
   AppMatriculaRoute: AppMatriculaRoute,
+  AppPlanificacionRoute: AppPlanificacionRoute,
   AppReportesRoute: AppReportesRoute,
   AppSedesRoute: AppSedesRoute,
   AppClinicoGraficasRoute: AppClinicoGraficasRoute,
@@ -525,13 +546,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

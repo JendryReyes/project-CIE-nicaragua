@@ -29,6 +29,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { puntualidadHoy, totalesPuntualidad } from "@/lib/puntualidad-data";
+import { Download, Timer } from "lucide-react";
 
 export const Route = createFileRoute("/_app/asistencia")({
   head: () => ({ meta: [{ title: "Asistencia · CIE" }] }),
@@ -269,6 +271,9 @@ function Asistencia() {
 
       {/* Historial de check-ins de hoy */}
       <HistorialCheckins checkins={checkins} />
+
+      {/* Reporte de puntualidad por sede */}
+      <PuntualidadPorSede />
 
       <KioskoQR
         open={kioskoAbierto}
@@ -701,6 +706,72 @@ function DRow({ k, v }: { k: string; v: string }) {
     <div className="flex justify-between gap-3 text-sm">
       <dt className="text-muted-foreground">{k}</dt>
       <dd className="text-right">{v}</dd>
+    </div>
+  );
+}
+
+function PuntualidadPorSede() {
+  const t = totalesPuntualidad();
+  return (
+    <div className="rounded-2xl border border-border/70 bg-card overflow-hidden">
+      <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-border/60 flex-wrap">
+        <div>
+          <h2 className="font-display text-lg flex items-center gap-2">
+            <Timer className="h-4 w-4 text-muted-foreground" /> Reporte de puntualidad por sede
+          </h2>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            Control de hora de ingreso del niño · {t.aTiempo}/{t.atendidos} a tiempo ({t.pctATiempo}%) · desviación promedio {t.desviacion} min
+          </p>
+        </div>
+        <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-xs hover:bg-muted">
+          <Download className="h-3 w-3" /> Exportar
+        </button>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead className="bg-muted/40 text-[11px] uppercase tracking-wider text-muted-foreground">
+            <tr>
+              <th className="text-left px-4 py-2 font-medium">Sede</th>
+              <th className="text-right px-4 py-2 font-medium">Atendidos</th>
+              <th className="text-right px-4 py-2 font-medium">A tiempo</th>
+              <th className="text-right px-4 py-2 font-medium">Tarde (1-14 min)</th>
+              <th className="text-right px-4 py-2 font-medium">Tarde (≥15 min)</th>
+              <th className="text-right px-4 py-2 font-medium">Ausentes</th>
+              <th className="text-right px-4 py-2 font-medium">Desv. promedio</th>
+            </tr>
+          </thead>
+          <tbody>
+            {puntualidadHoy.map((s) => {
+              const pct = Math.round((s.aTiempo / s.atendidos) * 100);
+              return (
+                <tr key={s.sede} className="border-t border-border/40">
+                  <td className="px-4 py-3 font-medium">{s.sede}</td>
+                  <td className="px-4 py-3 tabular text-right">{s.atendidos}</td>
+                  <td className="px-4 py-3 tabular text-right text-[oklch(0.45_0.13_155)] font-medium">
+                    {s.aTiempo} <span className="text-[10px] text-muted-foreground">({pct}%)</span>
+                  </td>
+                  <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.13_60)]">{s.tardeLeve}</td>
+                  <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.15_25)] font-medium">{s.tarde}</td>
+                  <td className="px-4 py-3 tabular text-right">{s.ausentes}</td>
+                  <td className="px-4 py-3 tabular text-right">{s.desviacionPromMin} min</td>
+                </tr>
+              );
+            })}
+            <tr className="border-t-2 border-border bg-muted/30 font-medium">
+              <td className="px-4 py-3">Total</td>
+              <td className="px-4 py-3 tabular text-right">{t.atendidos}</td>
+              <td className="px-4 py-3 tabular text-right">{t.aTiempo} <span className="text-[10px] text-muted-foreground">({t.pctATiempo}%)</span></td>
+              <td className="px-4 py-3 tabular text-right">{t.tardeLeve}</td>
+              <td className="px-4 py-3 tabular text-right">{t.tarde}</td>
+              <td className="px-4 py-3 tabular text-right">{t.ausentes}</td>
+              <td className="px-4 py-3 tabular text-right">{t.desviacion} min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div className="px-5 py-3 border-t border-border/60 bg-muted/20 text-[11px] text-muted-foreground">
+        Ejemplo: Santo Domingo — de 80 niños atendidos, 62 entraron a tiempo, 11 con retraso leve (1-14 min) y 3 llegaron tarde (≥15 min).
+      </div>
     </div>
   );
 }

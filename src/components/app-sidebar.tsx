@@ -34,11 +34,15 @@ import { useNavigate } from "@tanstack/react-router";
 const principal = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Matrícula", url: "/matricula", icon: UserPlus },
-  { title: "Planificación", url: "/horario", icon: CalendarDays },
+  { title: "Planificación", url: "/planificacion", icon: CalendarDays },
   { title: "Ejecución", url: "/ejecucion", icon: Activity },
-  { title: "Gestión Clínica", url: "/ninos", icon: Users },
   { title: "Asistencia", url: "/asistencia", icon: ClipboardCheck },
-  { title: "Biblioteca", url: "/biblioteca", icon: BookOpen },
+  { title: "Gestión Clínica", url: "/ninos", icon: Users },
+];
+
+const aba = [
+  { title: "Horario semanal", url: "/horario", icon: CalendarDays },
+  { title: "Biblioteca ABA", url: "/biblioteca", icon: BookOpen },
   { title: "Gráficas ABA", url: "/clinico/graficas", icon: LineChart },
 ];
 
@@ -98,6 +102,7 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         {renderSection("Principal", principal)}
+        {renderSection("ABA", aba)}
         {renderSection("Administración", administracion)}
       </SidebarContent>
       <SidebarFooter className="border-t border-sidebar-border/60 p-3">
