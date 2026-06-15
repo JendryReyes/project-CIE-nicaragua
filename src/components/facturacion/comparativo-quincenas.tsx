@@ -535,6 +535,98 @@ export function ComparativoQuincenasPanel() {
         />
       </div>
 
+      {/* Reporte de cumplimiento de Colillas INSS */}
+      <section className="rounded-2xl border border-border/70 bg-card overflow-hidden">
+        <header className="px-4 py-3 border-b border-border/60 flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h3 className="font-display text-base inline-flex items-center gap-2">
+              <ClipboardList className="h-4 w-4 text-primary" />
+              Reporte de cumplimiento · Colillas INSS
+            </h3>
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              Aportes vigentes de los cotizantes responsables (últimos 6 meses)
+            </p>
+          </div>
+          <div className="flex items-center gap-4 text-xs">
+            <span><strong className="text-foreground tabular">{colillasKpi.alDia}</strong> / {colillasKpi.total} al día</span>
+            {colillasKpi.pendientes > 0 && (
+              <span className="text-[oklch(0.55_0.15_25)]">
+                <AlertTriangle className="inline h-3 w-3 mr-0.5" />
+                {colillasKpi.pendientes} colillas pendientes
+              </span>
+            )}
+            {colillasKpi.proximaVencer > 0 && (
+              <span className="text-[oklch(0.55_0.14_80)]">
+                {colillasKpi.proximaVencer} aprobación{colillasKpi.proximaVencer === 1 ? "" : "es"} por vencer
+              </span>
+            )}
+          </div>
+        </header>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-muted/40 text-[10px] uppercase tracking-wider text-muted-foreground">
+              <tr>
+                <Th>Beneficiario</Th>
+                <Th>Cotizante / Empresa</Th>
+                <Th>Nº Afiliado</Th>
+                <Th>Últimos 6 meses</Th>
+                <Th>Vigencia aprobación</Th>
+                <Th>Estado</Th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/50">
+              {cumplimientoColillas.map((c) => {
+                const faltantes = c.colillas.filter((m) => !m.recibida).length;
+                const ok = faltantes === 0;
+                return (
+                  <tr key={c.ninoId}>
+                    <td className="px-3 py-2">
+                      <div className="font-medium">{c.ninoNombre}</div>
+                      <div className="text-[10px] text-muted-foreground">INSS {c.codigoINSS}</div>
+                    </td>
+                    <td className="px-3 py-2">
+                      <div>{c.cotizante}</div>
+                      <div className="text-[10px] text-muted-foreground">{c.empresa}</div>
+                    </td>
+                    <td className="px-3 py-2 tabular text-xs">{c.numeroAfiliado}</td>
+                    <td className="px-3 py-2">
+                      <div className="flex gap-1">
+                        {c.colillas.map((m, i) => (
+                          <span
+                            key={i}
+                            title={`${m.mes} ${m.anio}${m.recibida ? ` · ${m.fechaCarga}` : ` · ${m.observacion ?? "pendiente"}`}`}
+                            className={`h-5 w-7 rounded text-[9px] grid place-items-center font-medium ${
+                              m.recibida
+                                ? "bg-[oklch(0.92_0.08_155)] text-[oklch(0.35_0.13_155)]"
+                                : "bg-[oklch(0.94_0.06_25)] text-[oklch(0.45_0.15_25)]"
+                            }`}
+                          >
+                            {m.mes.substring(0, 3)}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-3 py-2 text-xs tabular">{c.vigenciaAprobacion}</td>
+                    <td className="px-3 py-2">
+                      {ok ? (
+                        <Badge tone="ok">
+                          <CheckCircle2 className="h-3 w-3" /> Al día 6/6
+                        </Badge>
+                      ) : (
+                        <Badge tone="warn">
+                          <AlertTriangle className="h-3 w-3" /> Faltan {faltantes}
+                        </Badge>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+
       {/* Soportes para INSS */}
       <div className="rounded-2xl border border-border/70 bg-card p-4">
         <h3 className="font-display text-base mb-3">Adjuntos para envío al INSS</h3>
