@@ -964,11 +964,11 @@ function QuincenaCol({ titulo, sub, horas, sesiones, monto, tarifaHora, excede }
   );
 }
 
-function Dt({ children }: { children: React.ReactNode }) {
-  return <dt className="text-xs text-muted-foreground">{children}</dt>;
+function Dt({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <dt className={`text-xs text-muted-foreground ${className}`}>{children}</dt>;
 }
-function Dd({ children }: { children: React.ReactNode }) {
-  return <dd className="text-sm">{children}</dd>;
+function Dd({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <dd className={`text-sm ${className}`}>{children}</dd>;
 }
 
 /* -------- subcomponentes -------- */
