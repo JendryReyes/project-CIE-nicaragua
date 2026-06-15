@@ -137,6 +137,8 @@ function GeneralTab({
     return { monto, alertas, niños };
   }, [sedesVisibles]);
 
+  const [detalle, setDetalle] = useState<NinoFact | null>(null);
+
   return (
     <div className="space-y-6">
       {/* Acciones */}
