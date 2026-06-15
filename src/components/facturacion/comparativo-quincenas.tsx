@@ -23,6 +23,12 @@ import {
 import { sedesFact, tarifa, areaColor, type AreaFact, type NinoFact } from "@/lib/modulos-data";
 import { descargarCartaInstitucional, type FilaCobro } from "@/lib/carta-cobro-institucional";
 import { descargarCartaCobroCaso, descargarReciboCaja, type CasoDoc } from "@/lib/carta-cobro-caso";
+import {
+  descargarFormatoFacturacion,
+  descargarReciboOficialConsolidado,
+  descargarCaratulaAdjuntos,
+  type DocsCtx,
+} from "@/lib/docs-comparativo";
 import { cumplimientoColillas, colillasResumen } from "@/lib/colillas-inss";
 import { Send, Download } from "lucide-react";
 
@@ -206,25 +212,37 @@ export function ComparativoQuincenasPanel() {
   const excedentesSinConstancia = filas.filter((f) => f.excede > 0 && !f.constancia);
   const colillasKpi = colillasResumen();
 
+  const filasCobro: FilaCobro[] = filas.map((f) => ({
+    nino: f.nino.nombre,
+    codigoINSS: f.nino.codigoINSS,
+    sede: f.sede,
+    area: f.area,
+    aprobadas: f.aprobadas,
+    q1Horas: f.q1Horas,
+    q2Horas: f.q2Horas,
+    totalHoras: f.totalHoras,
+    brecha: f.brecha,
+    totalMonto: f.totalMonto,
+    excede: f.excede,
+    constancia: f.constancia,
+  }));
+
+  const sedeNombre = sedeId === "todas" ? "Todas las sedes" : (sedesFact.find((s) => s.id === sedeId)?.nombre ?? sedeId);
+
+  const ctxDocs: DocsCtx = {
+    mes, anio, sede: sedeNombre, filas: filasCobro,
+    totales: {
+      totalHoras: totales.totalHoras,
+      totalMonto: totales.totalMonto,
+      aprobadas: totales.aprobadas,
+      cobertura: totales.cobertura,
+      excedentes: totales.excedentes,
+    },
+  };
+
   const handleCartaCobro = () => {
-    const filasCobro: FilaCobro[] = filas.map((f) => ({
-      nino: f.nino.nombre,
-      codigoINSS: f.nino.codigoINSS,
-      sede: f.sede,
-      area: f.area,
-      aprobadas: f.aprobadas,
-      q1Horas: f.q1Horas,
-      q2Horas: f.q2Horas,
-      totalHoras: f.totalHoras,
-      brecha: f.brecha,
-      totalMonto: f.totalMonto,
-      excede: f.excede,
-      constancia: f.constancia,
-    }));
     descargarCartaInstitucional({
-      mes, anio,
-      sede: sedeId === "todas" ? "Todas las sedes" : (sedesFact.find((s) => s.id === sedeId)?.nombre ?? sedeId),
-      filas: filasCobro,
+      mes, anio, sede: sedeNombre, filas: filasCobro,
       totales: {
         aprobadas: totales.aprobadas,
         q1Horas: totales.q1Horas,
@@ -235,6 +253,16 @@ export function ComparativoQuincenasPanel() {
         cobertura: totales.cobertura,
       },
     });
+  };
+
+  const [envioGlobal, setEnvioGlobal] = useState<null | { estado: "confirm" | "enviando" | "enviado"; folio?: string }>(null);
+  const iniciarEnvioGlobal = () => setEnvioGlobal({ estado: "confirm" });
+  const confirmarEnvioGlobal = () => {
+    setEnvioGlobal({ estado: "enviando" });
+    setTimeout(() => {
+      const folio = `INSS-CIE-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+      setEnvioGlobal({ estado: "enviado", folio });
+    }, 1500);
   };
 
   return (
@@ -260,12 +288,24 @@ export function ComparativoQuincenasPanel() {
 
       {/* Acciones documentales */}
       <div className="flex flex-wrap items-center gap-2">
-        <ActionBtn icon={FileText} label="Carta de cobro INSS (PDF)" primary onClick={handleCartaCobro} />
-        <ActionBtn icon={FileSpreadsheet} label="Formato facturación" />
-        <ActionBtn icon={Receipt} label="Recibo oficial de caja" />
-        <ActionBtn icon={Mail} label="Adjuntos para INSS" />
+        <ActionBtn icon={Send} label="Enviar al INSS" primary onClick={iniciarEnvioGlobal} />
+        <ActionBtn icon={FileText} label="Carta de cobro INSS (PDF)" onClick={handleCartaCobro} />
+        <ActionBtn icon={FileSpreadsheet} label="Formato facturación (PDF)" onClick={() => descargarFormatoFacturacion(ctxDocs)} />
+        <ActionBtn icon={Receipt} label="Recibo oficial de caja (PDF)" onClick={() => descargarReciboOficialConsolidado(ctxDocs)} />
+        <ActionBtn icon={Mail} label="Carátula adjuntos (PDF)" onClick={() => descargarCaratulaAdjuntos(ctxDocs)} />
         <ActionBtn icon={Printer} label="Imprimir comparativo" onClick={() => window.print()} />
       </div>
+
+      {envioGlobal && (
+        <EnvioINSSGlobalModal
+          estado={envioGlobal.estado}
+          folio={envioGlobal.folio}
+          ctx={ctxDocs}
+          onConfirm={confirmarEnvioGlobal}
+          onClose={() => setEnvioGlobal(null)}
+        />
+      )}
+
 
       {/* Filtros */}
       <div className="rounded-2xl border border-border/70 bg-card p-3 flex flex-wrap items-center gap-3 text-sm">
@@ -833,6 +873,110 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
     </div>
   );
 }
+
+function EnvioINSSGlobalModal({
+  estado,
+  folio,
+  ctx,
+  onConfirm,
+  onClose,
+}: {
+  estado: "confirm" | "enviando" | "enviado";
+  folio?: string;
+  ctx: DocsCtx;
+  onConfirm: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={onClose}>
+      <div className="w-full max-w-lg rounded-2xl bg-background border border-border shadow-2xl p-5" onClick={(e) => e.stopPropagation()}>
+        {estado === "confirm" && (
+          <>
+            <div className="flex items-start gap-3">
+              <div className="h-10 w-10 rounded-full bg-[oklch(0.95_0.05_240)] grid place-items-center">
+                <Send className="h-5 w-5 text-[oklch(0.45_0.15_240)]" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-display text-lg">Enviar lote completo al INSS</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Se transmitirán todos los documentos del período al portal de Convenios INSS.
+                </p>
+              </div>
+            </div>
+            <div className="mt-4 rounded-xl bg-muted/40 p-3 grid grid-cols-2 gap-y-1.5 text-xs">
+              <Dt>Período</Dt><Dd>{ctx.mes} {ctx.anio}</Dd>
+              <Dt>Sede</Dt><Dd>{ctx.sede}</Dd>
+              <Dt>Beneficiarios</Dt><Dd className="tabular">{ctx.filas.length}</Dd>
+              <Dt>Horas</Dt><Dd className="tabular">{ctx.totales.totalHoras}h</Dd>
+              <Dt>Monto total</Dt><Dd className="tabular font-medium">US$ {ctx.totales.totalMonto.toFixed(2)}</Dd>
+              <Dt>Destinatario</Dt><Dd>convenios@inss.gob.ni</Dd>
+            </div>
+            <div className="mt-3">
+              <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5">Documentos a transmitir</div>
+              <ul className="space-y-1 text-xs">
+                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.55_0.15_155)]" /> Carta de cobro consolidada (Q1+Q2)</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.55_0.15_155)]" /> Formato de facturación</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.55_0.15_155)]" /> Recibo oficial de caja</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.55_0.15_155)]" /> Anexo de colillas INSS</li>
+              </ul>
+            </div>
+            {ctx.totales.excedentes > 0 && (
+              <div className="mt-3 rounded-lg bg-[oklch(0.95_0.06_25)] text-[oklch(0.45_0.15_25)] p-2.5 text-[11px] flex items-start gap-2">
+                <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+                <span>Se detectaron {ctx.totales.excedentes}h de excedente. Los casos sin constancia médica se excluyen automáticamente del cobro.</span>
+              </div>
+            )}
+            <div className="mt-5 flex justify-end gap-2">
+              <button onClick={onClose} className="rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-muted">Cancelar</button>
+              <button onClick={onConfirm} className="rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium inline-flex items-center gap-1.5 hover:opacity-90">
+                <Send className="h-3.5 w-3.5" /> Confirmar envío
+              </button>
+            </div>
+          </>
+        )}
+
+        {estado === "enviando" && (
+          <div className="py-8 text-center">
+            <div className="mx-auto h-10 w-10 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+            <div className="mt-3 font-medium text-sm">Transmitiendo lote al portal INSS…</div>
+            <div className="text-xs text-muted-foreground mt-1">Empaquetando {ctx.filas.length} casos · firmando documentos.</div>
+          </div>
+        )}
+
+        {estado === "enviado" && (
+          <>
+            <div className="flex items-start gap-3">
+              <div className="h-10 w-10 rounded-full bg-[oklch(0.94_0.06_155)] grid place-items-center">
+                <CheckCircle2 className="h-5 w-5 text-[oklch(0.45_0.15_155)]" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-display text-lg">Lote enviado al INSS</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Acuse generado por el portal de Convenios.
+                </p>
+              </div>
+            </div>
+            <div className="mt-4 rounded-xl bg-muted/40 p-3 text-xs">
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Folio de seguimiento</div>
+              <div className="font-display text-base tabular mt-0.5">{folio}</div>
+              <div className="text-muted-foreground mt-1">
+                {ctx.filas.length} beneficiarios · US$ {ctx.totales.totalMonto.toFixed(2)} · {new Date().toLocaleDateString("es-NI", { day: "numeric", month: "long", year: "numeric" })}
+              </div>
+            </div>
+            <div className="mt-5 flex justify-end gap-2">
+              <button onClick={() => descargarCaratulaAdjuntos(ctx)} className="rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-muted inline-flex items-center gap-1.5">
+                <Download className="h-3.5 w-3.5" /> Descargar acuse
+              </button>
+              <button onClick={onClose} className="rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium hover:opacity-90">Listo</button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
 
 function EnvioINSSModal({
   estado,
