@@ -167,26 +167,62 @@ function TabResumen({ nino, sesiones, ninoId }: { nino: any; sesiones: any[]; ni
   const primario = caregivers.find((c) => c.primario) ?? caregivers[0];
   return (
     <div className="grid lg:grid-cols-3 gap-4">
-      <Section title="Datos personales">
+      <Section title="Personal">
         <Row label="Nombre" value={nino.nombre} />
         <Row label="Edad" value={`${nino.edad} años`} />
         <Row label="Sede" value={nino.sede} />
-        <Row label="Cobertura" value={nino.inss ? "INSS" : "Privado"} />
+        <Row label="Idioma" value="Español" />
+        <Row label="Género" value="Masculino" />
         <Row label="Ingreso" value={nino.ingreso} />
       </Section>
-      <Section title="Familia">
-        <Row label="Tutor" value={nino.tutor} />
-        <Row label="Teléfono" value="+505 8765 4321" icon={<Phone className="h-3 w-3" />} />
-        <Row label="Correo" value="familia@correo.com" icon={<Mail className="h-3 w-3" />} />
-        <Row label="Terapeuta" value={nino.terapeuta} icon={<Stethoscope className="h-3 w-3" />} />
-      </Section>
-      <Section title="Carta INSS vigente" action={<button className="text-xs text-primary hover:underline">Renovar</button>}>
+      <Section title="Clínico">
+        <Row label="Diagnóstico" value={nino.diagnostico} />
+        <Row label="Terapeuta líder" value={nino.terapeuta} icon={<Stethoscope className="h-3 w-3" />} />
+        <Row label="Cobertura" value={nino.inss ? "INSS" : "Privado"} />
         <Row label="ABA aprobadas" value="32h / mes" />
         <Row label="Logopedia aprobadas" value="8h / mes" />
-        <Row label="Vence" value="31 / 12 / 2026" />
-        <div className="mt-2 rounded-md bg-[oklch(0.96_0.04_155)] border border-[oklch(0.7_0.12_155/0.4)] p-2 text-[11px] text-[oklch(0.4_0.12_155)] flex items-center gap-1.5">
-          <CheckCircle2 className="h-3.5 w-3.5" /> Carta vigente
-        </div>
+        <Row label="Carta vigente" value="31 / 12 / 2026" />
+      </Section>
+      <Section title="Caregivers" action={<button className="text-xs text-primary hover:underline">+ Agregar</button>}>
+        <ul className="space-y-2">
+          {caregivers.map((c) => (
+            <li key={c.id} className="rounded-lg border border-border/60 p-2.5 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="font-medium truncate flex-1">{c.nombre}</span>
+                {c.primario && (
+                  <span className="inline-flex items-center gap-0.5 text-[9px] uppercase tracking-wider rounded-full bg-primary/15 text-primary px-1.5 py-0.5">
+                    <Star className="h-2.5 w-2.5 fill-current" /> Primario
+                  </span>
+                )}
+              </div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">{c.relacion}</div>
+              <div className="mt-1 flex items-center gap-3 text-[11px] text-muted-foreground">
+                <span className="inline-flex items-center gap-1"><Phone className="h-3 w-3" /> {c.telefono}</span>
+                {c.correo !== "—" && (
+                  <span className="inline-flex items-center gap-1 truncate"><Mail className="h-3 w-3" /> {c.correo}</span>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </Section>
+      <Section title="Direcciones" action={<button className="text-xs text-primary hover:underline">+ Agregar</button>}>
+        <ul className="space-y-2">
+          {direcciones.map((d) => (
+            <li key={d.id} className="flex items-start gap-2 text-sm rounded-lg border border-border/60 p-2.5">
+              {d.tipo === "Casa" ? <Home className="h-3.5 w-3.5 text-primary mt-0.5" /> :
+               d.tipo === "Escuela" ? <School className="h-3.5 w-3.5 text-primary mt-0.5" /> :
+               <MapPin className="h-3.5 w-3.5 text-primary mt-0.5" />}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] uppercase tracking-wider rounded-full bg-muted px-1.5 py-0.5">{d.tipo}</span>
+                </div>
+                <p className="text-[12px] mt-0.5 leading-tight">{d.linea}</p>
+                <p className="text-[11px] text-muted-foreground">{d.ciudad}, {d.departamento} · {d.pais}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </Section>
       <Section title="Próximas sesiones" action={<Link to="/horario" className="text-xs text-primary hover:underline">Ver agenda</Link>}>
         {sesiones.length ? sesiones.slice(0, 3).map((s) => (
@@ -197,6 +233,16 @@ function TabResumen({ nino, sesiones, ninoId }: { nino: any; sesiones: any[]; ni
             <span className="text-xs text-muted-foreground">{s.sala}</span>
           </div>
         )) : <p className="text-xs text-muted-foreground">Sin sesiones programadas hoy.</p>}
+      </Section>
+      <Section title="Contacto primario" action={primario ? <a href={`tel:${primario.telefono}`} className="text-xs text-primary hover:underline">Llamar</a> : null}>
+        {primario ? (
+          <div className="text-sm space-y-1">
+            <div className="font-medium">{primario.nombre}</div>
+            <div className="text-[11px] text-muted-foreground">{primario.relacion}</div>
+            <div className="text-[12px] mt-2 flex items-center gap-1"><Phone className="h-3 w-3 text-muted-foreground" /> {primario.telefono}</div>
+            <div className="text-[12px] flex items-center gap-1"><Mail className="h-3 w-3 text-muted-foreground" /> {primario.correo}</div>
+          </div>
+        ) : <p className="text-xs text-muted-foreground">Sin caregiver registrado.</p>}
       </Section>
     </div>
   );
