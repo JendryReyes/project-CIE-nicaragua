@@ -6,6 +6,7 @@ import { loteDemo } from "@/lib/facturacion-inss";
 import { lotesINSS } from "@/lib/demo-data";
 import { CierreQuincenaPanel } from "@/components/facturacion/cierre-quincena";
 import { CartasINSSPanel } from "@/components/facturacion/cartas-inss-panel";
+import { BillingSummary } from "@/components/facturacion/billing-summary";
 
 export const Route = createFileRoute("/_app/facturacion")({
   head: () => ({ meta: [{ title: "Módulo de Facturación · CIE" }] }),
