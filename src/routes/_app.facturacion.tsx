@@ -305,12 +305,154 @@ function NinoCard({ nino, onSelect }: { nino: NinoFact; onSelect: (n: NinoFact) 
           <span className="inline-flex items-center gap-1.5 text-[11px] text-[oklch(0.45_0.15_25)] font-medium">
             <AlertTriangle className="h-3.5 w-3.5" /> Excede – verificar constancia
           </span>
-          <button className="inline-flex items-center gap-1 rounded-md bg-[oklch(0.6_0.18_25)] text-white px-2 py-1 text-[10px] font-medium hover:opacity-90">
+          <button onClick={(e)=>e.stopPropagation()} className="inline-flex items-center gap-1 rounded-md bg-[oklch(0.6_0.18_25)] text-white px-2 py-1 text-[10px] font-medium hover:opacity-90">
             <Plus className="h-3 w-3" /> Registrar constancia
           </button>
         </div>
       )}
     </article>
+  );
+}
+
+function DetalleNino({ nino, quincena, onClose }: { nino: NinoFact; quincena: "Q1" | "Q2"; onClose: () => void }) {
+  const r = calcularNino(nino);
+  const totalAprob = (Object.values(nino.aprobadasMes) as number[]).reduce((a,b)=>a+b, 0);
+  const totalQ1 = (Object.values(nino.q1) as number[]).reduce((a,b)=>a+b, 0);
+  const totalEjec = (Object.values(nino.ejecQ) as number[]).reduce((a,b)=>a+b, 0);
+  const cobertura = totalAprob > 0 ? Math.min(100, ((totalQ1 + totalEjec) / totalAprob) * 100) : 0;
+  const alerta = r.tieneExcede && !nino.constancia;
+
+  return (
+    <div className="fixed inset-0 z-50 flex" onClick={onClose}>
+      <div className="flex-1 bg-black/40 backdrop-blur-sm" />
+      <aside
+        onClick={(e)=>e.stopPropagation()}
+        className="w-full max-w-xl bg-background border-l border-border shadow-2xl overflow-y-auto"
+      >
+        <header className="sticky top-0 bg-background border-b border-border/60 p-4 flex items-start justify-between gap-3 z-10">
+          <div className="flex items-start gap-3 min-w-0">
+            <div className="h-12 w-12 shrink-0 rounded-full bg-muted grid place-items-center text-sm font-medium">{nino.iniciales}</div>
+            <div className="min-w-0">
+              <div className="font-display text-lg leading-tight">{nino.nombre}</div>
+              <div className="text-[11px] text-muted-foreground flex items-center gap-1.5 flex-wrap mt-0.5">
+                <span>{nino.expediente}</span>
+                {nino.inss && <span className="rounded bg-[oklch(0.94_0.05_200)] text-[oklch(0.4_0.1_200)] px-1.5 py-0.5 text-[10px] font-medium">INSS</span>}
+                {nino.privado && <span className="rounded bg-muted px-1.5 py-0.5 text-[10px]">Privado</span>}
+                {nino.codigoINSS && <span className="tabular">INSS: {nino.codigoINSS}</span>}
+              </div>
+            </div>
+          </div>
+          <button onClick={onClose} className="rounded-lg p-1.5 hover:bg-muted" aria-label="Cerrar">
+            <X className="h-4 w-4" />
+          </button>
+        </header>
+
+        <div className="p-4 space-y-5">
+          {/* KPIs */}
+          <div className="grid grid-cols-2 gap-2">
+            <KpiMini label="Aprobadas / mes" value={`${totalAprob}h`} />
+            <KpiMini label={`Total ${quincena}`} value={`$${r.total.toFixed(2)}`} accent />
+            <KpiMini label="Q1 ejecutadas" value={`${totalQ1}h`} />
+            <KpiMini label={`${quincena} ejecutadas`} value={`${totalEjec}h`} warn={alerta} />
+          </div>
+
+          {/* Cobertura */}
+          <div>
+            <div className="flex items-center justify-between text-[11px] uppercase tracking-wider text-muted-foreground mb-1">
+              <span>Cobertura del mes</span>
+              <span className="tabular">{cobertura.toFixed(0)}%</span>
+            </div>
+            <div className="h-2 rounded-full bg-muted overflow-hidden">
+              <div
+                className="h-full"
+                style={{
+                  width: `${cobertura}%`,
+                  background: cobertura >= 95 ? "oklch(0.6 0.15 155)" : cobertura >= 70 ? "oklch(0.7 0.15 85)" : "oklch(0.6 0.18 25)",
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Desglose por área */}
+          <div>
+            <h4 className="font-display text-sm mb-2">Desglose por área</h4>
+            <div className="rounded-xl border border-border/70 overflow-hidden">
+              <table className="w-full text-xs">
+                <thead className="bg-muted/40 text-[10px] uppercase tracking-wider text-muted-foreground">
+                  <tr>
+                    <th className="px-2.5 py-2 text-left font-medium">Área</th>
+                    <th className="px-2.5 py-2 text-right font-medium">Aprob.</th>
+                    <th className="px-2.5 py-2 text-right font-medium">Q1</th>
+                    <th className="px-2.5 py-2 text-right font-medium">{quincena}</th>
+                    <th className="px-2.5 py-2 text-right font-medium">Fact.</th>
+                    <th className="px-2.5 py-2 text-right font-medium">Exc.</th>
+                    <th className="px-2.5 py-2 text-right font-medium">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border/50">
+                  {r.detalles.map((d) => (
+                    <tr key={d.area}>
+                      <td className="px-2.5 py-2">
+                        <span className="inline-flex items-center gap-1.5">
+                          <span className="h-2 w-2 rounded-full" style={{ background: areaColor[d.area as AreaFact] }} />
+                          {d.area}
+                        </span>
+                        <div className="text-[10px] text-muted-foreground">${tarifa[d.area as AreaFact].toFixed(2)}/h</div>
+                      </td>
+                      <td className="px-2.5 py-2 text-right tabular">{d.aprobadas}h</td>
+                      <td className="px-2.5 py-2 text-right tabular text-muted-foreground">{d.q1}h</td>
+                      <td className="px-2.5 py-2 text-right tabular">{d.ejec}h</td>
+                      <td className="px-2.5 py-2 text-right tabular font-medium">{d.facturables}h</td>
+                      <td className={`px-2.5 py-2 text-right tabular ${d.excede>0?"text-[oklch(0.45_0.15_25)] font-medium":"text-muted-foreground"}`}>{d.excede}h</td>
+                      <td className="px-2.5 py-2 text-right tabular font-medium">${d.subtotal.toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {alerta && (
+            <div className="rounded-lg bg-[oklch(0.96_0.05_25)] border border-[oklch(0.85_0.12_25)] p-3 flex items-start gap-2">
+              <AlertTriangle className="h-4 w-4 mt-0.5 text-[oklch(0.45_0.15_25)]" />
+              <div className="flex-1 text-[11px] text-[oklch(0.45_0.15_25)]">
+                <div className="font-medium">Excede horas aprobadas sin constancia médica</div>
+                <div className="opacity-80 mt-0.5">Registre la constancia para mantener cobertura INSS.</div>
+              </div>
+            </div>
+          )}
+
+          {/* Acciones */}
+          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border/60">
+            <button className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 px-3 py-1.5 text-xs hover:bg-muted">
+              <FileText className="h-3.5 w-3.5" /> Carta de cobro
+            </button>
+            <button className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 px-3 py-1.5 text-xs hover:bg-muted">
+              <FileSpreadsheet className="h-3.5 w-3.5" /> Recibo
+            </button>
+            <button onClick={()=>window.print()} className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 px-3 py-1.5 text-xs hover:bg-muted">
+              <Printer className="h-3.5 w-3.5" /> Imprimir
+            </button>
+            <Link
+              to="/ninos/$id"
+              params={{ id: nino.id }}
+              className="ml-auto inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium hover:opacity-90"
+            >
+              Ver perfil <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+function KpiMini({ label, value, accent, warn }: { label: string; value: string; accent?: boolean; warn?: boolean }) {
+  return (
+    <div className={`rounded-xl border p-2.5 ${warn ? "border-[oklch(0.85_0.12_25)] bg-[oklch(0.98_0.03_25)]" : "border-border/70 bg-card"}`}>
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
+      <div className={`font-display text-base mt-0.5 tabular ${accent ? "text-primary" : ""} ${warn ? "text-[oklch(0.45_0.15_25)]" : ""}`}>{value}</div>
+    </div>
   );
 }
 
