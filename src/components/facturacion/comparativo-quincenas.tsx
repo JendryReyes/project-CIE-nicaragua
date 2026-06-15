@@ -251,14 +251,46 @@ export function ComparativoQuincenasPanel() {
           pct={totales.pctMonto}
         />
         <Card>
-          <Label>Excedentes detectados</Label>
-          <Value warn={totales.excedentes > 0}>{totales.excedentes}h</Value>
-          <Hint>Requieren constancia médica del mes anterior</Hint>
+          <Label>Total mes · Q1 + Q2 (complemento)</Label>
+          <div className="mt-1 flex items-end justify-between gap-2">
+            <div>
+              <div className="text-[10px] uppercase text-muted-foreground">Aprobado INSS</div>
+              <div className="font-display text-lg tabular text-muted-foreground">{totales.aprobadas}h</div>
+            </div>
+            <div className="text-muted-foreground">→</div>
+            <div className="text-right">
+              <div className="text-[10px] uppercase text-muted-foreground">Ejecutado</div>
+              <div className="font-display text-2xl tabular">{totales.totalHoras}h</div>
+            </div>
+          </div>
+          <div className="mt-2 h-1.5 w-full rounded-full bg-muted overflow-hidden">
+            <div
+              className="h-full"
+              style={{
+                width: `${Math.min(100, totales.cobertura)}%`,
+                background:
+                  totales.cobertura >= 95
+                    ? "oklch(0.6 0.16 155)"
+                    : totales.cobertura >= 70
+                    ? "oklch(0.7 0.14 80)"
+                    : "oklch(0.65 0.18 25)",
+              }}
+            />
+          </div>
+          <Hint>
+            Cobertura {totales.cobertura.toFixed(1)}% · Brecha {totales.brecha >= 0 ? "" : "+"}
+            {Math.abs(totales.brecha)}h · Monto ${totales.totalMonto.toFixed(2)}
+          </Hint>
         </Card>
         <Card>
-          <Label>Horas no facturadas (Q2)</Label>
-          <Value warn={totales.noFact > 0}>{totales.noFact}h</Value>
-          <Hint>Pasan a reporte separado para INSS</Hint>
+          <Label>Excedentes / no facturadas</Label>
+          <div className="flex items-baseline gap-3 mt-1">
+            <Value warn={totales.excedentes > 0}>{totales.excedentes}h</Value>
+            <span className="text-xs text-muted-foreground">excedente</span>
+          </div>
+          <Hint>
+            {totales.noFact}h sin facturar · pasan a reporte INSS si no hay constancia
+          </Hint>
         </Card>
       </div>
 
