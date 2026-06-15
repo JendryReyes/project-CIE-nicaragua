@@ -1,5 +1,68 @@
 // Datos demo extendidos para el perfil clínico del niño (Prioridad 2)
 
+export type Caregiver = {
+  id: string;
+  nombre: string;
+  relacion: "Madre" | "Padre" | "Tutor" | "Abuela" | "Abuelo" | "Hermano/a";
+  telefono: string;
+  correo: string;
+  primario: boolean;
+};
+
+export type Direccion = {
+  id: string;
+  tipo: "Casa" | "Escuela" | "Trabajo" | "Otra";
+  linea: string;
+  ciudad: string;
+  departamento: string;
+  pais: string;
+};
+
+export type EventoCaso = {
+  id: string;
+  fecha: string;
+  tipo: "Llamada" | "Reunión" | "Visita" | "Incidente" | "Cambio de plan";
+  titulo: string;
+  detalle: string;
+  responsable: string;
+};
+
+export const caregiversPorNino: Record<string, Caregiver[]> = {
+  "001": [
+    { id: "c1", nombre: "Laura López Martínez", relacion: "Madre", telefono: "+505 8765 4321", correo: "laura.lopez@correo.com", primario: true },
+    { id: "c2", nombre: "Carlos Gutiérrez Rivas", relacion: "Padre", telefono: "+505 8123 4567", correo: "c.gutierrez@correo.com", primario: false },
+    { id: "c3", nombre: "Doña Rosa Martínez", relacion: "Abuela", telefono: "+505 8901 2345", correo: "—", primario: false },
+  ],
+};
+
+export const direccionesPorNino: Record<string, Direccion[]> = {
+  "001": [
+    { id: "a1", tipo: "Casa", linea: "Reparto San Juan, casa #142, de la UCA 2c al sur", ciudad: "Managua", departamento: "Managua", pais: "Nicaragua" },
+    { id: "a2", tipo: "Escuela", linea: "Colegio Bautista, Carretera Masaya km 5", ciudad: "Managua", departamento: "Managua", pais: "Nicaragua" },
+  ],
+};
+
+export const eventosCasoPorNino: Record<string, EventoCaso[]> = {
+  "001": [
+    { id: "ev1", fecha: "2026-05-30", tipo: "Reunión", titulo: "Reunión mensual con familia", detalle: "Se revisó progreso de mando funcional. Mamá acepta aumento a 12h ABA.", responsable: "Lic. María Castellón" },
+    { id: "ev2", fecha: "2026-05-22", tipo: "Cambio de plan", titulo: "Aprobación nuevo programa", detalle: "Se incorpora 'Mando con frase de 3 palabras' por supervisión clínica.", responsable: "Dra. Ana Lucía Pérez" },
+    { id: "ev3", fecha: "2026-05-12", tipo: "Incidente", titulo: "Episodio de gritos prolongados", detalle: "5 min, contexto académico. Plan de conducta aplicado correctamente.", responsable: "Lic. María Castellón" },
+    { id: "ev4", fecha: "2026-05-03", tipo: "Llamada", titulo: "Confirmación de carta INSS Q2", detalle: "DAF confirma con familia la renovación de la carta de aprobación.", responsable: "Coord. administrativa" },
+  ],
+};
+
+export function getCaregivers(ninoId: string) {
+  return caregiversPorNino[ninoId] ?? caregiversPorNino["001"];
+}
+export function getDirecciones(ninoId: string) {
+  return direccionesPorNino[ninoId] ?? direccionesPorNino["001"];
+}
+export function getEventosCaso(ninoId: string) {
+  return eventosCasoPorNino[ninoId] ?? eventosCasoPorNino["001"];
+}
+
+
+
 export type ProgramaNino = {
   id: string;
   nombre: string;
