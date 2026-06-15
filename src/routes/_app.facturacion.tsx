@@ -61,6 +61,7 @@ function Facturacion() {
           ["general", "Vista general"],
           ["cierre", "Cierre de quincena"],
           ["cartas", "Cartas INSS"],
+          ["resumen", "Resumen formal (Billing)"],
         ] as const).map(([key, label]) => (
           <button
             key={key}
