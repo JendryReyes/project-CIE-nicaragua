@@ -92,6 +92,7 @@ function Facturacion() {
           setSedeId={setSedeId}
         />
       )}
+      {tab === "admin" && <ComparativoQuincenasPanel />}
       {tab === "cierre" && <CierreQuincenaPanel />}
       {tab === "cartas" && <CartasINSSPanel />}
       {tab === "resumen" && <BillingSummary />}
