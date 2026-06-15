@@ -91,6 +91,7 @@ function Facturacion() {
       )}
       {tab === "cierre" && <CierreQuincenaPanel />}
       {tab === "cartas" && <CartasINSSPanel />}
+      {tab === "resumen" && <BillingSummary />}
     </div>
   );
 }
