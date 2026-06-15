@@ -167,6 +167,7 @@ export function ComparativoQuincenasPanel() {
   const totales = useMemo(() => {
     const t = filas.reduce(
       (acc, f) => {
+        acc.aprobadas += f.aprobadas;
         acc.q1Horas += f.q1Horas;
         acc.q2Horas += f.q2Horas;
         acc.q1Monto += f.q1Monto;
@@ -175,10 +176,17 @@ export function ComparativoQuincenasPanel() {
         acc.noFact += f.noFacturadas;
         return acc;
       },
-      { q1Horas: 0, q2Horas: 0, q1Monto: 0, q2Monto: 0, excedentes: 0, noFact: 0 }
+      { aprobadas: 0, q1Horas: 0, q2Horas: 0, q1Monto: 0, q2Monto: 0, excedentes: 0, noFact: 0 }
     );
+    const totalHoras = t.q1Horas + t.q2Horas;
+    const totalMonto = t.q1Monto + t.q2Monto;
+    const brecha = t.aprobadas - totalHoras;
     return {
       ...t,
+      totalHoras,
+      totalMonto,
+      brecha,
+      cobertura: t.aprobadas > 0 ? (totalHoras / t.aprobadas) * 100 : 0,
       deltaHoras: t.q2Horas - t.q1Horas,
       deltaMonto: t.q2Monto - t.q1Monto,
       pctMonto: t.q1Monto > 0 ? ((t.q2Monto - t.q1Monto) / t.q1Monto) * 100 : 0,
