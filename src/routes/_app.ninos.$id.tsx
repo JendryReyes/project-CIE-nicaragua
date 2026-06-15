@@ -527,3 +527,87 @@ function Row({ label, value, icon }: { label: string; value: string; icon?: Reac
     </div>
   );
 }
+
+// ===== Case rail estilo Office Puzzle =====
+function CaseRail({ ninoId, onTab }: { ninoId: string; onTab: (t: Tab) => void }) {
+  const tiles: { label: string; icon: React.ReactNode; onClick?: () => void; to?: string; params?: any }[] = [
+    { label: "Calendar", icon: <Calendar className="h-4 w-4" />, to: "/horario" },
+    { label: "Documents", icon: <FolderOpen className="h-4 w-4" />, onClick: () => onTab("Expediente") },
+    { label: "Data", icon: <Database className="h-4 w-4" />, onClick: () => onTab("Sesiones") },
+    { label: "Charts", icon: <BarChart3 className="h-4 w-4" />, to: "/clinico/graficas" },
+    { label: "Required docs", icon: <FileCheck className="h-4 w-4" />, onClick: () => onTab("Expediente") },
+    { label: "Events", icon: <CalendarClock className="h-4 w-4" />, onClick: () => onTab("Eventos") },
+    { label: "Service plan", icon: <ListTree className="h-4 w-4" />, onClick: () => onTab("Programas") },
+    { label: "Users", icon: <UsersIcon className="h-4 w-4" />, onClick: () => onTab("Familia") },
+    { label: "Files", icon: <FileText className="h-4 w-4" />, onClick: () => onTab("Expediente") },
+    { label: "Notes", icon: <StickyNote className="h-4 w-4" />, onClick: () => onTab("Conducta") },
+    { label: "Sesión ABA", icon: <LineChart className="h-4 w-4" />, to: "/sesion/$ninoId", params: { ninoId } },
+  ];
+  return (
+    <nav className="rounded-2xl border border-border/70 bg-card p-2 flex items-center gap-1 overflow-x-auto">
+      {tiles.map((t) => {
+        const inner = (
+          <span className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors whitespace-nowrap">
+            <span className="text-primary">{t.icon}</span>
+            {t.label}
+          </span>
+        );
+        if (t.to) {
+          return (
+            <Link key={t.label} to={t.to as any} params={t.params}>
+              {inner}
+            </Link>
+          );
+        }
+        return (
+          <button key={t.label} onClick={t.onClick}>
+            {inner}
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
+
+// ===== Tab: Eventos del caso =====
+function TabEventos({ ninoId }: { ninoId: string }) {
+  const eventos = getEventosCaso(ninoId);
+  const toneFor = (tipo: string) =>
+    tipo === "Incidente" ? "bg-[oklch(0.94_0.04_25)] text-[oklch(0.45_0.13_25)]" :
+    tipo === "Cambio de plan" ? "bg-[oklch(0.94_0.06_240)] text-[oklch(0.4_0.13_240)]" :
+    tipo === "Reunión" ? "bg-[oklch(0.94_0.05_155)] text-[oklch(0.35_0.12_155)]" :
+    "bg-muted text-muted-foreground";
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <p className="text-xs text-muted-foreground">Eventos administrativos y clínicos asociados al caso.</p>
+        <button className="inline-flex items-center gap-1.5 rounded-md bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium">
+          <Plus className="h-3.5 w-3.5" /> Nuevo evento
+        </button>
+      </div>
+      <ol className="relative border-l border-border/60 ml-2 space-y-3">
+        {eventos.map((e) => (
+          <li key={e.id} className="ml-4">
+            <span className="absolute -left-1.5 h-3 w-3 rounded-full bg-primary ring-4 ring-background" />
+            <article className="rounded-xl border border-border/70 bg-card p-4">
+              <div className="flex items-start justify-between flex-wrap gap-2">
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className={`text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 ${toneFor(e.tipo)}`}>{e.tipo}</span>
+                    <span className="font-medium">{e.titulo}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">{e.detalle}</p>
+                </div>
+                <div className="text-right text-[11px] text-muted-foreground tabular shrink-0">
+                  <div>{e.fecha}</div>
+                  <div>{e.responsable}</div>
+                </div>
+              </div>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
