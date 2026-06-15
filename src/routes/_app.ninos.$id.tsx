@@ -109,7 +109,7 @@ function NinoDetalle() {
 
       {/* Tabs */}
       <div className="border-b border-border/60 flex gap-1 overflow-x-auto">
-        {TABS.map((t) => (
+        {TABS.map((t: Tab) => (
           <button key={t} onClick={() => setTab(t)}
             className={`px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
               tab === t ? "border-primary text-primary font-medium" : "border-transparent text-muted-foreground hover:text-foreground"
