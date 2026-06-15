@@ -23,6 +23,12 @@ import {
 import { sedesFact, tarifa, areaColor, type AreaFact, type NinoFact } from "@/lib/modulos-data";
 import { descargarCartaInstitucional, type FilaCobro } from "@/lib/carta-cobro-institucional";
 import { descargarCartaCobroCaso, descargarReciboCaja, type CasoDoc } from "@/lib/carta-cobro-caso";
+import {
+  descargarFormatoFacturacion,
+  descargarReciboOficialConsolidado,
+  descargarCaratulaAdjuntos,
+  type DocsCtx,
+} from "@/lib/docs-comparativo";
 import { cumplimientoColillas, colillasResumen } from "@/lib/colillas-inss";
 import { Send, Download } from "lucide-react";
 
