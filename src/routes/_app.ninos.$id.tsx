@@ -4,14 +4,17 @@ import { ninoById, sesionesHoy, areaLabels, iniciales, type Area } from "@/lib/d
 import {
   ArrowLeft, FileText, MessageSquare, Phone, Mail, Download, Plus, CheckCircle2,
   Stethoscope, Upload, ClipboardList, AlertTriangle, LineChart, Calendar, Users as UsersIcon,
-  FolderOpen, Receipt, BookOpen, ExternalLink,
+  FolderOpen, Receipt, BookOpen, ExternalLink, Home, School, MapPin, Database, BarChart3,
+  ListTree, FileCheck, CalendarClock, StickyNote, Star,
 } from "lucide-react";
 import {
   getPrograma, getEvaluaciones, getPlanesConducta, getDocumentos, getFacturacion,
   calcularProgresoClinico, documentosObligatorios,
+  getCaregivers, getDirecciones, getEventosCaso,
 } from "@/lib/perfil-nino-data";
 import { cartasPorNino, estadoCartaColor } from "@/lib/cartas-inss";
 import { GraficaProgramaModal } from "@/components/grafica-programa-modal";
+
 
 export const Route = createFileRoute("/_app/ninos/$id")({
   head: () => ({ meta: [{ title: "Expediente · CIE" }] }),
@@ -24,7 +27,7 @@ export const Route = createFileRoute("/_app/ninos/$id")({
   ),
 });
 
-const TABS = ["Resumen", "Programas", "Sesiones", "Evaluaciones", "Conducta", "Familia", "Expediente", "Facturación"] as const;
+const TABS = ["Resumen", "Programas", "Sesiones", "Eventos", "Evaluaciones", "Conducta", "Familia", "Expediente", "Facturación"] as const;
 type Tab = (typeof TABS)[number];
 
 function NinoDetalle() {
@@ -101,9 +104,12 @@ function NinoDetalle() {
         </div>
       </header>
 
+      {/* Case rail (estilo Office Puzzle) */}
+      <CaseRail ninoId={id} onTab={(t: Tab) => setTab(t)} />
+
       {/* Tabs */}
       <div className="border-b border-border/60 flex gap-1 overflow-x-auto">
-        {TABS.map((t) => (
+        {TABS.map((t: Tab) => (
           <button key={t} onClick={() => setTab(t)}
             className={`px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
               tab === t ? "border-primary text-primary font-medium" : "border-transparent text-muted-foreground hover:text-foreground"
@@ -113,12 +119,13 @@ function NinoDetalle() {
         ))}
       </div>
 
-      {tab === "Resumen" && <TabResumen nino={n} sesiones={sesionesNino} />}
+      {tab === "Resumen" && <TabResumen nino={n} sesiones={sesionesNino} ninoId={id} />}
       {tab === "Programas" && <TabProgramas programas={programas} onVerGrafica={(p) => setGrafica({ nombre: p.nombre, area: p.area })} />}
       {tab === "Sesiones" && <TabSesiones ninoId={id} />}
+      {tab === "Eventos" && <TabEventos ninoId={id} />}
       {tab === "Evaluaciones" && <TabEvaluaciones evaluaciones={evaluaciones} />}
       {tab === "Conducta" && <TabConducta planes={planes} />}
-      {tab === "Familia" && <TabFamilia nino={n} />}
+      {tab === "Familia" && <TabFamilia nino={n} ninoId={id} />}
       {tab === "Expediente" && <TabExpediente documentos={documentos} />}
       {tab === "Facturación" && <TabFacturacion facturacion={facturacion} />}
 
@@ -154,29 +161,68 @@ function Section({ title, action, children }: { title: string; action?: React.Re
 
 // ===== TABS =====
 
-function TabResumen({ nino, sesiones }: { nino: any; sesiones: any[] }) {
+function TabResumen({ nino, sesiones, ninoId }: { nino: any; sesiones: any[]; ninoId: string }) {
+  const caregivers = getCaregivers(ninoId);
+  const direcciones = getDirecciones(ninoId);
+  const primario = caregivers.find((c) => c.primario) ?? caregivers[0];
   return (
     <div className="grid lg:grid-cols-3 gap-4">
-      <Section title="Datos personales">
+      <Section title="Personal">
         <Row label="Nombre" value={nino.nombre} />
         <Row label="Edad" value={`${nino.edad} años`} />
         <Row label="Sede" value={nino.sede} />
-        <Row label="Cobertura" value={nino.inss ? "INSS" : "Privado"} />
+        <Row label="Idioma" value="Español" />
+        <Row label="Género" value="Masculino" />
         <Row label="Ingreso" value={nino.ingreso} />
       </Section>
-      <Section title="Familia">
-        <Row label="Tutor" value={nino.tutor} />
-        <Row label="Teléfono" value="+505 8765 4321" icon={<Phone className="h-3 w-3" />} />
-        <Row label="Correo" value="familia@correo.com" icon={<Mail className="h-3 w-3" />} />
-        <Row label="Terapeuta" value={nino.terapeuta} icon={<Stethoscope className="h-3 w-3" />} />
-      </Section>
-      <Section title="Carta INSS vigente" action={<button className="text-xs text-primary hover:underline">Renovar</button>}>
+      <Section title="Clínico">
+        <Row label="Diagnóstico" value={nino.diagnostico} />
+        <Row label="Terapeuta líder" value={nino.terapeuta} icon={<Stethoscope className="h-3 w-3" />} />
+        <Row label="Cobertura" value={nino.inss ? "INSS" : "Privado"} />
         <Row label="ABA aprobadas" value="32h / mes" />
         <Row label="Logopedia aprobadas" value="8h / mes" />
-        <Row label="Vence" value="31 / 12 / 2026" />
-        <div className="mt-2 rounded-md bg-[oklch(0.96_0.04_155)] border border-[oklch(0.7_0.12_155/0.4)] p-2 text-[11px] text-[oklch(0.4_0.12_155)] flex items-center gap-1.5">
-          <CheckCircle2 className="h-3.5 w-3.5" /> Carta vigente
-        </div>
+        <Row label="Carta vigente" value="31 / 12 / 2026" />
+      </Section>
+      <Section title="Caregivers" action={<button className="text-xs text-primary hover:underline">+ Agregar</button>}>
+        <ul className="space-y-2">
+          {caregivers.map((c) => (
+            <li key={c.id} className="rounded-lg border border-border/60 p-2.5 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="font-medium truncate flex-1">{c.nombre}</span>
+                {c.primario && (
+                  <span className="inline-flex items-center gap-0.5 text-[9px] uppercase tracking-wider rounded-full bg-primary/15 text-primary px-1.5 py-0.5">
+                    <Star className="h-2.5 w-2.5 fill-current" /> Primario
+                  </span>
+                )}
+              </div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">{c.relacion}</div>
+              <div className="mt-1 flex items-center gap-3 text-[11px] text-muted-foreground">
+                <span className="inline-flex items-center gap-1"><Phone className="h-3 w-3" /> {c.telefono}</span>
+                {c.correo !== "—" && (
+                  <span className="inline-flex items-center gap-1 truncate"><Mail className="h-3 w-3" /> {c.correo}</span>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </Section>
+      <Section title="Direcciones" action={<button className="text-xs text-primary hover:underline">+ Agregar</button>}>
+        <ul className="space-y-2">
+          {direcciones.map((d) => (
+            <li key={d.id} className="flex items-start gap-2 text-sm rounded-lg border border-border/60 p-2.5">
+              {d.tipo === "Casa" ? <Home className="h-3.5 w-3.5 text-primary mt-0.5" /> :
+               d.tipo === "Escuela" ? <School className="h-3.5 w-3.5 text-primary mt-0.5" /> :
+               <MapPin className="h-3.5 w-3.5 text-primary mt-0.5" />}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] uppercase tracking-wider rounded-full bg-muted px-1.5 py-0.5">{d.tipo}</span>
+                </div>
+                <p className="text-[12px] mt-0.5 leading-tight">{d.linea}</p>
+                <p className="text-[11px] text-muted-foreground">{d.ciudad}, {d.departamento} · {d.pais}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </Section>
       <Section title="Próximas sesiones" action={<Link to="/horario" className="text-xs text-primary hover:underline">Ver agenda</Link>}>
         {sesiones.length ? sesiones.slice(0, 3).map((s) => (
@@ -187,6 +233,16 @@ function TabResumen({ nino, sesiones }: { nino: any; sesiones: any[] }) {
             <span className="text-xs text-muted-foreground">{s.sala}</span>
           </div>
         )) : <p className="text-xs text-muted-foreground">Sin sesiones programadas hoy.</p>}
+      </Section>
+      <Section title="Contacto primario" action={primario ? <a href={`tel:${primario.telefono}`} className="text-xs text-primary hover:underline">Llamar</a> : null}>
+        {primario ? (
+          <div className="text-sm space-y-1">
+            <div className="font-medium">{primario.nombre}</div>
+            <div className="text-[11px] text-muted-foreground">{primario.relacion}</div>
+            <div className="text-[12px] mt-2 flex items-center gap-1"><Phone className="h-3 w-3 text-muted-foreground" /> {primario.telefono}</div>
+            <div className="text-[12px] flex items-center gap-1"><Mail className="h-3 w-3 text-muted-foreground" /> {primario.correo}</div>
+          </div>
+        ) : <p className="text-xs text-muted-foreground">Sin caregiver registrado.</p>}
       </Section>
     </div>
   );
@@ -339,7 +395,9 @@ function TabConducta({ planes }: { planes: ReturnType<typeof getPlanesConducta> 
   );
 }
 
-function TabFamilia({ nino }: { nino: any }) {
+function TabFamilia({ nino, ninoId }: { nino: any; ninoId: string }) {
+  // ninoId reservado para futuras integraciones (mensajería, portal familias)
+  void ninoId;
   return (
     <div className="grid md:grid-cols-2 gap-4">
       <Section title="Contacto">
@@ -469,3 +527,87 @@ function Row({ label, value, icon }: { label: string; value: string; icon?: Reac
     </div>
   );
 }
+
+// ===== Case rail estilo Office Puzzle =====
+function CaseRail({ ninoId, onTab }: { ninoId: string; onTab: (t: Tab) => void }) {
+  const tiles: { label: string; icon: React.ReactNode; onClick?: () => void; to?: string; params?: any }[] = [
+    { label: "Calendar", icon: <Calendar className="h-4 w-4" />, to: "/horario" },
+    { label: "Documents", icon: <FolderOpen className="h-4 w-4" />, onClick: () => onTab("Expediente") },
+    { label: "Data", icon: <Database className="h-4 w-4" />, onClick: () => onTab("Sesiones") },
+    { label: "Charts", icon: <BarChart3 className="h-4 w-4" />, to: "/clinico/graficas" },
+    { label: "Required docs", icon: <FileCheck className="h-4 w-4" />, onClick: () => onTab("Expediente") },
+    { label: "Events", icon: <CalendarClock className="h-4 w-4" />, onClick: () => onTab("Eventos") },
+    { label: "Service plan", icon: <ListTree className="h-4 w-4" />, onClick: () => onTab("Programas") },
+    { label: "Users", icon: <UsersIcon className="h-4 w-4" />, onClick: () => onTab("Familia") },
+    { label: "Files", icon: <FileText className="h-4 w-4" />, onClick: () => onTab("Expediente") },
+    { label: "Notes", icon: <StickyNote className="h-4 w-4" />, onClick: () => onTab("Conducta") },
+    { label: "Sesión ABA", icon: <LineChart className="h-4 w-4" />, to: "/sesion/$ninoId", params: { ninoId } },
+  ];
+  return (
+    <nav className="rounded-2xl border border-border/70 bg-card p-2 flex items-center gap-1 overflow-x-auto">
+      {tiles.map((t) => {
+        const inner = (
+          <span className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors whitespace-nowrap">
+            <span className="text-primary">{t.icon}</span>
+            {t.label}
+          </span>
+        );
+        if (t.to) {
+          return (
+            <Link key={t.label} to={t.to as any} params={t.params}>
+              {inner}
+            </Link>
+          );
+        }
+        return (
+          <button key={t.label} onClick={t.onClick}>
+            {inner}
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
+
+// ===== Tab: Eventos del caso =====
+function TabEventos({ ninoId }: { ninoId: string }) {
+  const eventos = getEventosCaso(ninoId);
+  const toneFor = (tipo: string) =>
+    tipo === "Incidente" ? "bg-[oklch(0.94_0.04_25)] text-[oklch(0.45_0.13_25)]" :
+    tipo === "Cambio de plan" ? "bg-[oklch(0.94_0.06_240)] text-[oklch(0.4_0.13_240)]" :
+    tipo === "Reunión" ? "bg-[oklch(0.94_0.05_155)] text-[oklch(0.35_0.12_155)]" :
+    "bg-muted text-muted-foreground";
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <p className="text-xs text-muted-foreground">Eventos administrativos y clínicos asociados al caso.</p>
+        <button className="inline-flex items-center gap-1.5 rounded-md bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium">
+          <Plus className="h-3.5 w-3.5" /> Nuevo evento
+        </button>
+      </div>
+      <ol className="relative border-l border-border/60 ml-2 space-y-3">
+        {eventos.map((e) => (
+          <li key={e.id} className="ml-4">
+            <span className="absolute -left-1.5 h-3 w-3 rounded-full bg-primary ring-4 ring-background" />
+            <article className="rounded-xl border border-border/70 bg-card p-4">
+              <div className="flex items-start justify-between flex-wrap gap-2">
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className={`text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 ${toneFor(e.tipo)}`}>{e.tipo}</span>
+                    <span className="font-medium">{e.titulo}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">{e.detalle}</p>
+                </div>
+                <div className="text-right text-[11px] text-muted-foreground tabular shrink-0">
+                  <div>{e.fecha}</div>
+                  <div>{e.responsable}</div>
+                </div>
+              </div>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
