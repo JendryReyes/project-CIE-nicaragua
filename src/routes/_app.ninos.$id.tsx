@@ -105,7 +105,7 @@ function NinoDetalle() {
       </header>
 
       {/* Case rail (estilo Office Puzzle) */}
-      <CaseRail ninoId={id} onTab={(t) => setTab(t)} />
+      <CaseRail ninoId={id} onTab={(t: Tab) => setTab(t)} />
 
       {/* Tabs */}
       <div className="border-b border-border/60 flex gap-1 overflow-x-auto">
