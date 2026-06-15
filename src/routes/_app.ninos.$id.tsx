@@ -27,7 +27,7 @@ export const Route = createFileRoute("/_app/ninos/$id")({
   ),
 });
 
-const TABS = ["Resumen", "Programas", "Sesiones", "Evaluaciones", "Conducta", "Familia", "Expediente", "Facturación"] as const;
+const TABS = ["Resumen", "Programas", "Sesiones", "Eventos", "Evaluaciones", "Conducta", "Familia", "Expediente", "Facturación"] as const;
 type Tab = (typeof TABS)[number];
 
 function NinoDetalle() {
