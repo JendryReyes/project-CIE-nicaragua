@@ -4,14 +4,17 @@ import { ninoById, sesionesHoy, areaLabels, iniciales, type Area } from "@/lib/d
 import {
   ArrowLeft, FileText, MessageSquare, Phone, Mail, Download, Plus, CheckCircle2,
   Stethoscope, Upload, ClipboardList, AlertTriangle, LineChart, Calendar, Users as UsersIcon,
-  FolderOpen, Receipt, BookOpen, ExternalLink,
+  FolderOpen, Receipt, BookOpen, ExternalLink, Home, School, MapPin, Database, BarChart3,
+  ListTree, FileCheck, CalendarClock, StickyNote, Star,
 } from "lucide-react";
 import {
   getPrograma, getEvaluaciones, getPlanesConducta, getDocumentos, getFacturacion,
   calcularProgresoClinico, documentosObligatorios,
+  getCaregivers, getDirecciones, getEventosCaso,
 } from "@/lib/perfil-nino-data";
 import { cartasPorNino, estadoCartaColor } from "@/lib/cartas-inss";
 import { GraficaProgramaModal } from "@/components/grafica-programa-modal";
+
 
 export const Route = createFileRoute("/_app/ninos/$id")({
   head: () => ({ meta: [{ title: "Expediente · CIE" }] }),
