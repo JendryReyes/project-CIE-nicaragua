@@ -26,6 +26,7 @@ import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
 import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
+import { Route as AppFacturacionIndexRouteImport } from './routes/_app.facturacion.index'
 import { Route as AppSesionNinoIdRouteImport } from './routes/_app.sesion.$ninoId'
 import { Route as AppNinosIdRouteImport } from './routes/_app.ninos.$id'
 import { Route as AppFacturacionReportesRouteImport } from './routes/_app.facturacion.reportes'
@@ -121,6 +122,11 @@ const AppNinosIndexRoute = AppNinosIndexRouteImport.update({
   path: '/ninos/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppFacturacionIndexRoute = AppFacturacionIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppFacturacionRoute,
+} as any)
 const AppSesionNinoIdRoute = AppSesionNinoIdRouteImport.update({
   id: '/sesion/$ninoId',
   path: '/sesion/$ninoId',
@@ -200,6 +206,7 @@ export interface FileRoutesByFullPath {
   '/facturacion/reportes': typeof AppFacturacionReportesRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/sesion/$ninoId': typeof AppSesionNinoIdRoute
+  '/facturacion/': typeof AppFacturacionIndexRoute
   '/ninos/': typeof AppNinosIndexRoute
 }
 export interface FileRoutesByTo {
@@ -211,7 +218,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardRoute
   '/ejecucion': typeof AppEjecucionRoute
   '/equipo': typeof AppEquipoRoute
-  '/facturacion': typeof AppFacturacionRouteWithChildren
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
@@ -228,6 +234,7 @@ export interface FileRoutesByTo {
   '/facturacion/reportes': typeof AppFacturacionReportesRoute
   '/ninos/$id': typeof AppNinosIdRoute
   '/sesion/$ninoId': typeof AppSesionNinoIdRoute
+  '/facturacion': typeof AppFacturacionIndexRoute
   '/ninos': typeof AppNinosIndexRoute
 }
 export interface FileRoutesById {
@@ -258,6 +265,7 @@ export interface FileRoutesById {
   '/_app/facturacion/reportes': typeof AppFacturacionReportesRoute
   '/_app/ninos/$id': typeof AppNinosIdRoute
   '/_app/sesion/$ninoId': typeof AppSesionNinoIdRoute
+  '/_app/facturacion/': typeof AppFacturacionIndexRoute
   '/_app/ninos/': typeof AppNinosIndexRoute
 }
 export interface FileRouteTypes {
@@ -288,6 +296,7 @@ export interface FileRouteTypes {
     | '/facturacion/reportes'
     | '/ninos/$id'
     | '/sesion/$ninoId'
+    | '/facturacion/'
     | '/ninos/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -299,7 +308,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/ejecucion'
     | '/equipo'
-    | '/facturacion'
     | '/familias'
     | '/horario'
     | '/matricula'
@@ -316,6 +324,7 @@ export interface FileRouteTypes {
     | '/facturacion/reportes'
     | '/ninos/$id'
     | '/sesion/$ninoId'
+    | '/facturacion'
     | '/ninos'
   id:
     | '__root__'
@@ -345,6 +354,7 @@ export interface FileRouteTypes {
     | '/_app/facturacion/reportes'
     | '/_app/ninos/$id'
     | '/_app/sesion/$ninoId'
+    | '/_app/facturacion/'
     | '/_app/ninos/'
   fileRoutesById: FileRoutesById
 }
@@ -476,6 +486,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNinosIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/facturacion/': {
+      id: '/_app/facturacion/'
+      path: '/'
+      fullPath: '/facturacion/'
+      preLoaderRoute: typeof AppFacturacionIndexRouteImport
+      parentRoute: typeof AppFacturacionRoute
+    }
     '/_app/sesion/$ninoId': {
       id: '/_app/sesion/$ninoId'
       path: '/sesion/$ninoId'
@@ -568,6 +585,7 @@ interface AppFacturacionRouteChildren {
   AppFacturacionDepuracionRoute: typeof AppFacturacionDepuracionRoute
   AppFacturacionEventualesRoute: typeof AppFacturacionEventualesRoute
   AppFacturacionReportesRoute: typeof AppFacturacionReportesRoute
+  AppFacturacionIndexRoute: typeof AppFacturacionIndexRoute
 }
 
 const AppFacturacionRouteChildren: AppFacturacionRouteChildren = {
@@ -577,6 +595,7 @@ const AppFacturacionRouteChildren: AppFacturacionRouteChildren = {
   AppFacturacionDepuracionRoute: AppFacturacionDepuracionRoute,
   AppFacturacionEventualesRoute: AppFacturacionEventualesRoute,
   AppFacturacionReportesRoute: AppFacturacionReportesRoute,
+  AppFacturacionIndexRoute: AppFacturacionIndexRoute,
 }
 
 const AppFacturacionRouteWithChildren = AppFacturacionRoute._addFileChildren(
