@@ -200,9 +200,11 @@ function GeneralTab({
       {/* Sedes agrupadas */}
       <div className="space-y-6">
         {sedesVisibles.map((s) => (
-          <SedeBlock key={s.id} sede={s} />
+          <SedeBlock key={s.id} sede={s} onSelect={setDetalle} />
         ))}
       </div>
+
+      {detalle && <DetalleNino nino={detalle} quincena={quincena} onClose={() => setDetalle(null)} />}
 
       {/* Lotes recientes (link rápido) */}
       <div className="rounded-2xl border border-border/70 bg-card overflow-hidden">
