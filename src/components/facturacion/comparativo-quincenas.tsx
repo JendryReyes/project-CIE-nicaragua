@@ -120,6 +120,7 @@ export function ComparativoQuincenasPanel() {
   const [anio, setAnio] = useState("2026");
   const [sedeId, setSedeId] = useState("todas");
   const [soloExcedentes, setSoloExcedentes] = useState(false);
+  const [detalle, setDetalle] = useState<FilaComparativo | null>(null);
 
   const filas = useMemo<FilaComparativo[]>(() => {
     const sedes = sedeId === "todas" ? sedesFact : sedesFact.filter((s) => s.id === sedeId);
