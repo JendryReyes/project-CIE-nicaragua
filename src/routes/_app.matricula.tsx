@@ -530,16 +530,41 @@ function Pill({ tipo }: { tipo: "ingreso" | "egreso" | "suspension" }) {
 }
 
 function MiniBars() {
-  const data = [4, 6, 3, 7, 5, 8, 6];
-  const max = Math.max(...data);
+  // ingresos / egresos / suspensiones por semana
+  const data = [
+    { ing: 3, egr: 1, sus: 0 },
+    { ing: 5, egr: 2, sus: 1 },
+    { ing: 2, egr: 1, sus: 0 },
+    { ing: 6, egr: 1, sus: 1 },
+    { ing: 4, egr: 3, sus: 0 },
+    { ing: 7, egr: 2, sus: 2 },
+    { ing: 5, egr: 1, sus: 1 },
+  ];
+  const max = Math.max(...data.map((d) => d.ing + d.egr + d.sus));
   return (
-    <div className="flex items-end gap-2 h-32">
-      {data.map((v, i) => (
-        <div key={i} className="flex-1 flex flex-col items-center gap-1">
-          <div className="w-full rounded-t bg-primary/70" style={{ height: `${(v / max) * 100}%` }} />
-          <span className="text-[10px] text-muted-foreground tabular">S{i + 1}</span>
-        </div>
-      ))}
+    <div className="space-y-2">
+      <div className="flex items-end gap-3 h-36">
+        {data.map((d, i) => {
+          const total = d.ing + d.egr + d.sus;
+          const h = (total / max) * 100;
+          return (
+            <div key={i} className="flex-1 flex flex-col items-center gap-1 h-full justify-end">
+              <span className="text-[10px] tabular text-muted-foreground">{total}</span>
+              <div className="w-full flex flex-col-reverse rounded-md overflow-hidden border border-border/40" style={{ height: `${h}%`, minHeight: 8 }}>
+                <div style={{ flexGrow: d.ing }} className="bg-[oklch(0.6_0.14_155)]" title={`Ingresos: ${d.ing}`} />
+                <div style={{ flexGrow: d.egr }} className="bg-[oklch(0.65_0.12_60)]" title={`Egresos: ${d.egr}`} />
+                <div style={{ flexGrow: d.sus }} className="bg-[oklch(0.6_0.18_25)]" title={`Suspensiones: ${d.sus}`} />
+              </div>
+              <span className="text-[10px] text-muted-foreground tabular">S{i + 1}</span>
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex items-center gap-4 text-[11px] text-muted-foreground pt-2 border-t border-border/40">
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.6_0.14_155)]" /> Ingresos</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.65_0.12_60)]" /> Egresos</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.6_0.18_25)]" /> Suspensiones</span>
+      </div>
     </div>
   );
 }
