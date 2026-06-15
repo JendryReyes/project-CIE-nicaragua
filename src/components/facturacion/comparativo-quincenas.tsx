@@ -195,15 +195,68 @@ export function ComparativoQuincenasPanel() {
     };
   }, [filas]);
 
+  const excedentesSinConstancia = filas.filter((f) => f.excede > 0 && !f.constancia);
+  const colillasKpi = colillasResumen();
+
+  const handleCartaCobro = () => {
+    const filasCobro: FilaCobro[] = filas.map((f) => ({
+      nino: f.nino.nombre,
+      codigoINSS: f.nino.codigoINSS,
+      sede: f.sede,
+      area: f.area,
+      aprobadas: f.aprobadas,
+      q1Horas: f.q1Horas,
+      q2Horas: f.q2Horas,
+      totalHoras: f.totalHoras,
+      brecha: f.brecha,
+      totalMonto: f.totalMonto,
+      excede: f.excede,
+      constancia: f.constancia,
+    }));
+    descargarCartaInstitucional({
+      mes, anio,
+      sede: sedeId === "todas" ? "Todas las sedes" : (sedesFact.find((s) => s.id === sedeId)?.nombre ?? sedeId),
+      filas: filasCobro,
+      totales: {
+        aprobadas: totales.aprobadas,
+        q1Horas: totales.q1Horas,
+        q2Horas: totales.q2Horas,
+        totalHoras: totales.totalHoras,
+        totalMonto: totales.totalMonto,
+        excedentes: totales.excedentes,
+        cobertura: totales.cobertura,
+      },
+    });
+  };
+
   return (
     <div className="space-y-6">
+      {/* Alerta automática de excedentes */}
+      {excedentesSinConstancia.length > 0 && (
+        <div className="rounded-2xl border border-[oklch(0.7_0.15_25/0.4)] bg-[oklch(0.97_0.04_25)] p-4 flex items-start gap-3">
+          <AlertTriangle className="h-5 w-5 text-[oklch(0.55_0.18_25)] mt-0.5 shrink-0" />
+          <div className="flex-1 text-sm">
+            <div className="font-medium text-[oklch(0.4_0.15_25)]">
+              Alerta automática · {excedentesSinConstancia.length} caso{excedentesSinConstancia.length === 1 ? "" : "s"} excede{excedentesSinConstancia.length === 1 ? "" : "n"} las horas aprobadas
+            </div>
+            <div className="text-[oklch(0.4_0.12_25)] mt-0.5">
+              {excedentesSinConstancia.map((f) => `${f.nino.nombre} (${f.area}: +${f.excede}h)`).slice(0, 3).join(" · ")}
+              {excedentesSinConstancia.length > 3 && ` · +${excedentesSinConstancia.length - 3} más`}
+            </div>
+            <div className="text-[11px] text-[oklch(0.45_0.1_25)] mt-1">
+              Estas horas no se facturan al INSS hasta que la familia presente constancia médica que las justifique.
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Acciones documentales */}
       <div className="flex flex-wrap items-center gap-2">
-        <ActionBtn icon={FileText} label="Carta de cobro INSS" primary />
+        <ActionBtn icon={FileText} label="Carta de cobro INSS (PDF)" primary onClick={handleCartaCobro} />
         <ActionBtn icon={FileSpreadsheet} label="Formato facturación" />
         <ActionBtn icon={Receipt} label="Recibo oficial de caja" />
         <ActionBtn icon={Mail} label="Adjuntos para INSS" />
-        <ActionBtn icon={Printer} label="Imprimir comparativo" />
+        <ActionBtn icon={Printer} label="Imprimir comparativo" onClick={() => window.print()} />
       </div>
 
       {/* Filtros */}
