@@ -51,6 +51,7 @@ function Facturacion() {
             {tab === "general" && `Vista general · Quincena ${quincena === "Q1" ? "1 (1-15)" : "2 (16-30)"} · ${mes} ${anio}`}
             {tab === "cierre" && `Cierre de quincena · ${mes} ${anio}`}
             {tab === "cartas" && "Cartas INSS · Vigencia de aprobaciones semestrales"}
+            {tab === "resumen" && "Resumen formal · Visitas, Reclamos, Remesas y Facturas"}
           </p>
         </div>
       </div>
