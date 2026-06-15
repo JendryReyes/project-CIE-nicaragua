@@ -18,7 +18,7 @@ const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 const anios = ["2025","2026"];
 
 function Facturacion() {
-  const [tab, setTab] = useState<"general" | "cierre" | "cartas" | "resumen">("general");
+  const [tab, setTab] = useState<"general" | "admin" | "cierre" | "cartas" | "resumen">("admin");
   const [mes, setMes] = useState("Mayo");
   const [anio, setAnio] = useState("2026");
   const [quincena, setQuincena] = useState<"Q1" | "Q2">("Q2");
