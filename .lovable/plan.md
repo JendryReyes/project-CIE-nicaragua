@@ -1,91 +1,75 @@
-# Ajustes solicitados — reorganización por flujo operativo
+## Alcance
 
-Implementaré los 4 bloques en el orden en que se usan en el día a día: **Matrícula → Planificación → ABA → Ejecución/Puntualidad**.
+El módulo de facturación ya tiene una base sólida (motor de cálculo Q1/Q2, comparativo quincenal, cartas INSS, suspensiones, colillas, exportaciones PDF). Este plan **completa lo que falta** del spec sin reescribir lo existente, manteniendo todo como demo/mock en frontend (sin tocar backend ni base de datos por ahora).
 
----
+## Lo que ya existe (no se rehace)
+- Motor `calcularResumenNino` con clasificación Privada/Pro-bono/INSS/Fuera-de-Contrato y aplicación de constancia médica (`src/lib/facturacion-motor.ts`, `facturacion-inss.ts`).
+- Cartas INSS vigentes por niño y disciplina (`cartas-inss.ts` + `_app.facturacion.cartas.tsx`).
+- Comparativo Q1/Q2 con alertas de excedente sin constancia, exportaciones (carta de cobro, formato facturación, recibo, carátula, PDF).
+- Suspensiones horarias (`suspensiones.ts`).
 
-## 1) Dashboard reordenado por flujo
+## Lo que se añade
 
-Reescribir `src/routes/_app.dashboard.tsx` para que las secciones sigan el flujo real:
+### 1. Modelo de datos (mocks) — `src/lib/facturacion-modelo.ts` (nuevo)
+- `Pagador` (INSS / Privado / Pro-bono) — un solo activo por niño, con historial.
+- `EstadoMatricula` (activo / baja / suspension) con fecha efectiva.
+- `ServicioEventual` (ADOS-2, Eval Fisio, Eval Logo, Visita escolar, Neuropediatría) con: tipo, niño, fecha, monto, informe adjunto, recibo conformidad firmado, carta INSS si aplica, estado de facturación.
+- Helpers: `pagadorActivo(ninoId)`, `estadoMatricula(ninoId, fecha)`, `serviciosEventualesDelCorte(corte)`.
+- Regla: no se puede marcar facturable a INSS sin carta vigente (ya lo aplica el motor; se añade validación visible).
 
-1. **Matrícula** (primero) — KPIs: activos, ingresos del mes, egresos, suspendidos, **horas planificadas vs. horas acreditadas por INSS**, % cobertura documental. Lista de niños con documentos faltantes del checklist del *Manual de Prestación de Servicios* (1ª evaluación, entrevista a padres, consentimiento, colilla INSS, diagnóstico, contrato).
-2. **Planificación** — Horas programables vs. programadas (gap), causas de no programación, resumen por supervisor.
-3. **ABA / Clínico** — Accesos rápidos a sesiones ABA, biblioteca, gráficas, alertas de estancamiento.
-4. **Ejecución y puntualidad** — A tiempo / tarde / ausentes por sede, desviación promedio (min).
-5. **Facturación INSS** — Lotes y cartas (se mantiene, al final).
+### 2. Pantalla de depuración pre-facturación — `src/routes/_app.facturacion.depuracion.tsx` (nuevo)
+- Filtros: corte (Q1/Q2/rango), sede, niño, disciplina.
+- Tabla expandible por niño → sesiones individuales con toggle **facturable / no facturable** (atributo contable, sin tocar el registro clínico — bandera visible "el registro clínico no se modifica").
+- Columnas resumen por niño: Privada / Pro-bono / INSS-facturable / Fuera-de-Contrato (horas y monto).
+- Banda destacada arriba: casos con excedente sin constancia médica, con CTA "Adjuntar constancia" y "Marcar como Fuera de Contrato (con justificación)".
+- Estado local persistido en `sessionStorage` (demo).
 
-Todo clickeable (ya está el patrón con `<Link>`).
+### 3. Módulo de Servicios Eventuales — `src/routes/_app.facturacion.eventuales.tsx` (nuevo)
+- Lista por corte con: tipo, niño, fecha, monto, estado de adjuntos (informe / recibo / carta INSS).
+- Botón "Registrar servicio eventual" → modal con campos y subida simulada de adjuntos (preview, sin storage real).
+- Checkbox "Incluir en lote de facturación del corte" → se suma al total del corte.
 
-## 2) Módulo Planificación (nuevo)
+### 4. Alertas y trazabilidad — extensión de `facturacion-motor.ts`
+- Alerta 80% por disciplina (ya hay `porcentajeUsado`; se añade banner en niño y badge en listas).
+- Cada clasificación automática (Fuera-de-Contrato, alerta 80%) genera un `JustificacionAuditoria { motivo, constanciaId?, timestamp, usuario }` adjunto al resumen para mostrar en el detalle y en el PDF.
 
-Nueva ruta `src/routes/_app.planificacion.tsx` + entrada en sidebar.
+### 5. Reportes adicionales — `src/routes/_app.facturacion.reportes.tsx` (nuevo)
+Un solo route con tabs y filtros comunes (corte / disciplina / niño / sede):
+- Desglose por niño y disciplina (4 categorías).
+- Horas no facturadas en Corte 2 (considerando constancias).
+- Servicios brindados por corte (cantidades + montos), incluyendo eventuales.
+- Horas no brindadas por inasistencia.
+- Niños en suspensión horaria.
+- Bajas de matrícula del período.
+- Recibo oficial de caja.
+Cada tab tiene botón "Exportar PDF" reutilizando los helpers existentes.
 
-Vista de **lo general a lo particular** con tabs:
-- **Vista general**: barras horizontales con horas programables vs. programadas por sede.
-- **Por supervisor**: tabla — supervisor, niños asignados, h. programables, h. programadas, % cumplimiento.
-- **Por niño**: tabla — niño, supervisor, área, h. INSS aprobadas, h. programadas, **motivo si hay gap** (sin disponibilidad de terapeuta, sala ocupada, falta de transporte, pendiente de checklist, etc.).
-- **Asistencia & supervisión**: mini resumen con link a `/asistencia` y al módulo clínico.
+### 6. Integración en navegación
+- `_app.facturacion.tsx`: añadir tarjetas/links a **Depuración**, **Eventuales**, **Reportes**.
+- Validar en el flujo "Enviar al INSS" que el lote pasó por depuración (banderita visual, no bloqueante en demo).
 
-Datos demo en `src/lib/planificacion-data.ts` (motivos de no programación, h. programables por sede, agregados por supervisor).
+## Lo que NO se hace en este pase
+- Persistencia real (sigue todo en mocks; backend/Lovable Cloud queda para una iteración futura).
+- Subida real de adjuntos a storage.
+- Firma digital real de recibos (se simula como en `firmas-digitales.ts`).
 
-## 3) Módulo ABA (separar de biblioteca/clínico actual)
+## Archivos a tocar
 
-Crear sección **ABA** en el sidebar con sub-items:
-- **Sesiones ABA** (renombrar la vista actual de sesiones, ya existe en clínico)
-- **Biblioteca ABA** (mover `_app.biblioteca.tsx`)
-- **Gráficas** (`_app.clinico.graficas.tsx`)
+```text
+nuevo  src/lib/facturacion-modelo.ts
+nuevo  src/lib/servicios-eventuales.ts
+nuevo  src/routes/_app.facturacion.depuracion.tsx
+nuevo  src/routes/_app.facturacion.eventuales.tsx
+nuevo  src/routes/_app.facturacion.reportes.tsx
+nuevo  src/components/facturacion/depuracion-tabla.tsx
+nuevo  src/components/facturacion/eventuales-form.tsx
+edit   src/lib/facturacion-motor.ts        (justificación auditoría + alerta 80%)
+edit   src/routes/_app.facturacion.tsx     (links a nuevas vistas)
+```
 
-Cambios:
-- Agrupar estos 3 ítems en el `app-sidebar` bajo el encabezado "ABA".
-- Sacarlos de cualquier referencia que los mezcle con Matrícula/Planificación.
-- Mantener las rutas actuales para no romper enlaces; sólo reordenar visualmente.
+## Notas técnicas
+- TanStack Start file-routes, shadcn/Tailwind, sin nuevas dependencias.
+- Toda clasificación contable es una bandera **separada** del registro de sesión; el componente de depuración lo deja explícito en UI.
+- Los exportadores PDF reutilizan `docs-comparativo.ts` y `carta-cobro-*.ts`.
 
-## 4) Ejecución — control de puntualidad
-
-Ampliar `src/routes/_app.asistencia.tsx`:
-- Cada check-in registra `horaProgramada` y `horaIngreso` → calcula `desviacionMin`.
-- Estados: **A tiempo** (≤0 min), **Tarde leve** (1-14 min), **Tarde** (≥15 min), **Ausente**.
-
-Nueva pestaña / panel **"Reporte de puntualidad por sede"**:
-- Tabla por sede: total atendidos, a tiempo, tarde, ausentes, desviación promedio.
-- Ejemplo: "Managua — 80 niños: 62 a tiempo, 14 tarde (prom. 18 min), 4 ausentes".
-- Botón "Exportar" (visual, demo).
-
-Datos demo extendidos en `src/lib/demo-data.ts` (añadir `horaIngresoReal` a sesiones con check-in).
-
-## 5) Matrícula — checklist & horas INSS
-
-Ampliar `src/routes/_app.matricula.tsx` con un panel arriba:
-- **Horas planificadas vs. acreditadas INSS** (barra comparativa por sede).
-- **Checklist del Manual** por niño (badge "Completo" / "Falta X documentos") usando y extendiendo `src/lib/checklist-inss.ts` con: 1ª evaluación, entrevista a padres, plan terapéutico inicial.
-
----
-
-## Detalle técnico
-
-**Archivos nuevos**
-- `src/routes/_app.planificacion.tsx`
-- `src/lib/planificacion-data.ts`
-- `src/lib/puntualidad-data.ts`
-
-**Archivos modificados**
-- `src/routes/_app.dashboard.tsx` — reordenar secciones según flujo.
-- `src/routes/_app.asistencia.tsx` — añadir reporte de puntualidad por sede.
-- `src/routes/_app.matricula.tsx` — añadir panel horas INSS + checklist Manual.
-- `src/components/app-sidebar.tsx` — agrupar ABA, añadir Planificación, reordenar.
-- `src/lib/checklist-inss.ts` — añadir ítems del Manual (1ª evaluación, entrevista padres).
-- `src/lib/demo-data.ts` — campos `horaIngresoReal`, `desviacionMin` en sesiones.
-
-**Orden final del sidebar**
-1. Dashboard
-2. Matrícula
-3. Planificación *(nuevo)*
-4. Niños / Expedientes
-5. ABA *(grupo: Sesiones, Biblioteca, Gráficas)*
-6. Ejecución
-7. Asistencia
-8. Horario
-9. Facturación (Lotes, Cartas, Cierre)
-10. Familias · Equipo · Sedes · Reportes
-
-Todo es UI/demo con datos mock — no toca backend ni autenticación.
+¿Apruebas que arranque con este plan, o quieres ajustar el alcance (p. ej. dejar los reportes en una segunda iteración, o conectar ya backend real con Lovable Cloud)?

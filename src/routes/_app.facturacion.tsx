@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { AlertTriangle, FileText, Printer, FileSpreadsheet, Plus, ArrowRight, X } from "lucide-react";
+import { AlertTriangle, FileText, Printer, FileSpreadsheet, Plus, ArrowRight, X, ClipboardCheck, CalendarRange, BarChart3 } from "lucide-react";
 import { sedesFact, calcularNino, tarifa, areaColor, type AreaFact, type NinoFact } from "@/lib/modulos-data";
 import { loteDemo } from "@/lib/facturacion-inss";
 import { lotesINSS } from "@/lib/demo-data";
@@ -57,6 +57,29 @@ function Facturacion() {
           </p>
         </div>
       </div>
+
+      {/* Accesos rápidos a sub-módulos */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <QuickLink
+          to="/facturacion/depuracion"
+          icon={<ClipboardCheck className="h-4 w-4" />}
+          title="Depuración pre-facturación"
+          desc="Revisa sesión por sesión y reclasifica antes de cerrar el lote."
+        />
+        <QuickLink
+          to="/facturacion/eventuales"
+          icon={<CalendarRange className="h-4 w-4" />}
+          title="Servicios eventuales"
+          desc="ADOS-2, evaluaciones, visitas escolares y neuropediatría con adjuntos."
+        />
+        <QuickLink
+          to="/facturacion/reportes"
+          icon={<BarChart3 className="h-4 w-4" />}
+          title="Reportes"
+          desc="Desglose, no facturadas, inasistencias, suspensiones, bajas y recibo de caja."
+        />
+      </div>
+
 
       <div className="flex items-center gap-1 border-b border-border/60">
         {([
@@ -479,5 +502,23 @@ function Stat({ label, value, hint, accent, warn }: { label: string; value: stri
       <div className={`font-display text-2xl mt-1 tabular ${accent ? "text-primary" : ""} ${warn ? "text-[oklch(0.45_0.15_25)]" : ""}`}>{value}</div>
       {hint && <div className="text-xs text-muted-foreground mt-0.5">{hint}</div>}
     </div>
+  );
+}
+
+function QuickLink({ to, icon, title, desc }: { to: string; icon: React.ReactNode; title: string; desc: string }) {
+  return (
+    <Link
+      to={to}
+      className="group rounded-2xl border border-border/70 bg-card p-4 hover:border-primary/40 hover:shadow-sm transition flex items-start gap-3"
+    >
+      <span className="grid place-items-center h-9 w-9 rounded-lg bg-primary/10 text-primary shrink-0">{icon}</span>
+      <span className="min-w-0 flex-1">
+        <span className="font-medium text-sm flex items-center gap-1">
+          {title}
+          <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition" />
+        </span>
+        <span className="block text-xs text-muted-foreground mt-0.5">{desc}</span>
+      </span>
+    </Link>
   );
 }
