@@ -395,7 +395,9 @@ function TabConducta({ planes }: { planes: ReturnType<typeof getPlanesConducta> 
   );
 }
 
-function TabFamilia({ nino }: { nino: any }) {
+function TabFamilia({ nino, ninoId }: { nino: any; ninoId: string }) {
+  // ninoId reservado para futuras integraciones (mensajería, portal familias)
+  void ninoId;
   return (
     <div className="grid md:grid-cols-2 gap-4">
       <Section title="Contacto">
