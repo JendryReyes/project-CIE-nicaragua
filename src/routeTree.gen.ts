@@ -19,6 +19,7 @@ import { Route as AppPlanificacionRouteImport } from './routes/_app.planificacio
 import { Route as AppMatriculaRouteImport } from './routes/_app.matricula'
 import { Route as AppHorarioRouteImport } from './routes/_app.horario'
 import { Route as AppFamiliasRouteImport } from './routes/_app.familias'
+import { Route as AppFacturacionRouteImport } from './routes/_app.facturacion'
 import { Route as AppEquipoRouteImport } from './routes/_app.equipo'
 import { Route as AppEjecucionRouteImport } from './routes/_app.ejecucion'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
@@ -86,6 +87,11 @@ const AppFamiliasRoute = AppFamiliasRouteImport.update({
   path: '/familias',
   getParentRoute: () => AppRoute,
 } as any)
+const AppFacturacionRoute = AppFacturacionRouteImport.update({
+  id: '/facturacion',
+  path: '/facturacion',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppEquipoRoute = AppEquipoRouteImport.update({
   id: '/equipo',
   path: '/equipo',
@@ -117,9 +123,9 @@ const AppNinosIndexRoute = AppNinosIndexRouteImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 const AppFacturacionIndexRoute = AppFacturacionIndexRouteImport.update({
-  id: '/facturacion/',
-  path: '/facturacion/',
-  getParentRoute: () => AppRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppFacturacionRoute,
 } as any)
 const AppSesionNinoIdRoute = AppSesionNinoIdRouteImport.update({
   id: '/sesion/$ninoId',
@@ -132,36 +138,36 @@ const AppNinosIdRoute = AppNinosIdRouteImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 const AppFacturacionReportesRoute = AppFacturacionReportesRouteImport.update({
-  id: '/facturacion/reportes',
-  path: '/facturacion/reportes',
-  getParentRoute: () => AppRoute,
+  id: '/reportes',
+  path: '/reportes',
+  getParentRoute: () => AppFacturacionRoute,
 } as any)
 const AppFacturacionEventualesRoute =
   AppFacturacionEventualesRouteImport.update({
-    id: '/facturacion/eventuales',
-    path: '/facturacion/eventuales',
-    getParentRoute: () => AppRoute,
+    id: '/eventuales',
+    path: '/eventuales',
+    getParentRoute: () => AppFacturacionRoute,
   } as any)
 const AppFacturacionDepuracionRoute =
   AppFacturacionDepuracionRouteImport.update({
-    id: '/facturacion/depuracion',
-    path: '/facturacion/depuracion',
-    getParentRoute: () => AppRoute,
+    id: '/depuracion',
+    path: '/depuracion',
+    getParentRoute: () => AppFacturacionRoute,
   } as any)
 const AppFacturacionCierreRoute = AppFacturacionCierreRouteImport.update({
-  id: '/facturacion/cierre',
-  path: '/facturacion/cierre',
-  getParentRoute: () => AppRoute,
+  id: '/cierre',
+  path: '/cierre',
+  getParentRoute: () => AppFacturacionRoute,
 } as any)
 const AppFacturacionCartasRoute = AppFacturacionCartasRouteImport.update({
-  id: '/facturacion/cartas',
-  path: '/facturacion/cartas',
-  getParentRoute: () => AppRoute,
+  id: '/cartas',
+  path: '/cartas',
+  getParentRoute: () => AppFacturacionRoute,
 } as any)
 const AppFacturacionLoteIdRoute = AppFacturacionLoteIdRouteImport.update({
-  id: '/facturacion/$loteId',
-  path: '/facturacion/$loteId',
-  getParentRoute: () => AppRoute,
+  id: '/$loteId',
+  path: '/$loteId',
+  getParentRoute: () => AppFacturacionRoute,
 } as any)
 const AppClinicoGraficasRoute = AppClinicoGraficasRouteImport.update({
   id: '/clinico/graficas',
@@ -183,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AppDashboardRoute
   '/ejecucion': typeof AppEjecucionRoute
   '/equipo': typeof AppEquipoRoute
+  '/facturacion': typeof AppFacturacionRouteWithChildren
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
@@ -241,6 +248,7 @@ export interface FileRoutesById {
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/ejecucion': typeof AppEjecucionRoute
   '/_app/equipo': typeof AppEquipoRoute
+  '/_app/facturacion': typeof AppFacturacionRouteWithChildren
   '/_app/familias': typeof AppFamiliasRoute
   '/_app/horario': typeof AppHorarioRoute
   '/_app/matricula': typeof AppMatriculaRoute
@@ -271,6 +279,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/ejecucion'
     | '/equipo'
+    | '/facturacion'
     | '/familias'
     | '/horario'
     | '/matricula'
@@ -328,6 +337,7 @@ export interface FileRouteTypes {
     | '/_app/dashboard'
     | '/_app/ejecucion'
     | '/_app/equipo'
+    | '/_app/facturacion'
     | '/_app/familias'
     | '/_app/horario'
     | '/_app/matricula'
@@ -427,6 +437,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppFamiliasRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/facturacion': {
+      id: '/_app/facturacion'
+      path: '/facturacion'
+      fullPath: '/facturacion'
+      preLoaderRoute: typeof AppFacturacionRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/equipo': {
       id: '/_app/equipo'
       path: '/equipo'
@@ -471,10 +488,10 @@ declare module '@tanstack/react-router' {
     }
     '/_app/facturacion/': {
       id: '/_app/facturacion/'
-      path: '/facturacion'
+      path: '/'
       fullPath: '/facturacion/'
       preLoaderRoute: typeof AppFacturacionIndexRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppFacturacionRoute
     }
     '/_app/sesion/$ninoId': {
       id: '/_app/sesion/$ninoId'
@@ -492,45 +509,45 @@ declare module '@tanstack/react-router' {
     }
     '/_app/facturacion/reportes': {
       id: '/_app/facturacion/reportes'
-      path: '/facturacion/reportes'
+      path: '/reportes'
       fullPath: '/facturacion/reportes'
       preLoaderRoute: typeof AppFacturacionReportesRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppFacturacionRoute
     }
     '/_app/facturacion/eventuales': {
       id: '/_app/facturacion/eventuales'
-      path: '/facturacion/eventuales'
+      path: '/eventuales'
       fullPath: '/facturacion/eventuales'
       preLoaderRoute: typeof AppFacturacionEventualesRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppFacturacionRoute
     }
     '/_app/facturacion/depuracion': {
       id: '/_app/facturacion/depuracion'
-      path: '/facturacion/depuracion'
+      path: '/depuracion'
       fullPath: '/facturacion/depuracion'
       preLoaderRoute: typeof AppFacturacionDepuracionRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppFacturacionRoute
     }
     '/_app/facturacion/cierre': {
       id: '/_app/facturacion/cierre'
-      path: '/facturacion/cierre'
+      path: '/cierre'
       fullPath: '/facturacion/cierre'
       preLoaderRoute: typeof AppFacturacionCierreRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppFacturacionRoute
     }
     '/_app/facturacion/cartas': {
       id: '/_app/facturacion/cartas'
-      path: '/facturacion/cartas'
+      path: '/cartas'
       fullPath: '/facturacion/cartas'
       preLoaderRoute: typeof AppFacturacionCartasRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppFacturacionRoute
     }
     '/_app/facturacion/$loteId': {
       id: '/_app/facturacion/$loteId'
-      path: '/facturacion/$loteId'
+      path: '/$loteId'
       fullPath: '/facturacion/$loteId'
       preLoaderRoute: typeof AppFacturacionLoteIdRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppFacturacionRoute
     }
     '/_app/clinico/graficas': {
       id: '/_app/clinico/graficas'
@@ -561,12 +578,37 @@ const AppAsistenciaRouteWithChildren = AppAsistenciaRoute._addFileChildren(
   AppAsistenciaRouteChildren,
 )
 
+interface AppFacturacionRouteChildren {
+  AppFacturacionLoteIdRoute: typeof AppFacturacionLoteIdRoute
+  AppFacturacionCartasRoute: typeof AppFacturacionCartasRoute
+  AppFacturacionCierreRoute: typeof AppFacturacionCierreRoute
+  AppFacturacionDepuracionRoute: typeof AppFacturacionDepuracionRoute
+  AppFacturacionEventualesRoute: typeof AppFacturacionEventualesRoute
+  AppFacturacionReportesRoute: typeof AppFacturacionReportesRoute
+  AppFacturacionIndexRoute: typeof AppFacturacionIndexRoute
+}
+
+const AppFacturacionRouteChildren: AppFacturacionRouteChildren = {
+  AppFacturacionLoteIdRoute: AppFacturacionLoteIdRoute,
+  AppFacturacionCartasRoute: AppFacturacionCartasRoute,
+  AppFacturacionCierreRoute: AppFacturacionCierreRoute,
+  AppFacturacionDepuracionRoute: AppFacturacionDepuracionRoute,
+  AppFacturacionEventualesRoute: AppFacturacionEventualesRoute,
+  AppFacturacionReportesRoute: AppFacturacionReportesRoute,
+  AppFacturacionIndexRoute: AppFacturacionIndexRoute,
+}
+
+const AppFacturacionRouteWithChildren = AppFacturacionRoute._addFileChildren(
+  AppFacturacionRouteChildren,
+)
+
 interface AppRouteChildren {
   AppAsistenciaRoute: typeof AppAsistenciaRouteWithChildren
   AppBibliotecaRoute: typeof AppBibliotecaRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppEjecucionRoute: typeof AppEjecucionRoute
   AppEquipoRoute: typeof AppEquipoRoute
+  AppFacturacionRoute: typeof AppFacturacionRouteWithChildren
   AppFamiliasRoute: typeof AppFamiliasRoute
   AppHorarioRoute: typeof AppHorarioRoute
   AppMatriculaRoute: typeof AppMatriculaRoute
@@ -574,15 +616,8 @@ interface AppRouteChildren {
   AppReportesRoute: typeof AppReportesRoute
   AppSedesRoute: typeof AppSedesRoute
   AppClinicoGraficasRoute: typeof AppClinicoGraficasRoute
-  AppFacturacionLoteIdRoute: typeof AppFacturacionLoteIdRoute
-  AppFacturacionCartasRoute: typeof AppFacturacionCartasRoute
-  AppFacturacionCierreRoute: typeof AppFacturacionCierreRoute
-  AppFacturacionDepuracionRoute: typeof AppFacturacionDepuracionRoute
-  AppFacturacionEventualesRoute: typeof AppFacturacionEventualesRoute
-  AppFacturacionReportesRoute: typeof AppFacturacionReportesRoute
   AppNinosIdRoute: typeof AppNinosIdRoute
   AppSesionNinoIdRoute: typeof AppSesionNinoIdRoute
-  AppFacturacionIndexRoute: typeof AppFacturacionIndexRoute
   AppNinosIndexRoute: typeof AppNinosIndexRoute
 }
 
@@ -592,6 +627,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppEjecucionRoute: AppEjecucionRoute,
   AppEquipoRoute: AppEquipoRoute,
+  AppFacturacionRoute: AppFacturacionRouteWithChildren,
   AppFamiliasRoute: AppFamiliasRoute,
   AppHorarioRoute: AppHorarioRoute,
   AppMatriculaRoute: AppMatriculaRoute,
@@ -599,15 +635,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppReportesRoute: AppReportesRoute,
   AppSedesRoute: AppSedesRoute,
   AppClinicoGraficasRoute: AppClinicoGraficasRoute,
-  AppFacturacionLoteIdRoute: AppFacturacionLoteIdRoute,
-  AppFacturacionCartasRoute: AppFacturacionCartasRoute,
-  AppFacturacionCierreRoute: AppFacturacionCierreRoute,
-  AppFacturacionDepuracionRoute: AppFacturacionDepuracionRoute,
-  AppFacturacionEventualesRoute: AppFacturacionEventualesRoute,
-  AppFacturacionReportesRoute: AppFacturacionReportesRoute,
   AppNinosIdRoute: AppNinosIdRoute,
   AppSesionNinoIdRoute: AppSesionNinoIdRoute,
-  AppFacturacionIndexRoute: AppFacturacionIndexRoute,
   AppNinosIndexRoute: AppNinosIndexRoute,
 }
 
