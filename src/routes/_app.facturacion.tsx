@@ -56,7 +56,29 @@ function Facturacion() {
             {tab === "resumen" && "Resumen formal · Visitas, Reclamos, Remesas y Facturas"}
           </p>
         </div>
+        </div>
       </div>
+
+      {/* Accesos rápidos a sub-módulos */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <QuickLink
+          to="/facturacion/depuracion"
+          icon={<ClipboardCheck className="h-4 w-4" />}
+          title="Depuración pre-facturación"
+          desc="Revisa sesión por sesión y reclasifica antes de cerrar el lote."
+        />
+        <QuickLink
+          to="/facturacion/eventuales"
+          icon={<CalendarRange className="h-4 w-4" />}
+          title="Servicios eventuales"
+          desc="ADOS-2, evaluaciones, visitas escolares y neuropediatría con adjuntos."
+        />
+        <QuickLink
+          to="/facturacion/reportes"
+          icon={<BarChart3 className="h-4 w-4" />}
+          title="Reportes"
+          desc="Desglose, no facturadas, inasistencias, suspensiones, bajas y recibo de caja."
+        />
 
       <div className="flex items-center gap-1 border-b border-border/60">
         {([
