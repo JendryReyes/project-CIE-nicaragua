@@ -275,9 +275,21 @@ export function ComparativoQuincenasPanel() {
             <div className="font-medium text-[oklch(0.4_0.15_25)]">
               Alerta automática · {excedentesSinConstancia.length} caso{excedentesSinConstancia.length === 1 ? "" : "s"} excede{excedentesSinConstancia.length === 1 ? "" : "n"} las horas aprobadas
             </div>
-            <div className="text-[oklch(0.4_0.12_25)] mt-0.5">
-              {excedentesSinConstancia.map((f) => `${f.nino.nombre} (${f.area}: +${f.excede}h)`).slice(0, 3).join(" · ")}
-              {excedentesSinConstancia.length > 3 && ` · +${excedentesSinConstancia.length - 3} más`}
+            <div className="text-[oklch(0.4_0.12_25)] mt-0.5 flex flex-wrap gap-x-2 gap-y-1">
+              {excedentesSinConstancia.slice(0, 5).map((f, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setDetalle(f)}
+                  className="underline underline-offset-2 hover:text-[oklch(0.3_0.18_25)] transition-colors text-left"
+                  title="Ver detalle del caso"
+                >
+                  {f.nino.nombre} ({f.area}: +{f.excede}h)
+                </button>
+              ))}
+              {excedentesSinConstancia.length > 5 && (
+                <span className="text-[oklch(0.45_0.1_25)]">+{excedentesSinConstancia.length - 5} más</span>
+              )}
             </div>
             <div className="text-[11px] text-[oklch(0.45_0.1_25)] mt-1">
               Estas horas no se facturan al INSS hasta que la familia presente constancia médica que las justifique.
