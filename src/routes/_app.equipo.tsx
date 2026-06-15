@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { RbacMatriz } from "@/components/rbac-matriz";
+import { SeguridadMFA } from "@/components/seguridad-mfa";
 import { Shield } from "lucide-react";
 
 export const Route = createFileRoute("/_app/equipo")({
@@ -9,7 +10,7 @@ export const Route = createFileRoute("/_app/equipo")({
 
 function Equipo() {
   return (
-    <div className="space-y-6 max-w-[1400px]">
+    <div className="space-y-10 max-w-[1400px]">
       <div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Shield className="h-4 w-4" />
@@ -22,6 +23,10 @@ function Equipo() {
         </p>
       </div>
       <RbacMatriz />
+
+      <div className="border-t border-border/60 pt-8">
+        <SeguridadMFA />
+      </div>
     </div>
   );
 }
