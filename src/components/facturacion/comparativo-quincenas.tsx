@@ -14,6 +14,11 @@ import {
   UserMinus,
   Receipt,
   Mail,
+  X,
+  Calendar,
+  DollarSign,
+  TrendingUp,
+  Activity,
 } from "lucide-react";
 import { sedesFact, tarifa, areaColor, type AreaFact, type NinoFact } from "@/lib/modulos-data";
 import { descargarCartaInstitucional, type FilaCobro } from "@/lib/carta-cobro-institucional";
@@ -115,6 +120,7 @@ export function ComparativoQuincenasPanel() {
   const [anio, setAnio] = useState("2026");
   const [sedeId, setSedeId] = useState("todas");
   const [soloExcedentes, setSoloExcedentes] = useState(false);
+  const [detalle, setDetalle] = useState<FilaComparativo | null>(null);
 
   const filas = useMemo<FilaComparativo[]>(() => {
     const sedes = sedeId === "todas" ? sedesFact : sedesFact.filter((s) => s.id === sedeId);
@@ -378,9 +384,14 @@ export function ComparativoQuincenasPanel() {
             </thead>
             <tbody className="divide-y divide-border/50">
               {filas.map((f, i) => (
-                <tr key={`${f.nino.id}-${f.area}-${i}`} className={f.excede > 0 && !f.constancia ? "bg-[oklch(0.98_0.03_25)]" : ""}>
+                <tr
+                  key={`${f.nino.id}-${f.area}-${i}`}
+                  onClick={() => setDetalle(f)}
+                  className={`cursor-pointer transition-colors hover:bg-muted/40 ${f.excede > 0 && !f.constancia ? "bg-[oklch(0.98_0.03_25)]" : ""}`}
+                  title="Ver detalle"
+                >
                   <td className="px-3 py-2">
-                    <div className="font-medium">{f.nino.nombre}</div>
+                    <div className="font-medium underline-offset-2 hover:underline">{f.nino.nombre}</div>
                     <div className="text-[10px] text-muted-foreground">
                       {f.nino.codigoINSS ?? "—"} · {f.sede}
                     </div>
@@ -648,8 +659,171 @@ export function ComparativoQuincenasPanel() {
           ))}
         </ul>
       </div>
+
+      {detalle && <DetalleFila fila={detalle} mes={mes} anio={anio} onClose={() => setDetalle(null)} />}
     </div>
   );
+}
+
+function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes: string; anio: string; onClose: () => void }) {
+  const f = fila;
+  const sesionesQ1 = Math.max(1, Math.round(f.q1Horas / 2));
+  const sesionesQ2 = Math.max(0, Math.round(f.q2Horas / 2));
+  const tarifaHora = tarifa[f.area];
+  const horasSesion = f.area === "ABA" ? "2h" : "1h";
+  const dias = f.area === "ABA" ? "L–V" : f.area === "Logo" ? "M y J" : "L y X";
+  return (
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-sm" onClick={onClose}>
+      <aside
+        className="h-full w-full max-w-xl overflow-y-auto bg-background border-l border-border shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <header className="sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-border/70 bg-background/95 backdrop-blur p-4">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full" style={{ background: areaColor[f.area] }} />
+              <h3 className="font-display text-lg truncate">{f.nino.nombre}</h3>
+            </div>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              INSS {f.nino.codigoINSS ?? "—"} · {f.sede} · {f.area} · {mes} {anio}
+            </p>
+          </div>
+          <button onClick={onClose} className="rounded-md p-1.5 hover:bg-muted text-muted-foreground">
+            <X className="h-4 w-4" />
+          </button>
+        </header>
+
+        <div className="p-4 space-y-4">
+          {/* KPIs */}
+          <div className="grid grid-cols-2 gap-3">
+            <MiniCard icon={Activity} label="Aprobadas INSS" value={`${f.aprobadas}h`} hint={`${(f.aprobadas / 2).toFixed(0)} sesiones plan`} />
+            <MiniCard icon={TrendingUp} label="Ejecutadas Q1+Q2" value={`${f.totalHoras}h`} hint={`Cobertura ${f.cobertura.toFixed(1)}%`} />
+            <MiniCard icon={DollarSign} label="Total facturable" value={`$${f.totalMonto.toFixed(2)}`} hint={`Tarifa $${tarifaHora}/h`} />
+            <MiniCard
+              icon={AlertTriangle}
+              label={f.excede > 0 ? "Excedente" : "Brecha"}
+              value={f.excede > 0 ? `+${f.excede}h` : f.brecha > 0 ? `−${f.brecha}h` : "0h"}
+              hint={f.excede > 0 ? (f.constancia ? "Justificado por constancia médica" : "Sin constancia médica") : f.brecha > 0 ? "Pendiente por completar" : "Ejecución completa"}
+              tone={f.excede > 0 && !f.constancia ? "warn" : f.brecha > 0 ? "muted" : "ok"}
+            />
+          </div>
+
+          {/* Comparativo Q1 vs Q2 */}
+          <section className="rounded-2xl border border-border/70 p-4">
+            <h4 className="font-display text-sm mb-3 inline-flex items-center gap-2">
+              <Calendar className="h-4 w-4 text-primary" /> Detalle por quincena
+            </h4>
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <QuincenaCol titulo="1ra Quincena" sub={`01–15 ${mes}`} horas={f.q1Horas} sesiones={sesionesQ1} monto={f.q1Monto} tarifaHora={tarifaHora} />
+              <QuincenaCol titulo="2da Quincena" sub={`16–${["Febrero"].includes(mes) ? 28 : 30} ${mes}`} horas={f.q2Horas} sesiones={sesionesQ2} monto={f.q2Monto} tarifaHora={tarifaHora} excede={f.excede} />
+            </div>
+            <div className="mt-3 border-t border-border/60 pt-3 flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Δ Q2 vs Q1</span>
+              <Delta value={f.deltaHoras} />
+            </div>
+          </section>
+
+          {/* Cobertura */}
+          <section className="rounded-2xl border border-border/70 p-4">
+            <div className="flex items-center justify-between text-sm mb-2">
+              <span className="font-medium">Cobertura mensual</span>
+              <span className="tabular text-muted-foreground">
+                {f.totalHoras} / {f.aprobadas}h · {f.cobertura.toFixed(1)}%
+              </span>
+            </div>
+            <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+              <div
+                className="h-full"
+                style={{
+                  width: `${Math.min(100, f.cobertura)}%`,
+                  background:
+                    f.cobertura >= 95
+                      ? "oklch(0.6 0.16 155)"
+                      : f.cobertura >= 70
+                      ? "oklch(0.7 0.14 80)"
+                      : "oklch(0.65 0.18 25)",
+                }}
+              />
+            </div>
+            {f.excede > 0 && (
+              <div className={`mt-3 rounded-lg p-3 text-xs flex items-start gap-2 ${f.constancia ? "bg-[oklch(0.95_0.05_155)] text-[oklch(0.35_0.13_155)]" : "bg-[oklch(0.95_0.06_25)] text-[oklch(0.45_0.15_25)]"}`}>
+                <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+                <div>
+                  <div className="font-medium">
+                    {f.constancia ? "Excedente respaldado" : "Excedente sin respaldo"} · +{f.excede}h
+                  </div>
+                  <div className="opacity-90 mt-0.5">
+                    {f.constancia
+                      ? "Constancia médica adjunta — se incluyen en la factura del INSS."
+                      : "No se facturan al INSS hasta que la familia aporte constancia médica."}
+                  </div>
+                </div>
+              </div>
+            )}
+          </section>
+
+          {/* Plan & sesiones */}
+          <section className="rounded-2xl border border-border/70 p-4">
+            <h4 className="font-display text-sm mb-3">Plan terapéutico</h4>
+            <dl className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm">
+              <Dt>Área</Dt><Dd>{f.area === "ABA" ? "Análisis Conductual Aplicado" : f.area === "Logo" ? "Logopedia" : "Fisioterapia"}</Dd>
+              <Dt>Sesiones/sem</Dt><Dd>{dias} · {horasSesion}</Dd>
+              <Dt>Tarifa INSS</Dt><Dd>${tarifaHora.toFixed(2)} / hora</Dd>
+              <Dt>Sesiones Q1</Dt><Dd>{sesionesQ1} sesiones</Dd>
+              <Dt>Sesiones Q2</Dt><Dd>{sesionesQ2} sesiones</Dd>
+              <Dt>Constancia</Dt><Dd>{f.constancia ? "Sí, adjunta" : "No registrada"}</Dd>
+            </dl>
+          </section>
+
+          {/* Acciones */}
+          <div className="flex flex-wrap gap-2 pt-2">
+            <ActionBtn icon={FileText} label="Carta de cobro de este caso" primary />
+            <ActionBtn icon={Receipt} label="Recibo de caja" />
+            <ActionBtn icon={Printer} label="Imprimir" onClick={() => window.print()} />
+          </div>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+function MiniCard({ icon: Icon, label, value, hint, tone }: { icon: any; label: string; value: string; hint?: string; tone?: "ok" | "warn" | "muted" }) {
+  const color =
+    tone === "warn" ? "text-[oklch(0.55_0.18_25)]" : tone === "ok" ? "text-[oklch(0.45_0.15_155)]" : "";
+  return (
+    <div className="rounded-xl border border-border/70 p-3">
+      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+        <Icon className="h-3 w-3" /> {label}
+      </div>
+      <div className={`font-display text-xl tabular mt-1 ${color}`}>{value}</div>
+      {hint && <div className="text-[11px] text-muted-foreground mt-0.5">{hint}</div>}
+    </div>
+  );
+}
+
+function QuincenaCol({ titulo, sub, horas, sesiones, monto, tarifaHora, excede }: { titulo: string; sub: string; horas: number; sesiones: number; monto: number; tarifaHora: number; excede?: number }) {
+  return (
+    <div className="rounded-xl bg-muted/30 p-3">
+      <div className="text-xs font-medium">{titulo}</div>
+      <div className="text-[10px] text-muted-foreground">{sub}</div>
+      <div className="mt-2 space-y-1 text-sm">
+        <div className="flex justify-between"><span className="text-muted-foreground">Horas</span><span className="tabular font-medium">{horas}h</span></div>
+        <div className="flex justify-between"><span className="text-muted-foreground">Sesiones</span><span className="tabular">{sesiones}</span></div>
+        <div className="flex justify-between"><span className="text-muted-foreground">Tarifa</span><span className="tabular">${tarifaHora}/h</span></div>
+        <div className="flex justify-between border-t border-border/60 pt-1 mt-1"><span className="font-medium">Subtotal</span><span className="tabular font-semibold">${monto.toFixed(2)}</span></div>
+        {typeof excede === "number" && excede > 0 && (
+          <div className="text-[10px] text-[oklch(0.55_0.18_25)] mt-1">+{excede}h excedente del mes</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Dt({ children }: { children: React.ReactNode }) {
+  return <dt className="text-xs text-muted-foreground">{children}</dt>;
+}
+function Dd({ children }: { children: React.ReactNode }) {
+  return <dd className="text-sm">{children}</dd>;
 }
 
 /* -------- subcomponentes -------- */
