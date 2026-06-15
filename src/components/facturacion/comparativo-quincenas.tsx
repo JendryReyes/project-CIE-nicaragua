@@ -16,6 +16,8 @@ import {
   Mail,
 } from "lucide-react";
 import { sedesFact, tarifa, areaColor, type AreaFact, type NinoFact } from "@/lib/modulos-data";
+import { descargarCartaInstitucional, type FilaCobro } from "@/lib/carta-cobro-institucional";
+import { cumplimientoColillas, colillasResumen } from "@/lib/colillas-inss";
 
 /**
  * Administración – Comparativo de Quincenas
@@ -193,15 +195,68 @@ export function ComparativoQuincenasPanel() {
     };
   }, [filas]);
 
+  const excedentesSinConstancia = filas.filter((f) => f.excede > 0 && !f.constancia);
+  const colillasKpi = colillasResumen();
+
+  const handleCartaCobro = () => {
+    const filasCobro: FilaCobro[] = filas.map((f) => ({
+      nino: f.nino.nombre,
+      codigoINSS: f.nino.codigoINSS,
+      sede: f.sede,
+      area: f.area,
+      aprobadas: f.aprobadas,
+      q1Horas: f.q1Horas,
+      q2Horas: f.q2Horas,
+      totalHoras: f.totalHoras,
+      brecha: f.brecha,
+      totalMonto: f.totalMonto,
+      excede: f.excede,
+      constancia: f.constancia,
+    }));
+    descargarCartaInstitucional({
+      mes, anio,
+      sede: sedeId === "todas" ? "Todas las sedes" : (sedesFact.find((s) => s.id === sedeId)?.nombre ?? sedeId),
+      filas: filasCobro,
+      totales: {
+        aprobadas: totales.aprobadas,
+        q1Horas: totales.q1Horas,
+        q2Horas: totales.q2Horas,
+        totalHoras: totales.totalHoras,
+        totalMonto: totales.totalMonto,
+        excedentes: totales.excedentes,
+        cobertura: totales.cobertura,
+      },
+    });
+  };
+
   return (
     <div className="space-y-6">
+      {/* Alerta automática de excedentes */}
+      {excedentesSinConstancia.length > 0 && (
+        <div className="rounded-2xl border border-[oklch(0.7_0.15_25/0.4)] bg-[oklch(0.97_0.04_25)] p-4 flex items-start gap-3">
+          <AlertTriangle className="h-5 w-5 text-[oklch(0.55_0.18_25)] mt-0.5 shrink-0" />
+          <div className="flex-1 text-sm">
+            <div className="font-medium text-[oklch(0.4_0.15_25)]">
+              Alerta automática · {excedentesSinConstancia.length} caso{excedentesSinConstancia.length === 1 ? "" : "s"} excede{excedentesSinConstancia.length === 1 ? "" : "n"} las horas aprobadas
+            </div>
+            <div className="text-[oklch(0.4_0.12_25)] mt-0.5">
+              {excedentesSinConstancia.map((f) => `${f.nino.nombre} (${f.area}: +${f.excede}h)`).slice(0, 3).join(" · ")}
+              {excedentesSinConstancia.length > 3 && ` · +${excedentesSinConstancia.length - 3} más`}
+            </div>
+            <div className="text-[11px] text-[oklch(0.45_0.1_25)] mt-1">
+              Estas horas no se facturan al INSS hasta que la familia presente constancia médica que las justifique.
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Acciones documentales */}
       <div className="flex flex-wrap items-center gap-2">
-        <ActionBtn icon={FileText} label="Carta de cobro INSS" primary />
+        <ActionBtn icon={FileText} label="Carta de cobro INSS (PDF)" primary onClick={handleCartaCobro} />
         <ActionBtn icon={FileSpreadsheet} label="Formato facturación" />
         <ActionBtn icon={Receipt} label="Recibo oficial de caja" />
         <ActionBtn icon={Mail} label="Adjuntos para INSS" />
-        <ActionBtn icon={Printer} label="Imprimir comparativo" />
+        <ActionBtn icon={Printer} label="Imprimir comparativo" onClick={() => window.print()} />
       </div>
 
       {/* Filtros */}
@@ -480,6 +535,98 @@ export function ComparativoQuincenasPanel() {
         />
       </div>
 
+      {/* Reporte de cumplimiento de Colillas INSS */}
+      <section className="rounded-2xl border border-border/70 bg-card overflow-hidden">
+        <header className="px-4 py-3 border-b border-border/60 flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h3 className="font-display text-base inline-flex items-center gap-2">
+              <ClipboardList className="h-4 w-4 text-primary" />
+              Reporte de cumplimiento · Colillas INSS
+            </h3>
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              Aportes vigentes de los cotizantes responsables (últimos 6 meses)
+            </p>
+          </div>
+          <div className="flex items-center gap-4 text-xs">
+            <span><strong className="text-foreground tabular">{colillasKpi.alDia}</strong> / {colillasKpi.total} al día</span>
+            {colillasKpi.pendientes > 0 && (
+              <span className="text-[oklch(0.55_0.15_25)]">
+                <AlertTriangle className="inline h-3 w-3 mr-0.5" />
+                {colillasKpi.pendientes} colillas pendientes
+              </span>
+            )}
+            {colillasKpi.proximaVencer > 0 && (
+              <span className="text-[oklch(0.55_0.14_80)]">
+                {colillasKpi.proximaVencer} aprobación{colillasKpi.proximaVencer === 1 ? "" : "es"} por vencer
+              </span>
+            )}
+          </div>
+        </header>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-muted/40 text-[10px] uppercase tracking-wider text-muted-foreground">
+              <tr>
+                <Th>Beneficiario</Th>
+                <Th>Cotizante / Empresa</Th>
+                <Th>Nº Afiliado</Th>
+                <Th>Últimos 6 meses</Th>
+                <Th>Vigencia aprobación</Th>
+                <Th>Estado</Th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/50">
+              {cumplimientoColillas.map((c) => {
+                const faltantes = c.colillas.filter((m) => !m.recibida).length;
+                const ok = faltantes === 0;
+                return (
+                  <tr key={c.ninoId}>
+                    <td className="px-3 py-2">
+                      <div className="font-medium">{c.ninoNombre}</div>
+                      <div className="text-[10px] text-muted-foreground">INSS {c.codigoINSS}</div>
+                    </td>
+                    <td className="px-3 py-2">
+                      <div>{c.cotizante}</div>
+                      <div className="text-[10px] text-muted-foreground">{c.empresa}</div>
+                    </td>
+                    <td className="px-3 py-2 tabular text-xs">{c.numeroAfiliado}</td>
+                    <td className="px-3 py-2">
+                      <div className="flex gap-1">
+                        {c.colillas.map((m, i) => (
+                          <span
+                            key={i}
+                            title={`${m.mes} ${m.anio}${m.recibida ? ` · ${m.fechaCarga}` : ` · ${m.observacion ?? "pendiente"}`}`}
+                            className={`h-5 w-7 rounded text-[9px] grid place-items-center font-medium ${
+                              m.recibida
+                                ? "bg-[oklch(0.92_0.08_155)] text-[oklch(0.35_0.13_155)]"
+                                : "bg-[oklch(0.94_0.06_25)] text-[oklch(0.45_0.15_25)]"
+                            }`}
+                          >
+                            {m.mes.substring(0, 3)}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-3 py-2 text-xs tabular">{c.vigenciaAprobacion}</td>
+                    <td className="px-3 py-2">
+                      {ok ? (
+                        <Badge tone="ok">
+                          <CheckCircle2 className="h-3 w-3" /> Al día 6/6
+                        </Badge>
+                      ) : (
+                        <Badge tone="warn">
+                          <AlertTriangle className="h-3 w-3" /> Faltan {faltantes}
+                        </Badge>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+
       {/* Soportes para INSS */}
       <div className="rounded-2xl border border-border/70 bg-card p-4">
         <h3 className="font-display text-base mb-3">Adjuntos para envío al INSS</h3>
@@ -507,9 +654,10 @@ export function ComparativoQuincenasPanel() {
 
 /* -------- subcomponentes -------- */
 
-function ActionBtn({ icon: Icon, label, primary }: { icon: any; label: string; primary?: boolean }) {
+function ActionBtn({ icon: Icon, label, primary, onClick }: { icon: any; label: string; primary?: boolean; onClick?: () => void }) {
   return (
     <button
+      onClick={onClick}
       className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium ${
         primary
           ? "bg-[oklch(0.55_0.16_155)] text-white hover:opacity-90"

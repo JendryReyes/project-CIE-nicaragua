@@ -10,7 +10,7 @@ import {
 import {
   getPrograma, getEvaluaciones, getPlanesConducta, getDocumentos, getFacturacion,
   calcularProgresoClinico, documentosObligatorios,
-  getCaregivers, getDirecciones, getEventosCaso,
+  getCaregivers, getDirecciones, getEventosCaso, getSeguro,
 } from "@/lib/perfil-nino-data";
 import { cartasPorNino, estadoCartaColor } from "@/lib/cartas-inss";
 import { GraficaProgramaModal } from "@/components/grafica-programa-modal";
@@ -396,10 +396,52 @@ function TabConducta({ planes }: { planes: ReturnType<typeof getPlanesConducta> 
 }
 
 function TabFamilia({ nino, ninoId }: { nino: any; ninoId: string }) {
-  // ninoId reservado para futuras integraciones (mensajería, portal familias)
   void ninoId;
+  const seguro = getSeguro(ninoId);
   return (
     <div className="grid md:grid-cols-2 gap-4">
+      {/* Seguro del niño */}
+      <Section
+        title={`Seguro del niño · ${seguro.tipo}`}
+        action={<span className="text-[10px] uppercase tracking-wider rounded-full bg-[oklch(0.94_0.06_155)] text-[oklch(0.35_0.13_155)] px-2 py-0.5">Vigente</span>}
+      >
+        <div className="grid grid-cols-2 gap-y-1.5 gap-x-3 text-sm">
+          <span className="text-muted-foreground text-xs">Nº afiliado beneficiario</span>
+          <span className="tabular font-medium">{seguro.numeroAfiliado}</span>
+          <span className="text-muted-foreground text-xs">Cotizante ({seguro.parentesco})</span>
+          <span>{seguro.cotizante}</span>
+          <span className="text-muted-foreground text-xs">Nº INSS cotizante</span>
+          <span className="tabular">{seguro.numeroCotizante}</span>
+          <span className="text-muted-foreground text-xs">Empresa</span>
+          <span>{seguro.empresaCotizante}</span>
+          <span className="text-muted-foreground text-xs">Afiliación</span>
+          <span className="tabular">{seguro.fechaAfiliacion}</span>
+          <span className="text-muted-foreground text-xs">Vigencia hasta</span>
+          <span className="tabular">{seguro.vigenciaHasta}</span>
+        </div>
+        <div className="mt-3 rounded-md border border-border/60 bg-muted/30 p-2.5 text-xs">
+          <div className="font-medium mb-1">Carta de aprobación INSS · {seguro.cartaAprobacion.folio}</div>
+          <div className="text-muted-foreground">
+            Emitida {seguro.cartaAprobacion.emitida} · Vence {seguro.cartaAprobacion.vence}
+          </div>
+          <div className="mt-2 flex gap-3 text-[11px]">
+            {Object.entries(seguro.horasAprobadasMes).filter(([, h]) => h > 0).map(([area, h]) => (
+              <span key={area} className="rounded-full bg-background border border-border/60 px-2 py-0.5">
+                <strong className="tabular">{h}h</strong> {area}/mes
+              </span>
+            ))}
+          </div>
+        </div>
+        {seguro.aseguradoraPrivada && (
+          <div className="mt-2 text-xs text-muted-foreground">
+            Privado: {seguro.aseguradoraPrivada.compania} · Póliza {seguro.aseguradoraPrivada.poliza} · {seguro.aseguradoraPrivada.cobertura}
+          </div>
+        )}
+        {seguro.observaciones && (
+          <div className="mt-2 text-[11px] text-muted-foreground italic">{seguro.observaciones}</div>
+        )}
+      </Section>
+
       <Section title="Contacto">
         <Row label="Tutor legal" value={nino.tutor} icon={<UsersIcon className="h-3 w-3" />} />
         <Row label="Teléfono" value="+505 8765 4321" icon={<Phone className="h-3 w-3" />} />
