@@ -27,6 +27,43 @@ export type EventoCaso = {
   responsable: string;
 };
 
+export type SeguroNino = {
+  tipo: "INSS" | "Privado" | "Mixto";
+  numeroAfiliado: string;        // Nº del niño como beneficiario
+  cotizante: string;             // Padre / madre / tutor cotizante
+  numeroCotizante: string;       // Nº INSS del cotizante
+  empresaCotizante: string;
+  parentesco: "Madre" | "Padre" | "Tutor";
+  fechaAfiliacion: string;
+  vigenciaHasta: string;
+  cartaAprobacion: { folio: string; emitida: string; vence: string };
+  horasAprobadasMes: Record<"ABA" | "Logopedia" | "Fisioterapia", number>;
+  aseguradoraPrivada?: { compania: string; poliza: string; cobertura: string };
+  observaciones?: string;
+};
+
+export const seguroPorNino: Record<string, SeguroNino> = {
+  "001": {
+    tipo: "INSS",
+    numeroAfiliado: "210-1180-6620-N",
+    cotizante: "Carlos Gutiérrez Rivas",
+    numeroCotizante: "210-0245-8801",
+    empresaCotizante: "BAC Credomatic Nicaragua",
+    parentesco: "Padre",
+    fechaAfiliacion: "12/08/2024",
+    vigenciaHasta: "31/12/2026",
+    cartaAprobacion: { folio: "INSS-2026-Q2-0142", emitida: "01/05/2026", vence: "30/06/2026" },
+    horasAprobadasMes: { ABA: 36, Logopedia: 8, Fisioterapia: 0 },
+    observaciones: "Beneficiario en convenio INSS, evaluación cada 6 meses por BCBA.",
+  },
+};
+
+export function getSeguro(ninoId: string) {
+  return seguroPorNino[ninoId] ?? seguroPorNino["001"];
+}
+
+
+
 export const caregiversPorNino: Record<string, Caregiver[]> = {
   "001": [
     { id: "c1", nombre: "Laura López Martínez", relacion: "Madre", telefono: "+505 8765 4321", correo: "laura.lopez@correo.com", primario: true },
