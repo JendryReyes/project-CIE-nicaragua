@@ -104,6 +104,9 @@ function NinoDetalle() {
         </div>
       </header>
 
+      {/* Case rail (estilo Office Puzzle) */}
+      <CaseRail ninoId={id} onTab={(t) => setTab(t)} />
+
       {/* Tabs */}
       <div className="border-b border-border/60 flex gap-1 overflow-x-auto">
         {TABS.map((t) => (
@@ -116,12 +119,13 @@ function NinoDetalle() {
         ))}
       </div>
 
-      {tab === "Resumen" && <TabResumen nino={n} sesiones={sesionesNino} />}
+      {tab === "Resumen" && <TabResumen nino={n} sesiones={sesionesNino} ninoId={id} />}
       {tab === "Programas" && <TabProgramas programas={programas} onVerGrafica={(p) => setGrafica({ nombre: p.nombre, area: p.area })} />}
       {tab === "Sesiones" && <TabSesiones ninoId={id} />}
+      {tab === "Eventos" && <TabEventos ninoId={id} />}
       {tab === "Evaluaciones" && <TabEvaluaciones evaluaciones={evaluaciones} />}
       {tab === "Conducta" && <TabConducta planes={planes} />}
-      {tab === "Familia" && <TabFamilia nino={n} />}
+      {tab === "Familia" && <TabFamilia nino={n} ninoId={id} />}
       {tab === "Expediente" && <TabExpediente documentos={documentos} />}
       {tab === "Facturación" && <TabFacturacion facturacion={facturacion} />}
 
