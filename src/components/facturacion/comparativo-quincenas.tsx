@@ -309,15 +309,15 @@ export function ComparativoQuincenasPanel() {
             <thead className="bg-muted/50 text-[10px] uppercase tracking-wider text-muted-foreground">
               <tr>
                 <Th>Niño</Th>
-                <Th>Sede</Th>
                 <Th>Área</Th>
-                <Th right>Aprob. INSS</Th>
+                <Th right>Aprob.</Th>
                 <Th right>Q1 h</Th>
                 <Th right>Q2 h</Th>
-                <Th right>Δ h</Th>
-                <Th right>Q1 $</Th>
-                <Th right>Q2 $</Th>
-                <Th right>Δ $</Th>
+                <Th right>Δ Q1↔Q2</Th>
+                <Th right>Total mes</Th>
+                <Th right>Brecha</Th>
+                <Th>Cobertura</Th>
+                <Th right>Total $</Th>
                 <Th>Estado</Th>
               </tr>
             </thead>
@@ -327,10 +327,9 @@ export function ComparativoQuincenasPanel() {
                   <td className="px-3 py-2">
                     <div className="font-medium">{f.nino.nombre}</div>
                     <div className="text-[10px] text-muted-foreground">
-                      {f.nino.codigoINSS ?? "—"} · {f.nino.expediente}
+                      {f.nino.codigoINSS ?? "—"} · {f.sede}
                     </div>
                   </td>
-                  <td className="px-3 py-2 text-xs text-muted-foreground">{f.sede}</td>
                   <td className="px-3 py-2">
                     <span className="inline-flex items-center gap-1.5 text-xs">
                       <span className="h-2 w-2 rounded-full" style={{ background: areaColor[f.area] }} />
@@ -338,27 +337,58 @@ export function ComparativoQuincenasPanel() {
                     </span>
                   </td>
                   <td className="px-3 py-2 text-right tabular">{f.aprobadas}</td>
-                  <td className="px-3 py-2 text-right tabular">{f.q1Horas}</td>
-                  <td className="px-3 py-2 text-right tabular font-medium">{f.q2Horas}</td>
+                  <td className="px-3 py-2 text-right tabular text-muted-foreground">{f.q1Horas}</td>
+                  <td className="px-3 py-2 text-right tabular text-muted-foreground">{f.q2Horas}</td>
                   <td className="px-3 py-2 text-right tabular">
                     <Delta value={f.deltaHoras} />
                   </td>
-                  <td className="px-3 py-2 text-right tabular text-muted-foreground">${f.q1Monto.toFixed(2)}</td>
-                  <td className="px-3 py-2 text-right tabular font-medium">${f.q2Monto.toFixed(2)}</td>
+                  <td className="px-3 py-2 text-right tabular font-semibold">{f.totalHoras}</td>
                   <td className="px-3 py-2 text-right tabular">
-                    <Delta value={f.deltaMonto} prefix="$" />
+                    {f.brecha === 0 ? (
+                      <span className="text-muted-foreground">—</span>
+                    ) : f.brecha > 0 ? (
+                      <span className="text-[oklch(0.55_0.14_80)]">−{f.brecha}h</span>
+                    ) : (
+                      <span className="text-[oklch(0.55_0.18_25)]">+{Math.abs(f.brecha)}h</span>
+                    )}
                   </td>
+                  <td className="px-3 py-2 w-[120px]">
+                    <div className="flex items-center gap-2">
+                      <div className="h-1.5 flex-1 rounded-full bg-muted overflow-hidden">
+                        <div
+                          className="h-full"
+                          style={{
+                            width: `${Math.min(100, f.cobertura)}%`,
+                            background:
+                              f.cobertura >= 95
+                                ? "oklch(0.6 0.16 155)"
+                                : f.cobertura >= 70
+                                ? "oklch(0.7 0.14 80)"
+                                : "oklch(0.65 0.18 25)",
+                          }}
+                        />
+                      </div>
+                      <span className="text-[10px] tabular text-muted-foreground w-10 text-right">
+                        {f.cobertura.toFixed(0)}%
+                      </span>
+                    </div>
+                  </td>
+                  <td className="px-3 py-2 text-right tabular font-medium">${f.totalMonto.toFixed(2)}</td>
                   <td className="px-3 py-2">
-                    {f.excede > 0 ? (
+                    {f.estado === "excedente" ? (
                       f.constancia ? (
-                        <Badge tone="ok">Constancia OK</Badge>
+                        <Badge tone="ok">Constancia OK · +{f.excede}h</Badge>
                       ) : (
                         <Badge tone="warn">
                           <AlertTriangle className="h-3 w-3" /> Excede {f.excede}h
                         </Badge>
                       )
+                    ) : f.estado === "completa" ? (
+                      <Badge tone="ok">Q1+Q2 = Aprobado</Badge>
+                    ) : f.estado === "pendienteQ2" ? (
+                      <Badge tone="muted">Pendiente {f.q1Horas === 0 ? "Q1" : "Q2"}</Badge>
                     ) : (
-                      <Badge tone="muted">Dentro de aprobado</Badge>
+                      <Badge tone="muted">Parcial · faltan {f.brecha}h</Badge>
                     )}
                   </td>
                 </tr>
@@ -366,17 +396,26 @@ export function ComparativoQuincenasPanel() {
             </tbody>
             <tfoot className="bg-muted/40">
               <tr>
-                <td className="px-3 py-2 font-medium" colSpan={3}>Totales</td>
-                <td className="px-3 py-2 text-right tabular">—</td>
-                <td className="px-3 py-2 text-right tabular">{totales.q1Horas}</td>
-                <td className="px-3 py-2 text-right tabular font-semibold">{totales.q2Horas}</td>
+                <td className="px-3 py-2 font-medium" colSpan={2}>Totales</td>
+                <td className="px-3 py-2 text-right tabular">{totales.aprobadas}</td>
+                <td className="px-3 py-2 text-right tabular text-muted-foreground">{totales.q1Horas}</td>
+                <td className="px-3 py-2 text-right tabular text-muted-foreground">{totales.q2Horas}</td>
                 <td className="px-3 py-2 text-right tabular"><Delta value={totales.deltaHoras} /></td>
-                <td className="px-3 py-2 text-right tabular text-muted-foreground">${totales.q1Monto.toFixed(2)}</td>
-                <td className="px-3 py-2 text-right tabular font-semibold">${totales.q2Monto.toFixed(2)}</td>
-                <td className="px-3 py-2 text-right tabular"><Delta value={totales.deltaMonto} prefix="$" /></td>
+                <td className="px-3 py-2 text-right tabular font-semibold">{totales.totalHoras}</td>
+                <td className="px-3 py-2 text-right tabular">
+                  {totales.brecha === 0 ? (
+                    <span className="text-muted-foreground">—</span>
+                  ) : totales.brecha > 0 ? (
+                    <span className="text-[oklch(0.55_0.14_80)]">−{totales.brecha}h</span>
+                  ) : (
+                    <span className="text-[oklch(0.55_0.18_25)]">+{Math.abs(totales.brecha)}h</span>
+                  )}
+                </td>
+                <td className="px-3 py-2 text-xs text-muted-foreground">{totales.cobertura.toFixed(1)}%</td>
+                <td className="px-3 py-2 text-right tabular font-semibold">${totales.totalMonto.toFixed(2)}</td>
                 <td className="px-3 py-2 text-xs text-muted-foreground">
                   {totales.pctMonto >= 0 ? "+" : ""}
-                  {totales.pctMonto.toFixed(1)}% vs Q1
+                  {totales.pctMonto.toFixed(1)}% Q2 vs Q1
                 </td>
               </tr>
             </tfoot>
