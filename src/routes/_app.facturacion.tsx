@@ -6,6 +6,7 @@ import { loteDemo } from "@/lib/facturacion-inss";
 import { lotesINSS } from "@/lib/demo-data";
 import { CierreQuincenaPanel } from "@/components/facturacion/cierre-quincena";
 import { CartasINSSPanel } from "@/components/facturacion/cartas-inss-panel";
+import { BillingSummary } from "@/components/facturacion/billing-summary";
 
 export const Route = createFileRoute("/_app/facturacion")({
   head: () => ({ meta: [{ title: "Módulo de Facturación · CIE" }] }),
@@ -16,7 +17,7 @@ const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 const anios = ["2025","2026"];
 
 function Facturacion() {
-  const [tab, setTab] = useState<"general" | "cierre" | "cartas">("general");
+  const [tab, setTab] = useState<"general" | "cierre" | "cartas" | "resumen">("general");
   const [mes, setMes] = useState("Mayo");
   const [anio, setAnio] = useState("2026");
   const [quincena, setQuincena] = useState<"Q1" | "Q2">("Q2");
@@ -50,6 +51,7 @@ function Facturacion() {
             {tab === "general" && `Vista general · Quincena ${quincena === "Q1" ? "1 (1-15)" : "2 (16-30)"} · ${mes} ${anio}`}
             {tab === "cierre" && `Cierre de quincena · ${mes} ${anio}`}
             {tab === "cartas" && "Cartas INSS · Vigencia de aprobaciones semestrales"}
+            {tab === "resumen" && "Resumen formal · Visitas, Reclamos, Remesas y Facturas"}
           </p>
         </div>
       </div>
@@ -59,6 +61,7 @@ function Facturacion() {
           ["general", "Vista general"],
           ["cierre", "Cierre de quincena"],
           ["cartas", "Cartas INSS"],
+          ["resumen", "Resumen formal (Billing)"],
         ] as const).map(([key, label]) => (
           <button
             key={key}
@@ -88,6 +91,7 @@ function Facturacion() {
       )}
       {tab === "cierre" && <CierreQuincenaPanel />}
       {tab === "cartas" && <CartasINSSPanel />}
+      {tab === "resumen" && <BillingSummary />}
     </div>
   );
 }
