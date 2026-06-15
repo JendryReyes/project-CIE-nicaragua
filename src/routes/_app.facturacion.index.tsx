@@ -9,7 +9,7 @@ import { CartasINSSPanel } from "@/components/facturacion/cartas-inss-panel";
 import { BillingSummary } from "@/components/facturacion/billing-summary";
 import { ComparativoQuincenasPanel } from "@/components/facturacion/comparativo-quincenas";
 
-export const Route = createFileRoute("/_app/facturacion")({
+export const Route = createFileRoute("/_app/facturacion/")({
   head: () => ({ meta: [{ title: "Módulo de Facturación · CIE" }] }),
   component: Facturacion,
 });
