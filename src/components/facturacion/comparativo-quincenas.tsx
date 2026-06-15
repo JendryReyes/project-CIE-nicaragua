@@ -16,6 +16,8 @@ import {
   Mail,
 } from "lucide-react";
 import { sedesFact, tarifa, areaColor, type AreaFact, type NinoFact } from "@/lib/modulos-data";
+import { descargarCartaInstitucional, type FilaCobro } from "@/lib/carta-cobro-institucional";
+import { cumplimientoColillas, colillasResumen } from "@/lib/colillas-inss";
 
 /**
  * Administración – Comparativo de Quincenas
