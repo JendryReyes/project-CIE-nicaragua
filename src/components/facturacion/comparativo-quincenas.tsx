@@ -674,6 +674,40 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
   const tarifaHora = tarifa[f.area];
   const horasSesion = f.area === "ABA" ? "2h" : "1h";
   const dias = f.area === "ABA" ? "L–V" : f.area === "Logo" ? "M y J" : "L y X";
+
+  const caso: CasoDoc = {
+    nino: f.nino.nombre,
+    codigoINSS: f.nino.codigoINSS,
+    sede: f.sede,
+    area: f.area,
+    mes,
+    anio,
+    aprobadas: f.aprobadas,
+    q1Horas: f.q1Horas,
+    q2Horas: f.q2Horas,
+    totalHoras: f.totalHoras,
+    q1Monto: f.q1Monto,
+    q2Monto: f.q2Monto,
+    totalMonto: f.totalMonto,
+    tarifaHora,
+    excede: f.excede,
+    constancia: f.constancia,
+    cobertura: f.cobertura,
+    sesionesQ1,
+    sesionesQ2,
+  };
+
+  const [envio, setEnvio] = useState<null | { estado: "confirm" | "enviando" | "enviado"; folio?: string }>(null);
+
+  const iniciarEnvio = () => setEnvio({ estado: "confirm" });
+  const confirmarEnvio = () => {
+    setEnvio({ estado: "enviando" });
+    setTimeout(() => {
+      const folio = `INSS-CIE-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+      setEnvio({ estado: "enviado", folio });
+    }, 1400);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-sm" onClick={onClose}>
       <aside
