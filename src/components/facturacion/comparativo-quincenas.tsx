@@ -14,6 +14,11 @@ import {
   UserMinus,
   Receipt,
   Mail,
+  X,
+  Calendar,
+  DollarSign,
+  TrendingUp,
+  Activity,
 } from "lucide-react";
 import { sedesFact, tarifa, areaColor, type AreaFact, type NinoFact } from "@/lib/modulos-data";
 import { descargarCartaInstitucional, type FilaCobro } from "@/lib/carta-cobro-institucional";
