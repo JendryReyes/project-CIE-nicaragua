@@ -56,7 +56,6 @@ function Facturacion() {
             {tab === "resumen" && "Resumen formal · Visitas, Reclamos, Remesas y Facturas"}
           </p>
         </div>
-        </div>
       </div>
 
       {/* Accesos rápidos a sub-módulos */}
@@ -79,6 +78,8 @@ function Facturacion() {
           title="Reportes"
           desc="Desglose, no facturadas, inasistencias, suspensiones, bajas y recibo de caja."
         />
+      </div>
+
 
       <div className="flex items-center gap-1 border-b border-border/60">
         {([
