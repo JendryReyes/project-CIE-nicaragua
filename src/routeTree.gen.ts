@@ -26,6 +26,7 @@ import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
 import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
+import { Route as AppSesionNinoIdRouteImport } from './routes/_app.sesion.$ninoId'
 import { Route as AppNinosIdRouteImport } from './routes/_app.ninos.$id'
 import { Route as AppFacturacionCierreRouteImport } from './routes/_app.facturacion.cierre'
 import { Route as AppFacturacionCartasRouteImport } from './routes/_app.facturacion.cartas'
@@ -117,6 +118,11 @@ const AppNinosIndexRoute = AppNinosIndexRouteImport.update({
   path: '/ninos/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSesionNinoIdRoute = AppSesionNinoIdRouteImport.update({
+  id: '/sesion/$ninoId',
+  path: '/sesion/$ninoId',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppNinosIdRoute = AppNinosIdRouteImport.update({
   id: '/ninos/$id',
   path: '/ninos/$id',
@@ -170,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/facturacion/cartas': typeof AppFacturacionCartasRoute
   '/facturacion/cierre': typeof AppFacturacionCierreRoute
   '/ninos/$id': typeof AppNinosIdRoute
+  '/sesion/$ninoId': typeof AppSesionNinoIdRoute
   '/ninos/': typeof AppNinosIndexRoute
 }
 export interface FileRoutesByTo {
@@ -194,6 +201,7 @@ export interface FileRoutesByTo {
   '/facturacion/cartas': typeof AppFacturacionCartasRoute
   '/facturacion/cierre': typeof AppFacturacionCierreRoute
   '/ninos/$id': typeof AppNinosIdRoute
+  '/sesion/$ninoId': typeof AppSesionNinoIdRoute
   '/ninos': typeof AppNinosIndexRoute
 }
 export interface FileRoutesById {
@@ -220,6 +228,7 @@ export interface FileRoutesById {
   '/_app/facturacion/cartas': typeof AppFacturacionCartasRoute
   '/_app/facturacion/cierre': typeof AppFacturacionCierreRoute
   '/_app/ninos/$id': typeof AppNinosIdRoute
+  '/_app/sesion/$ninoId': typeof AppSesionNinoIdRoute
   '/_app/ninos/': typeof AppNinosIndexRoute
 }
 export interface FileRouteTypes {
@@ -246,6 +255,7 @@ export interface FileRouteTypes {
     | '/facturacion/cartas'
     | '/facturacion/cierre'
     | '/ninos/$id'
+    | '/sesion/$ninoId'
     | '/ninos/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -270,6 +280,7 @@ export interface FileRouteTypes {
     | '/facturacion/cartas'
     | '/facturacion/cierre'
     | '/ninos/$id'
+    | '/sesion/$ninoId'
     | '/ninos'
   id:
     | '__root__'
@@ -295,6 +306,7 @@ export interface FileRouteTypes {
     | '/_app/facturacion/cartas'
     | '/_app/facturacion/cierre'
     | '/_app/ninos/$id'
+    | '/_app/sesion/$ninoId'
     | '/_app/ninos/'
   fileRoutesById: FileRoutesById
 }
@@ -426,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNinosIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/sesion/$ninoId': {
+      id: '/_app/sesion/$ninoId'
+      path: '/sesion/$ninoId'
+      fullPath: '/sesion/$ninoId'
+      preLoaderRoute: typeof AppSesionNinoIdRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/ninos/$id': {
       id: '/_app/ninos/$id'
       path: '/ninos/$id'
@@ -514,6 +533,7 @@ interface AppRouteChildren {
   AppSedesRoute: typeof AppSedesRoute
   AppClinicoGraficasRoute: typeof AppClinicoGraficasRoute
   AppNinosIdRoute: typeof AppNinosIdRoute
+  AppSesionNinoIdRoute: typeof AppSesionNinoIdRoute
   AppNinosIndexRoute: typeof AppNinosIndexRoute
 }
 
@@ -532,6 +552,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppSedesRoute: AppSedesRoute,
   AppClinicoGraficasRoute: AppClinicoGraficasRoute,
   AppNinosIdRoute: AppNinosIdRoute,
+  AppSesionNinoIdRoute: AppSesionNinoIdRoute,
   AppNinosIndexRoute: AppNinosIndexRoute,
 }
 
@@ -546,13 +567,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

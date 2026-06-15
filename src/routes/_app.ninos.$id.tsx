@@ -81,15 +81,19 @@ function NinoDetalle() {
             </div>
           </div>
           <div className="flex gap-2 flex-wrap">
-            <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs hover:bg-muted">
-              <Plus className="h-3.5 w-3.5" /> Nueva sesión
-            </button>
+            <Link
+              to="/sesion/$ninoId"
+              params={{ ninoId: id }}
+              className="inline-flex items-center gap-1.5 rounded-md bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium hover:bg-primary/90"
+            >
+              <Plus className="h-3.5 w-3.5" /> Iniciar sesión ABA
+            </Link>
             <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs hover:bg-muted">
               <FileText className="h-3.5 w-3.5" /> Generar informe
             </button>
             <button
               onClick={() => setGrafica({ nombre: programas[0]?.nombre ?? "Programa", area: programas[0]?.area })}
-              className="inline-flex items-center gap-1.5 rounded-md bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium"
+              className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-xs hover:bg-muted"
             >
               <LineChart className="h-3.5 w-3.5" /> Ver gráficas
             </button>
