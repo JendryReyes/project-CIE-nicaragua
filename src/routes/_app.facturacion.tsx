@@ -248,7 +248,10 @@ function NinoCard({ nino, onSelect }: { nino: NinoFact; onSelect: (n: NinoFact) 
   const r = calcularNino(nino);
   const alerta = r.tieneExcede && !nino.constancia;
   return (
-    <article className={`rounded-2xl border bg-card p-4 ${alerta ? "border-[oklch(0.85_0.12_25)]" : "border-border/70"}`}>
+    <article
+      onClick={() => onSelect(nino)}
+      className={`rounded-2xl border bg-card p-4 cursor-pointer transition hover:shadow-md hover:border-primary/40 ${alerta ? "border-[oklch(0.85_0.12_25)]" : "border-border/70"}`}
+    >
       <header className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3 min-w-0">
           <div className="h-10 w-10 shrink-0 rounded-full bg-muted grid place-items-center text-xs font-medium">{nino.iniciales}</div>
