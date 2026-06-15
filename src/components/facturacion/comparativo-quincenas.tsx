@@ -384,9 +384,14 @@ export function ComparativoQuincenasPanel() {
             </thead>
             <tbody className="divide-y divide-border/50">
               {filas.map((f, i) => (
-                <tr key={`${f.nino.id}-${f.area}-${i}`} className={f.excede > 0 && !f.constancia ? "bg-[oklch(0.98_0.03_25)]" : ""}>
+                <tr
+                  key={`${f.nino.id}-${f.area}-${i}`}
+                  onClick={() => setDetalle(f)}
+                  className={`cursor-pointer transition-colors hover:bg-muted/40 ${f.excede > 0 && !f.constancia ? "bg-[oklch(0.98_0.03_25)]" : ""}`}
+                  title="Ver detalle"
+                >
                   <td className="px-3 py-2">
-                    <div className="font-medium">{f.nino.nombre}</div>
+                    <div className="font-medium underline-offset-2 hover:underline">{f.nino.nombre}</div>
                     <div className="text-[10px] text-muted-foreground">
                       {f.nino.codigoINSS ?? "—"} · {f.sede}
                     </div>
