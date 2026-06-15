@@ -573,10 +573,10 @@ function Row({ label, value, icon }: { label: string; value: string; icon?: Reac
 // ===== Case rail estilo Office Puzzle =====
 function CaseRail({ ninoId, onTab }: { ninoId: string; onTab: (t: Tab) => void }) {
   const tiles: { label: string; icon: React.ReactNode; onClick?: () => void; to?: string; params?: any }[] = [
-    { label: "Calendar", icon: <Calendar className="h-4 w-4" />, to: "/horario" },
+    { label: "Calendar", icon: <Calendar className="h-4 w-4" />, onClick: () => onTab("Sesiones") },
     { label: "Documents", icon: <FolderOpen className="h-4 w-4" />, onClick: () => onTab("Expediente") },
     { label: "Data", icon: <Database className="h-4 w-4" />, onClick: () => onTab("Sesiones") },
-    { label: "Charts", icon: <BarChart3 className="h-4 w-4" />, to: "/clinico/graficas" },
+    { label: "Charts", icon: <BarChart3 className="h-4 w-4" />, onClick: () => onTab("Programas") },
     { label: "Required docs", icon: <FileCheck className="h-4 w-4" />, onClick: () => onTab("Expediente") },
     { label: "Events", icon: <CalendarClock className="h-4 w-4" />, onClick: () => onTab("Eventos") },
     { label: "Service plan", icon: <ListTree className="h-4 w-4" />, onClick: () => onTab("Programas") },
