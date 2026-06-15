@@ -504,3 +504,21 @@ function Stat({ label, value, hint, accent, warn }: { label: string; value: stri
     </div>
   );
 }
+
+function QuickLink({ to, icon, title, desc }: { to: string; icon: React.ReactNode; title: string; desc: string }) {
+  return (
+    <Link
+      to={to}
+      className="group rounded-2xl border border-border/70 bg-card p-4 hover:border-primary/40 hover:shadow-sm transition flex items-start gap-3"
+    >
+      <span className="grid place-items-center h-9 w-9 rounded-lg bg-primary/10 text-primary shrink-0">{icon}</span>
+      <span className="min-w-0 flex-1">
+        <span className="font-medium text-sm flex items-center gap-1">
+          {title}
+          <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition" />
+        </span>
+        <span className="block text-xs text-muted-foreground mt-0.5">{desc}</span>
+      </span>
+    </Link>
+  );
+}
