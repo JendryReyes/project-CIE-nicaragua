@@ -22,7 +22,9 @@ import {
 } from "lucide-react";
 import { sedesFact, tarifa, areaColor, type AreaFact, type NinoFact } from "@/lib/modulos-data";
 import { descargarCartaInstitucional, type FilaCobro } from "@/lib/carta-cobro-institucional";
+import { descargarCartaCobroCaso, descargarReciboCaja, type CasoDoc } from "@/lib/carta-cobro-caso";
 import { cumplimientoColillas, colillasResumen } from "@/lib/colillas-inss";
+import { Send, Download } from "lucide-react";
 
 /**
  * Administración – Comparativo de Quincenas
@@ -672,6 +674,40 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
   const tarifaHora = tarifa[f.area];
   const horasSesion = f.area === "ABA" ? "2h" : "1h";
   const dias = f.area === "ABA" ? "L–V" : f.area === "Logo" ? "M y J" : "L y X";
+
+  const caso: CasoDoc = {
+    nino: f.nino.nombre,
+    codigoINSS: f.nino.codigoINSS,
+    sede: f.sede,
+    area: f.area,
+    mes,
+    anio,
+    aprobadas: f.aprobadas,
+    q1Horas: f.q1Horas,
+    q2Horas: f.q2Horas,
+    totalHoras: f.totalHoras,
+    q1Monto: f.q1Monto,
+    q2Monto: f.q2Monto,
+    totalMonto: f.totalMonto,
+    tarifaHora,
+    excede: f.excede,
+    constancia: f.constancia,
+    cobertura: f.cobertura,
+    sesionesQ1,
+    sesionesQ2,
+  };
+
+  const [envio, setEnvio] = useState<null | { estado: "confirm" | "enviando" | "enviado"; folio?: string }>(null);
+
+  const iniciarEnvio = () => setEnvio({ estado: "confirm" });
+  const confirmarEnvio = () => {
+    setEnvio({ estado: "enviando" });
+    setTimeout(() => {
+      const folio = `INSS-CIE-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+      setEnvio({ estado: "enviado", folio });
+    }, 1400);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-sm" onClick={onClose}>
       <aside
@@ -777,15 +813,124 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
 
           {/* Acciones */}
           <div className="flex flex-wrap gap-2 pt-2">
-            <ActionBtn icon={FileText} label="Carta de cobro de este caso" primary />
-            <ActionBtn icon={Receipt} label="Recibo de caja" />
+            <ActionBtn icon={Send} label="Enviar al INSS" primary onClick={iniciarEnvio} />
+            <ActionBtn icon={Download} label="Carta de cobro (PDF)" onClick={() => descargarCartaCobroCaso(caso)} />
+            <ActionBtn icon={Receipt} label="Recibo de caja (PDF)" onClick={() => descargarReciboCaja(caso)} />
             <ActionBtn icon={Printer} label="Imprimir" onClick={() => window.print()} />
           </div>
         </div>
+
+        {envio && (
+          <EnvioINSSModal
+            estado={envio.estado}
+            folio={envio.folio}
+            caso={caso}
+            onConfirm={confirmarEnvio}
+            onClose={() => setEnvio(null)}
+          />
+        )}
       </aside>
     </div>
   );
 }
+
+function EnvioINSSModal({
+  estado,
+  folio,
+  caso,
+  onConfirm,
+  onClose,
+}: {
+  estado: "confirm" | "enviando" | "enviado";
+  folio?: string;
+  caso: CasoDoc;
+  onConfirm: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={onClose}>
+      <div className="w-full max-w-md rounded-2xl bg-background border border-border shadow-2xl p-5" onClick={(e) => e.stopPropagation()}>
+        {estado === "confirm" && (
+          <>
+            <div className="flex items-start gap-3">
+              <div className="h-10 w-10 rounded-full bg-[oklch(0.95_0.05_240)] grid place-items-center">
+                <Send className="h-5 w-5 text-[oklch(0.45_0.15_240)]" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-display text-lg">Enviar carta al INSS</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Se transmitirá el cobro consolidado de este caso al portal de Convenios INSS.
+                </p>
+              </div>
+            </div>
+            <dl className="mt-4 grid grid-cols-2 gap-y-1.5 text-xs">
+              <Dt>Beneficiario</Dt><Dd>{caso.nino}</Dd>
+              <Dt>INSS</Dt><Dd className="tabular">{caso.codigoINSS ?? "—"}</Dd>
+              <Dt>Período</Dt><Dd>{caso.mes} {caso.anio}</Dd>
+              <Dt>Horas Q1+Q2</Dt><Dd className="tabular">{caso.totalHoras}h</Dd>
+              <Dt>Monto</Dt><Dd className="tabular font-medium">${caso.totalMonto.toFixed(2)}</Dd>
+              <Dt>Destinatario</Dt><Dd>convenios@inss.gob.ni</Dd>
+            </dl>
+            {caso.excede > 0 && !caso.constancia && (
+              <div className="mt-3 rounded-lg bg-[oklch(0.95_0.06_25)] text-[oklch(0.45_0.15_25)] p-2.5 text-[11px] flex items-start gap-2">
+                <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+                <span>Hay {caso.excede}h de excedente sin constancia médica — no se incluirán en el cobro.</span>
+              </div>
+            )}
+            <div className="mt-5 flex justify-end gap-2">
+              <button onClick={onClose} className="rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-muted">
+                Cancelar
+              </button>
+              <button onClick={onConfirm} className="rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium inline-flex items-center gap-1.5 hover:opacity-90">
+                <Send className="h-3.5 w-3.5" /> Confirmar envío
+              </button>
+            </div>
+          </>
+        )}
+
+        {estado === "enviando" && (
+          <div className="py-6 text-center">
+            <div className="mx-auto h-10 w-10 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+            <div className="mt-3 font-medium text-sm">Transmitiendo al portal INSS…</div>
+            <div className="text-xs text-muted-foreground mt-1">Firmando documento y adjuntando anexos.</div>
+          </div>
+        )}
+
+        {estado === "enviado" && (
+          <>
+            <div className="flex items-start gap-3">
+              <div className="h-10 w-10 rounded-full bg-[oklch(0.94_0.06_155)] grid place-items-center">
+                <CheckCircle2 className="h-5 w-5 text-[oklch(0.45_0.15_155)]" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-display text-lg">Enviado al INSS</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  La carta de cobro fue registrada en el portal de Convenios.
+                </p>
+              </div>
+            </div>
+            <div className="mt-4 rounded-xl bg-muted/40 p-3 text-xs">
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Folio de seguimiento</div>
+              <div className="font-display text-base tabular mt-0.5">{folio}</div>
+              <div className="text-muted-foreground mt-1">
+                Acuse generado el {new Date().toLocaleDateString("es-NI", { day: "numeric", month: "long", year: "numeric" })}.
+              </div>
+            </div>
+            <div className="mt-5 flex justify-end gap-2">
+              <button onClick={() => descargarCartaCobroCaso(caso)} className="rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-muted inline-flex items-center gap-1.5">
+                <Download className="h-3.5 w-3.5" /> Descargar copia
+              </button>
+              <button onClick={onClose} className="rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-xs font-medium hover:opacity-90">
+                Listo
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 
 function MiniCard({ icon: Icon, label, value, hint, tone }: { icon: any; label: string; value: string; hint?: string; tone?: "ok" | "warn" | "muted" }) {
   const color =
@@ -819,11 +964,11 @@ function QuincenaCol({ titulo, sub, horas, sesiones, monto, tarifaHora, excede }
   );
 }
 
-function Dt({ children }: { children: React.ReactNode }) {
-  return <dt className="text-xs text-muted-foreground">{children}</dt>;
+function Dt({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <dt className={`text-xs text-muted-foreground ${className}`}>{children}</dt>;
 }
-function Dd({ children }: { children: React.ReactNode }) {
-  return <dd className="text-sm">{children}</dd>;
+function Dd({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <dd className={`text-sm ${className}`}>{children}</dd>;
 }
 
 /* -------- subcomponentes -------- */
