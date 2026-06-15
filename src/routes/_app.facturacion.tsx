@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { AlertTriangle, FileText, Printer, FileSpreadsheet, Plus, ArrowRight } from "lucide-react";
+import { AlertTriangle, FileText, Printer, FileSpreadsheet, Plus, ArrowRight, X } from "lucide-react";
 import { sedesFact, calcularNino, tarifa, areaColor, type AreaFact, type NinoFact } from "@/lib/modulos-data";
 import { loteDemo } from "@/lib/facturacion-inss";
 import { lotesINSS } from "@/lib/demo-data";
