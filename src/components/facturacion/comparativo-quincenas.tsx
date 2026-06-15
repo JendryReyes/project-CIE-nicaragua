@@ -212,25 +212,37 @@ export function ComparativoQuincenasPanel() {
   const excedentesSinConstancia = filas.filter((f) => f.excede > 0 && !f.constancia);
   const colillasKpi = colillasResumen();
 
+  const filasCobro: FilaCobro[] = filas.map((f) => ({
+    nino: f.nino.nombre,
+    codigoINSS: f.nino.codigoINSS,
+    sede: f.sede,
+    area: f.area,
+    aprobadas: f.aprobadas,
+    q1Horas: f.q1Horas,
+    q2Horas: f.q2Horas,
+    totalHoras: f.totalHoras,
+    brecha: f.brecha,
+    totalMonto: f.totalMonto,
+    excede: f.excede,
+    constancia: f.constancia,
+  }));
+
+  const sedeNombre = sedeId === "todas" ? "Todas las sedes" : (sedesFact.find((s) => s.id === sedeId)?.nombre ?? sedeId);
+
+  const ctxDocs: DocsCtx = {
+    mes, anio, sede: sedeNombre, filas: filasCobro,
+    totales: {
+      totalHoras: totales.totalHoras,
+      totalMonto: totales.totalMonto,
+      aprobadas: totales.aprobadas,
+      cobertura: totales.cobertura,
+      excedentes: totales.excedentes,
+    },
+  };
+
   const handleCartaCobro = () => {
-    const filasCobro: FilaCobro[] = filas.map((f) => ({
-      nino: f.nino.nombre,
-      codigoINSS: f.nino.codigoINSS,
-      sede: f.sede,
-      area: f.area,
-      aprobadas: f.aprobadas,
-      q1Horas: f.q1Horas,
-      q2Horas: f.q2Horas,
-      totalHoras: f.totalHoras,
-      brecha: f.brecha,
-      totalMonto: f.totalMonto,
-      excede: f.excede,
-      constancia: f.constancia,
-    }));
     descargarCartaInstitucional({
-      mes, anio,
-      sede: sedeId === "todas" ? "Todas las sedes" : (sedesFact.find((s) => s.id === sedeId)?.nombre ?? sedeId),
-      filas: filasCobro,
+      mes, anio, sede: sedeNombre, filas: filasCobro,
       totales: {
         aprobadas: totales.aprobadas,
         q1Horas: totales.q1Horas,
@@ -241,6 +253,16 @@ export function ComparativoQuincenasPanel() {
         cobertura: totales.cobertura,
       },
     });
+  };
+
+  const [envioGlobal, setEnvioGlobal] = useState<null | { estado: "confirm" | "enviando" | "enviado"; folio?: string }>(null);
+  const iniciarEnvioGlobal = () => setEnvioGlobal({ estado: "confirm" });
+  const confirmarEnvioGlobal = () => {
+    setEnvioGlobal({ estado: "enviando" });
+    setTimeout(() => {
+      const folio = `INSS-CIE-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+      setEnvioGlobal({ estado: "enviado", folio });
+    }, 1500);
   };
 
   return (
@@ -266,12 +288,24 @@ export function ComparativoQuincenasPanel() {
 
       {/* Acciones documentales */}
       <div className="flex flex-wrap items-center gap-2">
-        <ActionBtn icon={FileText} label="Carta de cobro INSS (PDF)" primary onClick={handleCartaCobro} />
-        <ActionBtn icon={FileSpreadsheet} label="Formato facturación" />
-        <ActionBtn icon={Receipt} label="Recibo oficial de caja" />
-        <ActionBtn icon={Mail} label="Adjuntos para INSS" />
+        <ActionBtn icon={Send} label="Enviar al INSS" primary onClick={iniciarEnvioGlobal} />
+        <ActionBtn icon={FileText} label="Carta de cobro INSS (PDF)" onClick={handleCartaCobro} />
+        <ActionBtn icon={FileSpreadsheet} label="Formato facturación (PDF)" onClick={() => descargarFormatoFacturacion(ctxDocs)} />
+        <ActionBtn icon={Receipt} label="Recibo oficial de caja (PDF)" onClick={() => descargarReciboOficialConsolidado(ctxDocs)} />
+        <ActionBtn icon={Mail} label="Carátula adjuntos (PDF)" onClick={() => descargarCaratulaAdjuntos(ctxDocs)} />
         <ActionBtn icon={Printer} label="Imprimir comparativo" onClick={() => window.print()} />
       </div>
+
+      {envioGlobal && (
+        <EnvioINSSGlobalModal
+          estado={envioGlobal.estado}
+          folio={envioGlobal.folio}
+          ctx={ctxDocs}
+          onConfirm={confirmarEnvioGlobal}
+          onClose={() => setEnvioGlobal(null)}
+        />
+      )}
+
 
       {/* Filtros */}
       <div className="rounded-2xl border border-border/70 bg-card p-3 flex flex-wrap items-center gap-3 text-sm">
