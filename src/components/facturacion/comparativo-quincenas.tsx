@@ -562,9 +562,10 @@ export function ComparativoQuincenasPanel() {
 
 /* -------- subcomponentes -------- */
 
-function ActionBtn({ icon: Icon, label, primary }: { icon: any; label: string; primary?: boolean }) {
+function ActionBtn({ icon: Icon, label, primary, onClick }: { icon: any; label: string; primary?: boolean; onClick?: () => void }) {
   return (
     <button
+      onClick={onClick}
       className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium ${
         primary
           ? "bg-[oklch(0.55_0.16_155)] text-white hover:opacity-90"
