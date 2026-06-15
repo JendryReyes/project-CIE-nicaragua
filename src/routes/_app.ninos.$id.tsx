@@ -161,7 +161,10 @@ function Section({ title, action, children }: { title: string; action?: React.Re
 
 // ===== TABS =====
 
-function TabResumen({ nino, sesiones }: { nino: any; sesiones: any[] }) {
+function TabResumen({ nino, sesiones, ninoId }: { nino: any; sesiones: any[]; ninoId: string }) {
+  const caregivers = getCaregivers(ninoId);
+  const direcciones = getDirecciones(ninoId);
+  const primario = caregivers.find((c) => c.primario) ?? caregivers[0];
   return (
     <div className="grid lg:grid-cols-3 gap-4">
       <Section title="Datos personales">
