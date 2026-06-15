@@ -130,6 +130,14 @@ export function ComparativoQuincenasPanel() {
           const q2Facturable = Math.min(ejec, restante);
           const excede = Math.max(0, ejec - restante);
           const noFact = excede; // si no hay constancia, queda como no facturada
+          const totalHoras = q1 + q2Facturable;
+          const totalMonto = totalHoras * tarifa[a];
+          const brecha = aprobadas - totalHoras;
+          const cobertura = aprobadas > 0 ? (totalHoras / aprobadas) * 100 : 0;
+          let estado: FilaComparativo["estado"] = "completa";
+          if (excede > 0) estado = "excedente";
+          else if (q1 === 0 || q2Facturable === 0) estado = "pendienteQ2";
+          else if (brecha > 0) estado = "parcial";
           out.push({
             nino: n,
             sede: s.nombre,
@@ -139,11 +147,16 @@ export function ComparativoQuincenasPanel() {
             q2Horas: q2Facturable,
             q1Monto: q1 * tarifa[a],
             q2Monto: q2Facturable * tarifa[a],
+            totalHoras,
+            totalMonto,
+            brecha,
+            cobertura,
             deltaHoras: q2Facturable - q1,
             deltaMonto: (q2Facturable - q1) * tarifa[a],
             excede,
             noFacturadas: !n.constancia ? noFact : 0,
             constancia: !!n.constancia,
+            estado,
           });
         }
       }
