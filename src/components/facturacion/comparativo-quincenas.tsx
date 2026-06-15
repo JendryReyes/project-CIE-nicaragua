@@ -39,11 +39,16 @@ type FilaComparativo = {
   q2Horas: number;
   q1Monto: number;
   q2Monto: number;
+  totalHoras: number;
+  totalMonto: number;
+  brecha: number;          // aprobadas - (q1+q2)
+  cobertura: number;       // (q1+q2)/aprobadas * 100
   deltaHoras: number;
   deltaMonto: number;
   excede: number;
   noFacturadas: number;
   constancia: boolean;
+  estado: "completa" | "parcial" | "excedente" | "pendienteQ2";
 };
 
 const SERVICIOS_OTROS = [
