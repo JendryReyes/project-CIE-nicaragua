@@ -230,7 +230,7 @@ function GeneralTab({
   );
 }
 
-function SedeBlock({ sede }: { sede: typeof sedesFact[number] }) {
+function SedeBlock({ sede, onSelect }: { sede: typeof sedesFact[number]; onSelect: (n: NinoFact) => void }) {
   return (
     <section>
       <div className="flex items-baseline gap-2 mb-3 border-l-4 border-primary/70 pl-3">
@@ -238,13 +238,13 @@ function SedeBlock({ sede }: { sede: typeof sedesFact[number] }) {
         <span className="text-xs text-muted-foreground">{sede.ciudad} · {sede.ninos.length} {sede.ninos.length===1?"niño":"niños"}</span>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-        {sede.ninos.map((n) => <NinoCard key={n.id} nino={n} />)}
+        {sede.ninos.map((n) => <NinoCard key={n.id} nino={n} onSelect={onSelect} />)}
       </div>
     </section>
   );
 }
 
-function NinoCard({ nino }: { nino: NinoFact }) {
+function NinoCard({ nino, onSelect }: { nino: NinoFact; onSelect: (n: NinoFact) => void }) {
   const r = calcularNino(nino);
   const alerta = r.tieneExcede && !nino.constancia;
   return (
