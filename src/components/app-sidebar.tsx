@@ -35,8 +35,8 @@ const principal = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Matrícula", url: "/matricula", icon: UserPlus },
   { title: "Planificación", url: "/planificacion", icon: CalendarDays },
-  { title: "Ejecución", url: "/ejecucion", icon: Activity },
   { title: "Asistencia", url: "/asistencia", icon: ClipboardCheck },
+  { title: "Ejecución", url: "/ejecucion", icon: Activity },
   { title: "Gestión Clínica", url: "/ninos", icon: Users },
 ];
 

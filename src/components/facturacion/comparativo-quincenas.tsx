@@ -129,6 +129,9 @@ export function ComparativoQuincenasPanel() {
   const [sedeId, setSedeId] = useState("todas");
   const [soloExcedentes, setSoloExcedentes] = useState(false);
   const [detalle, setDetalle] = useState<FilaComparativo | null>(null);
+  const [brechaOverrides, setBrechaOverrides] = useState<Record<string, number>>({});
+  const brechaKey = (f: FilaComparativo) => `${f.nino.id}-${f.area}`;
+  const getBrecha = (f: FilaComparativo) => brechaOverrides[brechaKey(f)] ?? f.brecha;
 
   const filas = useMemo<FilaComparativo[]>(() => {
     const sedes = sedeId === "todas" ? sedesFact : sedesFact.filter((s) => s.id === sedeId);
@@ -413,7 +416,7 @@ export function ComparativoQuincenasPanel() {
       <div className="rounded-2xl border border-border/70 bg-card overflow-hidden">
         <div className="px-4 py-3 border-b border-border/60 flex items-center justify-between">
           <h3 className="font-display text-base">
-            Comparativo 1ra y 2da quincena · {mes} {anio}
+            Comparativo Periodo 1 y Periodo 2 · {mes} {anio}
           </h3>
           <span className="text-xs text-muted-foreground">
             {filas.length} filas · {new Set(filas.map((f) => f.nino.id)).size} niños
@@ -426,9 +429,9 @@ export function ComparativoQuincenasPanel() {
                 <Th>Niño</Th>
                 <Th>Área</Th>
                 <Th right>Aprob.</Th>
-                <Th right>Q1 h</Th>
-                <Th right>Q2 h</Th>
-                <Th right>Δ Q1↔Q2</Th>
+                <Th right>P1 h</Th>
+                <Th right>P2 h</Th>
+                <Th right>Δ P1↔P2</Th>
                 <Th right>Total mes</Th>
                 <Th right>Brecha</Th>
                 <Th>Cobertura</Th>
@@ -463,14 +466,28 @@ export function ComparativoQuincenasPanel() {
                     <Delta value={f.deltaHoras} />
                   </td>
                   <td className="px-3 py-2 text-right tabular font-semibold">{f.totalHoras}</td>
-                  <td className="px-3 py-2 text-right tabular">
-                    {f.brecha === 0 ? (
-                      <span className="text-muted-foreground">—</span>
-                    ) : f.brecha > 0 ? (
-                      <span className="text-[oklch(0.55_0.14_80)]">−{f.brecha}h</span>
-                    ) : (
-                      <span className="text-[oklch(0.55_0.18_25)]">+{Math.abs(f.brecha)}h</span>
-                    )}
+                  <td className="px-3 py-2 text-right tabular" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex items-center justify-end gap-1">
+                      <input
+                        type="number"
+                        value={getBrecha(f)}
+                        onChange={(e) =>
+                          setBrechaOverrides((p) => ({ ...p, [brechaKey(f)]: Number(e.target.value) }))
+                        }
+                        className="w-14 h-7 rounded-md border border-border/70 bg-background px-1.5 text-right tabular text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+                        title="Editar horas restantes"
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setBrechaOverrides((p) => ({ ...p, [brechaKey(f)]: 0 }))
+                        }
+                        className="text-muted-foreground hover:text-foreground p-0.5 rounded hover:bg-muted"
+                        title="Eliminar restante"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
                   </td>
                   <td className="px-3 py-2 w-[120px]">
                     <div className="flex items-center gap-2">
@@ -523,19 +540,18 @@ export function ComparativoQuincenasPanel() {
                 <td className="px-3 py-2 text-right tabular"><Delta value={totales.deltaHoras} /></td>
                 <td className="px-3 py-2 text-right tabular font-semibold">{totales.totalHoras}</td>
                 <td className="px-3 py-2 text-right tabular">
-                  {totales.brecha === 0 ? (
-                    <span className="text-muted-foreground">—</span>
-                  ) : totales.brecha > 0 ? (
-                    <span className="text-[oklch(0.55_0.14_80)]">−{totales.brecha}h</span>
-                  ) : (
-                    <span className="text-[oklch(0.55_0.18_25)]">+{Math.abs(totales.brecha)}h</span>
-                  )}
+                  {(() => {
+                    const b = filas.reduce((a, f) => a + getBrecha(f), 0);
+                    if (b === 0) return <span className="text-muted-foreground">—</span>;
+                    if (b > 0) return <span className="text-[oklch(0.55_0.14_80)]">−{b}h</span>;
+                    return <span className="text-[oklch(0.55_0.18_25)]">+{Math.abs(b)}h</span>;
+                  })()}
                 </td>
                 <td className="px-3 py-2 text-xs text-muted-foreground">{totales.cobertura.toFixed(1)}%</td>
                 <td className="px-3 py-2 text-right tabular font-semibold">${totales.totalMonto.toFixed(2)}</td>
                 <td className="px-3 py-2 text-xs text-muted-foreground">
                   {totales.pctMonto >= 0 ? "+" : ""}
-                  {totales.pctMonto.toFixed(1)}% Q2 vs Q1
+                  {totales.pctMonto.toFixed(1)}% P2 vs P1
                 </td>
               </tr>
             </tfoot>
@@ -799,14 +815,14 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
           {/* Comparativo Q1 vs Q2 */}
           <section className="rounded-2xl border border-border/70 p-4">
             <h4 className="font-display text-sm mb-3 inline-flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-primary" /> Detalle por quincena
+              <Calendar className="h-4 w-4 text-primary" /> Detalle por periodo
             </h4>
             <div className="grid grid-cols-2 gap-3 text-sm">
-              <QuincenaCol titulo="1ra Quincena" sub={`01–15 ${mes}`} horas={f.q1Horas} sesiones={sesionesQ1} monto={f.q1Monto} tarifaHora={tarifaHora} />
-              <QuincenaCol titulo="2da Quincena" sub={`16–${["Febrero"].includes(mes) ? 28 : 30} ${mes}`} horas={f.q2Horas} sesiones={sesionesQ2} monto={f.q2Monto} tarifaHora={tarifaHora} excede={f.excede} />
+              <QuincenaCol titulo="Periodo 1" sub={`01–15 ${mes}`} horas={f.q1Horas} sesiones={sesionesQ1} monto={f.q1Monto} tarifaHora={tarifaHora} />
+              <QuincenaCol titulo="Periodo 2" sub={`16–${["Febrero"].includes(mes) ? 28 : 30} ${mes}`} horas={f.q2Horas} sesiones={sesionesQ2} monto={f.q2Monto} tarifaHora={tarifaHora} excede={f.excede} />
             </div>
             <div className="mt-3 border-t border-border/60 pt-3 flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Δ Q2 vs Q1</span>
+              <span className="text-muted-foreground">Δ Periodo 2 vs Periodo 1</span>
               <Delta value={f.deltaHoras} />
             </div>
           </section>
@@ -857,8 +873,8 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
               <Dt>Área</Dt><Dd>{f.area === "ABA" ? "Análisis Conductual Aplicado" : f.area === "Logo" ? "Logopedia" : "Fisioterapia"}</Dd>
               <Dt>Sesiones/sem</Dt><Dd>{dias} · {horasSesion}</Dd>
               <Dt>Tarifa INSS</Dt><Dd>${tarifaHora.toFixed(2)} / hora</Dd>
-              <Dt>Sesiones Q1</Dt><Dd>{sesionesQ1} sesiones</Dd>
-              <Dt>Sesiones Q2</Dt><Dd>{sesionesQ2} sesiones</Dd>
+              <Dt>Sesiones Periodo 1</Dt><Dd>{sesionesQ1} sesiones</Dd>
+              <Dt>Sesiones Periodo 2</Dt><Dd>{sesionesQ2} sesiones</Dd>
               <Dt>Constancia</Dt><Dd>{f.constancia ? "Sí, adjunta" : "No registrada"}</Dd>
             </dl>
           </section>
