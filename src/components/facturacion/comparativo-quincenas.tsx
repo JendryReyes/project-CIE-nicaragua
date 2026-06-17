@@ -886,12 +886,12 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
                 }}
               />
             </div>
-            {f.excede > 0 && (
+            {excedeEdit > 0 && (
               <div className={`mt-3 rounded-lg p-3 text-xs flex items-start gap-2 ${f.constancia ? "bg-[oklch(0.95_0.05_155)] text-[oklch(0.35_0.13_155)]" : "bg-[oklch(0.95_0.06_25)] text-[oklch(0.45_0.15_25)]"}`}>
                 <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
                 <div>
                   <div className="font-medium">
-                    {f.constancia ? "Excedente respaldado" : "Excedente sin respaldo"} · +{f.excede}h
+                    {f.constancia ? "Excedente respaldado" : "Excedente sin respaldo"} · +{excedeEdit}h
                   </div>
                   <div className="opacity-90 mt-0.5">
                     {f.constancia
