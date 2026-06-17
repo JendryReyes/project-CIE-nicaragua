@@ -413,7 +413,7 @@ export function ComparativoQuincenasPanel() {
       <div className="rounded-2xl border border-border/70 bg-card overflow-hidden">
         <div className="px-4 py-3 border-b border-border/60 flex items-center justify-between">
           <h3 className="font-display text-base">
-            Comparativo 1ra y 2da quincena · {mes} {anio}
+            Comparativo Periodo 1 y Periodo 2 · {mes} {anio}
           </h3>
           <span className="text-xs text-muted-foreground">
             {filas.length} filas · {new Set(filas.map((f) => f.nino.id)).size} niños
@@ -426,9 +426,9 @@ export function ComparativoQuincenasPanel() {
                 <Th>Niño</Th>
                 <Th>Área</Th>
                 <Th right>Aprob.</Th>
-                <Th right>Q1 h</Th>
-                <Th right>Q2 h</Th>
-                <Th right>Δ Q1↔Q2</Th>
+                <Th right>P1 h</Th>
+                <Th right>P2 h</Th>
+                <Th right>Δ P1↔P2</Th>
                 <Th right>Total mes</Th>
                 <Th right>Brecha</Th>
                 <Th>Cobertura</Th>
@@ -535,7 +535,7 @@ export function ComparativoQuincenasPanel() {
                 <td className="px-3 py-2 text-right tabular font-semibold">${totales.totalMonto.toFixed(2)}</td>
                 <td className="px-3 py-2 text-xs text-muted-foreground">
                   {totales.pctMonto >= 0 ? "+" : ""}
-                  {totales.pctMonto.toFixed(1)}% Q2 vs Q1
+                  {totales.pctMonto.toFixed(1)}% P2 vs P1
                 </td>
               </tr>
             </tfoot>
@@ -799,14 +799,14 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
           {/* Comparativo Q1 vs Q2 */}
           <section className="rounded-2xl border border-border/70 p-4">
             <h4 className="font-display text-sm mb-3 inline-flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-primary" /> Detalle por quincena
+              <Calendar className="h-4 w-4 text-primary" /> Detalle por periodo
             </h4>
             <div className="grid grid-cols-2 gap-3 text-sm">
-              <QuincenaCol titulo="1ra Quincena" sub={`01–15 ${mes}`} horas={f.q1Horas} sesiones={sesionesQ1} monto={f.q1Monto} tarifaHora={tarifaHora} />
-              <QuincenaCol titulo="2da Quincena" sub={`16–${["Febrero"].includes(mes) ? 28 : 30} ${mes}`} horas={f.q2Horas} sesiones={sesionesQ2} monto={f.q2Monto} tarifaHora={tarifaHora} excede={f.excede} />
+              <QuincenaCol titulo="Periodo 1" sub={`01–15 ${mes}`} horas={f.q1Horas} sesiones={sesionesQ1} monto={f.q1Monto} tarifaHora={tarifaHora} />
+              <QuincenaCol titulo="Periodo 2" sub={`16–${["Febrero"].includes(mes) ? 28 : 30} ${mes}`} horas={f.q2Horas} sesiones={sesionesQ2} monto={f.q2Monto} tarifaHora={tarifaHora} excede={f.excede} />
             </div>
             <div className="mt-3 border-t border-border/60 pt-3 flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Δ Q2 vs Q1</span>
+              <span className="text-muted-foreground">Δ Periodo 2 vs Periodo 1</span>
               <Delta value={f.deltaHoras} />
             </div>
           </section>
@@ -857,8 +857,8 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
               <Dt>Área</Dt><Dd>{f.area === "ABA" ? "Análisis Conductual Aplicado" : f.area === "Logo" ? "Logopedia" : "Fisioterapia"}</Dd>
               <Dt>Sesiones/sem</Dt><Dd>{dias} · {horasSesion}</Dd>
               <Dt>Tarifa INSS</Dt><Dd>${tarifaHora.toFixed(2)} / hora</Dd>
-              <Dt>Sesiones Q1</Dt><Dd>{sesionesQ1} sesiones</Dd>
-              <Dt>Sesiones Q2</Dt><Dd>{sesionesQ2} sesiones</Dd>
+              <Dt>Sesiones Periodo 1</Dt><Dd>{sesionesQ1} sesiones</Dd>
+              <Dt>Sesiones Periodo 2</Dt><Dd>{sesionesQ2} sesiones</Dd>
               <Dt>Constancia</Dt><Dd>{f.constancia ? "Sí, adjunta" : "No registrada"}</Dd>
             </dl>
           </section>
