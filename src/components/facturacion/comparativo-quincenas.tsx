@@ -856,7 +856,7 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
             </h4>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <QuincenaCol titulo="Periodo 1" sub={`01–15 ${mes}`} horas={f.q1Horas} sesiones={sesionesQ1} monto={f.q1Monto} tarifaHora={tarifaHora} />
-              <QuincenaCol titulo="Periodo 2" sub={`16–${["Febrero"].includes(mes) ? 28 : 30} ${mes}`} horas={f.q2Horas} sesiones={sesionesQ2} monto={f.q2Monto} tarifaHora={tarifaHora} excede={f.excede} />
+              <QuincenaCol titulo="Periodo 2" sub={`16–${["Febrero"].includes(mes) ? 28 : 30} ${mes}`} horas={f.q2Horas} sesiones={sesionesQ2} monto={f.q2Monto} tarifaHora={tarifaHora} excede={excedeEdit} />
             </div>
             <div className="mt-3 border-t border-border/60 pt-3 flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Δ Periodo 2 vs Periodo 1</span>
