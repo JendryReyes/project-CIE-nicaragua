@@ -83,7 +83,7 @@ function Facturacion() {
 
       <div className="flex items-center gap-1 border-b border-border/60">
         {([
-          ["admin", "Administración (Comparativo Q1↔Q2)"],
+          ["admin", "Administración (Comparativo Periodo 1↔Periodo 2)"],
           ["general", "Vista general"],
           ["cierre", "Cierre de quincena"],
           ["cartas", "Cartas INSS"],
