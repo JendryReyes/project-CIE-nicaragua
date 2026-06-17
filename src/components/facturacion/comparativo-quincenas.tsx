@@ -804,13 +804,49 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
             <MiniCard icon={Activity} label="Aprobadas INSS" value={`${f.aprobadas}h`} hint={`${(f.aprobadas / 2).toFixed(0)} sesiones plan`} />
             <MiniCard icon={TrendingUp} label="Ejecutadas Q1+Q2" value={`${f.totalHoras}h`} hint={`Cobertura ${f.cobertura.toFixed(1)}%`} />
             <MiniCard icon={DollarSign} label="Total facturable" value={`$${f.totalMonto.toFixed(2)}`} hint={`Tarifa $${tarifaHora}/h`} />
-            <MiniCard
-              icon={AlertTriangle}
-              label={f.excede > 0 ? "Excedente" : "Brecha"}
-              value={f.excede > 0 ? `+${f.excede}h` : f.brecha > 0 ? `−${f.brecha}h` : "0h"}
-              hint={f.excede > 0 ? (f.constancia ? "Justificado por constancia médica" : "Sin constancia médica") : f.brecha > 0 ? "Pendiente por completar" : "Ejecución completa"}
-              tone={f.excede > 0 && !f.constancia ? "warn" : f.brecha > 0 ? "muted" : "ok"}
-            />
+            {f.excede > 0 ? (
+              <div className={`rounded-2xl border p-3 ${excedeEdit > 0 && !f.constancia ? "border-[oklch(0.7_0.15_25/0.4)] bg-[oklch(0.98_0.03_25)]" : "border-border/70 bg-card"}`}>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+                    <AlertTriangle className="h-3.5 w-3.5" />
+                    {excedeEdit > 0 ? "Excedente" : "Sin excedente"}
+                  </div>
+                  {excedeEdit > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setExcedeEdit(0)}
+                      className="rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+                      title="Eliminar excedente"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                </div>
+                <div className="mt-1 flex items-baseline gap-1">
+                  <span className={`font-display text-2xl tabular ${excedeEdit > 0 && !f.constancia ? "text-[oklch(0.55_0.18_25)]" : ""}`}>+</span>
+                  <input
+                    type="number"
+                    min={0}
+                    step={1}
+                    value={excedeEdit}
+                    onChange={(e) => setExcedeEdit(Math.max(0, Number(e.target.value) || 0))}
+                    className={`w-16 bg-transparent font-display text-2xl tabular outline-none border-b border-dashed border-border focus:border-foreground ${excedeEdit > 0 && !f.constancia ? "text-[oklch(0.55_0.18_25)]" : ""}`}
+                  />
+                  <span className="text-sm text-muted-foreground">h</span>
+                </div>
+                <div className="text-[11px] text-muted-foreground mt-1">
+                  {excedeEdit === 0 ? "Excedente descartado" : f.constancia ? "Justificado por constancia médica" : "Sin constancia médica"}
+                </div>
+              </div>
+            ) : (
+              <MiniCard
+                icon={AlertTriangle}
+                label="Brecha"
+                value={f.brecha > 0 ? `−${f.brecha}h` : "0h"}
+                hint={f.brecha > 0 ? "Pendiente por completar" : "Ejecución completa"}
+                tone={f.brecha > 0 ? "muted" : "ok"}
+              />
+            )}
           </div>
 
           {/* Comparativo Q1 vs Q2 */}
