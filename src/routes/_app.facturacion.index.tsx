@@ -50,7 +50,7 @@ function Facturacion() {
           <h1 className="font-display text-3xl">Módulo de Facturación</h1>
           <p className="text-sm text-muted-foreground mt-1">
             {tab === "general" && `Vista general · Quincena ${quincena === "Q1" ? "1 (1-15)" : "2 (16-30)"} · ${mes} ${anio}`}
-            {tab === "admin" && "Administración CIE · Comparativo Q1 vs Q2, excedentes y soportes INSS"}
+            {tab === "admin" && "Administración CIE · Comparativo Periodo 1 vs Periodo 2, excedentes y soportes INSS"}
             {tab === "cierre" && `Cierre de quincena · ${mes} ${anio}`}
             {tab === "cartas" && "Cartas INSS · Vigencia de aprobaciones semestrales"}
             {tab === "resumen" && "Resumen formal · Visitas, Reclamos, Remesas y Facturas"}
