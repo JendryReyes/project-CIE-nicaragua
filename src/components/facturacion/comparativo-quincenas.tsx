@@ -540,13 +540,12 @@ export function ComparativoQuincenasPanel() {
                 <td className="px-3 py-2 text-right tabular"><Delta value={totales.deltaHoras} /></td>
                 <td className="px-3 py-2 text-right tabular font-semibold">{totales.totalHoras}</td>
                 <td className="px-3 py-2 text-right tabular">
-                  {totales.brecha === 0 ? (
-                    <span className="text-muted-foreground">—</span>
-                  ) : totales.brecha > 0 ? (
-                    <span className="text-[oklch(0.55_0.14_80)]">−{totales.brecha}h</span>
-                  ) : (
-                    <span className="text-[oklch(0.55_0.18_25)]">+{Math.abs(totales.brecha)}h</span>
-                  )}
+                  {(() => {
+                    const b = filas.reduce((a, f) => a + getBrecha(f), 0);
+                    if (b === 0) return <span className="text-muted-foreground">—</span>;
+                    if (b > 0) return <span className="text-[oklch(0.55_0.14_80)]">−{b}h</span>;
+                    return <span className="text-[oklch(0.55_0.18_25)]">+{Math.abs(b)}h</span>;
+                  })()}
                 </td>
                 <td className="px-3 py-2 text-xs text-muted-foreground">{totales.cobertura.toFixed(1)}%</td>
                 <td className="px-3 py-2 text-right tabular font-semibold">${totales.totalMonto.toFixed(2)}</td>
