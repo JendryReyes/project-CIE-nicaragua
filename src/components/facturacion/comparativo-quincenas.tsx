@@ -129,6 +129,9 @@ export function ComparativoQuincenasPanel() {
   const [sedeId, setSedeId] = useState("todas");
   const [soloExcedentes, setSoloExcedentes] = useState(false);
   const [detalle, setDetalle] = useState<FilaComparativo | null>(null);
+  const [brechaOverrides, setBrechaOverrides] = useState<Record<string, number>>({});
+  const brechaKey = (f: FilaComparativo) => `${f.nino.id}-${f.area}`;
+  const getBrecha = (f: FilaComparativo) => brechaOverrides[brechaKey(f)] ?? f.brecha;
 
   const filas = useMemo<FilaComparativo[]>(() => {
     const sedes = sedeId === "todas" ? sedesFact : sedesFact.filter((s) => s.id === sedeId);
@@ -463,14 +466,28 @@ export function ComparativoQuincenasPanel() {
                     <Delta value={f.deltaHoras} />
                   </td>
                   <td className="px-3 py-2 text-right tabular font-semibold">{f.totalHoras}</td>
-                  <td className="px-3 py-2 text-right tabular">
-                    {f.brecha === 0 ? (
-                      <span className="text-muted-foreground">—</span>
-                    ) : f.brecha > 0 ? (
-                      <span className="text-[oklch(0.55_0.14_80)]">−{f.brecha}h</span>
-                    ) : (
-                      <span className="text-[oklch(0.55_0.18_25)]">+{Math.abs(f.brecha)}h</span>
-                    )}
+                  <td className="px-3 py-2 text-right tabular" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex items-center justify-end gap-1">
+                      <input
+                        type="number"
+                        value={getBrecha(f)}
+                        onChange={(e) =>
+                          setBrechaOverrides((p) => ({ ...p, [brechaKey(f)]: Number(e.target.value) }))
+                        }
+                        className="w-14 h-7 rounded-md border border-border/70 bg-background px-1.5 text-right tabular text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+                        title="Editar horas restantes"
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setBrechaOverrides((p) => ({ ...p, [brechaKey(f)]: 0 }))
+                        }
+                        className="text-muted-foreground hover:text-foreground p-0.5 rounded hover:bg-muted"
+                        title="Eliminar restante"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
                   </td>
                   <td className="px-3 py-2 w-[120px]">
                     <div className="flex items-center gap-2">
