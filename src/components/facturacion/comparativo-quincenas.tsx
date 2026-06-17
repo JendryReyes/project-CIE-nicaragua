@@ -766,6 +766,7 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
   };
 
   const [envio, setEnvio] = useState<null | { estado: "confirm" | "enviando" | "enviado"; folio?: string }>(null);
+  const [excedeEdit, setExcedeEdit] = useState<number>(f.excede);
 
   const iniciarEnvio = () => setEnvio({ estado: "confirm" });
   const confirmarEnvio = () => {
