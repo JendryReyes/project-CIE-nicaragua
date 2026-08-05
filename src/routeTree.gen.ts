@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MiHijoRouteImport } from './routes/mi-hijo'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as KioskoRouteImport } from './routes/kiosko'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
@@ -25,6 +26,8 @@ import { Route as AppEjecucionRouteImport } from './routes/_app.ejecucion'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
 import { Route as AppFacturacionIndexRouteImport } from './routes/_app.facturacion.index'
 import { Route as AppSesionNinoIdRouteImport } from './routes/_app.sesion.$ninoId'
@@ -37,10 +40,16 @@ import { Route as AppFacturacionCartasRouteImport } from './routes/_app.facturac
 import { Route as AppFacturacionLoteIdRouteImport } from './routes/_app.facturacion.$loteId'
 import { Route as AppClinicoGraficasRouteImport } from './routes/_app.clinico.graficas'
 import { Route as AppAsistenciaCarnetsRouteImport } from './routes/_app.asistencia.carnets'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
 const MiHijoRoute = MiHijoRouteImport.update({
   id: '/mi-hijo',
   path: '/mi-hijo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KioskoRoute = KioskoRouteImport.update({
@@ -117,6 +126,18 @@ const AppAsistenciaRoute = AppAsistenciaRouteImport.update({
   path: '/asistencia',
   getParentRoute: () => AppRoute,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AppNinosIndexRoute = AppNinosIndexRouteImport.update({
   id: '/ninos/',
   path: '/ninos/',
@@ -179,11 +200,20 @@ const AppAsistenciaCarnetsRoute = AppAsistenciaCarnetsRouteImport.update({
   path: '/carnets',
   getParentRoute: () => AppAsistenciaRoute,
 } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/kiosko': typeof KioskoRoute
+  '/mcp': typeof McpRoute
   '/mi-hijo': typeof MiHijoRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
@@ -196,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/planificacion': typeof AppPlanificacionRoute
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
@@ -212,7 +243,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/kiosko': typeof KioskoRoute
+  '/mcp': typeof McpRoute
   '/mi-hijo': typeof MiHijoRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
@@ -224,6 +258,7 @@ export interface FileRoutesByTo {
   '/planificacion': typeof AppPlanificacionRoute
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
   '/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
@@ -242,7 +277,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/kiosko': typeof KioskoRoute
+  '/mcp': typeof McpRoute
   '/mi-hijo': typeof MiHijoRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_app/asistencia': typeof AppAsistenciaRouteWithChildren
   '/_app/biblioteca': typeof AppBibliotecaRoute
   '/_app/dashboard': typeof AppDashboardRoute
@@ -255,6 +293,7 @@ export interface FileRoutesById {
   '/_app/planificacion': typeof AppPlanificacionRoute
   '/_app/reportes': typeof AppReportesRoute
   '/_app/sedes': typeof AppSedesRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_app/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/_app/clinico/graficas': typeof AppClinicoGraficasRoute
   '/_app/facturacion/$loteId': typeof AppFacturacionLoteIdRoute
@@ -273,7 +312,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/kiosko'
+    | '/mcp'
     | '/mi-hijo'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/asistencia'
     | '/biblioteca'
     | '/dashboard'
@@ -286,6 +328,7 @@ export interface FileRouteTypes {
     | '/planificacion'
     | '/reportes'
     | '/sedes'
+    | '/.mcp/invoke-tool/$tool'
     | '/asistencia/carnets'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
@@ -302,7 +345,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/kiosko'
+    | '/mcp'
     | '/mi-hijo'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/asistencia'
     | '/biblioteca'
     | '/dashboard'
@@ -314,6 +360,7 @@ export interface FileRouteTypes {
     | '/planificacion'
     | '/reportes'
     | '/sedes'
+    | '/.mcp/invoke-tool/$tool'
     | '/asistencia/carnets'
     | '/clinico/graficas'
     | '/facturacion/$loteId'
@@ -331,7 +378,10 @@ export interface FileRouteTypes {
     | '/'
     | '/_app'
     | '/kiosko'
+    | '/mcp'
     | '/mi-hijo'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/_app/asistencia'
     | '/_app/biblioteca'
     | '/_app/dashboard'
@@ -344,6 +394,7 @@ export interface FileRouteTypes {
     | '/_app/planificacion'
     | '/_app/reportes'
     | '/_app/sedes'
+    | '/.mcp/invoke-tool/$tool'
     | '/_app/asistencia/carnets'
     | '/_app/clinico/graficas'
     | '/_app/facturacion/$loteId'
@@ -362,7 +413,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   KioskoRoute: typeof KioskoRoute
+  McpRoute: typeof McpRoute
   MiHijoRoute: typeof MiHijoRoute
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -372,6 +427,13 @@ declare module '@tanstack/react-router' {
       path: '/mi-hijo'
       fullPath: '/mi-hijo'
       preLoaderRoute: typeof MiHijoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kiosko': {
@@ -479,6 +541,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAsistenciaRouteImport
       parentRoute: typeof AppRoute
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_app/ninos/': {
       id: '/_app/ninos/'
       path: '/ninos'
@@ -563,6 +639,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAsistenciaCarnetsRouteImport
       parentRoute: typeof AppAsistenciaRoute
     }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -646,7 +729,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   KioskoRoute: KioskoRoute,
+  McpRoute: McpRoute,
   MiHijoRoute: MiHijoRoute,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

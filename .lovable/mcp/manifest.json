@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "cie-excellence-benchmark",
+      "version": "0.1.0",
+      "title": "CIE Excellence Benchmark"
+    },
+    "tools": [
+      {
+        "name": "list_sedes",
+        "title": "Listar sedes",
+        "description": "Lista las sedes del CIE con su ciudad y la cantidad de niños registrados (datos de demostración).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_ninos",
+        "title": "Listar niños",
+        "description": "Lista los niños atendidos (datos de demostración), opcionalmente filtrados por sede o por pagador INSS.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "sedeId": {
+              "type": "string",
+              "description": "Filtra por id de sede, p. ej. 'sd', 'lc', 'esteli'."
+            },
+            "soloINSS": {
+              "type": "boolean",
+              "description": "Si es true, solo devuelve casos INSS."
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "resumen_facturacion",
+        "title": "Resumen de facturación INSS",
+        "description": "Calcula el resumen de facturación de la quincena (horas aprobadas, periodo 1, ejecutadas, facturables, excedentes y monto) por sede o para un niño específico. Datos de demostración.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "sedeId": {
+              "type": "string",
+              "description": "Id de sede para limitar el resumen."
+            },
+            "ninoId": {
+              "type": "string",
+              "description": "Id del niño para un detalle individual."
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "reporte_puntualidad",
+        "title": "Reporte de puntualidad",
+        "description": "Devuelve el reporte de puntualidad y asistencia del día por sede: atendidos, a tiempo, tarde leve (1-14 min), tarde (15+ min), ausentes y desviación promedio. Datos de demostración.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "resumen_planificacion",
+        "title": "Resumen de planificación",
+        "description": "Devuelve la planificación de horas: totales, desglose por sede y por supervisor, motivos de horas no programadas y el detalle por niño. Datos de demostración.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "catalogo_servicios",
+        "title": "Catálogo de servicios",
+        "description": "Lista los servicios clínicos del CIE con área, rango de edad, modalidad, cupo INSS, cupo ocupado y modelos clínicos aplicados.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
