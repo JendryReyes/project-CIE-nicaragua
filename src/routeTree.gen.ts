@@ -25,6 +25,7 @@ import { Route as AppEquipoRouteImport } from './routes/_app.equipo'
 import { Route as AppEjecucionRouteImport } from './routes/_app.ejecucion'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
+import { Route as AppAuditoriaRouteImport } from './routes/_app.auditoria'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
@@ -121,6 +122,11 @@ const AppBibliotecaRoute = AppBibliotecaRouteImport.update({
   path: '/biblioteca',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAuditoriaRoute = AppAuditoriaRouteImport.update({
+  id: '/auditoria',
+  path: '/auditoria',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAsistenciaRoute = AppAsistenciaRouteImport.update({
   id: '/asistencia',
   path: '/asistencia',
@@ -215,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
+  '/auditoria': typeof AppAuditoriaRoute
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
   '/ejecucion': typeof AppEjecucionRoute
@@ -248,6 +255,7 @@ export interface FileRoutesByTo {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
+  '/auditoria': typeof AppAuditoriaRoute
   '/biblioteca': typeof AppBibliotecaRoute
   '/dashboard': typeof AppDashboardRoute
   '/ejecucion': typeof AppEjecucionRoute
@@ -282,6 +290,7 @@ export interface FileRoutesById {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_app/asistencia': typeof AppAsistenciaRouteWithChildren
+  '/_app/auditoria': typeof AppAuditoriaRoute
   '/_app/biblioteca': typeof AppBibliotecaRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/ejecucion': typeof AppEjecucionRoute
@@ -317,6 +326,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/asistencia'
+    | '/auditoria'
     | '/biblioteca'
     | '/dashboard'
     | '/ejecucion'
@@ -350,6 +360,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/asistencia'
+    | '/auditoria'
     | '/biblioteca'
     | '/dashboard'
     | '/ejecucion'
@@ -383,6 +394,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/_app/asistencia'
+    | '/_app/auditoria'
     | '/_app/biblioteca'
     | '/_app/dashboard'
     | '/_app/ejecucion'
@@ -532,6 +544,13 @@ declare module '@tanstack/react-router' {
       path: '/biblioteca'
       fullPath: '/biblioteca'
       preLoaderRoute: typeof AppBibliotecaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/auditoria': {
+      id: '/_app/auditoria'
+      path: '/auditoria'
+      fullPath: '/auditoria'
+      preLoaderRoute: typeof AppAuditoriaRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/asistencia': {
@@ -687,6 +706,7 @@ const AppFacturacionRouteWithChildren = AppFacturacionRoute._addFileChildren(
 
 interface AppRouteChildren {
   AppAsistenciaRoute: typeof AppAsistenciaRouteWithChildren
+  AppAuditoriaRoute: typeof AppAuditoriaRoute
   AppBibliotecaRoute: typeof AppBibliotecaRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppEjecucionRoute: typeof AppEjecucionRoute
@@ -706,6 +726,7 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppAsistenciaRoute: AppAsistenciaRouteWithChildren,
+  AppAuditoriaRoute: AppAuditoriaRoute,
   AppBibliotecaRoute: AppBibliotecaRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppEjecucionRoute: AppEjecucionRoute,
