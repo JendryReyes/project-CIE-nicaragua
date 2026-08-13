@@ -24,6 +24,7 @@ import { Route as AppFacturacionRouteImport } from './routes/_app.facturacion'
 import { Route as AppEquipoRouteImport } from './routes/_app.equipo'
 import { Route as AppEjecucionRouteImport } from './routes/_app.ejecucion'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppCuposRouteImport } from './routes/_app.cupos'
 import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
 import { Route as AppAuditoriaRouteImport } from './routes/_app.auditoria'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
@@ -116,6 +117,11 @@ const AppEjecucionRoute = AppEjecucionRouteImport.update({
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCuposRoute = AppCuposRouteImport.update({
+  id: '/cupos',
+  path: '/cupos',
   getParentRoute: () => AppRoute,
 } as any)
 const AppBibliotecaRoute = AppBibliotecaRouteImport.update({
@@ -230,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/auditoria': typeof AppAuditoriaRoute
   '/biblioteca': typeof AppBibliotecaRoute
+  '/cupos': typeof AppCuposRoute
   '/dashboard': typeof AppDashboardRoute
   '/ejecucion': typeof AppEjecucionRoute
   '/equipo': typeof AppEquipoRoute
@@ -265,6 +272,7 @@ export interface FileRoutesByTo {
   '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/auditoria': typeof AppAuditoriaRoute
   '/biblioteca': typeof AppBibliotecaRoute
+  '/cupos': typeof AppCuposRoute
   '/dashboard': typeof AppDashboardRoute
   '/ejecucion': typeof AppEjecucionRoute
   '/equipo': typeof AppEquipoRoute
@@ -301,6 +309,7 @@ export interface FileRoutesById {
   '/_app/asistencia': typeof AppAsistenciaRouteWithChildren
   '/_app/auditoria': typeof AppAuditoriaRoute
   '/_app/biblioteca': typeof AppBibliotecaRoute
+  '/_app/cupos': typeof AppCuposRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/ejecucion': typeof AppEjecucionRoute
   '/_app/equipo': typeof AppEquipoRoute
@@ -338,6 +347,7 @@ export interface FileRouteTypes {
     | '/asistencia'
     | '/auditoria'
     | '/biblioteca'
+    | '/cupos'
     | '/dashboard'
     | '/ejecucion'
     | '/equipo'
@@ -373,6 +383,7 @@ export interface FileRouteTypes {
     | '/asistencia'
     | '/auditoria'
     | '/biblioteca'
+    | '/cupos'
     | '/dashboard'
     | '/ejecucion'
     | '/equipo'
@@ -408,6 +419,7 @@ export interface FileRouteTypes {
     | '/_app/asistencia'
     | '/_app/auditoria'
     | '/_app/biblioteca'
+    | '/_app/cupos'
     | '/_app/dashboard'
     | '/_app/ejecucion'
     | '/_app/equipo'
@@ -549,6 +561,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/cupos': {
+      id: '/_app/cupos'
+      path: '/cupos'
+      fullPath: '/cupos'
+      preLoaderRoute: typeof AppCuposRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/biblioteca': {
@@ -728,6 +747,7 @@ interface AppRouteChildren {
   AppAsistenciaRoute: typeof AppAsistenciaRouteWithChildren
   AppAuditoriaRoute: typeof AppAuditoriaRoute
   AppBibliotecaRoute: typeof AppBibliotecaRoute
+  AppCuposRoute: typeof AppCuposRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppEjecucionRoute: typeof AppEjecucionRoute
   AppEquipoRoute: typeof AppEquipoRoute
@@ -749,6 +769,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppAsistenciaRoute: AppAsistenciaRouteWithChildren,
   AppAuditoriaRoute: AppAuditoriaRoute,
   AppBibliotecaRoute: AppBibliotecaRoute,
+  AppCuposRoute: AppCuposRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppEjecucionRoute: AppEjecucionRoute,
   AppEquipoRoute: AppEquipoRoute,
