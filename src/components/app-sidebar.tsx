@@ -121,6 +121,8 @@ export function AppSidebar() {
         {renderSection("Principal", principal)}
         {renderSection("ABA", aba)}
         {renderSection("Administración", administracion)}
+        {renderSection("Gobernanza", gobernanza)}
+
       </SidebarContent>
       <SidebarFooter className="border-t border-sidebar-border/60 p-3">
         <button
