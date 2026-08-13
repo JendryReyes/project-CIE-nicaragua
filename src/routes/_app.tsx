@@ -9,6 +9,9 @@ import { SedeSelector } from "@/components/sede-selector";
 import { TourGuiado } from "@/components/tour-guiado";
 import { NotificacionesPopover } from "@/components/notificaciones-popover";
 import { PerfilPopover } from "@/components/perfil-popover";
+import { RolProvider } from "@/lib/roles-tdr";
+import { RolActivoSelector } from "@/components/rol-activo-selector";
+
 
 export const Route = createFileRoute("/_app")({
   component: AppLayout,
