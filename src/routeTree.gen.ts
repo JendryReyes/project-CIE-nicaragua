@@ -14,6 +14,7 @@ import { Route as McpRouteImport } from './routes/mcp'
 import { Route as KioskoRouteImport } from './routes/kiosko'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppTarifasRouteImport } from './routes/_app.tarifas'
 import { Route as AppSedesRouteImport } from './routes/_app.sedes'
 import { Route as AppReportesRouteImport } from './routes/_app.reportes'
 import { Route as AppPlanificacionRouteImport } from './routes/_app.planificacion'
@@ -69,6 +70,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppTarifasRoute = AppTarifasRouteImport.update({
+  id: '/tarifas',
+  path: '/tarifas',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppSedesRoute = AppSedesRouteImport.update({
   id: '/sedes',
@@ -254,6 +260,7 @@ export interface FileRoutesByFullPath {
   '/planificacion': typeof AppPlanificacionRoute
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
+  '/tarifas': typeof AppTarifasRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
@@ -290,6 +297,7 @@ export interface FileRoutesByTo {
   '/planificacion': typeof AppPlanificacionRoute
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
+  '/tarifas': typeof AppTarifasRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
@@ -329,6 +337,7 @@ export interface FileRoutesById {
   '/_app/planificacion': typeof AppPlanificacionRoute
   '/_app/reportes': typeof AppReportesRoute
   '/_app/sedes': typeof AppSedesRoute
+  '/_app/tarifas': typeof AppTarifasRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_app/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/_app/clinico/graficas': typeof AppClinicoGraficasRoute
@@ -368,6 +377,7 @@ export interface FileRouteTypes {
     | '/planificacion'
     | '/reportes'
     | '/sedes'
+    | '/tarifas'
     | '/.mcp/invoke-tool/$tool'
     | '/asistencia/carnets'
     | '/clinico/graficas'
@@ -404,6 +414,7 @@ export interface FileRouteTypes {
     | '/planificacion'
     | '/reportes'
     | '/sedes'
+    | '/tarifas'
     | '/.mcp/invoke-tool/$tool'
     | '/asistencia/carnets'
     | '/clinico/graficas'
@@ -442,6 +453,7 @@ export interface FileRouteTypes {
     | '/_app/planificacion'
     | '/_app/reportes'
     | '/_app/sedes'
+    | '/_app/tarifas'
     | '/.mcp/invoke-tool/$tool'
     | '/_app/asistencia/carnets'
     | '/_app/clinico/graficas'
@@ -504,6 +516,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_app/tarifas': {
+      id: '/_app/tarifas'
+      path: '/tarifas'
+      fullPath: '/tarifas'
+      preLoaderRoute: typeof AppTarifasRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/sedes': {
       id: '/_app/sedes'
@@ -778,6 +797,7 @@ interface AppRouteChildren {
   AppPlanificacionRoute: typeof AppPlanificacionRoute
   AppReportesRoute: typeof AppReportesRoute
   AppSedesRoute: typeof AppSedesRoute
+  AppTarifasRoute: typeof AppTarifasRoute
   AppClinicoGraficasRoute: typeof AppClinicoGraficasRoute
   AppNinosIdRoute: typeof AppNinosIdRoute
   AppSesionNinoIdRoute: typeof AppSesionNinoIdRoute
@@ -801,6 +821,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPlanificacionRoute: AppPlanificacionRoute,
   AppReportesRoute: AppReportesRoute,
   AppSedesRoute: AppSedesRoute,
+  AppTarifasRoute: AppTarifasRoute,
   AppClinicoGraficasRoute: AppClinicoGraficasRoute,
   AppNinosIdRoute: AppNinosIdRoute,
   AppSesionNinoIdRoute: AppSesionNinoIdRoute,
