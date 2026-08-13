@@ -35,8 +35,9 @@ function AppLayout() {
   if (!ready) return null;
 
   return (
-    <SedeProvider>
-      <SidebarProvider>
+    <RolProvider>
+    <SidebarProvider>
+
         <div className="flex min-h-screen w-full overflow-x-hidden bg-background">
           <AppSidebar />
           <div className="flex min-w-0 flex-1 flex-col">
