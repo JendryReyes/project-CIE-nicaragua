@@ -27,6 +27,7 @@ import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
 import { Route as AppAuditoriaRouteImport } from './routes/_app.auditoria'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
+import { Route as AppAdmisionRouteImport } from './routes/_app.admision'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
@@ -132,6 +133,11 @@ const AppAsistenciaRoute = AppAsistenciaRouteImport.update({
   path: '/asistencia',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAdmisionRoute = AppAdmisionRouteImport.update({
+  id: '/admision',
+  path: '/admision',
+  getParentRoute: () => AppRoute,
+} as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
     id: '/.well-known/oauth-protected-resource',
@@ -220,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/mi-hijo': typeof MiHijoRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admision': typeof AppAdmisionRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/auditoria': typeof AppAuditoriaRoute
   '/biblioteca': typeof AppBibliotecaRoute
@@ -254,6 +261,7 @@ export interface FileRoutesByTo {
   '/mi-hijo': typeof MiHijoRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admision': typeof AppAdmisionRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/auditoria': typeof AppAuditoriaRoute
   '/biblioteca': typeof AppBibliotecaRoute
@@ -289,6 +297,7 @@ export interface FileRoutesById {
   '/mi-hijo': typeof MiHijoRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/_app/admision': typeof AppAdmisionRoute
   '/_app/asistencia': typeof AppAsistenciaRouteWithChildren
   '/_app/auditoria': typeof AppAuditoriaRoute
   '/_app/biblioteca': typeof AppBibliotecaRoute
@@ -325,6 +334,7 @@ export interface FileRouteTypes {
     | '/mi-hijo'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admision'
     | '/asistencia'
     | '/auditoria'
     | '/biblioteca'
@@ -359,6 +369,7 @@ export interface FileRouteTypes {
     | '/mi-hijo'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admision'
     | '/asistencia'
     | '/auditoria'
     | '/biblioteca'
@@ -393,6 +404,7 @@ export interface FileRouteTypes {
     | '/mi-hijo'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/_app/admision'
     | '/_app/asistencia'
     | '/_app/auditoria'
     | '/_app/biblioteca'
@@ -560,6 +572,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAsistenciaRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/admision': {
+      id: '/_app/admision'
+      path: '/admision'
+      fullPath: '/admision'
+      preLoaderRoute: typeof AppAdmisionRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/.well-known/oauth-protected-resource': {
       id: '/.well-known/oauth-protected-resource'
       path: '/.well-known/oauth-protected-resource'
@@ -705,6 +724,7 @@ const AppFacturacionRouteWithChildren = AppFacturacionRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
+  AppAdmisionRoute: typeof AppAdmisionRoute
   AppAsistenciaRoute: typeof AppAsistenciaRouteWithChildren
   AppAuditoriaRoute: typeof AppAuditoriaRoute
   AppBibliotecaRoute: typeof AppBibliotecaRoute
@@ -725,6 +745,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAdmisionRoute: AppAdmisionRoute,
   AppAsistenciaRoute: AppAsistenciaRouteWithChildren,
   AppAuditoriaRoute: AppAuditoriaRoute,
   AppBibliotecaRoute: AppBibliotecaRoute,
