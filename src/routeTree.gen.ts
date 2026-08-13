@@ -17,6 +17,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppSedesRouteImport } from './routes/_app.sedes'
 import { Route as AppReportesRouteImport } from './routes/_app.reportes'
 import { Route as AppPlanificacionRouteImport } from './routes/_app.planificacion'
+import { Route as AppPagadoresRouteImport } from './routes/_app.pagadores'
 import { Route as AppMatriculaRouteImport } from './routes/_app.matricula'
 import { Route as AppHorarioRouteImport } from './routes/_app.horario'
 import { Route as AppFamiliasRouteImport } from './routes/_app.familias'
@@ -82,6 +83,11 @@ const AppReportesRoute = AppReportesRouteImport.update({
 const AppPlanificacionRoute = AppPlanificacionRouteImport.update({
   id: '/planificacion',
   path: '/planificacion',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPagadoresRoute = AppPagadoresRouteImport.update({
+  id: '/pagadores',
+  path: '/pagadores',
   getParentRoute: () => AppRoute,
 } as any)
 const AppMatriculaRoute = AppMatriculaRouteImport.update({
@@ -244,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
+  '/pagadores': typeof AppPagadoresRoute
   '/planificacion': typeof AppPlanificacionRoute
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
@@ -279,6 +286,7 @@ export interface FileRoutesByTo {
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
+  '/pagadores': typeof AppPagadoresRoute
   '/planificacion': typeof AppPlanificacionRoute
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
@@ -317,6 +325,7 @@ export interface FileRoutesById {
   '/_app/familias': typeof AppFamiliasRoute
   '/_app/horario': typeof AppHorarioRoute
   '/_app/matricula': typeof AppMatriculaRoute
+  '/_app/pagadores': typeof AppPagadoresRoute
   '/_app/planificacion': typeof AppPlanificacionRoute
   '/_app/reportes': typeof AppReportesRoute
   '/_app/sedes': typeof AppSedesRoute
@@ -355,6 +364,7 @@ export interface FileRouteTypes {
     | '/familias'
     | '/horario'
     | '/matricula'
+    | '/pagadores'
     | '/planificacion'
     | '/reportes'
     | '/sedes'
@@ -390,6 +400,7 @@ export interface FileRouteTypes {
     | '/familias'
     | '/horario'
     | '/matricula'
+    | '/pagadores'
     | '/planificacion'
     | '/reportes'
     | '/sedes'
@@ -427,6 +438,7 @@ export interface FileRouteTypes {
     | '/_app/familias'
     | '/_app/horario'
     | '/_app/matricula'
+    | '/_app/pagadores'
     | '/_app/planificacion'
     | '/_app/reportes'
     | '/_app/sedes'
@@ -512,6 +524,13 @@ declare module '@tanstack/react-router' {
       path: '/planificacion'
       fullPath: '/planificacion'
       preLoaderRoute: typeof AppPlanificacionRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/pagadores': {
+      id: '/_app/pagadores'
+      path: '/pagadores'
+      fullPath: '/pagadores'
+      preLoaderRoute: typeof AppPagadoresRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/matricula': {
@@ -755,6 +774,7 @@ interface AppRouteChildren {
   AppFamiliasRoute: typeof AppFamiliasRoute
   AppHorarioRoute: typeof AppHorarioRoute
   AppMatriculaRoute: typeof AppMatriculaRoute
+  AppPagadoresRoute: typeof AppPagadoresRoute
   AppPlanificacionRoute: typeof AppPlanificacionRoute
   AppReportesRoute: typeof AppReportesRoute
   AppSedesRoute: typeof AppSedesRoute
@@ -777,6 +797,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppFamiliasRoute: AppFamiliasRoute,
   AppHorarioRoute: AppHorarioRoute,
   AppMatriculaRoute: AppMatriculaRoute,
+  AppPagadoresRoute: AppPagadoresRoute,
   AppPlanificacionRoute: AppPlanificacionRoute,
   AppReportesRoute: AppReportesRoute,
   AppSedesRoute: AppSedesRoute,
