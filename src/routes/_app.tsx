@@ -54,6 +54,7 @@ function AppLayout() {
               </div>
               <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2 lg:gap-3">
                 <TourGuiado />
+                <RolActivoSelector />
                 <SedeSelector />
                 <NotificacionesPopover />
                 {user && <PerfilPopover user={user} />}
@@ -64,7 +65,9 @@ function AppLayout() {
             </main>
           </div>
         </div>
-      </SidebarProvider>
-    </SedeProvider>
+        </SidebarProvider>
+      </SedeProvider>
+    </RolProvider>
+
   );
 }
