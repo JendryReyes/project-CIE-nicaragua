@@ -14,6 +14,13 @@ import {
   Activity,
   FileBarChart,
   Building2,
+  Building,
+  GitBranch,
+  LayoutGrid,
+  CreditCard,
+  Tags,
+  FileClock,
+
 } from "lucide-react";
 import cieLogo from "@/assets/cie-logo.png.asset.json";
 import {
@@ -34,6 +41,8 @@ import { useNavigate } from "@tanstack/react-router";
 const principal = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Matrícula", url: "/matricula", icon: UserPlus },
+  { title: "Pipeline de admisión", url: "/admision", icon: GitBranch },
+  { title: "Cupos por sede", url: "/cupos", icon: LayoutGrid },
   { title: "Planificación", url: "/planificacion", icon: CalendarDays },
   { title: "Asistencia", url: "/asistencia", icon: ClipboardCheck },
   { title: "Ejecución", url: "/ejecucion", icon: Activity },
@@ -49,10 +58,18 @@ const aba = [
 const administracion = [
   { title: "Panel de sedes", url: "/sedes", icon: Building2 },
   { title: "Facturación", url: "/facturacion", icon: Receipt },
+  { title: "Pagadores y cartas", url: "/pagadores", icon: CreditCard },
+  { title: "Tarifario", url: "/tarifas", icon: Tags },
   { title: "Reportes", url: "/reportes", icon: FileBarChart },
   { title: "Familias", url: "/familias", icon: Heart },
-  { title: "Equipo y permisos", url: "/equipo", icon: Shield },
 ];
+
+const gobernanza = [
+  { title: "Equipo y permisos", url: "/equipo", icon: Shield },
+  { title: "Bitácora de auditoría", url: "/auditoria", icon: FileClock },
+  { title: "Plataforma (tenants)", url: "/plataforma", icon: Building },
+];
+
 
 export function AppSidebar() {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
@@ -104,6 +121,8 @@ export function AppSidebar() {
         {renderSection("Principal", principal)}
         {renderSection("ABA", aba)}
         {renderSection("Administración", administracion)}
+        {renderSection("Gobernanza", gobernanza)}
+
       </SidebarContent>
       <SidebarFooter className="border-t border-sidebar-border/60 p-3">
         <button

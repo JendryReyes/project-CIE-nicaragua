@@ -14,9 +14,12 @@ import { Route as McpRouteImport } from './routes/mcp'
 import { Route as KioskoRouteImport } from './routes/kiosko'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppTarifasRouteImport } from './routes/_app.tarifas'
 import { Route as AppSedesRouteImport } from './routes/_app.sedes'
 import { Route as AppReportesRouteImport } from './routes/_app.reportes'
+import { Route as AppPlataformaRouteImport } from './routes/_app.plataforma'
 import { Route as AppPlanificacionRouteImport } from './routes/_app.planificacion'
+import { Route as AppPagadoresRouteImport } from './routes/_app.pagadores'
 import { Route as AppMatriculaRouteImport } from './routes/_app.matricula'
 import { Route as AppHorarioRouteImport } from './routes/_app.horario'
 import { Route as AppFamiliasRouteImport } from './routes/_app.familias'
@@ -24,8 +27,11 @@ import { Route as AppFacturacionRouteImport } from './routes/_app.facturacion'
 import { Route as AppEquipoRouteImport } from './routes/_app.equipo'
 import { Route as AppEjecucionRouteImport } from './routes/_app.ejecucion'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppCuposRouteImport } from './routes/_app.cupos'
 import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
+import { Route as AppAuditoriaRouteImport } from './routes/_app.auditoria'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
+import { Route as AppAdmisionRouteImport } from './routes/_app.admision'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as AppNinosIndexRouteImport } from './routes/_app.ninos.index'
@@ -66,6 +72,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppTarifasRoute = AppTarifasRouteImport.update({
+  id: '/tarifas',
+  path: '/tarifas',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSedesRoute = AppSedesRouteImport.update({
   id: '/sedes',
   path: '/sedes',
@@ -76,9 +87,19 @@ const AppReportesRoute = AppReportesRouteImport.update({
   path: '/reportes',
   getParentRoute: () => AppRoute,
 } as any)
+const AppPlataformaRoute = AppPlataformaRouteImport.update({
+  id: '/plataforma',
+  path: '/plataforma',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPlanificacionRoute = AppPlanificacionRouteImport.update({
   id: '/planificacion',
   path: '/planificacion',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPagadoresRoute = AppPagadoresRouteImport.update({
+  id: '/pagadores',
+  path: '/pagadores',
   getParentRoute: () => AppRoute,
 } as any)
 const AppMatriculaRoute = AppMatriculaRouteImport.update({
@@ -116,14 +137,29 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCuposRoute = AppCuposRouteImport.update({
+  id: '/cupos',
+  path: '/cupos',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppBibliotecaRoute = AppBibliotecaRouteImport.update({
   id: '/biblioteca',
   path: '/biblioteca',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAuditoriaRoute = AppAuditoriaRouteImport.update({
+  id: '/auditoria',
+  path: '/auditoria',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAsistenciaRoute = AppAsistenciaRouteImport.update({
   id: '/asistencia',
   path: '/asistencia',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdmisionRoute = AppAdmisionRouteImport.update({
+  id: '/admision',
+  path: '/admision',
   getParentRoute: () => AppRoute,
 } as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
@@ -214,8 +250,11 @@ export interface FileRoutesByFullPath {
   '/mi-hijo': typeof MiHijoRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admision': typeof AppAdmisionRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
+  '/auditoria': typeof AppAuditoriaRoute
   '/biblioteca': typeof AppBibliotecaRoute
+  '/cupos': typeof AppCuposRoute
   '/dashboard': typeof AppDashboardRoute
   '/ejecucion': typeof AppEjecucionRoute
   '/equipo': typeof AppEquipoRoute
@@ -223,9 +262,12 @@ export interface FileRoutesByFullPath {
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
+  '/pagadores': typeof AppPagadoresRoute
   '/planificacion': typeof AppPlanificacionRoute
+  '/plataforma': typeof AppPlataformaRoute
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
+  '/tarifas': typeof AppTarifasRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
@@ -247,17 +289,23 @@ export interface FileRoutesByTo {
   '/mi-hijo': typeof MiHijoRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admision': typeof AppAdmisionRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
+  '/auditoria': typeof AppAuditoriaRoute
   '/biblioteca': typeof AppBibliotecaRoute
+  '/cupos': typeof AppCuposRoute
   '/dashboard': typeof AppDashboardRoute
   '/ejecucion': typeof AppEjecucionRoute
   '/equipo': typeof AppEquipoRoute
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
   '/matricula': typeof AppMatriculaRoute
+  '/pagadores': typeof AppPagadoresRoute
   '/planificacion': typeof AppPlanificacionRoute
+  '/plataforma': typeof AppPlataformaRoute
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
+  '/tarifas': typeof AppTarifasRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
@@ -281,8 +329,11 @@ export interface FileRoutesById {
   '/mi-hijo': typeof MiHijoRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/_app/admision': typeof AppAdmisionRoute
   '/_app/asistencia': typeof AppAsistenciaRouteWithChildren
+  '/_app/auditoria': typeof AppAuditoriaRoute
   '/_app/biblioteca': typeof AppBibliotecaRoute
+  '/_app/cupos': typeof AppCuposRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/ejecucion': typeof AppEjecucionRoute
   '/_app/equipo': typeof AppEquipoRoute
@@ -290,9 +341,12 @@ export interface FileRoutesById {
   '/_app/familias': typeof AppFamiliasRoute
   '/_app/horario': typeof AppHorarioRoute
   '/_app/matricula': typeof AppMatriculaRoute
+  '/_app/pagadores': typeof AppPagadoresRoute
   '/_app/planificacion': typeof AppPlanificacionRoute
+  '/_app/plataforma': typeof AppPlataformaRoute
   '/_app/reportes': typeof AppReportesRoute
   '/_app/sedes': typeof AppSedesRoute
+  '/_app/tarifas': typeof AppTarifasRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_app/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/_app/clinico/graficas': typeof AppClinicoGraficasRoute
@@ -316,8 +370,11 @@ export interface FileRouteTypes {
     | '/mi-hijo'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admision'
     | '/asistencia'
+    | '/auditoria'
     | '/biblioteca'
+    | '/cupos'
     | '/dashboard'
     | '/ejecucion'
     | '/equipo'
@@ -325,9 +382,12 @@ export interface FileRouteTypes {
     | '/familias'
     | '/horario'
     | '/matricula'
+    | '/pagadores'
     | '/planificacion'
+    | '/plataforma'
     | '/reportes'
     | '/sedes'
+    | '/tarifas'
     | '/.mcp/invoke-tool/$tool'
     | '/asistencia/carnets'
     | '/clinico/graficas'
@@ -349,17 +409,23 @@ export interface FileRouteTypes {
     | '/mi-hijo'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admision'
     | '/asistencia'
+    | '/auditoria'
     | '/biblioteca'
+    | '/cupos'
     | '/dashboard'
     | '/ejecucion'
     | '/equipo'
     | '/familias'
     | '/horario'
     | '/matricula'
+    | '/pagadores'
     | '/planificacion'
+    | '/plataforma'
     | '/reportes'
     | '/sedes'
+    | '/tarifas'
     | '/.mcp/invoke-tool/$tool'
     | '/asistencia/carnets'
     | '/clinico/graficas'
@@ -382,8 +448,11 @@ export interface FileRouteTypes {
     | '/mi-hijo'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/_app/admision'
     | '/_app/asistencia'
+    | '/_app/auditoria'
     | '/_app/biblioteca'
+    | '/_app/cupos'
     | '/_app/dashboard'
     | '/_app/ejecucion'
     | '/_app/equipo'
@@ -391,9 +460,12 @@ export interface FileRouteTypes {
     | '/_app/familias'
     | '/_app/horario'
     | '/_app/matricula'
+    | '/_app/pagadores'
     | '/_app/planificacion'
+    | '/_app/plataforma'
     | '/_app/reportes'
     | '/_app/sedes'
+    | '/_app/tarifas'
     | '/.mcp/invoke-tool/$tool'
     | '/_app/asistencia/carnets'
     | '/_app/clinico/graficas'
@@ -457,6 +529,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/tarifas': {
+      id: '/_app/tarifas'
+      path: '/tarifas'
+      fullPath: '/tarifas'
+      preLoaderRoute: typeof AppTarifasRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/sedes': {
       id: '/_app/sedes'
       path: '/sedes'
@@ -471,11 +550,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppReportesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/plataforma': {
+      id: '/_app/plataforma'
+      path: '/plataforma'
+      fullPath: '/plataforma'
+      preLoaderRoute: typeof AppPlataformaRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/planificacion': {
       id: '/_app/planificacion'
       path: '/planificacion'
       fullPath: '/planificacion'
       preLoaderRoute: typeof AppPlanificacionRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/pagadores': {
+      id: '/_app/pagadores'
+      path: '/pagadores'
+      fullPath: '/pagadores'
+      preLoaderRoute: typeof AppPagadoresRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/matricula': {
@@ -527,6 +620,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/cupos': {
+      id: '/_app/cupos'
+      path: '/cupos'
+      fullPath: '/cupos'
+      preLoaderRoute: typeof AppCuposRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/biblioteca': {
       id: '/_app/biblioteca'
       path: '/biblioteca'
@@ -534,11 +634,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBibliotecaRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/auditoria': {
+      id: '/_app/auditoria'
+      path: '/auditoria'
+      fullPath: '/auditoria'
+      preLoaderRoute: typeof AppAuditoriaRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/asistencia': {
       id: '/_app/asistencia'
       path: '/asistencia'
       fullPath: '/asistencia'
       preLoaderRoute: typeof AppAsistenciaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/admision': {
+      id: '/_app/admision'
+      path: '/admision'
+      fullPath: '/admision'
+      preLoaderRoute: typeof AppAdmisionRouteImport
       parentRoute: typeof AppRoute
     }
     '/.well-known/oauth-protected-resource': {
@@ -686,8 +800,11 @@ const AppFacturacionRouteWithChildren = AppFacturacionRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
+  AppAdmisionRoute: typeof AppAdmisionRoute
   AppAsistenciaRoute: typeof AppAsistenciaRouteWithChildren
+  AppAuditoriaRoute: typeof AppAuditoriaRoute
   AppBibliotecaRoute: typeof AppBibliotecaRoute
+  AppCuposRoute: typeof AppCuposRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppEjecucionRoute: typeof AppEjecucionRoute
   AppEquipoRoute: typeof AppEquipoRoute
@@ -695,9 +812,12 @@ interface AppRouteChildren {
   AppFamiliasRoute: typeof AppFamiliasRoute
   AppHorarioRoute: typeof AppHorarioRoute
   AppMatriculaRoute: typeof AppMatriculaRoute
+  AppPagadoresRoute: typeof AppPagadoresRoute
   AppPlanificacionRoute: typeof AppPlanificacionRoute
+  AppPlataformaRoute: typeof AppPlataformaRoute
   AppReportesRoute: typeof AppReportesRoute
   AppSedesRoute: typeof AppSedesRoute
+  AppTarifasRoute: typeof AppTarifasRoute
   AppClinicoGraficasRoute: typeof AppClinicoGraficasRoute
   AppNinosIdRoute: typeof AppNinosIdRoute
   AppSesionNinoIdRoute: typeof AppSesionNinoIdRoute
@@ -705,8 +825,11 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAdmisionRoute: AppAdmisionRoute,
   AppAsistenciaRoute: AppAsistenciaRouteWithChildren,
+  AppAuditoriaRoute: AppAuditoriaRoute,
   AppBibliotecaRoute: AppBibliotecaRoute,
+  AppCuposRoute: AppCuposRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppEjecucionRoute: AppEjecucionRoute,
   AppEquipoRoute: AppEquipoRoute,
@@ -714,9 +837,12 @@ const AppRouteChildren: AppRouteChildren = {
   AppFamiliasRoute: AppFamiliasRoute,
   AppHorarioRoute: AppHorarioRoute,
   AppMatriculaRoute: AppMatriculaRoute,
+  AppPagadoresRoute: AppPagadoresRoute,
   AppPlanificacionRoute: AppPlanificacionRoute,
+  AppPlataformaRoute: AppPlataformaRoute,
   AppReportesRoute: AppReportesRoute,
   AppSedesRoute: AppSedesRoute,
+  AppTarifasRoute: AppTarifasRoute,
   AppClinicoGraficasRoute: AppClinicoGraficasRoute,
   AppNinosIdRoute: AppNinosIdRoute,
   AppSesionNinoIdRoute: AppSesionNinoIdRoute,

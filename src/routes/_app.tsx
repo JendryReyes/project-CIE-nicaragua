@@ -9,6 +9,9 @@ import { SedeSelector } from "@/components/sede-selector";
 import { TourGuiado } from "@/components/tour-guiado";
 import { NotificacionesPopover } from "@/components/notificaciones-popover";
 import { PerfilPopover } from "@/components/perfil-popover";
+import { RolProvider } from "@/lib/roles-tdr";
+import { RolActivoSelector } from "@/components/rol-activo-selector";
+
 
 export const Route = createFileRoute("/_app")({
   component: AppLayout,
@@ -32,8 +35,11 @@ function AppLayout() {
   if (!ready) return null;
 
   return (
-    <SedeProvider>
-      <SidebarProvider>
+    <RolProvider>
+      <SedeProvider>
+        <SidebarProvider>
+
+
         <div className="flex min-h-screen w-full overflow-x-hidden bg-background">
           <AppSidebar />
           <div className="flex min-w-0 flex-1 flex-col">
@@ -48,6 +54,7 @@ function AppLayout() {
               </div>
               <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-2 lg:gap-3">
                 <TourGuiado />
+                <RolActivoSelector />
                 <SedeSelector />
                 <NotificacionesPopover />
                 {user && <PerfilPopover user={user} />}
@@ -58,7 +65,9 @@ function AppLayout() {
             </main>
           </div>
         </div>
-      </SidebarProvider>
-    </SedeProvider>
+        </SidebarProvider>
+      </SedeProvider>
+    </RolProvider>
+
   );
 }
