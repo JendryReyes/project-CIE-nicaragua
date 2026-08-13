@@ -14,6 +14,13 @@ import {
   Activity,
   FileBarChart,
   Building2,
+  Building,
+  GitBranch,
+  LayoutGrid,
+  CreditCard,
+  Tags,
+  FileClock,
+
 } from "lucide-react";
 import cieLogo from "@/assets/cie-logo.png.asset.json";
 import {
