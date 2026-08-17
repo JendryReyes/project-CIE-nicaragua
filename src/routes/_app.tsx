@@ -1,16 +1,17 @@
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate, useRouterState, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { getUser, type UserSesion } from "@/lib/auth";
-import { Search } from "lucide-react";
+import { Search, Lock } from "lucide-react";
 import { SedeProvider } from "@/lib/sedes";
 import { SedeSelector } from "@/components/sede-selector";
 import { TourGuiado } from "@/components/tour-guiado";
 import { NotificacionesPopover } from "@/components/notificaciones-popover";
 import { PerfilPopover } from "@/components/perfil-popover";
-import { RolProvider } from "@/lib/roles-tdr";
+import { RolProvider, useRol, rolDescripcion, modulosPorRol, puedeModulo } from "@/lib/roles-tdr";
 import { RolActivoSelector } from "@/components/rol-activo-selector";
+
 
 
 export const Route = createFileRoute("/_app")({
