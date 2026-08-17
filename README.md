@@ -1,7 +1,5 @@
 # CIE Excellence Benchmark
 
-me gustaria hacer un bench marking sobre Hi Rasmus ,  central reach, office puzzle y hacer un diseno que supere a estos tres pensando en el proposito de implementarlo para el CIE nicaragua
-
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
