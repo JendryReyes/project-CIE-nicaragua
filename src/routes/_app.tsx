@@ -61,9 +61,13 @@ function AppLayout() {
                 {user && <PerfilPopover user={user} />}
               </div>
             </header>
+            <BarraRol />
             <main className="flex-1 p-6 lg:p-8">
-              <Outlet />
+              <GuardiaModulo>
+                <Outlet />
+              </GuardiaModulo>
             </main>
+
           </div>
         </div>
         </SidebarProvider>
