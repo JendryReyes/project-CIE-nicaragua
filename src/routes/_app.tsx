@@ -1,16 +1,17 @@
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate, useRouterState, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { getUser, type UserSesion } from "@/lib/auth";
-import { Search } from "lucide-react";
+import { Search, Lock } from "lucide-react";
 import { SedeProvider } from "@/lib/sedes";
 import { SedeSelector } from "@/components/sede-selector";
 import { TourGuiado } from "@/components/tour-guiado";
 import { NotificacionesPopover } from "@/components/notificaciones-popover";
 import { PerfilPopover } from "@/components/perfil-popover";
-import { RolProvider } from "@/lib/roles-tdr";
+import { RolProvider, useRol, rolDescripcion, modulosPorRol, puedeModulo } from "@/lib/roles-tdr";
 import { RolActivoSelector } from "@/components/rol-activo-selector";
+
 
 
 export const Route = createFileRoute("/_app")({
@@ -60,9 +61,13 @@ function AppLayout() {
                 {user && <PerfilPopover user={user} />}
               </div>
             </header>
+            <BarraRol />
             <main className="flex-1 p-6 lg:p-8">
-              <Outlet />
+              <GuardiaModulo>
+                <Outlet />
+              </GuardiaModulo>
             </main>
+
           </div>
         </div>
         </SidebarProvider>
@@ -70,4 +75,43 @@ function AppLayout() {
     </RolProvider>
 
   );
+}
+
+function BarraRol() {
+  const { rol } = useRol();
+  return (
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border/60 bg-muted/40 px-4 py-2 text-xs lg:px-6">
+      <span className="rounded bg-primary/10 px-1.5 py-0.5 font-semibold text-primary">Vista simulada</span>
+      <span className="font-medium">{rol}</span>
+      <span className="hidden text-muted-foreground sm:inline">· {rolDescripcion[rol]}</span>
+      <span className="ml-auto text-muted-foreground">
+        {modulosPorRol[rol].length} de {modulosPorRol["Administrador de Organización"].length} módulos visibles
+      </span>
+    </div>
+  );
+}
+
+function GuardiaModulo({ children }: { children: React.ReactNode }) {
+  const { rol } = useRol();
+  const pathname = useRouterState({ select: (r) => r.location.pathname });
+  const todos = modulosPorRol["Administrador de Organización"];
+  const base = todos
+    .filter((m) => pathname === m || pathname.startsWith(m + "/"))
+    .sort((a, b) => b.length - a.length)[0];
+
+  if (base && !puedeModulo(rol, base)) {
+    return (
+      <div className="mx-auto max-w-lg rounded-2xl border border-border/60 bg-card p-8 text-center">
+        <Lock className="mx-auto h-8 w-8 text-muted-foreground" />
+        <h2 className="mt-3 font-display text-lg font-semibold">Módulo restringido</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          El rol <strong>{rol}</strong> no tiene acceso a <code>{base}</code> según la matriz de permisos del TDR v1.2.
+        </p>
+        <Link to="/dashboard" className="mt-4 inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
+          Ir al Dashboard
+        </Link>
+      </div>
+    );
+  }
+  return <>{children}</>;
 }

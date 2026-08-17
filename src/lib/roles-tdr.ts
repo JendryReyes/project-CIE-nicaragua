@@ -222,7 +222,91 @@ export function useRol() {
   };
 }
 
+// --- Módulos visibles por rol (TDR 1.3.1 + 1.4.1) ---
+const todos = [
+  "/dashboard",
+  "/matricula",
+  "/admision",
+  "/cupos",
+  "/planificacion",
+  "/asistencia",
+  "/ejecucion",
+  "/ninos",
+  "/horario",
+  "/biblioteca",
+  "/clinico/graficas",
+  "/sedes",
+  "/facturacion",
+  "/pagadores",
+  "/tarifas",
+  "/reportes",
+  "/familias",
+  "/equipo",
+  "/auditoria",
+  "/plataforma",
+];
+
+export const modulosPorRol: Record<RolOrg, string[]> = {
+  "Administrador de Organización": todos,
+  "Director Clínico": todos.filter((m) => m !== "/plataforma"),
+  "Subdirector Clínico": todos.filter((m) => !["/plataforma", "/tarifas", "/facturacion"].includes(m)),
+  "Supervisor (Analista ABA)": [
+    "/dashboard",
+    "/cupos",
+    "/planificacion",
+    "/asistencia",
+    "/ejecucion",
+    "/ninos",
+    "/horario",
+    "/biblioteca",
+    "/clinico/graficas",
+    "/reportes",
+  ],
+  "Coordinador Clínico": [
+    "/dashboard",
+    "/matricula",
+    "/admision",
+    "/cupos",
+    "/planificacion",
+    "/asistencia",
+    "/ejecucion",
+    "/ninos",
+    "/horario",
+    "/biblioteca",
+    "/clinico/graficas",
+    "/reportes",
+    "/familias",
+  ],
+  Terapeuta: [
+    "/dashboard",
+    "/asistencia",
+    "/ejecucion",
+    "/ninos",
+    "/horario",
+    "/biblioteca",
+    "/clinico/graficas",
+  ],
+  "Personal Administrativo": [
+    "/dashboard",
+    "/matricula",
+    "/admision",
+    "/cupos",
+    "/asistencia",
+    "/sedes",
+    "/facturacion",
+    "/pagadores",
+    "/tarifas",
+    "/reportes",
+    "/familias",
+  ],
+};
+
+export function puedeModulo(rol: RolOrg, url: string) {
+  return modulosPorRol[rol].includes(url);
+}
+
 // --- Política de seguridad (TDR 1.5) ---
+
 export const politicaSeguridad = {
   mfaObligatorio: ["Super Admin", "Billing Admin", "Administrador de Organización"],
   mfaRecomendado: ["Coordinador Clínico", "Supervisor (Analista ABA)"],
