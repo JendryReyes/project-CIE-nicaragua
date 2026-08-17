@@ -33,17 +33,28 @@ export function RolActivoSelector() {
         <span className="hidden sm:inline text-muted-foreground">Ver como</span>
         <span className="font-medium">{rolSigla[rol]}</span>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-64">
-        <DropdownMenuLabel className="text-xs">Rol activo (TDR v1.2)</DropdownMenuLabel>
+      <DropdownMenuContent align="end" className="w-80">
+        <DropdownMenuLabel className="text-xs">Ver como rol (TDR v1.2)</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {rolesOrg.map((r) => (
-          <DropdownMenuItem key={r} onClick={() => cambiar(r)} className="text-xs">
-            <span className="mr-2 rounded bg-muted px-1 py-0.5 text-[0.6rem] font-semibold">{rolSigla[r]}</span>
-            {r}
-            {r === rol && <span className="ml-auto text-primary">●</span>}
+          <DropdownMenuItem key={r} onClick={() => cambiar(r)} className="items-start gap-2 text-xs">
+            <span className="mt-0.5 rounded bg-muted px-1 py-0.5 text-[0.6rem] font-semibold">{rolSigla[r]}</span>
+            <span className="min-w-0 flex-1">
+              <span className="flex items-center gap-1 font-medium">
+                {r}
+                {r === rol && <span className="ml-auto text-primary">●</span>}
+              </span>
+              <span className="mt-0.5 block whitespace-normal text-[0.65rem] leading-snug text-muted-foreground">
+                {rolDescripcion[r]}
+              </span>
+              <span className="mt-0.5 block text-[0.6rem] text-muted-foreground/80">
+                {modulosPorRol[r].length} módulos visibles
+              </span>
+            </span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
+
     </DropdownMenu>
   );
 }
