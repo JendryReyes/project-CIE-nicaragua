@@ -1,5 +1,5 @@
 import { Eye } from "lucide-react";
-import { rolesOrg, rolSigla, useRol } from "@/lib/roles-tdr";
+import { rolesOrg, rolSigla, rolDescripcion, modulosPorRol, useRol } from "@/lib/roles-tdr";
 import type { RolOrg } from "@/lib/roles-tdr";
 import { registrarEvento } from "@/lib/auditoria";
 import {
