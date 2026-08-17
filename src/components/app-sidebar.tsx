@@ -36,6 +36,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { logout } from "@/lib/auth";
+import { puedeModulo, useRol } from "@/lib/roles-tdr";
 import { useNavigate } from "@tanstack/react-router";
 
 const principal = [
@@ -74,6 +75,7 @@ const gobernanza = [
 export function AppSidebar() {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const navigate = useNavigate();
+  const { rol } = useRol();
   const isActive = (url: string) => pathname === url || pathname.startsWith(url + "/");
 
   const handleLogout = () => {
@@ -81,14 +83,17 @@ export function AppSidebar() {
     navigate({ to: "/" });
   };
 
-  const renderSection = (label: string, items: typeof principal) => (
+  const renderSection = (label: string, items: typeof principal) => {
+    const visibles = items.filter((i) => puedeModulo(rol, i.url));
+    if (!visibles.length) return null;
+    return (
     <SidebarGroup>
       <SidebarGroupLabel className="text-[0.65rem] uppercase tracking-[0.12em] text-muted-foreground/80">
         {label}
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {items.map((item) => (
+          {visibles.map((item) => (
             <SidebarMenuItem key={item.url}>
               <SidebarMenuButton asChild isActive={isActive(item.url)} className="data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:font-medium">
                 <Link to={item.url} className="flex items-center gap-3">
@@ -101,7 +106,8 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
-  );
+    );
+  };
 
   return (
     <Sidebar collapsible="icon">
