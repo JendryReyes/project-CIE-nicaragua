@@ -14,6 +14,7 @@ import { Route as McpRouteImport } from './routes/mcp'
 import { Route as KioskoRouteImport } from './routes/kiosko'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AppTarifasRouteImport } from './routes/_app.tarifas'
 import { Route as AppSedesRouteImport } from './routes/_app.sedes'
 import { Route as AppReportesRouteImport } from './routes/_app.reportes'
@@ -70,6 +71,11 @@ const AppRoute = AppRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppTarifasRoute = AppTarifasRouteImport.update({
@@ -268,6 +274,7 @@ export interface FileRoutesByFullPath {
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
   '/tarifas': typeof AppTarifasRoute
+  '/api/chat': typeof ApiChatRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
@@ -306,6 +313,7 @@ export interface FileRoutesByTo {
   '/reportes': typeof AppReportesRoute
   '/sedes': typeof AppSedesRoute
   '/tarifas': typeof AppTarifasRoute
+  '/api/chat': typeof ApiChatRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/clinico/graficas': typeof AppClinicoGraficasRoute
@@ -347,6 +355,7 @@ export interface FileRoutesById {
   '/_app/reportes': typeof AppReportesRoute
   '/_app/sedes': typeof AppSedesRoute
   '/_app/tarifas': typeof AppTarifasRoute
+  '/api/chat': typeof ApiChatRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_app/asistencia/carnets': typeof AppAsistenciaCarnetsRoute
   '/_app/clinico/graficas': typeof AppClinicoGraficasRoute
@@ -388,6 +397,7 @@ export interface FileRouteTypes {
     | '/reportes'
     | '/sedes'
     | '/tarifas'
+    | '/api/chat'
     | '/.mcp/invoke-tool/$tool'
     | '/asistencia/carnets'
     | '/clinico/graficas'
@@ -426,6 +436,7 @@ export interface FileRouteTypes {
     | '/reportes'
     | '/sedes'
     | '/tarifas'
+    | '/api/chat'
     | '/.mcp/invoke-tool/$tool'
     | '/asistencia/carnets'
     | '/clinico/graficas'
@@ -466,6 +477,7 @@ export interface FileRouteTypes {
     | '/_app/reportes'
     | '/_app/sedes'
     | '/_app/tarifas'
+    | '/api/chat'
     | '/.mcp/invoke-tool/$tool'
     | '/_app/asistencia/carnets'
     | '/_app/clinico/graficas'
@@ -489,6 +501,7 @@ export interface RootRouteChildren {
   MiHijoRoute: typeof MiHijoRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  ApiChatRoute: typeof ApiChatRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 
@@ -527,6 +540,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/tarifas': {
@@ -860,6 +880,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  ApiChatRoute: ApiChatRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
 }
 export const routeTree = rootRouteImport
