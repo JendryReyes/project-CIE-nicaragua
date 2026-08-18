@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { convertToModelMessages, streamText, type UIMessage } from "ai";
-import { zodFunction } from "./_utils";
+import { convertToModelMessages, streamText, tool, type UIMessage } from "ai";
 import { createLovableAiGatewayProvider, getLovableAiGatewayRunId, withLovableAiGatewayRunIdHeader } from "@/lib/ai-gateway.server";
 import { agentTools } from "@/lib/agent-tools";
+
 
 function systemPrompt() {
   return `Eres un asistente especializado del CIE (Centro de Intervención Eduterapéutica). Responde en español, de forma clara, breve y profesional.
