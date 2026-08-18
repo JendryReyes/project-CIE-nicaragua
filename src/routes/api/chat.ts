@@ -39,53 +39,61 @@ export const Route = createFileRoute("/api/chat")({
         const gateway = createLovableAiGatewayProvider(key, initialRunId);
         const model = gateway("google/gemini-3.7-flash");
 
-        const result = streamText({
-          model,
-          system: systemPrompt(),
-          messages: await convertToModelMessages(messages as UIMessage[]),
-          stopWhen: stepCountIs(50),
-          tools: {
-            listarSedes: tool({
-              description: agentTools.listarSedes.description,
-              inputSchema: agentTools.listarSedes.parameters,
-              execute: agentTools.listarSedes.execute,
-            }),
-            listarNinos: tool({
-              description: agentTools.listarNinos.description,
-              inputSchema: agentTools.listarNinos.parameters,
-              execute: agentTools.listarNinos.execute,
-            }),
-            resumenFacturacion: tool({
-              description: agentTools.resumenFacturacion.description,
-              inputSchema: agentTools.resumenFacturacion.parameters,
-              execute: agentTools.resumenFacturacion.execute,
-            }),
-            reportePuntualidad: tool({
-              description: agentTools.reportePuntualidad.description,
-              inputSchema: agentTools.reportePuntualidad.parameters,
-              execute: agentTools.reportePuntualidad.execute,
-            }),
-            resumenPlanificacion: tool({
-              description: agentTools.resumenPlanificacion.description,
-              inputSchema: agentTools.resumenPlanificacion.parameters,
-              execute: agentTools.resumenPlanificacion.execute,
-            }),
-            catalogoServicios: tool({
-              description: agentTools.catalogoServicios.description,
-              inputSchema: agentTools.catalogoServicios.parameters,
-              execute: agentTools.catalogoServicios.execute,
-            }),
-          },
-        });
+        try {
+          const result = streamText({
+            model,
+            system: systemPrompt(),
+            messages: await convertToModelMessages(messages as UIMessage[]),
+            stopWhen: stepCountIs(50),
+            tools: {
+              listarSedes: tool({
+                description: agentTools.listarSedes.description,
+                inputSchema: agentTools.listarSedes.parameters,
+                execute: agentTools.listarSedes.execute,
+              }),
+              listarNinos: tool({
+                description: agentTools.listarNinos.description,
+                inputSchema: agentTools.listarNinos.parameters,
+                execute: agentTools.listarNinos.execute,
+              }),
+              resumenFacturacion: tool({
+                description: agentTools.resumenFacturacion.description,
+                inputSchema: agentTools.resumenFacturacion.parameters,
+                execute: agentTools.resumenFacturacion.execute,
+              }),
+              reportePuntualidad: tool({
+                description: agentTools.reportePuntualidad.description,
+                inputSchema: agentTools.reportePuntualidad.parameters,
+                execute: agentTools.reportePuntualidad.execute,
+              }),
+              resumenPlanificacion: tool({
+                description: agentTools.resumenPlanificacion.description,
+                inputSchema: agentTools.resumenPlanificacion.parameters,
+                execute: agentTools.resumenPlanificacion.execute,
+              }),
+              catalogoServicios: tool({
+                description: agentTools.catalogoServicios.description,
+                inputSchema: agentTools.catalogoServicios.parameters,
+                execute: agentTools.catalogoServicios.execute,
+              }),
+            },
+          });
 
-        const response = result.toUIMessageStreamResponse({
-          originalMessages: messages as UIMessage[],
-          headers: {
-            ...(initialRunId ? { "X-Lovable-AIG-Run-ID": initialRunId } : {}),
-          },
-        });
+          const response = result.toUIMessageStreamResponse({
+            originalMessages: messages as UIMessage[],
+            headers: {
+              ...(initialRunId ? { "X-Lovable-AIG-Run-ID": initialRunId } : {}),
+            },
+          });
 
-        return withLovableAiGatewayRunIdHeader(response, gateway);
+          return withLovableAiGatewayRunIdHeader(response, gateway);
+        } catch (error) {
+          const message = error instanceof Error ? error.message : "Error desconocido";
+          return new Response(JSON.stringify({ error: message }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
       },
     },
   },
