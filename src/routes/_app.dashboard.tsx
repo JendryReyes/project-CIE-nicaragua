@@ -332,6 +332,8 @@ function Dashboard() {
           <CartasPorVencerCard />
         </div>
       </Seccion>
+
+      <AgenteCIE />
     </div>
   );
 }
