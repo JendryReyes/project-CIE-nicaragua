@@ -43,36 +43,36 @@ export const Route = createFileRoute("/api/chat")({
           system: systemPrompt(),
           messages: await convertToModelMessages(messages as UIMessage[]),
           tools: {
-            listarSedes: {
+            listarSedes: tool({
               description: agentTools.listarSedes.description,
-              parameters: agentTools.listarSedes.parameters,
+              inputSchema: agentTools.listarSedes.parameters,
               execute: agentTools.listarSedes.execute,
-            },
-            listarNinos: {
+            }),
+            listarNinos: tool({
               description: agentTools.listarNinos.description,
-              parameters: agentTools.listarNinos.parameters,
+              inputSchema: agentTools.listarNinos.parameters,
               execute: agentTools.listarNinos.execute,
-            },
-            resumenFacturacion: {
+            }),
+            resumenFacturacion: tool({
               description: agentTools.resumenFacturacion.description,
-              parameters: agentTools.resumenFacturacion.parameters,
+              inputSchema: agentTools.resumenFacturacion.parameters,
               execute: agentTools.resumenFacturacion.execute,
-            },
-            reportePuntualidad: {
+            }),
+            reportePuntualidad: tool({
               description: agentTools.reportePuntualidad.description,
-              parameters: agentTools.reportePuntualidad.parameters,
+              inputSchema: agentTools.reportePuntualidad.parameters,
               execute: agentTools.reportePuntualidad.execute,
-            },
-            resumenPlanificacion: {
+            }),
+            resumenPlanificacion: tool({
               description: agentTools.resumenPlanificacion.description,
-              parameters: agentTools.resumenPlanificacion.parameters,
+              inputSchema: agentTools.resumenPlanificacion.parameters,
               execute: agentTools.resumenPlanificacion.execute,
-            },
-            catalogoServicios: {
+            }),
+            catalogoServicios: tool({
               description: agentTools.catalogoServicios.description,
-              parameters: agentTools.catalogoServicios.parameters,
+              inputSchema: agentTools.catalogoServicios.parameters,
               execute: agentTools.catalogoServicios.execute,
-            },
+            }),
           },
         });
 
