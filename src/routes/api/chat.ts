@@ -43,7 +43,7 @@ export const Route = createFileRoute("/api/chat")({
           model,
           system: systemPrompt(),
           messages: await convertToModelMessages(messages as UIMessage[]),
-          maxSteps: 5,
+          stopWhen: stepCountIs(50),
           tools: {
             listarSedes: tool({
               description: agentTools.listarSedes.description,
