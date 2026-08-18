@@ -13,6 +13,8 @@ import { cartasPorVencer } from "@/lib/cartas-inss";
 import { resumenMatricula, movimientosNinos } from "@/lib/modulos-data";
 import { totales as totalesPlan, motivosResumen, motivosColor } from "@/lib/planificacion-data";
 import { puntualidadHoy, totalesPuntualidad } from "@/lib/puntualidad-data";
+import { AgenteCIE } from "@/components/agente-cie";
+
 
 export const Route = createFileRoute("/_app/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard · CIE" }] }),
