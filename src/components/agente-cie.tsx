@@ -8,11 +8,20 @@ const chatTransport = new DefaultChatTransport({ api: "/api/chat" });
 
 export function AgenteCIE() {
   const [open, setOpen] = useState(false);
-  const { messages, input, handleInputChange, handleSubmit, status } = useChat({
+  const [input, setInput] = useState("");
+  const { messages, sendMessage, status } = useChat({
     transport: chatTransport,
   });
 
   const isLoading = status === "submitted" || status === "streaming";
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || isLoading) return;
+    sendMessage({ text });
+    setInput("");
+  };
 
   return (
     <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-3">
@@ -87,7 +96,7 @@ export function AgenteCIE() {
           >
             <input
               value={input}
-              onChange={handleInputChange}
+              onChange={(e) => setInput(e.target.value)}
               placeholder="Pregunta sobre sedes, niños, facturación..."
               className="flex-1 rounded-xl bg-muted px-3 py-2 text-sm outline-none placeholder:text-muted-foreground/70"
               disabled={isLoading}
@@ -114,3 +123,4 @@ export function AgenteCIE() {
     </div>
   );
 }
+
