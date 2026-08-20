@@ -14,7 +14,6 @@ import {
   Activity,
   FileBarChart,
   Building2,
-  Building,
   GitBranch,
   LayoutGrid,
   CreditCard,

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { RbacMatriz } from "@/components/rbac-matriz";
 import { SeguridadMFA } from "@/components/seguridad-mfa";
 import { MatrizSensible } from "@/components/matriz-sensible";
-import { Shield, FileClock, KeyRound } from "lucide-react";
+import { Shield, FileClock } from "lucide-react";
 import { politicaSeguridad, useRol } from "@/lib/roles-tdr";
 
 export const Route = createFileRoute("/_app/equipo")({
