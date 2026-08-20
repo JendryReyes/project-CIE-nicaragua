@@ -34,7 +34,7 @@ function Kpis() {
     <div className="max-w-[1400px] space-y-6">
       <div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Gauge className="h-4 w-4" /> Gestión · TDR Parte X
+          <Gauge className="h-4 w-4" /> Gestión
         </div>
         <h1 className="mt-1 font-display text-3xl">Indicadores de gestión y desempeño</h1>
         <p className="mt-1 max-w-3xl text-sm text-muted-foreground">

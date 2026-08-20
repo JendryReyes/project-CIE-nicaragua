@@ -44,7 +44,7 @@ function Pagadores() {
     <div className="space-y-6 max-w-[1400px]">
       <div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <CreditCard className="h-4 w-4" /> Facturación · TDR Parte II
+          <CreditCard className="h-4 w-4" /> Facturación
         </div>
         <h1 className="font-display text-3xl mt-1">Pagadores y autorizaciones</h1>
         <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
@@ -80,7 +80,7 @@ function Pagadores() {
                 <li key={a.id}>
                   <span className="font-medium text-foreground">{a.nino}</span> — {a.programa}:
                   {e.excedeCarta && ` ejecutó ${a.horasEjecutadasMes}h de ${a.horasAutorizadasMes}h autorizadas`}
-                  {e.excedeTDR && ` · carta con ${a.horasAutorizadasMes}h supera el tope TDR de ${a.limiteTDR}h`}
+                  {e.excedeTDR && ` · carta con ${a.horasAutorizadasMes}h supera el tope autorizado de ${a.limiteTDR}h`}
                   {a.constanciaMedica === false && " · sin constancia médica"}
                 </li>
               );
@@ -164,7 +164,7 @@ function Pagadores() {
                       </span>
                     ) : e!.excedeTDR ? (
                       <span className="rounded-full bg-[oklch(0.95_0.07_70)] px-2 py-0.5 text-[0.7rem] text-[oklch(0.44_0.13_70)]">
-                        Supera tope TDR
+                        Supera tope autorizado
                       </span>
                     ) : (
                       <span className="rounded-full bg-[oklch(0.94_0.05_155)] px-2 py-0.5 text-[0.7rem] text-[oklch(0.36_0.11_155)]">

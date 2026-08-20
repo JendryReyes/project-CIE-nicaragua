@@ -105,7 +105,7 @@ function GuardiaModulo({ children }: { children: React.ReactNode }) {
         <Lock className="mx-auto h-8 w-8 text-muted-foreground" />
         <h2 className="mt-3 font-display text-lg font-semibold">Módulo restringido</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          El rol <strong>{rol}</strong> no tiene acceso a <code>{base}</code> según la matriz de permisos del TDR v1.2.
+          El rol <strong>{rol}</strong> no tiene acceso a <code>{base}</code> según la matriz de permisos.
         </p>
         <Link to="/dashboard" className="mt-4 inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
           Ir al Dashboard

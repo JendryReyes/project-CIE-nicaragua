@@ -52,7 +52,7 @@ function Tarifas() {
     <div className="space-y-6 max-w-[1400px]">
       <div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Tags className="h-4 w-4" /> Facturación · TDR Parte II
+          <Tags className="h-4 w-4" /> Facturación
         </div>
         <h1 className="font-display text-3xl mt-1">Unidades facturables y tarifario</h1>
         <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
