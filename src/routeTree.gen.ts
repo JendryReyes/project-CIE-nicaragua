@@ -22,16 +22,20 @@ import { Route as AppPlataformaRouteImport } from './routes/_app.plataforma'
 import { Route as AppPlanificacionRouteImport } from './routes/_app.planificacion'
 import { Route as AppPagadoresRouteImport } from './routes/_app.pagadores'
 import { Route as AppMatriculaRouteImport } from './routes/_app.matricula'
+import { Route as AppKpisRouteImport } from './routes/_app.kpis'
+import { Route as AppIncidentesRouteImport } from './routes/_app.incidentes'
 import { Route as AppHorarioRouteImport } from './routes/_app.horario'
 import { Route as AppFamiliasRouteImport } from './routes/_app.familias'
 import { Route as AppFacturacionRouteImport } from './routes/_app.facturacion'
 import { Route as AppEquipoRouteImport } from './routes/_app.equipo'
 import { Route as AppEjecucionRouteImport } from './routes/_app.ejecucion'
+import { Route as AppDiagnosticoRouteImport } from './routes/_app.diagnostico'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppCuposRouteImport } from './routes/_app.cupos'
 import { Route as AppBibliotecaRouteImport } from './routes/_app.biblioteca'
 import { Route as AppAuditoriaRouteImport } from './routes/_app.auditoria'
 import { Route as AppAsistenciaRouteImport } from './routes/_app.asistencia'
+import { Route as AppAgendaRouteImport } from './routes/_app.agenda'
 import { Route as AppAdmisionRouteImport } from './routes/_app.admision'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
@@ -113,6 +117,16 @@ const AppMatriculaRoute = AppMatriculaRouteImport.update({
   path: '/matricula',
   getParentRoute: () => AppRoute,
 } as any)
+const AppKpisRoute = AppKpisRouteImport.update({
+  id: '/kpis',
+  path: '/kpis',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppIncidentesRoute = AppIncidentesRouteImport.update({
+  id: '/incidentes',
+  path: '/incidentes',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppHorarioRoute = AppHorarioRouteImport.update({
   id: '/horario',
   path: '/horario',
@@ -138,6 +152,11 @@ const AppEjecucionRoute = AppEjecucionRouteImport.update({
   path: '/ejecucion',
   getParentRoute: () => AppRoute,
 } as any)
+const AppDiagnosticoRoute = AppDiagnosticoRouteImport.update({
+  id: '/diagnostico',
+  path: '/diagnostico',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -161,6 +180,11 @@ const AppAuditoriaRoute = AppAuditoriaRouteImport.update({
 const AppAsistenciaRoute = AppAsistenciaRouteImport.update({
   id: '/asistencia',
   path: '/asistencia',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAgendaRoute = AppAgendaRouteImport.update({
+  id: '/agenda',
+  path: '/agenda',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAdmisionRoute = AppAdmisionRouteImport.update({
@@ -257,16 +281,20 @@ export interface FileRoutesByFullPath {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admision': typeof AppAdmisionRoute
+  '/agenda': typeof AppAgendaRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/auditoria': typeof AppAuditoriaRoute
   '/biblioteca': typeof AppBibliotecaRoute
   '/cupos': typeof AppCuposRoute
   '/dashboard': typeof AppDashboardRoute
+  '/diagnostico': typeof AppDiagnosticoRoute
   '/ejecucion': typeof AppEjecucionRoute
   '/equipo': typeof AppEquipoRoute
   '/facturacion': typeof AppFacturacionRouteWithChildren
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
+  '/incidentes': typeof AppIncidentesRoute
+  '/kpis': typeof AppKpisRoute
   '/matricula': typeof AppMatriculaRoute
   '/pagadores': typeof AppPagadoresRoute
   '/planificacion': typeof AppPlanificacionRoute
@@ -297,15 +325,19 @@ export interface FileRoutesByTo {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admision': typeof AppAdmisionRoute
+  '/agenda': typeof AppAgendaRoute
   '/asistencia': typeof AppAsistenciaRouteWithChildren
   '/auditoria': typeof AppAuditoriaRoute
   '/biblioteca': typeof AppBibliotecaRoute
   '/cupos': typeof AppCuposRoute
   '/dashboard': typeof AppDashboardRoute
+  '/diagnostico': typeof AppDiagnosticoRoute
   '/ejecucion': typeof AppEjecucionRoute
   '/equipo': typeof AppEquipoRoute
   '/familias': typeof AppFamiliasRoute
   '/horario': typeof AppHorarioRoute
+  '/incidentes': typeof AppIncidentesRoute
+  '/kpis': typeof AppKpisRoute
   '/matricula': typeof AppMatriculaRoute
   '/pagadores': typeof AppPagadoresRoute
   '/planificacion': typeof AppPlanificacionRoute
@@ -338,16 +370,20 @@ export interface FileRoutesById {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_app/admision': typeof AppAdmisionRoute
+  '/_app/agenda': typeof AppAgendaRoute
   '/_app/asistencia': typeof AppAsistenciaRouteWithChildren
   '/_app/auditoria': typeof AppAuditoriaRoute
   '/_app/biblioteca': typeof AppBibliotecaRoute
   '/_app/cupos': typeof AppCuposRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/diagnostico': typeof AppDiagnosticoRoute
   '/_app/ejecucion': typeof AppEjecucionRoute
   '/_app/equipo': typeof AppEquipoRoute
   '/_app/facturacion': typeof AppFacturacionRouteWithChildren
   '/_app/familias': typeof AppFamiliasRoute
   '/_app/horario': typeof AppHorarioRoute
+  '/_app/incidentes': typeof AppIncidentesRoute
+  '/_app/kpis': typeof AppKpisRoute
   '/_app/matricula': typeof AppMatriculaRoute
   '/_app/pagadores': typeof AppPagadoresRoute
   '/_app/planificacion': typeof AppPlanificacionRoute
@@ -380,16 +416,20 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admision'
+    | '/agenda'
     | '/asistencia'
     | '/auditoria'
     | '/biblioteca'
     | '/cupos'
     | '/dashboard'
+    | '/diagnostico'
     | '/ejecucion'
     | '/equipo'
     | '/facturacion'
     | '/familias'
     | '/horario'
+    | '/incidentes'
+    | '/kpis'
     | '/matricula'
     | '/pagadores'
     | '/planificacion'
@@ -420,15 +460,19 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admision'
+    | '/agenda'
     | '/asistencia'
     | '/auditoria'
     | '/biblioteca'
     | '/cupos'
     | '/dashboard'
+    | '/diagnostico'
     | '/ejecucion'
     | '/equipo'
     | '/familias'
     | '/horario'
+    | '/incidentes'
+    | '/kpis'
     | '/matricula'
     | '/pagadores'
     | '/planificacion'
@@ -460,16 +504,20 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/_app/admision'
+    | '/_app/agenda'
     | '/_app/asistencia'
     | '/_app/auditoria'
     | '/_app/biblioteca'
     | '/_app/cupos'
     | '/_app/dashboard'
+    | '/_app/diagnostico'
     | '/_app/ejecucion'
     | '/_app/equipo'
     | '/_app/facturacion'
     | '/_app/familias'
     | '/_app/horario'
+    | '/_app/incidentes'
+    | '/_app/kpis'
     | '/_app/matricula'
     | '/_app/pagadores'
     | '/_app/planificacion'
@@ -598,6 +646,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMatriculaRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/kpis': {
+      id: '/_app/kpis'
+      path: '/kpis'
+      fullPath: '/kpis'
+      preLoaderRoute: typeof AppKpisRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/incidentes': {
+      id: '/_app/incidentes'
+      path: '/incidentes'
+      fullPath: '/incidentes'
+      preLoaderRoute: typeof AppIncidentesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/horario': {
       id: '/_app/horario'
       path: '/horario'
@@ -633,6 +695,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppEjecucionRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/diagnostico': {
+      id: '/_app/diagnostico'
+      path: '/diagnostico'
+      fullPath: '/diagnostico'
+      preLoaderRoute: typeof AppDiagnosticoRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/dashboard': {
       id: '/_app/dashboard'
       path: '/dashboard'
@@ -666,6 +735,13 @@ declare module '@tanstack/react-router' {
       path: '/asistencia'
       fullPath: '/asistencia'
       preLoaderRoute: typeof AppAsistenciaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/agenda': {
+      id: '/_app/agenda'
+      path: '/agenda'
+      fullPath: '/agenda'
+      preLoaderRoute: typeof AppAgendaRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/admision': {
@@ -821,16 +897,20 @@ const AppFacturacionRouteWithChildren = AppFacturacionRoute._addFileChildren(
 
 interface AppRouteChildren {
   AppAdmisionRoute: typeof AppAdmisionRoute
+  AppAgendaRoute: typeof AppAgendaRoute
   AppAsistenciaRoute: typeof AppAsistenciaRouteWithChildren
   AppAuditoriaRoute: typeof AppAuditoriaRoute
   AppBibliotecaRoute: typeof AppBibliotecaRoute
   AppCuposRoute: typeof AppCuposRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppDiagnosticoRoute: typeof AppDiagnosticoRoute
   AppEjecucionRoute: typeof AppEjecucionRoute
   AppEquipoRoute: typeof AppEquipoRoute
   AppFacturacionRoute: typeof AppFacturacionRouteWithChildren
   AppFamiliasRoute: typeof AppFamiliasRoute
   AppHorarioRoute: typeof AppHorarioRoute
+  AppIncidentesRoute: typeof AppIncidentesRoute
+  AppKpisRoute: typeof AppKpisRoute
   AppMatriculaRoute: typeof AppMatriculaRoute
   AppPagadoresRoute: typeof AppPagadoresRoute
   AppPlanificacionRoute: typeof AppPlanificacionRoute
@@ -846,16 +926,20 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppAdmisionRoute: AppAdmisionRoute,
+  AppAgendaRoute: AppAgendaRoute,
   AppAsistenciaRoute: AppAsistenciaRouteWithChildren,
   AppAuditoriaRoute: AppAuditoriaRoute,
   AppBibliotecaRoute: AppBibliotecaRoute,
   AppCuposRoute: AppCuposRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppDiagnosticoRoute: AppDiagnosticoRoute,
   AppEjecucionRoute: AppEjecucionRoute,
   AppEquipoRoute: AppEquipoRoute,
   AppFacturacionRoute: AppFacturacionRouteWithChildren,
   AppFamiliasRoute: AppFamiliasRoute,
   AppHorarioRoute: AppHorarioRoute,
+  AppIncidentesRoute: AppIncidentesRoute,
+  AppKpisRoute: AppKpisRoute,
   AppMatriculaRoute: AppMatriculaRoute,
   AppPagadoresRoute: AppPagadoresRoute,
   AppPlanificacionRoute: AppPlanificacionRoute,
