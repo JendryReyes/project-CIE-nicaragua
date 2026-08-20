@@ -115,7 +115,7 @@ function Plataforma() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Building className="h-4 w-4" /> Plataforma · TDR Parte I / IV
+            <Building className="h-4 w-4" /> Plataforma
           </div>
           <h1 className="font-display text-3xl mt-1">Panel de organizaciones</h1>
           <p className="text-sm text-muted-foreground mt-1 max-w-2xl">

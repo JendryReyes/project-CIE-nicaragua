@@ -42,7 +42,7 @@ function Agenda() {
     <div className="max-w-[1400px] space-y-6">
       <div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <CalendarRange className="h-4 w-4" /> Planificación operativa · TDR Parte XI
+          <CalendarRange className="h-4 w-4" /> Planificación operativa
         </div>
         <h1 className="mt-1 font-display text-3xl">Semana modelo y agenda operativa</h1>
         <p className="mt-1 max-w-3xl text-sm text-muted-foreground">

@@ -61,7 +61,7 @@ function Admision() {
     <div className="space-y-6 max-w-[1500px]">
       <div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <UserPlus className="h-4 w-4" /> Matrícula · TDR Parte III
+          <UserPlus className="h-4 w-4" /> Matrícula
         </div>
         <h1 className="font-display text-3xl mt-1">Pipeline de admisión</h1>
         <p className="text-sm text-muted-foreground mt-1 max-w-2xl">

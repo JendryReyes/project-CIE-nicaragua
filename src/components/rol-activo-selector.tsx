@@ -34,7 +34,7 @@ export function RolActivoSelector() {
         <span className="font-medium">{rolSigla[rol]}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80">
-        <DropdownMenuLabel className="text-xs">Ver como rol (TDR v1.2)</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-xs">Ver como rol</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {rolesOrg.map((r) => (
           <DropdownMenuItem key={r} onClick={() => cambiar(r)} className="items-start gap-2 text-xs">

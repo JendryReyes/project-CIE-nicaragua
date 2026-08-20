@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_app/equipo")({
   head: () => ({
     meta: [
       { title: "Equipo y permisos · CIE" },
-      { name: "description", content: "Jerarquía de roles TDR, matriz de acciones clínicas sensibles y segregación de datos del CIE." },
+      { name: "description", content: "Jerarquía de roles, matriz de acciones clínicas sensibles y segregación de datos del CIE." },
       { property: "og:title", content: "Equipo y permisos · CIE" },
       { property: "og:description", content: "Gobernanza de accesos: roles, acciones sensibles y política de seguridad." },
     ],
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_app/equipo")({
   component: Equipo,
 });
 
-const tabs = ["Roles TDR y acciones sensibles", "Matriz operativa por área", "Seguridad y plataforma"] as const;
+const tabs = ["Roles y acciones sensibles", "Matriz operativa por área", "Seguridad y plataforma"] as const;
 type Tab = (typeof tabs)[number];
 
 function Equipo() {
@@ -30,7 +30,7 @@ function Equipo() {
       <div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Shield className="h-4 w-4" />
-          <span>Gobernanza clínica · TDR v1.2 Parte I</span>
+          <span>Gobernanza clínica</span>
         </div>
         <h1 className="font-display text-4xl mt-1">Equipo y permisos</h1>
         <p className="text-muted-foreground mt-2 max-w-3xl">

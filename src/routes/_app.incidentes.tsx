@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_app/incidentes")({
       {
         name: "description",
         content:
-          "Registro, escalamiento y cierre trazable de incidentes clínicos, médicos y de cumplimiento según TDR v1.3.",
+          "Registro, escalamiento y cierre trazable de incidentes clínicos, médicos y de cumplimiento.",
       },
       { property: "og:title", content: "Incidentes clínicos y seguridad · CIE" },
       { property: "og:description", content: "Módulo transversal de gestión de incidentes con notificación crítica automática." },
@@ -45,7 +45,7 @@ function Incidentes() {
     <div className="max-w-[1400px] space-y-6">
       <div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <ShieldAlert className="h-4 w-4" /> Seguridad del paciente · TDR 5.11
+          <ShieldAlert className="h-4 w-4" /> Seguridad del paciente
         </div>
         <h1 className="mt-1 font-display text-3xl">Incidentes clínicos y de seguridad</h1>
         <p className="mt-1 max-w-3xl text-sm text-muted-foreground">

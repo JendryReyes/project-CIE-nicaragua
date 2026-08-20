@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_app/auditoria")({
       { title: "Bitácora de auditoría · CIE" },
       { name: "description", content: "Registro inmutable de acciones sensibles, accesos y cambios de facturación del CIE." },
       { property: "og:title", content: "Bitácora de auditoría · CIE" },
-      { property: "og:description", content: "Trazabilidad de acciones clínicas, matrícula y facturación según TDR v1.2." },
+      { property: "og:description", content: "Trazabilidad de acciones clínicas, matrícula y facturación." },
     ],
   }),
   component: Auditoria,
@@ -61,7 +61,7 @@ function Auditoria() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <FileClock className="h-4 w-4" /> Gobernanza · TDR 1.6
+            <FileClock className="h-4 w-4" /> Gobernanza
           </div>
           <h1 className="font-display text-3xl mt-1">Bitácora de auditoría</h1>
           <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
