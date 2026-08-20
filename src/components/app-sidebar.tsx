@@ -20,6 +20,10 @@ import {
   CreditCard,
   Tags,
   FileClock,
+  CalendarRange,
+  Stethoscope,
+  ShieldAlert,
+  Gauge,
 
 } from "lucide-react";
 import cieLogo from "@/assets/cie-logo.png.asset.json";
@@ -51,9 +55,12 @@ const principal = [
 ];
 
 const aba = [
+  { title: "Semana modelo y agenda", url: "/agenda", icon: CalendarRange },
   { title: "Horario semanal", url: "/horario", icon: CalendarDays },
+  { title: "Proceso diagnóstico", url: "/diagnostico", icon: Stethoscope },
   { title: "Biblioteca ABA", url: "/biblioteca", icon: BookOpen },
   { title: "Gráficas ABA", url: "/clinico/graficas", icon: LineChart },
+  { title: "Incidentes y seguridad", url: "/incidentes", icon: ShieldAlert },
 ];
 
 const administracion = [
@@ -61,6 +68,7 @@ const administracion = [
   { title: "Facturación", url: "/facturacion", icon: Receipt },
   { title: "Pagadores y cartas", url: "/pagadores", icon: CreditCard },
   { title: "Tarifario", url: "/tarifas", icon: Tags },
+  { title: "Indicadores (KPIs)", url: "/kpis", icon: Gauge },
   { title: "Reportes", url: "/reportes", icon: FileBarChart },
   { title: "Familias", url: "/familias", icon: Heart },
 ];
