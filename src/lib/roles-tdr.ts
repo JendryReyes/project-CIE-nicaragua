@@ -247,13 +247,12 @@ const todos = [
   "/familias",
   "/equipo",
   "/auditoria",
-  "/plataforma",
 ];
 
 export const modulosPorRol: Record<RolOrg, string[]> = {
   "Administrador de Organización": todos,
-  "Director Clínico": todos.filter((m) => m !== "/plataforma"),
-  "Subdirector Clínico": todos.filter((m) => !["/plataforma", "/tarifas", "/facturacion"].includes(m)),
+  "Director Clínico": todos,
+  "Subdirector Clínico": todos.filter((m) => !["/tarifas", "/facturacion"].includes(m)),
   "Supervisor (Analista ABA)": [
     "/dashboard",
     "/cupos",

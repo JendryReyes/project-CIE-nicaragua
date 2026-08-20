@@ -3,8 +3,8 @@ import { useState } from "react";
 import { RbacMatriz } from "@/components/rbac-matriz";
 import { SeguridadMFA } from "@/components/seguridad-mfa";
 import { MatrizSensible } from "@/components/matriz-sensible";
-import { Shield, FileClock, KeyRound } from "lucide-react";
-import { politicaSeguridad, rolesPlataforma, useRol } from "@/lib/roles-tdr";
+import { Shield, FileClock } from "lucide-react";
+import { politicaSeguridad, useRol } from "@/lib/roles-tdr";
 
 export const Route = createFileRoute("/_app/equipo")({
   head: () => ({
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_app/equipo")({
   component: Equipo,
 });
 
-const tabs = ["Roles y acciones sensibles", "Matriz operativa por área", "Seguridad y plataforma"] as const;
+const tabs = ["Roles y acciones sensibles", "Matriz operativa por área", "Seguridad"] as const;
 type Tab = (typeof tabs)[number];
 
 function Equipo() {
@@ -34,7 +34,7 @@ function Equipo() {
         </div>
         <h1 className="font-display text-4xl mt-1">Equipo y permisos</h1>
         <p className="text-muted-foreground mt-2 max-w-3xl">
-          Jerarquía de roles de plataforma y de organización, matriz de acciones clínicas sensibles y segregación de
+          Jerarquía de roles, matriz de acciones clínicas sensibles y segregación de
           datos restringidos. Rol activo simulado: <span className="font-medium text-foreground">{rol}</span>.
         </p>
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
@@ -43,12 +43,6 @@ function Equipo() {
             className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 px-2.5 py-1.5 hover:bg-muted/60"
           >
             <FileClock className="h-3.5 w-3.5" /> Ver bitácora de auditoría
-          </Link>
-          <Link
-            to="/plataforma"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 px-2.5 py-1.5 hover:bg-muted/60"
-          >
-            <KeyRound className="h-3.5 w-3.5" /> Panel de plataforma
           </Link>
         </div>
       </div>
@@ -123,20 +117,6 @@ function Equipo() {
                 </div>
                 <p className="text-xs text-muted-foreground mt-3">{politicaSeguridad.red}</p>
               </div>
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-border/60 p-4">
-            <h3 className="font-display text-lg">Roles de plataforma</h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              Operan sobre organizaciones y facturación de plataforma, nunca sobre datos clínicos de los tenants.
-            </p>
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {rolesPlataforma.map((r) => (
-                <span key={r} className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs text-primary">
-                  {r}
-                </span>
-              ))}
             </div>
           </div>
 

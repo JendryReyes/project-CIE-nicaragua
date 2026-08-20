@@ -14,7 +14,6 @@ import {
   Activity,
   FileBarChart,
   Building2,
-  Building,
   GitBranch,
   LayoutGrid,
   CreditCard,
@@ -76,7 +75,6 @@ const administracion = [
 const gobernanza = [
   { title: "Equipo y permisos", url: "/equipo", icon: Shield },
   { title: "Bitácora de auditoría", url: "/auditoria", icon: FileClock },
-  { title: "Plataforma (tenants)", url: "/plataforma", icon: Building },
 ];
 
 
