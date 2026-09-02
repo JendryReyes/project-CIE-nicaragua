@@ -43,11 +43,11 @@ const fmt = (f: string) => new Date(f).toLocaleDateString("es-NI", { day: "numer
 const etapaTono: Record<EtapaAdmision, string> = {
   Prospecto: "oklch(0.6 0.106 258)",
   "Contacto inicial": "oklch(0.6 0.114 258)",
-  "Evaluación agendada": "oklch(0.62 0.123 160)",
-  "En evaluación": "oklch(0.62 0.123 160)",
+  "Evaluación agendada": "oklch(0.66 0.084 160)",
+  "En evaluación": "oklch(0.66 0.084 160)",
   "Propuesta de plan": "oklch(0.65 0.132 80)",
   Documentación: "oklch(0.65 0.132 80)",
-  Admitido: "oklch(0.55 0.141 160)",
+  Admitido: "oklch(0.63 0.096 160)",
 };
 
 function Admision() {
@@ -288,7 +288,7 @@ function DetalleProspecto({ p, onClose }: { p: Prospecto; onClose: () => void })
             {p.documentos.map((d) => (
               <div key={d.nombre} className="flex items-center gap-2 text-sm">
                 {d.ok ? (
-                  <CheckCircle2 className="h-4 w-4 text-[oklch(0.55_0.123_160)]" />
+                  <CheckCircle2 className="h-4 w-4 text-[oklch(0.63_0.084_160)]" />
                 ) : (
                   <CircleIcon className="h-4 w-4 text-muted-foreground/60" />
                 )}
@@ -312,7 +312,7 @@ function DetalleProspecto({ p, onClose }: { p: Prospecto; onClose: () => void })
           <button
             onClick={admitir}
             disabled={estado === "Activo"}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.141_160)] px-3 py-1.5 text-sm font-medium text-primary-foreground disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.63_0.096_160)] px-3 py-1.5 text-sm font-medium text-primary-foreground disabled:opacity-50"
           >
             <CheckCircle2 className="h-4 w-4" /> Matricular paciente
           </button>

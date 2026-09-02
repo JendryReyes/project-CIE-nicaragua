@@ -388,7 +388,7 @@ export function ComparativoQuincenasPanel() {
                 width: `${Math.min(100, totales.cobertura)}%`,
                 background:
                   totales.cobertura >= 95
-                    ? "oklch(0.6 0.141 160)"
+                    ? "oklch(0.66 0.096 160)"
                     : totales.cobertura >= 70
                     ? "oklch(0.7 0.123 80)"
                     : "oklch(0.65 0.158 30)",
@@ -498,7 +498,7 @@ export function ComparativoQuincenasPanel() {
                             width: `${Math.min(100, f.cobertura)}%`,
                             background:
                               f.cobertura >= 95
-                                ? "oklch(0.6 0.141 160)"
+                                ? "oklch(0.66 0.096 160)"
                                 : f.cobertura >= 70
                                 ? "oklch(0.7 0.123 80)"
                                 : "oklch(0.65 0.158 30)",
@@ -576,7 +576,7 @@ export function ComparativoQuincenasPanel() {
               <ul className="divide-y divide-border/50 text-sm">
                 {svc.items.map((it) => (
                   <li key={it.nino} className="px-4 py-2 flex items-center gap-3">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.6_0.141_160)] shrink-0" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.66_0.096_160)] shrink-0" />
                     <div className="min-w-0 flex-1">
                       <div className="truncate">{it.nino}</div>
                       <div className="text-[10px] text-muted-foreground">
@@ -723,7 +723,7 @@ export function ComparativoQuincenasPanel() {
             "Constancias médicas que justifican excedentes",
           ].map((it) => (
             <li key={it} className="flex items-start gap-2">
-              <CheckCircle2 className="h-3.5 w-3.5 mt-0.5 text-[oklch(0.6_0.141_160)] shrink-0" />
+              <CheckCircle2 className="h-3.5 w-3.5 mt-0.5 text-[oklch(0.66_0.096_160)] shrink-0" />
               <span>{it}</span>
             </li>
           ))}
@@ -879,7 +879,7 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
                   width: `${Math.min(100, f.cobertura)}%`,
                   background:
                     f.cobertura >= 95
-                      ? "oklch(0.6 0.141 160)"
+                      ? "oklch(0.66 0.096 160)"
                       : f.cobertura >= 70
                       ? "oklch(0.7 0.123 80)"
                       : "oklch(0.65 0.158 30)",
@@ -979,10 +979,10 @@ function EnvioINSSGlobalModal({
             <div className="mt-3">
               <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5">Documentos a transmitir</div>
               <ul className="space-y-1 text-xs">
-                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.55_0.132_160)]" /> Carta de cobro consolidada (Q1+Q2)</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.55_0.132_160)]" /> Formato de facturación</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.55_0.132_160)]" /> Recibo oficial de caja</li>
-                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.55_0.132_160)]" /> Anexo de colillas INSS</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.63_0.09_160)]" /> Carta de cobro consolidada (Q1+Q2)</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.63_0.09_160)]" /> Formato de facturación</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.63_0.09_160)]" /> Recibo oficial de caja</li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.63_0.09_160)]" /> Anexo de colillas INSS</li>
               </ul>
             </div>
             {ctx.totales.excedentes > 0 && (
@@ -1188,7 +1188,7 @@ function ActionBtn({ icon: Icon, label, primary, onClick }: { icon: any; label: 
       onClick={onClick}
       className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium ${
         primary
-          ? "bg-[oklch(0.55_0.141_160)] text-primary-foreground hover:opacity-90"
+          ? "bg-[oklch(0.63_0.096_160)] text-primary-foreground hover:opacity-90"
           : "border border-border/70 hover:bg-muted"
       }`}
     >
@@ -1225,7 +1225,7 @@ function KPI({
           <div className="font-display text-2xl tabular">{q2}</div>
         </div>
       </div>
-      <div className={`mt-2 inline-flex items-center gap-1 text-xs ${up ? "text-[oklch(0.5_0.132_160)]" : down ? "text-[oklch(0.55_0.158_30)]" : "text-muted-foreground"}`}>
+      <div className={`mt-2 inline-flex items-center gap-1 text-xs ${up ? "text-[oklch(0.6_0.09_160)]" : down ? "text-[oklch(0.55_0.158_30)]" : "text-muted-foreground"}`}>
         {up ? <ArrowUpRight className="h-3 w-3" /> : down ? <ArrowDownRight className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
         {delta >= 0 ? "+" : ""}
         {unidad === "$" ? `$${delta.toFixed(2)}` : `${delta}${unidad}`}
@@ -1254,7 +1254,7 @@ function Delta({ value, prefix = "" }: { value: number; prefix?: string }) {
   if (value === 0) return <span className="text-muted-foreground">—</span>;
   const up = value > 0;
   return (
-    <span className={`inline-flex items-center gap-0.5 ${up ? "text-[oklch(0.5_0.132_160)]" : "text-[oklch(0.55_0.158_30)]"}`}>
+    <span className={`inline-flex items-center gap-0.5 ${up ? "text-[oklch(0.6_0.09_160)]" : "text-[oklch(0.55_0.158_30)]"}`}>
       {up ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
       {value > 0 ? "+" : ""}
       {prefix}

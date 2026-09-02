@@ -110,12 +110,12 @@ function PanelSedes() {
               <svg viewBox="0 0 140 30" className="mt-3 w-full h-8">
                 <polyline
                   fill="none"
-                  stroke="oklch(0.55 0.114 160)"
+                  stroke="oklch(0.63 0.078 160)"
                   strokeWidth="1.5"
                   points={d.spark.map((v, i) => `${(i / 6) * 140},${30 - (v / maxSpark) * 26}`).join(" ")}
                 />
                 {d.spark.map((v, i) => (
-                  <circle key={i} cx={(i / 6) * 140} cy={30 - (v / maxSpark) * 26} r="1.5" fill="oklch(0.55 0.114 160)" />
+                  <circle key={i} cx={(i / 6) * 140} cy={30 - (v / maxSpark) * 26} r="1.5" fill="oklch(0.63 0.078 160)" />
                 ))}
               </svg>
 

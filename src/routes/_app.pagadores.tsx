@@ -264,7 +264,7 @@ function DetallePagador({ p, onClose }: { p: PagadorNino; onClose: () => void })
                       ? "oklch(0.6 0.158 30)"
                       : estadoAutorizacion(a).pct >= 85
                         ? "oklch(0.72 0.132 80)"
-                        : "oklch(0.6 0.123 160)",
+                        : "oklch(0.66 0.084 160)",
                 }}
               />
             </div>

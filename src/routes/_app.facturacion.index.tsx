@@ -175,7 +175,7 @@ function GeneralTab({
         <Link
           to="/facturacion/$loteId"
           params={{ loteId: loteDemo.id }}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.141_160)] text-primary-foreground px-3 py-1.5 text-xs font-medium hover:opacity-90"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.63_0.096_160)] text-primary-foreground px-3 py-1.5 text-xs font-medium hover:opacity-90"
         >
           <FileText className="h-3.5 w-3.5" /> Carta de cobro
         </Link>
@@ -390,7 +390,7 @@ function DetalleNino({ nino, quincena, onClose }: { nino: NinoFact; quincena: "Q
                 className="h-full"
                 style={{
                   width: `${cobertura}%`,
-                  background: cobertura >= 95 ? "oklch(0.6 0.132 160)" : cobertura >= 70 ? "oklch(0.7 0.132 80)" : "oklch(0.6 0.158 30)",
+                  background: cobertura >= 95 ? "oklch(0.66 0.09 160)" : cobertura >= 70 ? "oklch(0.7 0.132 80)" : "oklch(0.6 0.158 30)",
                 }}
               />
             </div>

@@ -67,7 +67,7 @@ function Kpis() {
                   <div className="mt-1 font-display text-2xl">{k.valor}</div>
                   <div className="mt-1 flex items-center gap-1 text-xs">
                     {k.tendencia >= 0 ? (
-                      <TrendingUp className="h-3.5 w-3.5 text-[oklch(0.55_0.123_160)]" />
+                      <TrendingUp className="h-3.5 w-3.5 text-[oklch(0.63_0.084_160)]" />
                     ) : (
                       <TrendingDown className="h-3.5 w-3.5 text-[oklch(0.55_0.132_30)]" />
                     )}

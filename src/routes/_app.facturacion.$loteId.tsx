@@ -140,7 +140,7 @@ function LoteDetalle() {
                     <td className="px-3 py-3 text-right tabular">
                       {c.limiteRestante}
                       {l.constanciaMedica && (
-                        <span className="ml-1 inline-flex items-center text-[10px] text-[oklch(0.5_0.114_160)]">
+                        <span className="ml-1 inline-flex items-center text-[10px] text-[oklch(0.6_0.078_160)]">
                           +{l.constanciaMedica.horasJustificadas}c
                         </span>
                       )}
@@ -154,7 +154,7 @@ function LoteDetalle() {
                         </span>
                       )}
                       {hayExcedente && l.constanciaMedica && (
-                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.5_0.114_160)]" title={l.constanciaMedica.tipo}>
+                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.6_0.078_160)]" title={l.constanciaMedica.tipo}>
                           <Stethoscope className="h-3 w-3" /> +{c.excedente}h con constancia
                         </span>
                       )}

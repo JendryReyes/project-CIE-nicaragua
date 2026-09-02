@@ -270,7 +270,7 @@ export function SeguridadMFA() {
                 CN=Carla Vega · O=CIE · SHA256:a4:f1:9c:...:7d:e2 · TS=2026-06-15T10:14:22Z
               </div>
               <div className="flex items-center gap-2 mt-3">
-                <CheckCircle2 className="h-4 w-4 text-[oklch(0.5_0.132_160)]" />
+                <CheckCircle2 className="h-4 w-4 text-[oklch(0.6_0.09_160)]" />
                 <span className="text-xs">Firma válida y vigente · Cadena de confianza verificada</span>
               </div>
             </div>
@@ -279,11 +279,11 @@ export function SeguridadMFA() {
           <div className="rounded-2xl border border-border/70 bg-card p-5">
             <div className="text-sm font-medium">Política CIE</div>
             <ul className="text-xs text-muted-foreground mt-3 space-y-2">
-              <li className="flex gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.5_0.132_160)] shrink-0 mt-0.5" /> 2FA obligatorio para perfiles clínicos.</li>
-              <li className="flex gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.5_0.132_160)] shrink-0 mt-0.5" /> Bloqueo automático tras 5 intentos fallidos.</li>
-              <li className="flex gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.5_0.132_160)] shrink-0 mt-0.5" /> Backups diarios cifrados + verificación SHA-256.</li>
-              <li className="flex gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.5_0.132_160)] shrink-0 mt-0.5" /> Firma digital obligatoria al cerrar cada sesión ABA.</li>
-              <li className="flex gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.5_0.132_160)] shrink-0 mt-0.5" /> Auditoría inmutable por 7 años (Ley 1115).</li>
+              <li className="flex gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.6_0.09_160)] shrink-0 mt-0.5" /> 2FA obligatorio para perfiles clínicos.</li>
+              <li className="flex gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.6_0.09_160)] shrink-0 mt-0.5" /> Bloqueo automático tras 5 intentos fallidos.</li>
+              <li className="flex gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.6_0.09_160)] shrink-0 mt-0.5" /> Backups diarios cifrados + verificación SHA-256.</li>
+              <li className="flex gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.6_0.09_160)] shrink-0 mt-0.5" /> Firma digital obligatoria al cerrar cada sesión ABA.</li>
+              <li className="flex gap-2"><CheckCircle2 className="h-3.5 w-3.5 text-[oklch(0.6_0.09_160)] shrink-0 mt-0.5" /> Auditoría inmutable por 7 años (Ley 1115).</li>
             </ul>
           </div>
         </div>
@@ -297,7 +297,7 @@ function SecCard({ icon: Icon, label, value, hint, ok, warn }: { icon: typeof Sh
     <div className={`rounded-2xl border p-4 ${warn ? "border-[oklch(0.85_0.106_30)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"}`}>
       <div className="flex items-center justify-between">
         <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-        <Icon className={`h-4 w-4 ${warn ? "text-[oklch(0.55_0.158_30)]" : ok ? "text-[oklch(0.5_0.132_160)]" : "text-muted-foreground"}`} />
+        <Icon className={`h-4 w-4 ${warn ? "text-[oklch(0.55_0.158_30)]" : ok ? "text-[oklch(0.6_0.09_160)]" : "text-muted-foreground"}`} />
       </div>
       <div className={`font-display text-2xl mt-1 tabular ${warn ? "text-[oklch(0.45_0.132_30)]" : ""}`}>{value}</div>
       {hint && <div className="text-[11px] text-muted-foreground mt-0.5">{hint}</div>}

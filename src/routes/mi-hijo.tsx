@@ -112,7 +112,7 @@ function PortalFamilia() {
 
         {pendientes.length === 0 && (
           <section className="bg-card rounded-3xl p-6 text-center">
-            <CheckCircle2 className="h-10 w-10 mx-auto text-[oklch(0.55_0.141_160)] mb-2" />
+            <CheckCircle2 className="h-10 w-10 mx-auto text-[oklch(0.63_0.096_160)] mb-2" />
             <p className="font-medium">¡Todo al día!</p>
             <p className="text-xs text-muted-foreground mt-1">No hay documentos pendientes de firma.</p>
           </section>

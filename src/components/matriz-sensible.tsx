@@ -11,7 +11,7 @@ import {
 } from "@/lib/roles-tdr";
 
 const celda: Record<NivelAccion, { icon: typeof Check; cls: string; label: string }> = {
-  si: { icon: Check, cls: "text-[oklch(0.48_0.114_160)] bg-[oklch(0.94_0.044_160)]", label: "Permitido" },
+  si: { icon: Check, cls: "text-[oklch(0.58_0.078_160)] bg-[oklch(0.94_0.044_160)]", label: "Permitido" },
   no: { icon: X, cls: "text-muted-foreground bg-muted/60", label: "No permitido" },
   condicional: { icon: AlertTriangle, cls: "text-[oklch(0.5_0.123_80)] bg-[oklch(0.95_0.062_80)]", label: "Condicional / requiere justificación" },
   propios: { icon: UserCheck, cls: "text-[oklch(0.45_0.114_258)] bg-[oklch(0.94_0.044_258)]", label: "Solo casos asignados" },
@@ -131,7 +131,7 @@ export function MatrizSensible() {
                     {rolesOrg.map((r) => (
                       <td key={r} className="px-2 py-3 text-center">
                         {permitidos.includes(r) ? (
-                          <Check className="mx-auto h-4 w-4 text-[oklch(0.48_0.114_160)]" />
+                          <Check className="mx-auto h-4 w-4 text-[oklch(0.58_0.078_160)]" />
                         ) : (
                           <X className="mx-auto h-4 w-4 text-muted-foreground/50" />
                         )}

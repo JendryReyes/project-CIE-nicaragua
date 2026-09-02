@@ -141,7 +141,7 @@ export function CierreQuincenaPanel() {
                   <div
                     className={`h-8 w-8 rounded-full grid place-items-center text-xs font-medium shrink-0 ${
                       done
-                        ? "bg-[oklch(0.55_0.114_160)] text-primary-foreground"
+                        ? "bg-[oklch(0.63_0.078_160)] text-primary-foreground"
                         : active
                         ? "bg-foreground text-background"
                         : "bg-muted text-muted-foreground"
@@ -163,7 +163,7 @@ export function CierreQuincenaPanel() {
                 {i < pasosCierre.length - 1 && (
                   <div
                     className={`flex-1 h-px mx-3 ${
-                      done ? "bg-[oklch(0.55_0.114_160)]" : "bg-border"
+                      done ? "bg-[oklch(0.63_0.078_160)]" : "bg-border"
                     }`}
                   />
                 )}
@@ -252,7 +252,7 @@ export function CierreQuincenaPanel() {
           {calculado && estado === "cerrada" && (
             <button
               onClick={enviar}
-              className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.55_0.114_160)] text-primary-foreground px-4 py-2 text-sm font-medium"
+              className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.63_0.078_160)] text-primary-foreground px-4 py-2 text-sm font-medium"
             >
               <Send className="h-4 w-4" /> Enviar al INSS
             </button>

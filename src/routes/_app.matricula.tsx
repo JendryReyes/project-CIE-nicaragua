@@ -45,7 +45,7 @@ function Matricula() {
           <h1 className="font-display text-3xl">Módulo de Matrícula</h1>
           <p className="text-sm text-muted-foreground mt-1">Ingresos · Egresos · Suspensiones · Mayo 2026</p>
         </div>
-        <button className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.141_160)] text-primary-foreground px-3 py-1.5 text-sm font-medium hover:opacity-90">
+        <button className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.63_0.096_160)] text-primary-foreground px-3 py-1.5 text-sm font-medium hover:opacity-90">
           <Plus className="h-4 w-4" /> Nuevo ingreso
         </button>
       </div>
@@ -65,7 +65,7 @@ function Matricula() {
       {/* KPIs siempre visibles */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <button onClick={() => setTab("Activos")} className="text-left">
-          <KPI icon={<UserPlus className="h-4 w-4 text-[oklch(0.55_0.141_160)]" />} label="Activos" value={r.activos} hint={`+${r.ingresosMes} este mes · ver lista →`} clickable />
+          <KPI icon={<UserPlus className="h-4 w-4 text-[oklch(0.63_0.096_160)]" />} label="Activos" value={r.activos} hint={`+${r.ingresosMes} este mes · ver lista →`} clickable />
         </button>
         <button onClick={() => setTab("Ingresos")} className="text-left">
           <KPI icon={<UserPlus className="h-4 w-4" />} label="Ingresos · mes" value={r.ingresosMes} hint="alta clínica" clickable />
@@ -551,7 +551,7 @@ function MiniBars() {
             <div key={i} className="flex-1 flex flex-col items-center gap-1 h-full justify-end">
               <span className="text-[10px] tabular text-muted-foreground">{total}</span>
               <div className="w-full flex flex-col-reverse rounded-md overflow-hidden border border-border/40" style={{ height: `${h}%`, minHeight: 8 }}>
-                <div style={{ flexGrow: d.ing }} className="bg-[oklch(0.6_0.123_160)]" title={`Ingresos: ${d.ing}`} />
+                <div style={{ flexGrow: d.ing }} className="bg-[oklch(0.66_0.084_160)]" title={`Ingresos: ${d.ing}`} />
                 <div style={{ flexGrow: d.egr }} className="bg-[oklch(0.65_0.106_80)]" title={`Egresos: ${d.egr}`} />
                 <div style={{ flexGrow: d.sus }} className="bg-[oklch(0.6_0.158_30)]" title={`Suspensiones: ${d.sus}`} />
               </div>
@@ -561,7 +561,7 @@ function MiniBars() {
         })}
       </div>
       <div className="flex items-center gap-4 text-[11px] text-muted-foreground pt-2 border-t border-border/40">
-        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.6_0.123_160)]" /> Ingresos</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.66_0.084_160)]" /> Ingresos</span>
         <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.65_0.106_80)]" /> Egresos</span>
         <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.6_0.158_30)]" /> Suspensiones</span>
       </div>

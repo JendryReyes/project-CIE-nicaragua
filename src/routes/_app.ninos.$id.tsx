@@ -478,7 +478,7 @@ function TabExpediente({ documentos }: { documentos: ReturnType<typeof getDocume
             return (
               <li key={d} className="flex items-center gap-2 text-sm">
                 {ok
-                  ? <CheckCircle2 className="h-4 w-4 text-[oklch(0.55_0.141_160)]" />
+                  ? <CheckCircle2 className="h-4 w-4 text-[oklch(0.63_0.096_160)]" />
                   : <AlertTriangle className="h-4 w-4 text-[oklch(0.6_0.132_30)]" />}
                 <span className={ok ? "" : "text-[oklch(0.45_0.132_30)]"}>{d}</span>
               </li>

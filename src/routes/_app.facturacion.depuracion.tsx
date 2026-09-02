@@ -21,7 +21,7 @@ type Clasif = SesionDepuracion["clasificacion"];
 const colorClasif: Record<Clasif, string> = {
   INSS: "oklch(0.6 0.123 258)",
   Privada: "oklch(0.55 0.141 292)",
-  "Pro-bono": "oklch(0.6 0.123 160)",
+  "Pro-bono": "oklch(0.66 0.084 160)",
   "Fuera de Contrato": "oklch(0.6 0.158 30)",
 };
 

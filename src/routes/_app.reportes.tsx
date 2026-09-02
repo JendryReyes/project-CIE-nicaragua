@@ -340,7 +340,7 @@ function PreviewModal({
                     <span>Total ingresos</span>
                     <span className="tabular">$18,608</span>
                   </div>
-                  <div className="text-xs text-[oklch(0.55_0.123_160)]">vs mes anterior: +6.4%</div>
+                  <div className="text-xs text-[oklch(0.63_0.084_160)]">vs mes anterior: +6.4%</div>
                 </div>
               </PreviewPDF>
             )}
@@ -374,7 +374,7 @@ function PreviewModal({
                     { n: "05_Recibo_caja.pdf", d: "Recibo oficial #2026-0518" },
                   ].map((f) => (
                     <li key={f.n} className="flex items-center gap-3 p-3 text-sm">
-                      <CheckCircle2 className="h-4 w-4 text-[oklch(0.6_0.123_160)] shrink-0" />
+                      <CheckCircle2 className="h-4 w-4 text-[oklch(0.66_0.084_160)] shrink-0" />
                       <div className="flex-1 min-w-0">
                         <div className="font-medium truncate">{f.n}</div>
                         <div className="text-xs text-muted-foreground">{f.d}</div>

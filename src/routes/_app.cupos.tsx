@@ -21,7 +21,7 @@ const tono = {
   rojo: "bg-[oklch(0.95_0.053_30)] text-[oklch(0.45_0.132_30)]",
 } as const;
 
-const barra = { ok: "oklch(0.6 0.123 160)", ambar: "oklch(0.72 0.132 80)", rojo: "oklch(0.6 0.158 30)" } as const;
+const barra = { ok: "oklch(0.66 0.084 160)", ambar: "oklch(0.72 0.132 80)", rojo: "oklch(0.6 0.158 30)" } as const;
 
 function Cupos() {
   const [sede, setSede] = useState<string>("todas");
