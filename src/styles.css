@@ -160,3 +160,37 @@
     font-variant-numeric: tabular-nums;
   }
 }
+
+@utility bg-gradient-marca {
+  background-image: var(--gradient-marca);
+}
+
+@utility bg-gradient-kpi {
+  background-image: var(--gradient-kpi);
+}
+
+@utility bg-gradient-suave {
+  background-image: var(--gradient-suave);
+}
+
+@utility text-gradient-marca {
+  background-image: var(--gradient-marca);
+  background-clip: text;
+  color: transparent;
+}
+
+@utility shadow-suave {
+  box-shadow: var(--shadow-suave);
+}
+
+@utility border-gradient-top {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    border-radius: inherit;
+    background-image: var(--gradient-marca);
+  }
+}
