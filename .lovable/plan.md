@@ -1,134 +1,111 @@
-# Harness de ingeniería para CIE + reorganización del frontend
+# Nueva paleta CIE — blanco base con degradados suaves tipo Gemini
 
-Aplicar al proyecto CIE las prácticas de las dos presentaciones: un harness
-completo (instrucciones, herramientas, entorno, estado, retroalimentación),
-una reorganización del frontend por dominios, y un roster de agentes
-versionado en el repo.
+Reemplazar la paleta actual (base crema, primario terracota, acento sage) por
+un sistema de blanco limpio con azul índigo como marca y amarillo, rojo y verde
+desaturados como acentos, aplicando principios de neuromarketing: baja
+saturación, alto contraste solo donde importa, y color con significado fijo.
 
-## Diagnóstico actual
+## Decisiones ya tomadas
 
-- 43 archivos de ruta planos en `src/routes`, con la página completa dentro
-  del archivo de ruta (asistencia 777 líneas, ninos/$id 655, matrícula 570).
-- 44 módulos sueltos en `src/lib` sin fronteras de dominio: facturación,
-  clínica, admisión, agenda y auditoría conviven en la misma carpeta.
-- `comparativo-quincenas.tsx` con 1.309 líneas concentra tabla, drawers,
-  edición inline, KPIs y exportaciones.
-- Cero pruebas y ningún comando único de verificación.
-- Sin archivos de instrucciones: no existe AGENTS.md, ARCHITECTURE.md,
-  PROGRESS.md ni glosario del dominio.
+- **Paleta Gemini Soft**: blanco `#ffffff`, azul `#4f7cf7`, amarillo `#f2b53d`,
+  rojo coral `#e8705f`, más un verde de la misma familia para estados.
+- **Degradado en acentos de marca y tarjetas de KPI**: logo, encabezados de
+  sección, botón principal y los indicadores del dashboard. El resto de la
+  interfaz queda plano y blanco.
+- **Rojo, verde y amarillo reservados para estados**: verde = cumplido o
+  aprobado, amarillo = pendiente, rojo = alerta o vencido. Nunca decorativos
+  donde puedan confundirse con un dato.
 
-La prueba ácida de la presentación ("abre una sesión sin contexto y hazle
-cinco preguntas") hoy falla en las cinco.
+## Lo que hay hoy
 
-## Parte 1 · Instrucciones (mapa, no enciclopedia)
+`src/styles.css` ya tiene un sistema de tokens completo y bien armado: superficies,
+primario, acento, estados, paleta por área terapéutica y tokens de barra lateral.
+Ese archivo es el punto de cambio y se propaga solo.
 
-Archivos cortos, de 50 a 200 líneas, con `AGENTS.md` como tabla de contenidos
-y carga bajo demanda:
+El obstáculo real: hay **687 valores `oklch(...)` escritos a mano** dentro de
+componentes y rutas, más 66 usos de `bg-white` / `text-white`. Los más cargados
+son `comparativo-quincenas.tsx` (51), `_app.matricula.tsx` (29),
+`cierre-quincena.tsx` (26) y `_app.asistencia.tsx` (21). Si solo se cambian los
+tokens, esas 687 ocurrencias siguen mostrando terracota y crema, y la interfaz
+queda mezclada. Migrarlas es la mayor parte del trabajo.
 
-- `AGENTS.md` — índice: qué es CIE, dónde está cada cosa, comandos, reglas
-  duras y enlaces al resto. Nunca crece: enlaza.
-- `docs/ARCHITECTURE.md` — stack, mapa de carpetas, flujo de datos demo,
-  frontera cliente/servidor, MCP y agente interno.
-- `docs/FRONTEND.md` — convenciones: rutas delgadas, features, tokens
-  semánticos de color (prohibido `text-white`/`bg-[#...]`), tamaños máximos
-  de archivo, cuándo crear un componente.
-- `docs/DOMAIN.md` — glosario CIE: periodo 1/2, brecha, colilla INSS,
-  masterización, cupo, pagador, IOA. Evita que el agente invente nombres.
-- `docs/ROLES.md` — los 7 roles y qué módulo ve cada uno.
-- `docs/TESTING.md` — qué se prueba, qué no, cómo correr.
+## Parte 1 · Redefinir los tokens
 
-## Parte 2 · Estado (el diario en disco)
+En `src/styles.css`, sobre el bloque `:root` existente, en formato `oklch`:
 
-- `PROGRESS.md` — un bloque por turno: estado, hecho, pendiente, siguiente
-  paso. Se escribe antes de cerrar el turno.
-- `docs/DECISIONS.md` — decisiones y su motivo (por qué datos demo en
-  memoria, por qué no hay backend aún, por qué se eliminó multi-tenant, por
-  qué "Periodo" y no "Quincena").
-- `specs/` — carpeta estilo SDD: `specs/` es lo que ya es verdad,
-  `changes/` lo que se propone; archivar mueve una propuesta a verdad.
-
-## Parte 3 · Reorganización del frontend por features
-
-Las rutas se quedan en `src/routes` (lo exige el router) pero pasan a ser
-cascarones de 20 a 40 líneas: `head()`, guardia de rol y un componente
-importado. La lógica se muda a `src/features/<dominio>/`.
-
-```text
-src/features/
-  facturacion/   components/  data/  hooks/  export/
-  clinico/       components/  data/  hooks/
-  admision/      components/  data/
-  agenda/        components/  data/
-  operacion/     asistencia, ejecucion, planificacion
-  gobernanza/    roles, auditoria, seguridad
-src/components/  solo ui/ (shadcn) y componentes realmente transversales
-src/lib/         utilidades genéricas puras (utils, auth, config)
-```
-
-Cada feature expone un `index.ts` como única puerta de entrada. Regla dura:
-una feature no importa de `internals` de otra; comparte solo por su `index.ts`.
-
-Orden de ejecución, una feature por turno (WIP = 1):
-
-1. `facturacion` (la más pesada y la de más riesgo).
-2. `clinico` (niños, sesión, gráficas, biblioteca, diagnóstico).
-3. `operacion` (asistencia, ejecución, planificación, agenda, horario).
-4. `admision` y `cupos`.
-5. `gobernanza` (equipo, auditoría, KPIs).
-
-Partición de los archivos gigantes dentro de su feature:
-
-- `comparativo-quincenas.tsx` → `ComparativoPeriodos` (contenedor),
-  `TablaComparativa`, `DetalleFila`, `KpisMensuales`, `AccionesExport`, y la
-  lógica de brecha/edición a `hooks/use-comparativo.ts`.
-- `_app.asistencia.tsx` → tabla, filtros, panel de puntualidad y QR.
-- `_app.ninos.$id.tsx` → un componente por pestaña.
-
-## Parte 4 · Retroalimentación (listo = comando ejecutable)
-
-- Configurar Vitest + Testing Library.
-- Script `verify`: typecheck, lint y pruebas en un solo comando. "Terminé"
-  significa que `verify` pasa.
-- Pruebas de lógica crítica: motor de facturación y prorrateo, cálculo de
-  brecha entre periodos, límites de 25h/45h, `puedeModulo` por rol,
-  cumplimiento de colillas INSS.
-- Smoke tests de UI en facturación: la tabla comparativa renderiza los dos
-  periodos y la diferencia; el drawer de detalle abre con datos del niño.
-
-## Parte 5 · Roster completo de agentes
-
-Un archivo versionado por agente, con alcance, herramientas permitidas
-(allowlist) y modelo sugerido:
-
-| Agente | Alcance | Permisos |
+| Token | Rol | Valor aproximado |
 | --- | --- | --- |
-| architecture | carpetas, tipos, contratos entre features | lectura + escritura de esqueletos |
-| frontend-ui | componentes, estilos, estados | escritura en `src/features/*/components` |
-| testing | Vitest y RTL | escritura solo en archivos de prueba |
-| code-review | diagnostica el diff | solo lectura, no parcha |
-| security-reviewer | datos sensibles y visibilidad por rol | solo lectura |
-| devops | scripts, verify, configuración | escritura en raíz de config |
-| documentador | AGENTS.md, docs/, PROGRESS.md | escritura solo en documentos |
-| comunicador | resúmenes para dirección del CIE | solo lectura |
+| `--background` | lienzo | blanco casi puro, matiz azul mínimo |
+| `--card` | superficies | blanco puro |
+| `--foreground` | texto | gris azulado muy oscuro, no negro puro |
+| `--primary` | marca | azul índigo `#4f7cf7` |
+| `--primary-glow` | par del degradado | azul más claro y luminoso |
+| `--accent` | acento secundario | amarillo `#f2b53d` desaturado |
+| `--success` | estado cumplido | verde de la misma familia |
+| `--warning` | estado pendiente | el amarillo de marca |
+| `--destructive` | estado alerta | rojo coral `#e8705f` |
+| `--border` / `--input` | separadores | gris azulado claro, muy tenue |
+| `--muted` / `--muted-foreground` | fondos y texto secundario | grises fríos |
 
-Reglas escritas: `code-review` corre al final y nunca edita; ningún cambio se
-declara listo sin que `testing` reporte verde; el skill de solución mínima
-(sin wrappers ni abstracciones de un solo uso, diffs revisables) se aplica
-antes de escribir.
+Tokens nuevos de degradado, para no repetir valores en componentes:
 
-## Detalles técnicos
+- `--gradient-marca`: azul → amarillo → coral, el gesto tipo Gemini.
+- `--gradient-kpi`: variante muy tenue del anterior para fondos de tarjeta.
+- `--gradient-suave`: azul → azul claro, para botones y encabezados.
+- `--shadow-suave`: sombra difusa teñida de azul en lugar de gris neutro.
 
-- Los archivos de ruta conservan su nombre y su `createFileRoute` para no
-  romper `routeTree.gen.ts`; solo se vacía su cuerpo.
-- El movimiento a features se hace con `mv` más actualización de imports,
-  sin reescribir lógica, para que el diff sea revisable.
-- Se mantienen los datos demo en memoria tal como están; esta reorganización
-  no toca reglas de negocio ni cálculos.
-- `head()` de cada ruta se conserva y se completa donde falte.
-- El agente interno y el servidor MCP se documentan en ARCHITECTURE.md como
-  parte del harness (herramientas), sin cambios de código.
+La paleta por área terapéutica (diagnóstico, fisio, logopedia, conducta) se
+recalibra a la nueva familia fría manteniendo las cuatro identidades separables.
 
-## Fuera de alcance en esta vuelta
+Se conserva la tipografía actual (Fraunces para títulos, Inter para cuerpo) y
+los radios, que ya funcionan bien con este lenguaje.
 
-Backend o persistencia, cambios visuales de la interfaz, nuevos módulos
-funcionales y modificación de fórmulas de facturación.
+## Parte 2 · Migrar los colores escritos a mano
+
+El paso que hace que el rediseño se vea completo. Sustituir los `oklch(...)`
+inline por clases de token (`text-success`, `bg-warning/10`, `border-primary/30`)
+y los `bg-white` por `bg-card`. Se hace por bloques, verificando cada pantalla:
+
+1. Facturación: `comparativo-quincenas`, `cierre-quincena`, `billing-summary`,
+   `facturacion.index`, `facturacion.$loteId`, `depuracion`.
+2. Operación: `asistencia`, `matricula`, `ejecucion`, `planificacion`.
+3. Clínico: `ninos.$id`, `clinico.graficas`, `fase-chart`,
+   `grafica-programa-modal`, `ioa-badge`, `masterizacion-badge`.
+4. Resto: `dashboard`, `reportes`, `pagadores`, `sedes`, `admision`,
+   `seguridad-mfa`.
+
+## Parte 3 · Aplicar el degradado donde se decidió
+
+- **Logo y marca** en la barra lateral: el bloque del logo con
+  `--gradient-marca`.
+- **Encabezados de sección**: una línea o subrayado corto con el degradado, sin
+  bloques grandes de color.
+- **Botón principal** (por ejemplo "Tomar asistencia"): `--gradient-suave`.
+- **Tarjetas de KPI del dashboard**: fondo `--gradient-kpi` muy tenue y borde
+  superior con acento; las tarjetas con tono de estado (`success`, `warning`)
+  mantienen su color semántico por encima del degradado.
+- Barra lateral, tablas y gráficas quedan planas: es donde se lee y se decide.
+
+## Parte 4 · Criterios de neuromarketing aplicados
+
+- Saturación baja en superficies grandes y saturación alta solo en el elemento
+  que se quiere que el ojo encuentre primero (una acción por pantalla).
+- Azul como base de marca por su asociación con confianza y calma, adecuado para
+  un contexto clínico y para jornadas largas frente a la pantalla.
+- Amarillo y coral en dosis pequeñas: llaman atención sin generar alarma.
+- Contraste de texto verificado sobre blanco y sobre las tarjetas con degradado,
+  para que ningún dato quede en gris bajo contraste.
+- Menos ruido cromático en tablas de facturación, donde el color debe significar
+  algo y no decorar.
+
+## Verificación
+
+Recorrer con capturas las pantallas más cargadas de color —dashboard,
+facturación comparativa, asistencia, matrícula y perfil del niño— y confirmar
+que no queda ningún resto terracota o crema mezclado con la paleta nueva, y que
+verde, amarillo y rojo solo aparecen con significado de estado.
+
+## Fuera de alcance
+
+Cambios de tipografía, de layout o de estructura de pantallas; el rediseño es
+únicamente de color, degradados y sombras.
