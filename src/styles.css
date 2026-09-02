@@ -60,56 +60,78 @@
 :root {
   --radius: 0.875rem;
 
-  /* Warm cream surface */
-  --background: oklch(0.975 0.012 75);
-  --cream: oklch(0.965 0.018 72);
-  --foreground: oklch(0.245 0.022 40);
+  /* Clean white surfaces with a minimal blue cast */
+  --background: oklch(0.988 0.004 265);
+  --cream: oklch(0.975 0.006 265);
+  --foreground: oklch(0.255 0.022 265);
 
-  --card: oklch(0.995 0.005 75);
-  --card-foreground: oklch(0.245 0.022 40);
-  --popover: oklch(0.995 0.005 75);
-  --popover-foreground: oklch(0.245 0.022 40);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.255 0.022 265);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.255 0.022 265);
 
-  /* Terracotta primary (corazón CIE) */
-  --primary: oklch(0.605 0.135 38);
-  --primary-foreground: oklch(0.99 0.005 75);
+  /* Indigo blue primary (marca CIE) */
+  --primary: oklch(0.635 0.175 265);
+  --primary-glow: oklch(0.755 0.125 252);
+  --primary-foreground: oklch(0.995 0 0);
 
-  /* Sage accent (terapia/calma) */
-  --accent: oklch(0.72 0.06 155);
-  --accent-foreground: oklch(0.22 0.03 155);
+  /* Soft amber accent */
+  --accent: oklch(0.805 0.125 80);
+  --accent-foreground: oklch(0.3 0.05 80);
 
-  --secondary: oklch(0.94 0.018 70);
-  --secondary-foreground: oklch(0.28 0.025 40);
+  --secondary: oklch(0.958 0.008 265);
+  --secondary-foreground: oklch(0.3 0.025 265);
 
-  --muted: oklch(0.93 0.014 70);
-  --muted-foreground: oklch(0.5 0.022 50);
+  --muted: oklch(0.965 0.006 265);
+  --muted-foreground: oklch(0.525 0.022 265);
 
-  --destructive: oklch(0.6 0.18 25);
-  --destructive-foreground: oklch(0.99 0.005 75);
+  --destructive: oklch(0.665 0.15 30);
+  --destructive-foreground: oklch(0.995 0 0);
 
-  --success: oklch(0.62 0.11 155);
-  --success-foreground: oklch(0.99 0.005 75);
-  --warning: oklch(0.78 0.13 75);
-  --warning-foreground: oklch(0.25 0.04 50);
+  --success: oklch(0.68 0.115 160);
+  --success-foreground: oklch(0.995 0 0);
+  --warning: oklch(0.805 0.125 80);
+  --warning-foreground: oklch(0.3 0.05 80);
 
-  --border: oklch(0.89 0.018 65);
-  --input: oklch(0.89 0.018 65);
-  --ring: oklch(0.605 0.135 38);
+  --border: oklch(0.912 0.008 265);
+  --input: oklch(0.912 0.008 265);
+  --ring: oklch(0.635 0.175 265);
 
-  /* Area palette — pastels per área terapéutica */
-  --area-diagnostico: oklch(0.72 0.1 280);   /* lavender */
-  --area-fisio: oklch(0.74 0.11 50);          /* peach */
-  --area-logopedia: oklch(0.74 0.1 200);      /* sky */
-  --area-conducta: oklch(0.74 0.1 145);       /* sage */
+  /* Area palette — cool pastels per área terapéutica */
+  --area-diagnostico: oklch(0.73 0.1 290);   /* violet */
+  --area-fisio: oklch(0.75 0.105 35);        /* coral */
+  --area-logopedia: oklch(0.73 0.1 250);     /* azure */
+  --area-conducta: oklch(0.76 0.09 160);     /* mint */
 
-  --sidebar: oklch(0.965 0.018 72);
-  --sidebar-foreground: oklch(0.28 0.022 40);
-  --sidebar-primary: oklch(0.605 0.135 38);
-  --sidebar-primary-foreground: oklch(0.99 0.005 75);
-  --sidebar-accent: oklch(0.92 0.025 65);
-  --sidebar-accent-foreground: oklch(0.28 0.025 40);
-  --sidebar-border: oklch(0.88 0.02 65);
-  --sidebar-ring: oklch(0.605 0.135 38);
+  --sidebar: oklch(0.982 0.005 265);
+  --sidebar-foreground: oklch(0.295 0.022 265);
+  --sidebar-primary: oklch(0.635 0.175 265);
+  --sidebar-primary-foreground: oklch(0.995 0 0);
+  --sidebar-accent: oklch(0.945 0.014 265);
+  --sidebar-accent-foreground: oklch(0.3 0.025 265);
+  --sidebar-border: oklch(0.915 0.01 265);
+  --sidebar-ring: oklch(0.635 0.175 265);
+
+  /* Gradient language (Gemini-soft) */
+  --gradient-marca: linear-gradient(
+    135deg,
+    oklch(0.635 0.175 265) 0%,
+    oklch(0.72 0.13 250) 38%,
+    oklch(0.805 0.125 80) 72%,
+    oklch(0.7 0.14 30) 100%
+  );
+  --gradient-kpi: linear-gradient(
+    135deg,
+    oklch(0.635 0.175 265 / 0.07) 0%,
+    oklch(0.805 0.125 80 / 0.05) 55%,
+    oklch(0.665 0.15 30 / 0.05) 100%
+  );
+  --gradient-suave: linear-gradient(
+    135deg,
+    oklch(0.635 0.175 265) 0%,
+    oklch(0.72 0.135 250) 100%
+  );
+  --shadow-suave: 0 8px 24px -12px oklch(0.635 0.175 265 / 0.28);
 }
 
 @layer base {
