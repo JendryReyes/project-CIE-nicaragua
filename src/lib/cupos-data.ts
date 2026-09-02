@@ -40,9 +40,9 @@ export function ocupacion(c: Cupo) {
   return Math.round(((c.ocupados + c.reservados) / c.capacidad) * 100);
 }
 
-export function estadoCupo(c: Cupo): { label: string; tone: "ok" | "ambar" | "rojo" } {
+export function estadoCupo(c: Cupo): { label: string; tone: "ok" | "ambar" | "coral" } {
   const o = ocupacion(c);
-  if (o >= 100) return { label: "Sin cupo", tone: "rojo" };
+  if (o >= 100) return { label: "Sin cupo", tone: "coral" };
   if (o >= 90) return { label: "Cupo crítico", tone: "ambar" };
   return { label: "Cupo disponible", tone: "ok" };
 }
