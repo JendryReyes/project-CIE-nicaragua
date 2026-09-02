@@ -86,7 +86,7 @@
   --muted: oklch(0.965 0.006 265);
   --muted-foreground: oklch(0.525 0.022 265);
 
-  --destructive: oklch(0.665 0.15 45);
+  --destructive: oklch(0.7 0.115 45);
   --destructive-foreground: oklch(0.995 0 0);
 
   --success: oklch(0.68 0.115 160);
