@@ -418,9 +418,12 @@ function CartasPorVencerCard() {
 }
 
 function Kpi({ to, icon, label, value, hint, tone }: { to: string; icon: React.ReactNode; label: string; value: string; hint?: string; tone?: "primary" | "success" | "warning" }) {
-  const toneCls = tone === "primary" ? "text-primary" : tone === "success" ? "text-[oklch(0.55_0.088_160)]" : tone === "warning" ? "text-[oklch(0.55_0.114_80)]" : "text-muted-foreground";
+  const toneCls = tone === "primary" ? "text-primary" : tone === "success" ? "text-success" : tone === "warning" ? "text-[oklch(0.55_0.114_80)]" : "text-muted-foreground";
   return (
-    <Link to={to} className="block rounded-2xl border border-border/70 bg-card p-5 transition-colors hover:border-primary/40 hover:bg-muted/40">
+    <Link
+      to={to}
+      className="border-gradient-top block overflow-hidden rounded-2xl border border-border/70 bg-gradient-kpi p-5 transition-shadow hover:shadow-suave"
+    >
       <div className={`flex items-center gap-2 text-xs uppercase tracking-wider ${toneCls}`}>
         {icon}
         <span>{label}</span>
