@@ -41,7 +41,7 @@ function LoginPage() {
   return (
     <div className="grid min-h-screen lg:grid-cols-[1.1fr_1fr]">
       {/* Left: hero */}
-      <div className="relative hidden flex-col justify-between bg-[oklch(0.32_0.053_30)] p-12 text-[oklch(0.97_0.014_265)] lg:flex">
+      <div className="relative hidden flex-col justify-between bg-[oklch(0.29_0.065_265)] p-12 text-[oklch(0.97_0.014_265)] lg:flex">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
             <Heart className="h-6 w-6" fill="currentColor" />
@@ -50,7 +50,7 @@ function LoginPage() {
         </div>
 
         <div className="space-y-6 max-w-lg">
-          <p className="text-sm uppercase tracking-[0.2em] text-[oklch(0.78_0.07_80)]">
+          <p className="text-sm uppercase tracking-[0.2em] text-[oklch(0.82_0.1_80)]">
             Nicaragua · Edu-terapéutico
           </p>
           <h1 className="font-display text-5xl leading-[1.05] text-balance">
@@ -68,7 +68,7 @@ function LoginPage() {
           </div>
         </div>
 
-        <p className="text-xs text-[oklch(0.7_0.035_80)]">
+        <p className="text-xs text-[oklch(0.72_0.04_265)]">
           Manual de prestación de servicios · v25/05/2026
         </p>
       </div>
