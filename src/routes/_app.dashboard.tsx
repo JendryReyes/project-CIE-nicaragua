@@ -247,7 +247,7 @@ function Dashboard() {
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           <Kpi to="/asistencia" icon={<CheckCircle2 className="h-4 w-4" />} label="A tiempo" value={String(punt.aTiempo)} hint={`${punt.pctATiempo}% del total`} tone="success" />
           <Kpi to="/asistencia" icon={<Timer className="h-4 w-4 text-[oklch(0.55_0.114_80)]" />} label="Tarde (≥15 min)" value={String(punt.tarde)} hint={`${punt.tardeLeve} leves`} tone="warning" />
-          <Kpi to="/asistencia" icon={<XCircle className="h-4 w-4 text-[oklch(0.55_0.132_30)]" />} label="Ausentes" value={String(punt.ausentes)} />
+          <Kpi to="/asistencia" icon={<XCircle className="h-4 w-4 text-[oklch(0.55_0.132_45)]" />} label="Ausentes" value={String(punt.ausentes)} />
           <Kpi to="/asistencia" icon={<Clock className="h-4 w-4" />} label="Desviación promedio" value={`${punt.desviacion} min`} hint="atrasos > 0 min" />
         </div>
 
@@ -278,7 +278,7 @@ function Dashboard() {
                       <td className="px-4 py-3 tabular text-right">{s.atendidos}</td>
                       <td className="px-4 py-3 tabular text-right text-[oklch(0.45_0.114_160)] font-medium">{s.aTiempo} <span className="text-[10px] text-muted-foreground">({pct}%)</span></td>
                       <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.114_80)]">{s.tardeLeve}</td>
-                      <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.132_30)] font-medium">{s.tarde}</td>
+                      <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.132_45)] font-medium">{s.tarde}</td>
                       <td className="px-4 py-3 tabular text-right">{s.ausentes}</td>
                       <td className="px-4 py-3 tabular text-right">{s.desviacionPromMin} min</td>
                     </tr>
@@ -392,7 +392,7 @@ function CartasPorVencerCard() {
         <Link to="/facturacion/cartas" className="text-xs text-primary hover:underline">Gestionar</Link>
       </div>
       <p className="text-xs text-muted-foreground mb-3">
-        {vencidas > 0 && <span className="text-[oklch(0.5_0.132_30)] font-medium">{vencidas} vencidas</span>}
+        {vencidas > 0 && <span className="text-[oklch(0.5_0.132_45)] font-medium">{vencidas} vencidas</span>}
         {vencidas > 0 && porVencer > 0 && " · "}
         {porVencer > 0 && <span>{porVencer} por vencer en 30 días</span>}
       </p>
@@ -407,7 +407,7 @@ function CartasPorVencerCard() {
                 <div className="font-medium truncate">{c.ninoNombre}</div>
                 <div className="text-[10px] text-muted-foreground truncate">{c.area} · {c.numero}</div>
               </div>
-              <div className={`shrink-0 inline-flex items-center gap-1 text-[10px] font-medium ${c.diasRestantes < 0 ? "text-[oklch(0.5_0.132_30)]" : "text-[oklch(0.5_0.114_80)]"}`}>
+              <div className={`shrink-0 inline-flex items-center gap-1 text-[10px] font-medium ${c.diasRestantes < 0 ? "text-[oklch(0.5_0.132_45)]" : "text-[oklch(0.5_0.114_80)]"}`}>
                 {c.diasRestantes < 0 ? <XCircle className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
                 {c.diasRestantes < 0 ? `Hace ${-c.diasRestantes}d` : `${c.diasRestantes}d`}
               </div>
@@ -442,7 +442,7 @@ function INSSChip({ estado }: { estado: string }) {
     enviado: "text-[oklch(0.5_0.114_80)]",
     borrador: "text-muted-foreground",
     aprobado: "text-[oklch(0.5_0.088_258)]",
-    rechazado: "text-[oklch(0.5_0.132_30)]",
+    rechazado: "text-[oklch(0.5_0.132_45)]",
   };
   return <div className={`text-[0.65rem] uppercase tracking-wider mt-0.5 ${map[estado]}`}>{estado}</div>;
 }

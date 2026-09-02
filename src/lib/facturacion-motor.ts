@@ -155,7 +155,7 @@ export function calcularResumenSede(
 }
 
 export function porcentajeColor(p: number) {
-  if (p >= 100) return "rojo";
+  if (p >= 100) return "coral";
   if (p >= 85) return "ambar";
   return "verde";
 }

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_app/facturacion/$loteId")({
 });
 
 const areaColor: Record<string, string> = {
-  ABA: "bg-[oklch(0.94_0.044_30)] text-[oklch(0.4_0.114_30)]",
+  ABA: "bg-[oklch(0.94_0.044_45)] text-[oklch(0.4_0.114_45)]",
   Fisioterapia: "bg-[oklch(0.94_0.044_258)] text-[oklch(0.4_0.088_258)]",
   Logopedia: "bg-[oklch(0.94_0.044_292)] text-[oklch(0.4_0.088_292)]",
 };
@@ -65,14 +65,14 @@ function LoteDetalle() {
 
       {/* Alerta de excedentes */}
       {resumen.alertasExcedente > 0 && (
-        <div className="rounded-2xl border border-[oklch(0.85_0.088_30)] bg-[oklch(0.97_0.035_30)] p-5">
+        <div className="rounded-2xl border border-[oklch(0.85_0.088_45)] bg-[oklch(0.97_0.035_45)] p-5">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-[oklch(0.55_0.158_30)] mt-0.5" />
+            <AlertTriangle className="h-5 w-5 text-[oklch(0.55_0.158_45)] mt-0.5" />
             <div className="flex-1">
-              <h3 className="font-display text-lg text-[oklch(0.35_0.132_30)]">
+              <h3 className="font-display text-lg text-[oklch(0.35_0.132_45)]">
                 {resumen.alertasExcedente} niño(s) con horas excedentes sin constancia médica
               </h3>
-              <p className="text-sm text-[oklch(0.4_0.106_30)] mt-1">
+              <p className="text-sm text-[oklch(0.4_0.106_45)] mt-1">
                 Estas horas se excluyen automáticamente de la facturación INSS. Si tienes la constancia médica del período anterior,
                 cárgala desde el expediente del niño y vuelve a generar el lote.
               </p>
@@ -113,7 +113,7 @@ function LoteDetalle() {
                 const pctUso = l.horasAprobadas > 0 ? l.horasEjecutadas / l.horasAprobadas : 0;
                 const rowTone =
                   sinCarta || (hayExcedente && !l.constanciaMedica)
-                    ? "bg-[oklch(0.97_0.014_265)] hover:bg-[oklch(0.95_0.035_30)]"
+                    ? "bg-[oklch(0.97_0.014_265)] hover:bg-[oklch(0.95_0.035_45)]"
                     : hayExcedente
                     ? "bg-[oklch(0.97_0.035_80)] hover:bg-[oklch(0.95_0.044_80)]"
                     : pctUso >= 0.85 && l.tipo === "INSS"
@@ -149,7 +149,7 @@ function LoteDetalle() {
                     <td className="px-3 py-3 text-right tabular font-display">{c.facturablesINSS}</td>
                     <td className="px-3 py-3">
                       {sinCarta && (
-                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.5_0.132_30)]">
+                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.5_0.132_45)]">
                           <ShieldAlert className="h-3 w-3" /> Sin carta vigente
                         </span>
                       )}
@@ -159,7 +159,7 @@ function LoteDetalle() {
                         </span>
                       )}
                       {hayExcedente && !l.constanciaMedica && (
-                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.5_0.158_30)]">
+                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.5_0.158_45)]">
                           <AlertTriangle className="h-3 w-3" /> {c.excedente}h excedente excluido
                         </span>
                       )}
@@ -206,7 +206,7 @@ function LoteDetalle() {
                   <div>
                     <div className="text-sm">{s.nombre}</div>
                     {s.requerido && !s.cargado && (
-                      <div className="text-[11px] text-[oklch(0.5_0.158_30)]">Requerido</div>
+                      <div className="text-[11px] text-[oklch(0.5_0.158_45)]">Requerido</div>
                     )}
                   </div>
                 </div>
@@ -244,7 +244,7 @@ function Kpi({ label, value, hint, tone }: { label: string; value: string; hint?
   const toneCls =
     tone === "primary" ? "text-primary" :
     tone === "success" ? "text-[oklch(0.5_0.088_160)]" :
-    tone === "warn" ? "text-[oklch(0.5_0.158_30)]" : "";
+    tone === "warn" ? "text-[oklch(0.5_0.158_45)]" : "";
   return (
     <div className="rounded-2xl border border-border/70 bg-card p-4">
       <div className="text-xs uppercase tracking-wider text-muted-foreground">{label}</div>

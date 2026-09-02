@@ -325,7 +325,7 @@ export function CierreQuincenaPanel() {
                 onClick={() => setSel(r)}
                 className={`w-full text-left grid grid-cols-[1fr_110px_85px_85px_85px_85px_115px_120px] gap-3 px-4 py-3 border-b border-border/40 text-sm hover:bg-muted/30 transition-colors ${
                   r.estado === "bloqueado"
-                    ? "bg-[oklch(0.97_0.035_30)]"
+                    ? "bg-[oklch(0.97_0.035_45)]"
                     : r.estado === "revisar"
                     ? "bg-[oklch(0.97_0.044_80)]"
                     : r.estado === "suspendido"
@@ -407,7 +407,7 @@ function KPI({
       : tone === "warn"
       ? "border-[oklch(0.7_0.114_80/0.4)] bg-[oklch(0.97_0.044_80)]"
       : tone === "bad"
-      ? "border-[oklch(0.7_0.114_30/0.4)] bg-[oklch(0.97_0.035_30)]"
+      ? "border-[oklch(0.7_0.114_45/0.4)] bg-[oklch(0.97_0.035_45)]"
       : tone === "info"
       ? "border-[oklch(0.7_0.114_80/0.4)] bg-[oklch(0.97_0.035_80)]"
       : "border-border/70 bg-card";
@@ -443,7 +443,7 @@ function EstadoBadge({
       </span>
     );
   return (
-    <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 bg-[oklch(0.94_0.053_30)] text-[oklch(0.45_0.132_30)]">
+    <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 bg-[oklch(0.94_0.053_45)] text-[oklch(0.45_0.132_45)]">
       <XCircle className="h-3 w-3" /> Excede
     </span>
   );
@@ -525,7 +525,7 @@ function ConciliacionDrawer({
                     Excedentes{" "}
                     <div
                       className={`tabular font-medium ${
-                        a.horasExcedentes > 0 ? "text-[oklch(0.55_0.132_30)]" : "text-foreground"
+                        a.horasExcedentes > 0 ? "text-[oklch(0.55_0.132_45)]" : "text-foreground"
                       }`}
                     >
                       {a.horasExcedentes}h
@@ -553,8 +553,8 @@ function ConciliacionDrawer({
           </div>
 
           {resumen.tieneExcedente && !resumen.tieneConstancia && !readonly && (
-            <div className="rounded-xl bg-[oklch(0.97_0.035_30)] border border-[oklch(0.7_0.114_30/0.4)] p-4">
-              <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.132_30)]">
+            <div className="rounded-xl bg-[oklch(0.97_0.035_45)] border border-[oklch(0.7_0.114_45/0.4)] p-4">
+              <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.132_45)]">
                 <AlertTriangle className="h-4 w-4" /> Excedente sin constancia
               </div>
               <p className="text-xs text-muted-foreground mt-1">
@@ -562,7 +562,7 @@ function ConciliacionDrawer({
               </p>
               <button
                 onClick={() => onConstancia(resumen.ninoId)}
-                className="mt-3 inline-flex items-center gap-2 rounded-md bg-[oklch(0.55_0.141_30)] text-primary-foreground px-3 py-1.5 text-xs font-medium"
+                className="mt-3 inline-flex items-center gap-2 rounded-md bg-[oklch(0.55_0.141_45)] text-primary-foreground px-3 py-1.5 text-xs font-medium"
               >
                 <Upload className="h-3.5 w-3.5" /> Cargar constancia médica
               </button>

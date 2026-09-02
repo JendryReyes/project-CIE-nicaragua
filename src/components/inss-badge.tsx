@@ -2,7 +2,7 @@ import { AlertTriangle, CheckCircle2 } from "lucide-react";
 
 /**
  * INSSBadge — barra de progreso horas usadas vs aprobadas.
- * Verde <70% · ámbar 70-99% · rojo ≥100% (excedente).
+ * Verde <70% · ámbar 70-99% · coral ≥100% (excedente).
  */
 export function INSSBadge({
   horasUsadas,
@@ -20,7 +20,7 @@ export function INSSBadge({
 
   const tone =
     pct >= 100
-      ? { bar: "bg-[oklch(0.55_0.158_30)]", text: "text-[oklch(0.4_0.141_30)]", track: "bg-[oklch(0.94_0.044_30)]" }
+      ? { bar: "bg-[oklch(0.55_0.158_45)]", text: "text-[oklch(0.4_0.141_45)]", track: "bg-[oklch(0.94_0.044_45)]" }
       : pct >= 70
       ? { bar: "bg-[oklch(0.65_0.123_80)]", text: "text-[oklch(0.4_0.114_80)]", track: "bg-[oklch(0.95_0.035_80)]" }
       : { bar: "bg-[oklch(0.6_0.097_160)]", text: "text-[oklch(0.4_0.088_160)]", track: "bg-[oklch(0.95_0.035_160)]" };
@@ -61,11 +61,11 @@ export function INSSBadge({
           style={{ width: `${Math.min(pct, 100)}%` }}
         />
         {pct > 100 && (
-          <div className="-mt-2 h-2 w-full border-r-2 border-[oklch(0.4_0.141_30)]" style={{ width: "100%" }} />
+          <div className="-mt-2 h-2 w-full border-r-2 border-[oklch(0.4_0.141_45)]" style={{ width: "100%" }} />
         )}
       </div>
       {excedente > 0 && (
-        <div className="text-[11px] text-[oklch(0.5_0.141_30)]">
+        <div className="text-[11px] text-[oklch(0.5_0.141_45)]">
           Excedente: +{excedente}h sobre el límite aprobado
         </div>
       )}

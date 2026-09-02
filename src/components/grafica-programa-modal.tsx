@@ -93,7 +93,7 @@ export function GraficaProgramaModal({
               <h3 className="font-display text-sm">Serie por sesión</h3>
               <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
                 <span className="flex items-center gap-1"><span className="h-2 w-3 rounded bg-[oklch(0.55_0.141_292)]" /> % correcto</span>
-                <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[oklch(0.55_0.158_30)]" /> Criterio 90%</span>
+                <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[oklch(0.55_0.158_45)]" /> Criterio 90%</span>
               </div>
             </div>
             <div className="h-72">
@@ -116,8 +116,8 @@ export function GraficaProgramaModal({
                       );
                     }}
                   />
-                  <ReferenceLine y={90} stroke="oklch(0.55 0.158 30)" strokeDasharray="4 4"
-                    label={{ value: "Criterio 90%", position: "right", fontSize: 10, fill: "oklch(0.45 0.141 30)" }} />
+                  <ReferenceLine y={90} stroke="oklch(0.55 0.158 45)" strokeDasharray="4 4"
+                    label={{ value: "Criterio 90%", position: "right", fontSize: 10, fill: "oklch(0.45 0.141 45)" }} />
                   <Line type="monotone" dataKey="pct" stroke="oklch(0.55 0.141 292)" strokeWidth={2.5}
                     dot={{ r: 4, fill: "oklch(0.55 0.141 292)" }} activeDot={{ r: 6 }} />
                 </LineChart>

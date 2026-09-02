@@ -177,7 +177,7 @@ function Reportes() {
   const reportes = [
     { id: "r1", titulo: "1 · Horas por período (INSS)", desc: "Excel con hojas ABA+PFA, Logopedia, Fisioterapia", icon: <FileSpreadsheet />, fn: generarReporte1, color: "bg-[oklch(0.94_0.044_160)]" },
     { id: "r2", titulo: "2 · Horas no facturadas", desc: "Inasistencias y justificaciones del período", icon: <AlertTriangle />, fn: generarReporte2, color: "bg-[oklch(0.94_0.044_80)]" },
-    { id: "r3", titulo: "3 · Niños en suspensión", desc: "Listado con motivo y fecha estimada de regreso", icon: <XCircle />, fn: generarReporte3, color: "bg-[oklch(0.94_0.035_30)]" },
+    { id: "r3", titulo: "3 · Niños en suspensión", desc: "Listado con motivo y fecha estimada de regreso", icon: <XCircle />, fn: generarReporte3, color: "bg-[oklch(0.94_0.035_45)]" },
     { id: "r4", titulo: "4 · Reporte financiero mensual", desc: "Ingresos INSS / Privado / Pro-bono con comparativa", icon: <FileText />, fn: generarReporte4, color: "bg-[oklch(0.94_0.053_258)]" },
     { id: "r5", titulo: "5 · Servicios brindados", desc: "Cantidad y monto por tipo de servicio", icon: <FileSpreadsheet />, fn: generarReporte5, color: "bg-[oklch(0.94_0.044_258)]" },
     { id: "r6", titulo: "6 · Paquete completo de cobro INSS", desc: "ZIP con Excel + cartas + asistencias firmadas + recibo", icon: <Package />, fn: generarReporte6, color: "bg-[oklch(0.94_0.053_160)]", destacado: true },
@@ -431,7 +431,7 @@ function PreviewPDF({ titulo, subtitulo, children }: { titulo: string; subtitulo
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
-        <div className="h-6 w-6 rounded bg-[oklch(0.55_0.132_30)] grid place-items-center text-[9px] font-bold text-primary-foreground">PDF</div>
+        <div className="h-6 w-6 rounded bg-[oklch(0.55_0.132_45)] grid place-items-center text-[9px] font-bold text-primary-foreground">PDF</div>
         <div className="text-xs text-muted-foreground">Documento · .pdf</div>
       </div>
       <div className="bg-card border border-border/70 rounded-md p-6 shadow-inner">

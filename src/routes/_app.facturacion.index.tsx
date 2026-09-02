@@ -273,7 +273,7 @@ function NinoCard({ nino, onSelect }: { nino: NinoFact; onSelect: (n: NinoFact) 
   return (
     <article
       onClick={() => onSelect(nino)}
-      className={`rounded-2xl border bg-card p-4 cursor-pointer transition hover:shadow-md hover:border-primary/40 ${alerta ? "border-[oklch(0.85_0.106_30)]" : "border-border/70"}`}
+      className={`rounded-2xl border bg-card p-4 cursor-pointer transition hover:shadow-md hover:border-primary/40 ${alerta ? "border-[oklch(0.85_0.106_45)]" : "border-border/70"}`}
     >
       <header className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3 min-w-0">
@@ -312,7 +312,7 @@ function NinoCard({ nino, onSelect }: { nino: NinoFact; onSelect: (n: NinoFact) 
                   style={{
                     left: `${pctQ1}%`,
                     width: `${Math.max(0, pct - pctQ1)}%`,
-                    background: exc ? "oklch(0.6 0.158 30)" : areaColor[d.area as AreaFact],
+                    background: exc ? "oklch(0.6 0.158 45)" : areaColor[d.area as AreaFact],
                   }}
                 />
               </div>
@@ -324,11 +324,11 @@ function NinoCard({ nino, onSelect }: { nino: NinoFact; onSelect: (n: NinoFact) 
       </div>
 
       {alerta && (
-        <div className="mt-3 rounded-lg bg-[oklch(0.96_0.044_30)] border border-[oklch(0.85_0.106_30)] p-2.5 flex items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-1.5 text-[11px] text-[oklch(0.45_0.132_30)] font-medium">
+        <div className="mt-3 rounded-lg bg-[oklch(0.96_0.044_45)] border border-[oklch(0.85_0.106_45)] p-2.5 flex items-center justify-between gap-2">
+          <span className="inline-flex items-center gap-1.5 text-[11px] text-[oklch(0.45_0.132_45)] font-medium">
             <AlertTriangle className="h-3.5 w-3.5" /> Excede – verificar constancia
           </span>
-          <button onClick={(e)=>e.stopPropagation()} className="inline-flex items-center gap-1 rounded-md bg-[oklch(0.6_0.158_30)] text-primary-foreground px-2 py-1 text-[10px] font-medium hover:opacity-90">
+          <button onClick={(e)=>e.stopPropagation()} className="inline-flex items-center gap-1 rounded-md bg-[oklch(0.6_0.158_45)] text-primary-foreground px-2 py-1 text-[10px] font-medium hover:opacity-90">
             <Plus className="h-3 w-3" /> Registrar constancia
           </button>
         </div>
@@ -390,7 +390,7 @@ function DetalleNino({ nino, quincena, onClose }: { nino: NinoFact; quincena: "Q
                 className="h-full"
                 style={{
                   width: `${cobertura}%`,
-                  background: cobertura >= 95 ? "oklch(0.66 0.09 160)" : cobertura >= 70 ? "oklch(0.7 0.132 80)" : "oklch(0.6 0.158 30)",
+                  background: cobertura >= 95 ? "oklch(0.66 0.09 160)" : cobertura >= 70 ? "oklch(0.7 0.132 80)" : "oklch(0.6 0.158 45)",
                 }}
               />
             </div>
@@ -426,7 +426,7 @@ function DetalleNino({ nino, quincena, onClose }: { nino: NinoFact; quincena: "Q
                       <td className="px-2.5 py-2 text-right tabular text-muted-foreground">{d.q1}h</td>
                       <td className="px-2.5 py-2 text-right tabular">{d.ejec}h</td>
                       <td className="px-2.5 py-2 text-right tabular font-medium">{d.facturables}h</td>
-                      <td className={`px-2.5 py-2 text-right tabular ${d.excede>0?"text-[oklch(0.45_0.132_30)] font-medium":"text-muted-foreground"}`}>{d.excede}h</td>
+                      <td className={`px-2.5 py-2 text-right tabular ${d.excede>0?"text-[oklch(0.45_0.132_45)] font-medium":"text-muted-foreground"}`}>{d.excede}h</td>
                       <td className="px-2.5 py-2 text-right tabular font-medium">${d.subtotal.toFixed(2)}</td>
                     </tr>
                   ))}
@@ -436,9 +436,9 @@ function DetalleNino({ nino, quincena, onClose }: { nino: NinoFact; quincena: "Q
           </div>
 
           {alerta && (
-            <div className="rounded-lg bg-[oklch(0.96_0.044_30)] border border-[oklch(0.85_0.106_30)] p-3 flex items-start gap-2">
-              <AlertTriangle className="h-4 w-4 mt-0.5 text-[oklch(0.45_0.132_30)]" />
-              <div className="flex-1 text-[11px] text-[oklch(0.45_0.132_30)]">
+            <div className="rounded-lg bg-[oklch(0.96_0.044_45)] border border-[oklch(0.85_0.106_45)] p-3 flex items-start gap-2">
+              <AlertTriangle className="h-4 w-4 mt-0.5 text-[oklch(0.45_0.132_45)]" />
+              <div className="flex-1 text-[11px] text-[oklch(0.45_0.132_45)]">
                 <div className="font-medium">Excede horas aprobadas sin constancia médica</div>
                 <div className="opacity-80 mt-0.5">Registre la constancia para mantener cobertura INSS.</div>
               </div>
@@ -472,9 +472,9 @@ function DetalleNino({ nino, quincena, onClose }: { nino: NinoFact; quincena: "Q
 
 function KpiMini({ label, value, accent, warn }: { label: string; value: string; accent?: boolean; warn?: boolean }) {
   return (
-    <div className={`rounded-xl border p-2.5 ${warn ? "border-[oklch(0.85_0.106_30)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"}`}>
+    <div className={`rounded-xl border p-2.5 ${warn ? "border-[oklch(0.85_0.106_45)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"}`}>
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className={`font-display text-base mt-0.5 tabular ${accent ? "text-primary" : ""} ${warn ? "text-[oklch(0.45_0.132_30)]" : ""}`}>{value}</div>
+      <div className={`font-display text-base mt-0.5 tabular ${accent ? "text-primary" : ""} ${warn ? "text-[oklch(0.45_0.132_45)]" : ""}`}>{value}</div>
     </div>
   );
 }
@@ -497,9 +497,9 @@ function Legend({ color, label }: { color: string; label: string }) {
 }
 function Stat({ label, value, hint, accent, warn }: { label: string; value: string; hint?: string; accent?: boolean; warn?: boolean }) {
   return (
-    <div className={`rounded-2xl border p-4 ${warn ? "border-[oklch(0.85_0.106_30)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"}`}>
+    <div className={`rounded-2xl border p-4 ${warn ? "border-[oklch(0.85_0.106_45)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"}`}>
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className={`font-display text-2xl mt-1 tabular ${accent ? "text-primary" : ""} ${warn ? "text-[oklch(0.45_0.132_30)]" : ""}`}>{value}</div>
+      <div className={`font-display text-2xl mt-1 tabular ${accent ? "text-primary" : ""} ${warn ? "text-[oklch(0.45_0.132_45)]" : ""}`}>{value}</div>
       {hint && <div className="text-xs text-muted-foreground mt-0.5">{hint}</div>}
     </div>
   );

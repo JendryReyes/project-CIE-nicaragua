@@ -30,7 +30,7 @@ export const Route = createFileRoute("/_app/agenda")({
 const estadoTono = {
   disponible: "bg-[oklch(0.94_0.044_160)] text-[oklch(0.36_0.097_160)]",
   parcial: "bg-[oklch(0.95_0.062_80)] text-[oklch(0.44_0.114_80)]",
-  ausente: "bg-[oklch(0.95_0.053_30)] text-[oklch(0.45_0.132_30)]",
+  ausente: "bg-[oklch(0.95_0.053_45)] text-[oklch(0.45_0.132_45)]",
 } as const;
 
 function Agenda() {

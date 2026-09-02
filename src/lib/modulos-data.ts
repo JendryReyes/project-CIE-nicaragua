@@ -11,7 +11,7 @@ export const tarifa: Record<AreaFact, number> = {
 
 export const areaColor: Record<AreaFact, string> = {
   ABA: "oklch(0.55 0.158 258)",          // morado-azul
-  Logo: "oklch(0.6 0.141 30)",           // naranja-rojo
+  Logo: "oklch(0.6 0.141 45)",           // coral
   Fisio: "oklch(0.55 0.123 258)",        // teal
 };
 
