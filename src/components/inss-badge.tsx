@@ -2,7 +2,7 @@ import { AlertTriangle, CheckCircle2 } from "lucide-react";
 
 /**
  * INSSBadge — barra de progreso horas usadas vs aprobadas.
- * Verde <70% · ámbar 70-99% · rojo ≥100% (excedente).
+ * Verde <70% · ámbar 70-99% · coral ≥100% (excedente).
  */
 export function INSSBadge({
   horasUsadas,
