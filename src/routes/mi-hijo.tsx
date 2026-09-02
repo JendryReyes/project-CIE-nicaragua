@@ -47,7 +47,7 @@ function PortalFamilia() {
 
       <main className="max-w-3xl mx-auto px-5 pb-12 space-y-6">
         {/* Resumen semana */}
-        <section className="bg-white rounded-3xl shadow-sm p-6">
+        <section className="bg-card rounded-3xl shadow-sm p-6">
           <h2 className="font-display text-lg mb-4">Resumen de esta semana</h2>
           <div className="grid grid-cols-3 gap-4">
             <div>
@@ -79,7 +79,7 @@ function PortalFamilia() {
               <Pen className="h-4 w-4" /> Tienes {pendientes.length} documento{pendientes.length > 1 ? "s" : ""} pendiente{pendientes.length > 1 ? "s" : ""} de firma
             </div>
             {pendientes.map((p) => (
-              <div key={p.id} className="mt-4 bg-white rounded-2xl p-4">
+              <div key={p.id} className="mt-4 bg-card rounded-2xl p-4">
                 <div className="font-medium">{p.titulo}</div>
                 <table className="w-full text-xs mt-3">
                   <thead className="text-muted-foreground">
@@ -101,7 +101,7 @@ function PortalFamilia() {
                 </table>
                 <button
                   onClick={() => setFirmando(p.id)}
-                  className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#2D7A4A] text-white px-4 py-3 text-base font-medium"
+                  className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#2D7A4A] text-primary-foreground px-4 py-3 text-base font-medium"
                 >
                   <Pen className="h-4 w-4" /> Firmar ahora
                 </button>
@@ -111,7 +111,7 @@ function PortalFamilia() {
         )}
 
         {pendientes.length === 0 && (
-          <section className="bg-white rounded-3xl p-6 text-center">
+          <section className="bg-card rounded-3xl p-6 text-center">
             <CheckCircle2 className="h-10 w-10 mx-auto text-[oklch(0.55_0.141_160)] mb-2" />
             <p className="font-medium">¡Todo al día!</p>
             <p className="text-xs text-muted-foreground mt-1">No hay documentos pendientes de firma.</p>
@@ -119,7 +119,7 @@ function PortalFamilia() {
         )}
 
         {/* Historial */}
-        <section className="bg-white rounded-3xl p-6">
+        <section className="bg-card rounded-3xl p-6">
           <h2 className="font-display text-lg mb-4">Historial de asistencia · últimas 8 semanas</h2>
           <div className="flex items-end gap-2 h-32">
             {[5, 4, 5, 3, 5, 4, 5, 4].map((v, i) => (
@@ -131,7 +131,7 @@ function PortalFamilia() {
           </div>
         </section>
 
-        <section className="bg-white rounded-3xl p-6">
+        <section className="bg-card rounded-3xl p-6">
           <h2 className="font-display text-lg mb-3">Últimos informes compartidos</h2>
           {["Informe mensual mayo 2026", "Reporte VB-MAPP feb 2026"].map((t, i) => (
             <div key={i} className="flex items-center justify-between py-2 border-t border-border/40 first:border-t-0 text-sm">
@@ -141,7 +141,7 @@ function PortalFamilia() {
           ))}
         </section>
 
-        <section className="bg-white rounded-3xl p-6">
+        <section className="bg-card rounded-3xl p-6">
           <h2 className="font-display text-lg mb-3">Comunicación con el equipo</h2>
           <div className="space-y-2 max-h-64 overflow-y-auto">
             <Mensaje quien="Lic. Andrea Rivas · Especialista de familia" texto="Mateo tuvo una excelente semana, completó 3 programas nuevos. ¡Felicidades!" hora="Ayer · 4:32 PM" propio={false} />
@@ -211,7 +211,7 @@ function CanvasFirma({ onCancel, onConfirm }: { onCancel: () => void; onConfirm:
 
   return (
     <div className="fixed inset-0 bg-foreground/40 z-50 grid place-items-center p-4">
-      <div className="bg-white rounded-3xl p-6 w-full max-w-lg">
+      <div className="bg-card rounded-3xl p-6 w-full max-w-lg">
         <h3 className="font-display text-lg">Firma con tu dedo o mouse</h3>
         <p className="text-xs text-muted-foreground mt-1">Esta firma se registra con sello de tiempo y hash de verificación.</p>
         <canvas

@@ -141,7 +141,7 @@ export function CierreQuincenaPanel() {
                   <div
                     className={`h-8 w-8 rounded-full grid place-items-center text-xs font-medium shrink-0 ${
                       done
-                        ? "bg-[oklch(0.55_0.114_160)] text-white"
+                        ? "bg-[oklch(0.55_0.114_160)] text-primary-foreground"
                         : active
                         ? "bg-foreground text-background"
                         : "bg-muted text-muted-foreground"
@@ -252,7 +252,7 @@ export function CierreQuincenaPanel() {
           {calculado && estado === "cerrada" && (
             <button
               onClick={enviar}
-              className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.55_0.114_160)] text-white px-4 py-2 text-sm font-medium"
+              className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.55_0.114_160)] text-primary-foreground px-4 py-2 text-sm font-medium"
             >
               <Send className="h-4 w-4" /> Enviar al INSS
             </button>
@@ -562,7 +562,7 @@ function ConciliacionDrawer({
               </p>
               <button
                 onClick={() => onConstancia(resumen.ninoId)}
-                className="mt-3 inline-flex items-center gap-2 rounded-md bg-[oklch(0.55_0.141_30)] text-white px-3 py-1.5 text-xs font-medium"
+                className="mt-3 inline-flex items-center gap-2 rounded-md bg-[oklch(0.55_0.141_30)] text-primary-foreground px-3 py-1.5 text-xs font-medium"
               >
                 <Upload className="h-3.5 w-3.5" /> Cargar constancia médica
               </button>

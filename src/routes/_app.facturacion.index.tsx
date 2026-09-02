@@ -175,7 +175,7 @@ function GeneralTab({
         <Link
           to="/facturacion/$loteId"
           params={{ loteId: loteDemo.id }}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.141_160)] text-white px-3 py-1.5 text-xs font-medium hover:opacity-90"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.141_160)] text-primary-foreground px-3 py-1.5 text-xs font-medium hover:opacity-90"
         >
           <FileText className="h-3.5 w-3.5" /> Carta de cobro
         </Link>
@@ -328,7 +328,7 @@ function NinoCard({ nino, onSelect }: { nino: NinoFact; onSelect: (n: NinoFact) 
           <span className="inline-flex items-center gap-1.5 text-[11px] text-[oklch(0.45_0.132_30)] font-medium">
             <AlertTriangle className="h-3.5 w-3.5" /> Excede – verificar constancia
           </span>
-          <button onClick={(e)=>e.stopPropagation()} className="inline-flex items-center gap-1 rounded-md bg-[oklch(0.6_0.158_30)] text-white px-2 py-1 text-[10px] font-medium hover:opacity-90">
+          <button onClick={(e)=>e.stopPropagation()} className="inline-flex items-center gap-1 rounded-md bg-[oklch(0.6_0.158_30)] text-primary-foreground px-2 py-1 text-[10px] font-medium hover:opacity-90">
             <Plus className="h-3 w-3" /> Registrar constancia
           </button>
         </div>
@@ -347,7 +347,7 @@ function DetalleNino({ nino, quincena, onClose }: { nino: NinoFact; quincena: "Q
 
   return (
     <div className="fixed inset-0 z-50 flex" onClick={onClose}>
-      <div className="flex-1 bg-black/40 backdrop-blur-sm" />
+      <div className="flex-1 bg-foreground/40 backdrop-blur-sm" />
       <aside
         onClick={(e)=>e.stopPropagation()}
         className="w-full max-w-xl bg-background border-l border-border shadow-2xl overflow-y-auto"

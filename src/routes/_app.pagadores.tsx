@@ -190,7 +190,7 @@ function DetallePagador({ p, onClose }: { p: PagadorNino; onClose: () => void })
   const pr = prorratear({ montoMensual: 480, mes: 6, anio: 2026, ingreso: p.ingresoMes, egreso: p.egresoMes });
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/30" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex justify-end bg-foreground/30" onClick={onClose}>
       <div
         className="h-full w-full max-w-lg overflow-y-auto bg-background p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}

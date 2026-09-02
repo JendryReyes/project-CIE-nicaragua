@@ -113,7 +113,7 @@ function PerfilDrawer({ nino, sesion, onClose }: { nino: Nino; sesion: Sesion; o
 
   return (
     <div className="fixed inset-0 z-50 flex" onClick={onClose}>
-      <div className="flex-1 bg-black/40" />
+      <div className="flex-1 bg-foreground/40" />
       <aside className="w-full max-w-[460px] h-full bg-card border-l border-border overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="sticky top-0 bg-card border-b border-border p-5 flex items-start justify-between gap-3 z-10">
           <div className="flex items-center gap-3">

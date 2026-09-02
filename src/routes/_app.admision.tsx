@@ -215,7 +215,7 @@ function DetalleProspecto({ p, onClose }: { p: Prospecto; onClose: () => void })
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/30" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex justify-end bg-foreground/30" onClick={onClose}>
       <div
         className="h-full w-full max-w-xl overflow-y-auto bg-background p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
@@ -312,7 +312,7 @@ function DetalleProspecto({ p, onClose }: { p: Prospecto; onClose: () => void })
           <button
             onClick={admitir}
             disabled={estado === "Activo"}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.141_160)] px-3 py-1.5 text-sm font-medium text-white disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.141_160)] px-3 py-1.5 text-sm font-medium text-primary-foreground disabled:opacity-50"
           >
             <CheckCircle2 className="h-4 w-4" /> Matricular paciente
           </button>

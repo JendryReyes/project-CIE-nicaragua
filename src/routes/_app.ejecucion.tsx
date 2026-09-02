@@ -265,7 +265,7 @@ function DetalleDrawer({ detalle, onClose }: { detalle: DetalleCelda; onClose: (
   const trend = pct >= 90;
   return (
     <>
-      <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
+      <div className="fixed inset-0 bg-foreground/30 z-40" onClick={onClose} />
       <aside className="fixed inset-y-0 right-0 w-full max-w-[480px] bg-background border-l border-border/70 z-50 shadow-2xl overflow-y-auto">
         <header className="sticky top-0 bg-background/95 backdrop-blur border-b border-border/60 p-4 flex items-start justify-between gap-3">
           <div>

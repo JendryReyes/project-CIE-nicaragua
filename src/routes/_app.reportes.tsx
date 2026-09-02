@@ -409,10 +409,10 @@ function PreviewExcel({ titulo, hojas, columnas, filas }: { titulo: string; hoja
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
-        <div className="h-6 w-6 rounded bg-[oklch(0.55_0.106_160)] grid place-items-center text-[10px] font-bold text-white">X</div>
+        <div className="h-6 w-6 rounded bg-[oklch(0.55_0.106_160)] grid place-items-center text-[10px] font-bold text-primary-foreground">X</div>
         <div className="text-xs text-muted-foreground">Excel · .xlsx</div>
       </div>
-      <div className="bg-[oklch(0.4_0.07_160)] text-white text-xs font-medium px-3 py-2 rounded-t-md text-center">{titulo}</div>
+      <div className="bg-[oklch(0.4_0.07_160)] text-primary-foreground text-xs font-medium px-3 py-2 rounded-t-md text-center">{titulo}</div>
       <div className="border-x border-b border-border/70 overflow-x-auto">
         <TablaPreview columnas={columnas} filas={filas} compact />
       </div>
@@ -431,10 +431,10 @@ function PreviewPDF({ titulo, subtitulo, children }: { titulo: string; subtitulo
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
-        <div className="h-6 w-6 rounded bg-[oklch(0.55_0.132_30)] grid place-items-center text-[9px] font-bold text-white">PDF</div>
+        <div className="h-6 w-6 rounded bg-[oklch(0.55_0.132_30)] grid place-items-center text-[9px] font-bold text-primary-foreground">PDF</div>
         <div className="text-xs text-muted-foreground">Documento · .pdf</div>
       </div>
-      <div className="bg-white border border-border/70 rounded-md p-6 shadow-inner">
+      <div className="bg-card border border-border/70 rounded-md p-6 shadow-inner">
         <h3 className="font-display text-lg text-foreground">{titulo}</h3>
         <p className="text-xs text-muted-foreground mt-1 mb-4">{subtitulo}</p>
         {children}
@@ -447,7 +447,7 @@ function TablaPreview({ columnas, filas, compact }: { columnas: string[]; filas:
   return (
     <table className="w-full text-xs">
       <thead>
-        <tr className={compact ? "bg-[oklch(0.35_0.07_160)] text-white" : "bg-muted text-foreground"}>
+        <tr className={compact ? "bg-[oklch(0.35_0.07_160)] text-primary-foreground" : "bg-muted text-foreground"}>
           {columnas.map((c) => (
             <th key={c} className="text-left px-2 py-1.5 font-medium">{c}</th>
           ))}

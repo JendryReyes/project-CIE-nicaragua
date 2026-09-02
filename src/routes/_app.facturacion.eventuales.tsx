@@ -213,7 +213,7 @@ function NuevoEventual({
   const nino = ninos.find((n) => n.id === ninoId)!;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={onCancel}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 backdrop-blur-sm" onClick={onCancel}>
       <div
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-lg rounded-2xl bg-background border border-border shadow-xl"

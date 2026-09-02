@@ -778,7 +778,7 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex justify-end bg-foreground/40 backdrop-blur-sm" onClick={onClose}>
       <aside
         className="h-full w-full max-w-xl overflow-y-auto bg-background border-l border-border shadow-2xl"
         onClick={(e) => e.stopPropagation()}
@@ -953,7 +953,7 @@ function EnvioINSSGlobalModal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-foreground/50 backdrop-blur-sm p-4" onClick={onClose}>
       <div className="w-full max-w-lg rounded-2xl bg-background border border-border shadow-2xl p-5" onClick={(e) => e.stopPropagation()}>
         {estado === "confirm" && (
           <>
@@ -1057,7 +1057,7 @@ function EnvioINSSModal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-foreground/50 backdrop-blur-sm p-4" onClick={onClose}>
       <div className="w-full max-w-md rounded-2xl bg-background border border-border shadow-2xl p-5" onClick={(e) => e.stopPropagation()}>
         {estado === "confirm" && (
           <>
@@ -1188,7 +1188,7 @@ function ActionBtn({ icon: Icon, label, primary, onClick }: { icon: any; label: 
       onClick={onClick}
       className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium ${
         primary
-          ? "bg-[oklch(0.55_0.141_160)] text-white hover:opacity-90"
+          ? "bg-[oklch(0.55_0.141_160)] text-primary-foreground hover:opacity-90"
           : "border border-border/70 hover:bg-muted"
       }`}
     >

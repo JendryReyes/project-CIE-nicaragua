@@ -250,7 +250,7 @@ function DepuracionPage() {
               <button
                 key={g.ninoId}
                 onClick={() => setExpandido((p) => ({ ...p, [g.ninoId]: true }))}
-                className="rounded-full bg-white border border-[oklch(0.85_0.106_30)] px-2.5 py-1 text-[11px] font-medium text-[oklch(0.4_0.141_30)] hover:bg-[oklch(0.95_0.044_30)]"
+                className="rounded-full bg-card border border-[oklch(0.85_0.106_30)] px-2.5 py-1 text-[11px] font-medium text-[oklch(0.4_0.141_30)] hover:bg-[oklch(0.95_0.044_30)]"
               >
                 {g.nombre} · {g.totales["Fuera de Contrato"].horas}h
               </button>

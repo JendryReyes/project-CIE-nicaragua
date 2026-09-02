@@ -53,7 +53,7 @@ export function GraficaProgramaModal({
   const eta = Math.max(1, Math.ceil((90 - 75) / pendiente));
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-foreground/50 backdrop-blur-sm" onClick={onClose}>
       <div
         className="bg-card rounded-2xl border border-border/70 shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}

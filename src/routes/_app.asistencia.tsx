@@ -604,9 +604,9 @@ function ActionBtn({ children, active, variant, onClick }: { children: React.Rea
   const base = "inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium transition-colors border";
   const styles = active
     ? variant === "success"
-      ? "bg-[oklch(0.62_0.097_160)] text-white border-transparent"
+      ? "bg-[oklch(0.62_0.097_160)] text-primary-foreground border-transparent"
       : variant === "danger"
-      ? "bg-[oklch(0.6_0.132_30)] text-white border-transparent"
+      ? "bg-[oklch(0.6_0.132_30)] text-primary-foreground border-transparent"
       : "bg-foreground text-background border-transparent"
     : "bg-background text-muted-foreground border-border hover:bg-muted";
   return <button onClick={onClick} className={`${base} ${styles}`}>{children}</button>;
@@ -617,7 +617,7 @@ function PerfilDrawer({ nino, sesion, onClose }: { nino: Nino; sesion: Sesion; o
 
   return (
     <div className="fixed inset-0 z-50 flex" onClick={onClose}>
-      <div className="flex-1 bg-black/40" />
+      <div className="flex-1 bg-foreground/40" />
       <aside className="w-full max-w-[460px] h-full bg-card border-l border-border overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="sticky top-0 bg-card border-b border-border p-5 flex items-start justify-between gap-3 z-10">
           <div className="flex items-center gap-3">

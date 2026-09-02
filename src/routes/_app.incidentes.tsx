@@ -166,7 +166,7 @@ function Incidentes() {
       </div>
 
       {sel && (
-        <div className="fixed inset-0 z-40 flex justify-end bg-black/30" onClick={() => setSel(null)}>
+        <div className="fixed inset-0 z-40 flex justify-end bg-foreground/30" onClick={() => setSel(null)}>
           <aside
             onClick={(e) => e.stopPropagation()}
             className="h-full w-full max-w-xl overflow-y-auto border-l border-border/60 bg-background p-6"

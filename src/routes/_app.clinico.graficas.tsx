@@ -208,9 +208,9 @@ function GraficasClinicas() {
               impacto positivo claro en la tasa de adquisición.
             </p>
             <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
-              <span className="rounded-full bg-white/60 px-2 py-0.5 border border-border/40">Sin estancamiento</span>
-              <span className="rounded-full bg-white/60 px-2 py-0.5 border border-border/40">Variabilidad baja</span>
-              <span className="rounded-full bg-white/60 px-2 py-0.5 border border-border/40">IOA estimado 92%</span>
+              <span className="rounded-full bg-card/60 px-2 py-0.5 border border-border/40">Sin estancamiento</span>
+              <span className="rounded-full bg-card/60 px-2 py-0.5 border border-border/40">Variabilidad baja</span>
+              <span className="rounded-full bg-card/60 px-2 py-0.5 border border-border/40">IOA estimado 92%</span>
             </div>
           </div>
         </div>

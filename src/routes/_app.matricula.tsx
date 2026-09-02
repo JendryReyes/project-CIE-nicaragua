@@ -45,7 +45,7 @@ function Matricula() {
           <h1 className="font-display text-3xl">Módulo de Matrícula</h1>
           <p className="text-sm text-muted-foreground mt-1">Ingresos · Egresos · Suspensiones · Mayo 2026</p>
         </div>
-        <button className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.141_160)] text-white px-3 py-1.5 text-sm font-medium hover:opacity-90">
+        <button className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.141_160)] text-primary-foreground px-3 py-1.5 text-sm font-medium hover:opacity-90">
           <Plus className="h-4 w-4" /> Nuevo ingreso
         </button>
       </div>
@@ -56,7 +56,7 @@ function Matricula() {
           <button key={t} onClick={() => setTab(t)} className={`px-3 py-2 text-sm border-b-2 -mb-px ${tab === t ? "border-primary text-primary font-medium" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
             {t}
             {t === "Suspensiones" && r.suspendidos > 0 && (
-              <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[oklch(0.6_0.158_30)] text-white text-[10px] px-1">{r.suspendidos}</span>
+              <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[oklch(0.6_0.158_30)] text-primary-foreground text-[10px] px-1">{r.suspendidos}</span>
             )}
           </button>
         ))}
@@ -394,7 +394,7 @@ function ListaActivos({ onOpen, q, setQ, sede, setSede }: { onOpen: (m: Movimien
 function DetalleDrawer({ m, onClose }: { m: MovimientoNino; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex" onClick={onClose}>
-      <div className="flex-1 bg-black/40" />
+      <div className="flex-1 bg-foreground/40" />
       <aside className="w-full max-w-[520px] h-full bg-card border-l border-border overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="sticky top-0 bg-card border-b border-border p-5 flex items-start justify-between gap-3 z-10">
           <div className="flex items-center gap-3">
