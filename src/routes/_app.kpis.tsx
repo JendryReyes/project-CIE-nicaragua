@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_app/kpis")({
 const tono = {
   ok: "border-[oklch(0.88_0.053_160)] bg-[oklch(0.98_0.014_265)]",
   atencion: "border-[oklch(0.88_0.062_80)] bg-[oklch(0.99_0.014_265)]",
-  critico: "border-[oklch(0.88_0.062_30)] bg-[oklch(0.99_0.014_265)]",
+  critico: "border-[oklch(0.88_0.062_45)] bg-[oklch(0.99_0.014_265)]",
 } as const;
 
 function Kpis() {
@@ -69,7 +69,7 @@ function Kpis() {
                     {k.tendencia >= 0 ? (
                       <TrendingUp className="h-3.5 w-3.5 text-[oklch(0.63_0.084_160)]" />
                     ) : (
-                      <TrendingDown className="h-3.5 w-3.5 text-[oklch(0.55_0.132_30)]" />
+                      <TrendingDown className="h-3.5 w-3.5 text-[oklch(0.55_0.132_45)]" />
                     )}
                     <span className="text-muted-foreground">
                       {k.tendencia > 0 ? "+" : ""}

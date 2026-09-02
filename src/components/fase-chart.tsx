@@ -22,9 +22,9 @@ export function FaseChart({ programa }: { programa: Programa }) {
               <ReferenceLine
                 key={c.sesion}
                 x={punto.fecha}
-                stroke="oklch(0.605 0.119 30)"
+                stroke="oklch(0.605 0.119 45)"
                 strokeDasharray="4 4"
-                label={{ value: c.nota, position: "top", fontSize: 10, fill: "oklch(0.45 0.119 30)" }}
+                label={{ value: c.nota, position: "top", fontSize: 10, fill: "oklch(0.45 0.119 45)" }}
               />
             );
           })}
@@ -36,7 +36,7 @@ export function FaseChart({ programa }: { programa: Programa }) {
               label={{ value: `Criterio ${programa.criterio.umbral}%`, position: "right", fontSize: 10, fill: "oklch(0.45 0.097 160)" }}
             />
           )}
-          <Line type="monotone" dataKey="valor" stroke="oklch(0.605 0.119 30)" strokeWidth={2.5} dot={{ r: 4, fill: "oklch(0.605 0.119 30)" }} />
+          <Line type="monotone" dataKey="valor" stroke="oklch(0.605 0.119 45)" strokeWidth={2.5} dot={{ r: 4, fill: "oklch(0.605 0.119 45)" }} />
         </LineChart>
       </ResponsiveContainer>
     </div>

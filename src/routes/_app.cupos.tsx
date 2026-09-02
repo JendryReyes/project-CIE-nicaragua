@@ -18,10 +18,10 @@ export const Route = createFileRoute("/_app/cupos")({
 const tono = {
   ok: "bg-[oklch(0.94_0.044_160)] text-[oklch(0.36_0.097_160)]",
   ambar: "bg-[oklch(0.95_0.062_80)] text-[oklch(0.44_0.114_80)]",
-  rojo: "bg-[oklch(0.95_0.053_30)] text-[oklch(0.45_0.132_30)]",
+  rojo: "bg-[oklch(0.95_0.053_45)] text-[oklch(0.45_0.132_45)]",
 } as const;
 
-const barra = { ok: "oklch(0.66 0.084 160)", ambar: "oklch(0.72 0.132 80)", rojo: "oklch(0.6 0.158 30)" } as const;
+const barra = { ok: "oklch(0.66 0.084 160)", ambar: "oklch(0.72 0.132 80)", rojo: "oklch(0.6 0.158 45)" } as const;
 
 function Cupos() {
   const [sede, setSede] = useState<string>("todas");

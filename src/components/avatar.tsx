@@ -1,7 +1,7 @@
 import { iniciales } from "@/lib/demo-data";
 
 const palette = [
-  "bg-[oklch(0.9_0.044_30)] text-[oklch(0.4_0.106_30)]",
+  "bg-[oklch(0.9_0.044_45)] text-[oklch(0.4_0.106_45)]",
   "bg-[oklch(0.9_0.044_160)] text-[oklch(0.36_0.088_160)]",
   "bg-[oklch(0.9_0.044_292)] text-[oklch(0.36_0.088_292)]",
   "bg-[oklch(0.9_0.044_258)] text-[oklch(0.36_0.088_258)]",

@@ -56,7 +56,7 @@ function Matricula() {
           <button key={t} onClick={() => setTab(t)} className={`px-3 py-2 text-sm border-b-2 -mb-px ${tab === t ? "border-primary text-primary font-medium" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
             {t}
             {t === "Suspensiones" && r.suspendidos > 0 && (
-              <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[oklch(0.6_0.158_30)] text-primary-foreground text-[10px] px-1">{r.suspendidos}</span>
+              <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[oklch(0.6_0.158_45)] text-primary-foreground text-[10px] px-1">{r.suspendidos}</span>
             )}
           </button>
         ))}
@@ -74,7 +74,7 @@ function Matricula() {
           <KPI icon={<UserMinus className="h-4 w-4" />} label="Egresos · mes" value={r.egresosMes} hint="mudanza familiar" clickable />
         </button>
         <button onClick={() => setTab("Suspensiones")} className="text-left">
-          <KPI icon={<AlertCircle className="h-4 w-4 text-[oklch(0.6_0.158_30)]" />} label="Suspensiones" value={r.suspendidos} hint="revisar conducta" warn clickable />
+          <KPI icon={<AlertCircle className="h-4 w-4 text-[oklch(0.6_0.158_45)]" />} label="Suspensiones" value={r.suspendidos} hint="revisar conducta" warn clickable />
         </button>
       </div>
 
@@ -270,9 +270,9 @@ function TablaMovimientos({ titulo, rows, onOpen, q, setQ, sede, setSede, varian
 
 function Suspensiones({ rows, onOpen, q, setQ, sede, setSede }: { rows: MovimientoNino[]; onOpen: (m: MovimientoNino) => void; q: string; setQ: (s: string) => void; sede: string; setSede: (s: string) => void }) {
   return (
-    <div className="rounded-2xl border border-[oklch(0.88_0.088_30)] bg-[oklch(0.98_0.014_265)]/60 overflow-hidden">
-      <div className="p-4 border-b border-[oklch(0.88_0.088_30)]/60">
-        <h3 className="font-display text-base inline-flex items-center gap-2"><AlertCircle className="h-4 w-4 text-[oklch(0.6_0.158_30)]" /> Suspensiones activas</h3>
+    <div className="rounded-2xl border border-[oklch(0.88_0.088_45)] bg-[oklch(0.98_0.014_265)]/60 overflow-hidden">
+      <div className="p-4 border-b border-[oklch(0.88_0.088_45)]/60">
+        <h3 className="font-display text-base inline-flex items-center gap-2"><AlertCircle className="h-4 w-4 text-[oklch(0.6_0.158_45)]" /> Suspensiones activas</h3>
         <p className="text-xs text-muted-foreground mt-0.5">{rows.length} expediente{rows.length === 1 ? "" : "s"} con seguimiento pendiente.</p>
       </div>
       <Toolbar q={q} setQ={setQ} sede={sede} setSede={setSede} />
@@ -281,7 +281,7 @@ function Suspensiones({ rows, onOpen, q, setQ, sede, setSede }: { rows: Movimien
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4">
           {rows.map((m) => (
-            <article key={m.expediente} className="rounded-xl border border-[oklch(0.88_0.088_30)] bg-card p-4">
+            <article key={m.expediente} className="rounded-xl border border-[oklch(0.88_0.088_45)] bg-card p-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2.5">
                   <div className="h-10 w-10 rounded-full bg-muted grid place-items-center text-xs font-medium">{m.iniciales}</div>
@@ -511,7 +511,7 @@ function Row({ k, v }: { k: string; v: string }) {
 
 function KPI({ icon, label, value, hint, warn, clickable }: { icon: React.ReactNode; label: string; value: string | number; hint?: string; warn?: boolean; clickable?: boolean }) {
   return (
-    <div className={`rounded-2xl border p-4 transition-colors ${warn ? "border-[oklch(0.88_0.088_30)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"} ${clickable ? "hover:border-primary/60 hover:bg-muted/30" : ""}`}>
+    <div className={`rounded-2xl border p-4 transition-colors ${warn ? "border-[oklch(0.88_0.088_45)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"} ${clickable ? "hover:border-primary/60 hover:bg-muted/30" : ""}`}>
       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">{icon}<span>{label}</span></div>
       <div className="font-display text-3xl mt-1 tabular">{value}</div>
       {hint && <div className="text-[11px] text-muted-foreground mt-0.5">{hint}</div>}
@@ -523,7 +523,7 @@ function Pill({ tipo }: { tipo: "ingreso" | "egreso" | "suspension" }) {
   const map = {
     ingreso: "bg-[oklch(0.94_0.053_160)] text-[oklch(0.35_0.114_160)]",
     egreso: "bg-muted text-muted-foreground",
-    suspension: "bg-[oklch(0.95_0.07_30)] text-[oklch(0.45_0.132_30)]",
+    suspension: "bg-[oklch(0.95_0.07_45)] text-[oklch(0.45_0.132_45)]",
   } as const;
   const label = { ingreso: "Ingreso", egreso: "Egreso", suspension: "Suspensión" }[tipo];
   return <span className={`text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 font-medium ${map[tipo]}`}>{label}</span>;
@@ -553,7 +553,7 @@ function MiniBars() {
               <div className="w-full flex flex-col-reverse rounded-md overflow-hidden border border-border/40" style={{ height: `${h}%`, minHeight: 8 }}>
                 <div style={{ flexGrow: d.ing }} className="bg-[oklch(0.66_0.084_160)]" title={`Ingresos: ${d.ing}`} />
                 <div style={{ flexGrow: d.egr }} className="bg-[oklch(0.65_0.106_80)]" title={`Egresos: ${d.egr}`} />
-                <div style={{ flexGrow: d.sus }} className="bg-[oklch(0.6_0.158_30)]" title={`Suspensiones: ${d.sus}`} />
+                <div style={{ flexGrow: d.sus }} className="bg-[oklch(0.6_0.158_45)]" title={`Suspensiones: ${d.sus}`} />
               </div>
               <span className="text-[10px] text-muted-foreground tabular">S{i + 1}</span>
             </div>
@@ -563,7 +563,7 @@ function MiniBars() {
       <div className="flex items-center gap-4 text-[11px] text-muted-foreground pt-2 border-t border-border/40">
         <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.66_0.084_160)]" /> Ingresos</span>
         <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.65_0.106_80)]" /> Egresos</span>
-        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.6_0.158_30)]" /> Suspensiones</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.6_0.158_45)]" /> Suspensiones</span>
       </div>
     </div>
   );

@@ -156,7 +156,7 @@ export function estadoCartaColor(estado: EstadoCarta): {
     case "por_vencer":
       return { bg: "bg-[oklch(0.94_0.07_80)]", text: "text-[oklch(0.4_0.114_80)]", label: "Por vencer" };
     case "vencida":
-      return { bg: "bg-[oklch(0.94_0.053_30)]", text: "text-[oklch(0.45_0.132_30)]", label: "Vencida" };
+      return { bg: "bg-[oklch(0.94_0.053_45)]", text: "text-[oklch(0.45_0.132_45)]", label: "Vencida" };
     case "renovada":
       return { bg: "bg-[oklch(0.94_0.044_258)]", text: "text-[oklch(0.4_0.114_258)]", label: "Renovada" };
   }

@@ -69,8 +69,8 @@ function Pagadores() {
       </div>
 
       {alertas.length > 0 && (
-        <div className="rounded-xl border border-[oklch(0.85_0.07_30)] bg-[oklch(0.98_0.014_265)] p-4">
-          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.132_30)]">
+        <div className="rounded-xl border border-[oklch(0.85_0.07_45)] bg-[oklch(0.98_0.014_265)] p-4">
+          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.132_45)]">
             <AlertTriangle className="h-4 w-4" /> Alerta automática · {alertas.length} autorizaciones fuera de rango
           </div>
           <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
@@ -159,7 +159,7 @@ function Pagadores() {
                     {!a ? (
                       <span className="text-xs text-muted-foreground">N/A</span>
                     ) : e!.excedeCarta ? (
-                      <span className="rounded-full bg-[oklch(0.95_0.053_30)] px-2 py-0.5 text-[0.7rem] text-[oklch(0.45_0.132_30)]">
+                      <span className="rounded-full bg-[oklch(0.95_0.053_45)] px-2 py-0.5 text-[0.7rem] text-[oklch(0.45_0.132_45)]">
                         Excede carta
                       </span>
                     ) : e!.excedeTDR ? (
@@ -261,7 +261,7 @@ function DetallePagador({ p, onClose }: { p: PagadorNino; onClose: () => void })
                   width: `${Math.min(100, estadoAutorizacion(a).pct)}%`,
                   background:
                     estadoAutorizacion(a).pct >= 100
-                      ? "oklch(0.6 0.158 30)"
+                      ? "oklch(0.6 0.158 45)"
                       : estadoAutorizacion(a).pct >= 85
                         ? "oklch(0.72 0.132 80)"
                         : "oklch(0.66 0.084 160)",

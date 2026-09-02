@@ -225,7 +225,7 @@ export const secciones = [
 ];
 
 export const prioridadTono: Record<Prioridad, string> = {
-  Alta: "bg-[oklch(0.95_0.053_30)] text-[oklch(0.45_0.132_30)]",
+  Alta: "bg-[oklch(0.95_0.053_45)] text-[oklch(0.45_0.132_45)]",
   Media: "bg-[oklch(0.95_0.062_80)] text-[oklch(0.44_0.114_80)]",
   Baja: "bg-[oklch(0.94_0.044_160)] text-[oklch(0.36_0.097_160)]",
 };

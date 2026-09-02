@@ -240,7 +240,7 @@ function SesionLive() {
                                         t === "+"
                                           ? "bg-[oklch(0.94_0.044_160)] text-[oklch(0.35_0.106_160)]"
                                           : t === "-"
-                                          ? "bg-[oklch(0.94_0.035_30)] text-[oklch(0.45_0.114_30)]"
+                                          ? "bg-[oklch(0.94_0.035_45)] text-[oklch(0.45_0.114_45)]"
                                           : "bg-muted text-muted-foreground"
                                       }`}
                                     >
@@ -318,7 +318,7 @@ function TrialBtn({
     tone === "ok"
       ? "border-[oklch(0.7_0.106_160/0.4)] text-[oklch(0.35_0.106_160)] hover:bg-[oklch(0.94_0.044_160)]"
       : tone === "err"
-      ? "border-[oklch(0.7_0.114_30/0.4)] text-[oklch(0.45_0.114_30)] hover:bg-[oklch(0.94_0.035_30)]"
+      ? "border-[oklch(0.7_0.114_45/0.4)] text-[oklch(0.45_0.114_45)] hover:bg-[oklch(0.94_0.035_45)]"
       : "border-border text-muted-foreground hover:bg-muted";
   return (
     <button

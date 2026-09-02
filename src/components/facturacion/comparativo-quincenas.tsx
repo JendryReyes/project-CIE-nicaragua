@@ -272,29 +272,29 @@ export function ComparativoQuincenasPanel() {
     <div className="space-y-6">
       {/* Alerta automática de excedentes */}
       {excedentesSinConstancia.length > 0 && (
-        <div className="rounded-2xl border border-[oklch(0.7_0.132_30/0.4)] bg-[oklch(0.97_0.035_30)] p-4 flex items-start gap-3">
-          <AlertTriangle className="h-5 w-5 text-[oklch(0.55_0.158_30)] mt-0.5 shrink-0" />
+        <div className="rounded-2xl border border-[oklch(0.7_0.132_45/0.4)] bg-[oklch(0.97_0.035_45)] p-4 flex items-start gap-3">
+          <AlertTriangle className="h-5 w-5 text-[oklch(0.55_0.158_45)] mt-0.5 shrink-0" />
           <div className="flex-1 text-sm">
-            <div className="font-medium text-[oklch(0.4_0.132_30)]">
+            <div className="font-medium text-[oklch(0.4_0.132_45)]">
               Alerta automática · {excedentesSinConstancia.length} caso{excedentesSinConstancia.length === 1 ? "" : "s"} excede{excedentesSinConstancia.length === 1 ? "" : "n"} las horas aprobadas
             </div>
-            <div className="text-[oklch(0.4_0.106_30)] mt-0.5 flex flex-wrap gap-x-2 gap-y-1">
+            <div className="text-[oklch(0.4_0.106_45)] mt-0.5 flex flex-wrap gap-x-2 gap-y-1">
               {excedentesSinConstancia.slice(0, 5).map((f, i) => (
                 <button
                   key={i}
                   type="button"
                   onClick={() => setDetalle(f)}
-                  className="underline underline-offset-2 hover:text-[oklch(0.3_0.158_30)] transition-colors text-left"
+                  className="underline underline-offset-2 hover:text-[oklch(0.3_0.158_45)] transition-colors text-left"
                   title="Ver detalle del caso"
                 >
                   {f.nino.nombre} ({f.area}: +{f.excede}h)
                 </button>
               ))}
               {excedentesSinConstancia.length > 5 && (
-                <span className="text-[oklch(0.45_0.088_30)]">+{excedentesSinConstancia.length - 5} más</span>
+                <span className="text-[oklch(0.45_0.088_45)]">+{excedentesSinConstancia.length - 5} más</span>
               )}
             </div>
-            <div className="text-[11px] text-[oklch(0.45_0.088_30)] mt-1">
+            <div className="text-[11px] text-[oklch(0.45_0.088_45)] mt-1">
               Estas horas no se facturan al INSS hasta que la familia presente constancia médica que las justifique.
             </div>
           </div>
@@ -391,7 +391,7 @@ export function ComparativoQuincenasPanel() {
                     ? "oklch(0.66 0.096 160)"
                     : totales.cobertura >= 70
                     ? "oklch(0.7 0.123 80)"
-                    : "oklch(0.65 0.158 30)",
+                    : "oklch(0.65 0.158 45)",
               }}
             />
           </div>
@@ -501,7 +501,7 @@ export function ComparativoQuincenasPanel() {
                                 ? "oklch(0.66 0.096 160)"
                                 : f.cobertura >= 70
                                 ? "oklch(0.7 0.123 80)"
-                                : "oklch(0.65 0.158 30)",
+                                : "oklch(0.65 0.158 45)",
                           }}
                         />
                       </div>
@@ -544,7 +544,7 @@ export function ComparativoQuincenasPanel() {
                     const b = filas.reduce((a, f) => a + getBrecha(f), 0);
                     if (b === 0) return <span className="text-muted-foreground">—</span>;
                     if (b > 0) return <span className="text-[oklch(0.55_0.123_80)]">−{b}h</span>;
-                    return <span className="text-[oklch(0.55_0.158_30)]">+{Math.abs(b)}h</span>;
+                    return <span className="text-[oklch(0.55_0.158_45)]">+{Math.abs(b)}h</span>;
                   })()}
                 </td>
                 <td className="px-3 py-2 text-xs text-muted-foreground">{totales.cobertura.toFixed(1)}%</td>
@@ -631,7 +631,7 @@ export function ComparativoQuincenasPanel() {
           <div className="flex items-center gap-4 text-xs">
             <span><strong className="text-foreground tabular">{colillasKpi.alDia}</strong> / {colillasKpi.total} al día</span>
             {colillasKpi.pendientes > 0 && (
-              <span className="text-[oklch(0.55_0.132_30)]">
+              <span className="text-[oklch(0.55_0.132_45)]">
                 <AlertTriangle className="inline h-3 w-3 mr-0.5" />
                 {colillasKpi.pendientes} colillas pendientes
               </span>
@@ -679,7 +679,7 @@ export function ComparativoQuincenasPanel() {
                             className={`h-5 w-7 rounded text-[9px] grid place-items-center font-medium ${
                               m.recibida
                                 ? "bg-[oklch(0.92_0.07_160)] text-[oklch(0.35_0.114_160)]"
-                                : "bg-[oklch(0.94_0.053_30)] text-[oklch(0.45_0.132_30)]"
+                                : "bg-[oklch(0.94_0.053_45)] text-[oklch(0.45_0.132_45)]"
                             }`}
                           >
                             {m.mes.substring(0, 3)}
@@ -805,7 +805,7 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
             <MiniCard icon={TrendingUp} label="Ejecutadas Q1+Q2" value={`${f.totalHoras}h`} hint={`Cobertura ${f.cobertura.toFixed(1)}%`} />
             <MiniCard icon={DollarSign} label="Total facturable" value={`$${f.totalMonto.toFixed(2)}`} hint={`Tarifa $${tarifaHora}/h`} />
             {f.excede > 0 ? (
-              <div className={`rounded-2xl border p-3 ${excedeEdit > 0 && !f.constancia ? "border-[oklch(0.7_0.132_30/0.4)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"}`}>
+              <div className={`rounded-2xl border p-3 ${excedeEdit > 0 && !f.constancia ? "border-[oklch(0.7_0.132_45/0.4)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"}`}>
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
                     <AlertTriangle className="h-3.5 w-3.5" />
@@ -823,14 +823,14 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
                   )}
                 </div>
                 <div className="mt-1 flex items-baseline gap-1">
-                  <span className={`font-display text-2xl tabular ${excedeEdit > 0 && !f.constancia ? "text-[oklch(0.55_0.158_30)]" : ""}`}>+</span>
+                  <span className={`font-display text-2xl tabular ${excedeEdit > 0 && !f.constancia ? "text-[oklch(0.55_0.158_45)]" : ""}`}>+</span>
                   <input
                     type="number"
                     min={0}
                     step={1}
                     value={excedeEdit}
                     onChange={(e) => setExcedeEdit(Math.max(0, Number(e.target.value) || 0))}
-                    className={`w-16 bg-transparent font-display text-2xl tabular outline-none border-b border-dashed border-border focus:border-foreground ${excedeEdit > 0 && !f.constancia ? "text-[oklch(0.55_0.158_30)]" : ""}`}
+                    className={`w-16 bg-transparent font-display text-2xl tabular outline-none border-b border-dashed border-border focus:border-foreground ${excedeEdit > 0 && !f.constancia ? "text-[oklch(0.55_0.158_45)]" : ""}`}
                   />
                   <span className="text-sm text-muted-foreground">h</span>
                 </div>
@@ -882,12 +882,12 @@ function DetalleFila({ fila, mes, anio, onClose }: { fila: FilaComparativo; mes:
                       ? "oklch(0.66 0.096 160)"
                       : f.cobertura >= 70
                       ? "oklch(0.7 0.123 80)"
-                      : "oklch(0.65 0.158 30)",
+                      : "oklch(0.65 0.158 45)",
                 }}
               />
             </div>
             {excedeEdit > 0 && (
-              <div className={`mt-3 rounded-lg p-3 text-xs flex items-start gap-2 ${f.constancia ? "bg-[oklch(0.95_0.044_160)] text-[oklch(0.35_0.114_160)]" : "bg-[oklch(0.95_0.053_30)] text-[oklch(0.45_0.132_30)]"}`}>
+              <div className={`mt-3 rounded-lg p-3 text-xs flex items-start gap-2 ${f.constancia ? "bg-[oklch(0.95_0.044_160)] text-[oklch(0.35_0.114_160)]" : "bg-[oklch(0.95_0.053_45)] text-[oklch(0.45_0.132_45)]"}`}>
                 <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
                 <div>
                   <div className="font-medium">
@@ -986,7 +986,7 @@ function EnvioINSSGlobalModal({
               </ul>
             </div>
             {ctx.totales.excedentes > 0 && (
-              <div className="mt-3 rounded-lg bg-[oklch(0.95_0.053_30)] text-[oklch(0.45_0.132_30)] p-2.5 text-[11px] flex items-start gap-2">
+              <div className="mt-3 rounded-lg bg-[oklch(0.95_0.053_45)] text-[oklch(0.45_0.132_45)] p-2.5 text-[11px] flex items-start gap-2">
                 <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
                 <span>Se detectaron {ctx.totales.excedentes}h de excedente. Los casos sin constancia médica se excluyen automáticamente del cobro.</span>
               </div>
@@ -1081,7 +1081,7 @@ function EnvioINSSModal({
               <Dt>Destinatario</Dt><Dd>convenios@inss.gob.ni</Dd>
             </dl>
             {caso.excede > 0 && !caso.constancia && (
-              <div className="mt-3 rounded-lg bg-[oklch(0.95_0.053_30)] text-[oklch(0.45_0.132_30)] p-2.5 text-[11px] flex items-start gap-2">
+              <div className="mt-3 rounded-lg bg-[oklch(0.95_0.053_45)] text-[oklch(0.45_0.132_45)] p-2.5 text-[11px] flex items-start gap-2">
                 <AlertTriangle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
                 <span>Hay {caso.excede}h de excedente sin constancia médica — no se incluirán en el cobro.</span>
               </div>
@@ -1143,7 +1143,7 @@ function EnvioINSSModal({
 
 function MiniCard({ icon: Icon, label, value, hint, tone }: { icon: any; label: string; value: string; hint?: string; tone?: "ok" | "warn" | "muted" }) {
   const color =
-    tone === "warn" ? "text-[oklch(0.55_0.158_30)]" : tone === "ok" ? "text-[oklch(0.45_0.132_160)]" : "";
+    tone === "warn" ? "text-[oklch(0.55_0.158_45)]" : tone === "ok" ? "text-[oklch(0.45_0.132_160)]" : "";
   return (
     <div className="rounded-xl border border-border/70 p-3">
       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
@@ -1166,7 +1166,7 @@ function QuincenaCol({ titulo, sub, horas, sesiones, monto, tarifaHora, excede }
         <div className="flex justify-between"><span className="text-muted-foreground">Tarifa</span><span className="tabular">${tarifaHora}/h</span></div>
         <div className="flex justify-between border-t border-border/60 pt-1 mt-1"><span className="font-medium">Subtotal</span><span className="tabular font-semibold">${monto.toFixed(2)}</span></div>
         {typeof excede === "number" && excede > 0 && (
-          <div className="text-[10px] text-[oklch(0.55_0.158_30)] mt-1">+{excede}h excedente del mes</div>
+          <div className="text-[10px] text-[oklch(0.55_0.158_45)] mt-1">+{excede}h excedente del mes</div>
         )}
       </div>
     </div>
@@ -1225,7 +1225,7 @@ function KPI({
           <div className="font-display text-2xl tabular">{q2}</div>
         </div>
       </div>
-      <div className={`mt-2 inline-flex items-center gap-1 text-xs ${up ? "text-[oklch(0.6_0.09_160)]" : down ? "text-[oklch(0.55_0.158_30)]" : "text-muted-foreground"}`}>
+      <div className={`mt-2 inline-flex items-center gap-1 text-xs ${up ? "text-[oklch(0.6_0.09_160)]" : down ? "text-[oklch(0.55_0.158_45)]" : "text-muted-foreground"}`}>
         {up ? <ArrowUpRight className="h-3 w-3" /> : down ? <ArrowDownRight className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
         {delta >= 0 ? "+" : ""}
         {unidad === "$" ? `$${delta.toFixed(2)}` : `${delta}${unidad}`}
@@ -1242,7 +1242,7 @@ function Label({ children }: { children: React.ReactNode }) {
   return <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{children}</div>;
 }
 function Value({ children, warn }: { children: React.ReactNode; warn?: boolean }) {
-  return <div className={`font-display text-2xl mt-1 tabular ${warn ? "text-[oklch(0.55_0.158_30)]" : ""}`}>{children}</div>;
+  return <div className={`font-display text-2xl mt-1 tabular ${warn ? "text-[oklch(0.55_0.158_45)]" : ""}`}>{children}</div>;
 }
 function Hint({ children }: { children: React.ReactNode }) {
   return <div className="text-[11px] text-muted-foreground mt-0.5">{children}</div>;
@@ -1254,7 +1254,7 @@ function Delta({ value, prefix = "" }: { value: number; prefix?: string }) {
   if (value === 0) return <span className="text-muted-foreground">—</span>;
   const up = value > 0;
   return (
-    <span className={`inline-flex items-center gap-0.5 ${up ? "text-[oklch(0.6_0.09_160)]" : "text-[oklch(0.55_0.158_30)]"}`}>
+    <span className={`inline-flex items-center gap-0.5 ${up ? "text-[oklch(0.6_0.09_160)]" : "text-[oklch(0.55_0.158_45)]"}`}>
       {up ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
       {value > 0 ? "+" : ""}
       {prefix}
@@ -1267,7 +1267,7 @@ function Badge({ tone, children }: { tone: "ok" | "warn" | "muted"; children: Re
     tone === "ok"
       ? "bg-[oklch(0.94_0.053_160)] text-[oklch(0.35_0.114_160)]"
       : tone === "warn"
-      ? "bg-[oklch(0.95_0.053_30)] text-[oklch(0.45_0.132_30)]"
+      ? "bg-[oklch(0.95_0.053_45)] text-[oklch(0.45_0.132_45)]"
       : "bg-muted text-muted-foreground";
   return (
     <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium ${cls}`}>

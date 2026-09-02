@@ -98,15 +98,15 @@ const estadoTone: Record<string, string> = {
   Completada: "bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)]",
   Facturada: "bg-[oklch(0.94_0.044_258)] text-[oklch(0.4_0.106_258)]",
   Programada: "bg-muted text-muted-foreground",
-  Cancelada: "bg-[oklch(0.96_0.044_30)] text-[oklch(0.45_0.132_30)]",
-  "No-show": "bg-[oklch(0.96_0.044_30)] text-[oklch(0.45_0.132_30)]",
+  Cancelada: "bg-[oklch(0.96_0.044_45)] text-[oklch(0.45_0.132_45)]",
+  "No-show": "bg-[oklch(0.96_0.044_45)] text-[oklch(0.45_0.132_45)]",
   Borrador: "bg-muted text-muted-foreground",
   Enviado: "bg-[oklch(0.94_0.044_258)] text-[oklch(0.4_0.106_258)]",
   Aceptado: "bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)]",
-  Rechazado: "bg-[oklch(0.96_0.044_30)] text-[oklch(0.45_0.132_30)]",
+  Rechazado: "bg-[oklch(0.96_0.044_45)] text-[oklch(0.45_0.132_45)]",
   Pagada: "bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)]",
   Pagado: "bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)]",
-  Vencida: "bg-[oklch(0.96_0.044_30)] text-[oklch(0.45_0.132_30)]",
+  Vencida: "bg-[oklch(0.96_0.044_45)] text-[oklch(0.45_0.132_45)]",
   Anulada: "bg-muted text-muted-foreground line-through",
   Emitida: "bg-[oklch(0.94_0.044_80)] text-[oklch(0.4_0.106_80)]",
   Aplicado: "bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)]",
@@ -199,9 +199,9 @@ export function BillingSummary() {
 
 function KPI({ label, value, accent, warn }: { label: string; value: string; accent?: boolean; warn?: boolean }) {
   return (
-    <div className={`rounded-xl border p-3 ${warn ? "border-[oklch(0.85_0.106_30)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-background"}`}>
+    <div className={`rounded-xl border p-3 ${warn ? "border-[oklch(0.85_0.106_45)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-background"}`}>
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className={`font-display text-lg mt-0.5 tabular ${accent ? "text-primary" : ""} ${warn ? "text-[oklch(0.45_0.132_30)]" : ""}`}>{value}</div>
+      <div className={`font-display text-lg mt-0.5 tabular ${accent ? "text-primary" : ""} ${warn ? "text-[oklch(0.45_0.132_45)]" : ""}`}>{value}</div>
     </div>
   );
 }
@@ -316,7 +316,7 @@ function InvoicesTable({ query }: { query: string }) {
           <td className="px-3 py-2">{i.cliente}</td>
           <td className="px-3 py-2 tabular">{i.visitas}</td>
           <td className="px-3 py-2 tabular font-medium">${i.monto.toLocaleString()}</td>
-          <td className={`px-3 py-2 tabular ${i.saldo > 0 ? "text-[oklch(0.45_0.132_30)] font-medium" : "text-muted-foreground"}`}>
+          <td className={`px-3 py-2 tabular ${i.saldo > 0 ? "text-[oklch(0.45_0.132_45)] font-medium" : "text-muted-foreground"}`}>
             ${i.saldo.toLocaleString()}
           </td>
           <td className="px-3 py-2"><Estado value={i.estado} /></td>

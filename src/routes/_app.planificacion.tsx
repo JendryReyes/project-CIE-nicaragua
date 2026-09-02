@@ -139,7 +139,7 @@ function PorSupervisor() {
           <tbody>
             {supervisoresPlan.map((s) => {
               const pct = Math.round((s.programadas / s.programables) * 100);
-              const tone = pct >= 90 ? "text-[oklch(0.45_0.114_160)]" : pct >= 80 ? "text-[oklch(0.5_0.114_80)]" : "text-[oklch(0.5_0.132_30)]";
+              const tone = pct >= 90 ? "text-[oklch(0.45_0.114_160)]" : pct >= 80 ? "text-[oklch(0.5_0.114_80)]" : "text-[oklch(0.5_0.132_45)]";
               return (
                 <tr key={s.supervisor} className="border-t border-border/40">
                   <td className="px-4 py-3 font-medium">{s.supervisor}</td>
@@ -186,7 +186,7 @@ function PorNino() {
               const asistTone =
                 n.asistencia >= 85 ? "bg-[oklch(0.93_0.053_160)] text-[oklch(0.35_0.097_160)]"
                 : n.asistencia >= 70 ? "bg-[oklch(0.95_0.062_80)] text-[oklch(0.45_0.114_80)]"
-                : "bg-[oklch(0.94_0.053_30)] text-[oklch(0.45_0.132_30)]";
+                : "bg-[oklch(0.94_0.053_45)] text-[oklch(0.45_0.132_45)]";
               return (
                 <tr key={n.nino} className="border-t border-border/40 hover:bg-muted/30">
                   <td className="px-4 py-3">

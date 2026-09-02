@@ -143,7 +143,7 @@ function NinoDetalle() {
 function EstadoBadge({ estado }: { estado: string }) {
   const cls = estado === "activo" ? "bg-[oklch(0.94_0.044_160)] text-[oklch(0.35_0.106_160)]"
     : estado === "evaluacion" ? "bg-[oklch(0.94_0.053_80)] text-[oklch(0.4_0.114_80)]"
-    : "bg-[oklch(0.94_0.035_30)] text-[oklch(0.45_0.114_30)]";
+    : "bg-[oklch(0.94_0.035_45)] text-[oklch(0.45_0.114_45)]";
   return <span className={`rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider ${cls}`}>{estado}</span>;
 }
 
@@ -325,7 +325,7 @@ function TabSesiones({ ninoId }: { ninoId: string }) {
               <td className="text-right tabular">{f.duracion}h</td>
               <td className="pl-3 text-muted-foreground">{f.terapeuta}</td>
               <td className="text-center">
-                <span className={`text-[10px] uppercase rounded-full px-2 py-0.5 ${f.estado === "Asistió" ? "bg-[oklch(0.94_0.044_160)] text-[oklch(0.35_0.106_160)]" : "bg-[oklch(0.94_0.035_30)] text-[oklch(0.45_0.114_30)]"}`}>{f.estado}</span>
+                <span className={`text-[10px] uppercase rounded-full px-2 py-0.5 ${f.estado === "Asistió" ? "bg-[oklch(0.94_0.044_160)] text-[oklch(0.35_0.106_160)]" : "bg-[oklch(0.94_0.035_45)] text-[oklch(0.45_0.114_45)]"}`}>{f.estado}</span>
               </td>
             </tr>
           ))}
@@ -369,7 +369,7 @@ function TabConducta({ planes }: { planes: ReturnType<typeof getPlanesConducta> 
       {planes.map((p) => (
         <article key={p.id} className="rounded-2xl border border-border/70 bg-card p-5 space-y-3">
           {p.nivelRiesgo === "alto" && (
-            <div className="rounded-lg bg-[oklch(0.96_0.044_30)] border border-[oklch(0.7_0.114_30/0.4)] p-3 text-xs text-[oklch(0.45_0.132_30)] flex items-center gap-2 font-medium">
+            <div className="rounded-lg bg-[oklch(0.96_0.044_45)] border border-[oklch(0.7_0.114_45/0.4)] p-3 text-xs text-[oklch(0.45_0.132_45)] flex items-center gap-2 font-medium">
               <AlertTriangle className="h-4 w-4" /> Plan de alto riesgo · cambios bloqueados sin autorización clínica
             </div>
           )}
@@ -479,8 +479,8 @@ function TabExpediente({ documentos }: { documentos: ReturnType<typeof getDocume
               <li key={d} className="flex items-center gap-2 text-sm">
                 {ok
                   ? <CheckCircle2 className="h-4 w-4 text-[oklch(0.63_0.096_160)]" />
-                  : <AlertTriangle className="h-4 w-4 text-[oklch(0.6_0.132_30)]" />}
-                <span className={ok ? "" : "text-[oklch(0.45_0.132_30)]"}>{d}</span>
+                  : <AlertTriangle className="h-4 w-4 text-[oklch(0.6_0.132_45)]" />}
+                <span className={ok ? "" : "text-[oklch(0.45_0.132_45)]"}>{d}</span>
               </li>
             );
           })}
@@ -525,7 +525,7 @@ function TabFacturacion({ facturacion }: { facturacion: ReturnType<typeof getFac
                   <span className={`inline-flex items-center text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 ${col.bg} ${col.text}`}>
                     {col.label}
                   </span>
-                  <span className={`text-[11px] tabular w-16 text-right ${c.diasRestantes < 0 ? "text-[oklch(0.5_0.132_30)]" : c.diasRestantes <= 30 ? "text-[oklch(0.5_0.114_80)]" : "text-muted-foreground"}`}>
+                  <span className={`text-[11px] tabular w-16 text-right ${c.diasRestantes < 0 ? "text-[oklch(0.5_0.132_45)]" : c.diasRestantes <= 30 ? "text-[oklch(0.5_0.114_80)]" : "text-muted-foreground"}`}>
                     {c.diasRestantes < 0 ? `−${-c.diasRestantes}d` : `${c.diasRestantes}d`}
                   </span>
                 </li>
@@ -615,7 +615,7 @@ function CaseRail({ ninoId, onTab }: { ninoId: string; onTab: (t: Tab) => void }
 function TabEventos({ ninoId }: { ninoId: string }) {
   const eventos = getEventosCaso(ninoId);
   const toneFor = (tipo: string) =>
-    tipo === "Incidente" ? "bg-[oklch(0.94_0.035_30)] text-[oklch(0.45_0.114_30)]" :
+    tipo === "Incidente" ? "bg-[oklch(0.94_0.035_45)] text-[oklch(0.45_0.114_45)]" :
     tipo === "Cambio de plan" ? "bg-[oklch(0.94_0.053_258)] text-[oklch(0.4_0.114_258)]" :
     tipo === "Reunión" ? "bg-[oklch(0.94_0.044_160)] text-[oklch(0.35_0.106_160)]" :
     "bg-muted text-muted-foreground";

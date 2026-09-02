@@ -73,7 +73,7 @@ const metodoIcon = {
 const estadoTone: Record<string, string> = {
   Activo: "bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)]",
   Pendiente: "bg-[oklch(0.94_0.044_80)] text-[oklch(0.4_0.106_80)]",
-  Bloqueado: "bg-[oklch(0.96_0.044_30)] text-[oklch(0.45_0.132_30)]",
+  Bloqueado: "bg-[oklch(0.96_0.044_45)] text-[oklch(0.45_0.132_45)]",
   Completado: "bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)]",
   "En proceso": "bg-[oklch(0.94_0.044_258)] text-[oklch(0.4_0.106_258)]",
   Verificado: "bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)]",
@@ -294,12 +294,12 @@ export function SeguridadMFA() {
 
 function SecCard({ icon: Icon, label, value, hint, ok, warn }: { icon: typeof Shield; label: string; value: string; hint?: string; ok?: boolean; warn?: boolean }) {
   return (
-    <div className={`rounded-2xl border p-4 ${warn ? "border-[oklch(0.85_0.106_30)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"}`}>
+    <div className={`rounded-2xl border p-4 ${warn ? "border-[oklch(0.85_0.106_45)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"}`}>
       <div className="flex items-center justify-between">
         <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-        <Icon className={`h-4 w-4 ${warn ? "text-[oklch(0.55_0.158_30)]" : ok ? "text-[oklch(0.6_0.09_160)]" : "text-muted-foreground"}`} />
+        <Icon className={`h-4 w-4 ${warn ? "text-[oklch(0.55_0.158_45)]" : ok ? "text-[oklch(0.6_0.09_160)]" : "text-muted-foreground"}`} />
       </div>
-      <div className={`font-display text-2xl mt-1 tabular ${warn ? "text-[oklch(0.45_0.132_30)]" : ""}`}>{value}</div>
+      <div className={`font-display text-2xl mt-1 tabular ${warn ? "text-[oklch(0.45_0.132_45)]" : ""}`}>{value}</div>
       {hint && <div className="text-[11px] text-muted-foreground mt-0.5">{hint}</div>}
     </div>
   );

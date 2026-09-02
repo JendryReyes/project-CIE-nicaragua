@@ -131,7 +131,7 @@ function PanelSedes() {
                   </span>
                 )}
                 {d.cartasPorVencer > 0 && (
-                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 bg-[oklch(0.94_0.053_30)] text-[oklch(0.45_0.132_30)]">
+                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 bg-[oklch(0.94_0.053_45)] text-[oklch(0.45_0.132_45)]">
                     {d.cartasPorVencer} cartas x vencer
                   </span>
                 )}
@@ -168,7 +168,7 @@ function PanelSedes() {
             <span className={`tabular text-right ${d.excedentes > 0 ? "text-[oklch(0.45_0.114_80)] font-medium" : "text-muted-foreground"}`}>{d.excedentes || "—"}</span>
             <span className={`tabular text-right ${d.suspensiones > 0 ? "text-[oklch(0.45_0.114_80)]" : "text-muted-foreground"}`}>{d.suspensiones || "—"}</span>
             <span className="tabular text-right text-muted-foreground">
-              {d.cartas}{d.cartasPorVencer > 0 && <span className="text-[oklch(0.45_0.132_30)]"> ({d.cartasPorVencer}!)</span>}
+              {d.cartas}{d.cartasPorVencer > 0 && <span className="text-[oklch(0.45_0.132_45)]"> ({d.cartasPorVencer}!)</span>}
             </span>
             <span className="tabular text-right font-display">${d.monto.toFixed(2)}</span>
           </div>
@@ -191,7 +191,7 @@ function Tot({ label, value, accent, warn }: { label: string; value: string; acc
   return (
     <div>
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className={`font-display tabular mt-1 ${accent ? "text-3xl" : "text-2xl"} ${warn ? "text-[oklch(0.5_0.158_30)]" : ""}`}>{value}</div>
+      <div className={`font-display tabular mt-1 ${accent ? "text-3xl" : "text-2xl"} ${warn ? "text-[oklch(0.5_0.158_45)]" : ""}`}>{value}</div>
     </div>
   );
 }

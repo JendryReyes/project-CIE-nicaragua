@@ -186,12 +186,12 @@ function Asistencia() {
         <div className="flex h-2.5 rounded-full overflow-hidden bg-muted">
           <div className="bg-[oklch(0.62_0.097_160)]" style={{ width: `${(asistio / total) * 100}%` }} />
           <div className="bg-[oklch(0.7_0.114_80)]" style={{ width: `${(justificadas / total) * 100}%` }} />
-          <div className="bg-[oklch(0.6_0.132_30)]" style={{ width: `${(ausente / total) * 100}%` }} />
+          <div className="bg-[oklch(0.6_0.132_45)]" style={{ width: `${(ausente / total) * 100}%` }} />
         </div>
         <div className="flex gap-5 mt-3 text-xs flex-wrap">
           <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[oklch(0.62_0.097_160)]" /> Asistió: <b className="tabular">{asistio}</b></span>
           <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[oklch(0.7_0.114_80)]" /> Justificado: <b className="tabular">{justificadas}</b></span>
-          <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[oklch(0.6_0.132_30)]" /> Ausente: <b className="tabular">{ausente}</b></span>
+          <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[oklch(0.6_0.132_45)]" /> Ausente: <b className="tabular">{ausente}</b></span>
           <span className="inline-flex items-center gap-1.5 text-muted-foreground"><span className="h-2 w-2 rounded-full bg-muted-foreground/40" /> Pendiente: <b className="tabular">{pend}</b></span>
           <span className="inline-flex items-center gap-1.5 ml-auto text-muted-foreground"><Paperclip className="h-3 w-3" /> Constancias adjuntas: <b className="tabular text-foreground">{constanciasSubidas}</b></span>
         </div>
@@ -477,14 +477,14 @@ function KioskoQR({
                 className={`rounded-lg p-3 mb-3 border ${
                   ultimo.ok
                     ? "bg-[oklch(0.96_0.044_160)] border-[oklch(0.7_0.106_160/0.4)]"
-                    : "bg-[oklch(0.97_0.035_30)] border-[oklch(0.7_0.114_30/0.4)]"
+                    : "bg-[oklch(0.97_0.035_45)] border-[oklch(0.7_0.114_45/0.4)]"
                 }`}
               >
                 <div className="flex items-center gap-2 text-xs font-medium">
                   {ultimo.ok ? (
                     <Check className="h-4 w-4 text-[oklch(0.5_0.106_160)]" />
                   ) : (
-                    <AlertCircle className="h-4 w-4 text-[oklch(0.55_0.132_30)]" />
+                    <AlertCircle className="h-4 w-4 text-[oklch(0.55_0.132_45)]" />
                   )}
                   {ultimo.ok ? "Check-in exitoso" : "No se pudo registrar"}
                 </div>
@@ -506,7 +506,7 @@ function KioskoQR({
                   key={ev.id}
                   className="flex items-center gap-2 text-xs rounded-md bg-muted/40 px-2 py-1.5"
                 >
-                  <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${ev.ok ? "bg-[oklch(0.62_0.097_160)]" : "bg-[oklch(0.6_0.132_30)]"}`} />
+                  <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${ev.ok ? "bg-[oklch(0.62_0.097_160)]" : "bg-[oklch(0.6_0.132_45)]"}`} />
                   <span className="tabular text-muted-foreground w-12">{ev.hora}</span>
                   <span className="truncate flex-1">{ev.mensaje}</span>
                 </li>
@@ -551,7 +551,7 @@ function ConstanciaRow({
         </button>
         <button
           onClick={onRemove}
-          className="rounded-md p-1.5 text-muted-foreground hover:bg-background hover:text-[oklch(0.6_0.132_30)]"
+          className="rounded-md p-1.5 text-muted-foreground hover:bg-background hover:text-[oklch(0.6_0.132_45)]"
           title="Quitar constancia"
         >
           <Trash2 className="h-3.5 w-3.5" />
@@ -574,7 +574,7 @@ function ConstanciaRow({
 
   return (
     <div className="ml-[72px] flex items-center gap-3 rounded-lg border border-dashed border-border bg-muted/30 px-3 py-2 text-xs">
-      <AlertCircle className="h-4 w-4 text-[oklch(0.6_0.132_30)] shrink-0" />
+      <AlertCircle className="h-4 w-4 text-[oklch(0.6_0.132_45)] shrink-0" />
       <div className="flex-1 text-muted-foreground">
         Falta respaldo. Adjuntá la constancia médica para continuar el proceso de justificación.
       </div>
@@ -606,7 +606,7 @@ function ActionBtn({ children, active, variant, onClick }: { children: React.Rea
     ? variant === "success"
       ? "bg-[oklch(0.62_0.097_160)] text-primary-foreground border-transparent"
       : variant === "danger"
-      ? "bg-[oklch(0.6_0.132_30)] text-primary-foreground border-transparent"
+      ? "bg-[oklch(0.6_0.132_45)] text-primary-foreground border-transparent"
       : "bg-foreground text-background border-transparent"
     : "bg-background text-muted-foreground border-border hover:bg-muted";
   return <button onClick={onClick} className={`${base} ${styles}`}>{children}</button>;
@@ -751,7 +751,7 @@ function PuntualidadPorSede() {
                     {s.aTiempo} <span className="text-[10px] text-muted-foreground">({pct}%)</span>
                   </td>
                   <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.114_80)]">{s.tardeLeve}</td>
-                  <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.132_30)] font-medium">{s.tarde}</td>
+                  <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.132_45)] font-medium">{s.tarde}</td>
                   <td className="px-4 py-3 tabular text-right">{s.ausentes}</td>
                   <td className="px-4 py-3 tabular text-right">{s.desviacionPromMin} min</td>
                 </tr>

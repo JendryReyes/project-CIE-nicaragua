@@ -86,7 +86,7 @@
   --muted: oklch(0.965 0.006 265);
   --muted-foreground: oklch(0.525 0.022 265);
 
-  --destructive: oklch(0.665 0.15 30);
+  --destructive: oklch(0.665 0.15 45);
   --destructive-foreground: oklch(0.995 0 0);
 
   --success: oklch(0.68 0.115 160);
@@ -119,13 +119,13 @@
     oklch(0.635 0.175 265) 0%,
     oklch(0.72 0.13 250) 38%,
     oklch(0.805 0.125 80) 72%,
-    oklch(0.7 0.14 30) 100%
+    oklch(0.7 0.14 45) 100%
   );
   --gradient-kpi: linear-gradient(
     135deg,
     oklch(0.635 0.175 265 / 0.07) 0%,
     oklch(0.805 0.125 80 / 0.05) 55%,
-    oklch(0.665 0.15 30 / 0.05) 100%
+    oklch(0.665 0.15 45 / 0.05) 100%
   );
   --gradient-suave: linear-gradient(
     135deg,

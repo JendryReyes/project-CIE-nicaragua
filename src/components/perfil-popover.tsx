@@ -73,7 +73,7 @@ export function PerfilPopover({ user }: { user: UserSesion }) {
           </button>
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm text-[oklch(0.5_0.132_30)] hover:bg-[oklch(0.96_0.035_30)]"
+            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm text-[oklch(0.5_0.132_45)] hover:bg-[oklch(0.96_0.035_45)]"
           >
             <LogOut className="h-4 w-4" />
             Cerrar sesión

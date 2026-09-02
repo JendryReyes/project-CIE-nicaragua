@@ -101,7 +101,7 @@ function EventualesPage() {
         <div className="ml-auto text-xs text-muted-foreground">
           {filtrados.length} servicios · ${totalIncluido.toFixed(2)} incluidos en lote
           {horasMissing > 0 && (
-            <span className="ml-2 text-[oklch(0.55_0.141_30)]">· {horasMissing} con adjuntos pendientes</span>
+            <span className="ml-2 text-[oklch(0.55_0.141_45)]">· {horasMissing} con adjuntos pendientes</span>
           )}
         </div>
       </div>

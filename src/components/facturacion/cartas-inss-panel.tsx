@@ -151,7 +151,7 @@ export function CartasINSSPanel() {
               <span className="tabular text-right">{c.horasAprobadas}h</span>
               <span className="tabular text-right text-xs">
                 <div>{c.vence}</div>
-                <div className={`text-[10px] ${c.diasRestantes < 0 ? "text-[oklch(0.55_0.132_30)]" : c.diasRestantes <= 30 ? "text-[oklch(0.5_0.114_80)]" : "text-muted-foreground"}`}>
+                <div className={`text-[10px] ${c.diasRestantes < 0 ? "text-[oklch(0.55_0.132_45)]" : c.diasRestantes <= 30 ? "text-[oklch(0.5_0.114_80)]" : "text-muted-foreground"}`}>
                   {c.diasRestantes < 0 ? `Hace ${-c.diasRestantes} días` : `En ${c.diasRestantes} días`}
                 </div>
               </span>
@@ -190,7 +190,7 @@ function KPI({ label, value, tone }: { label: string; value: string; tone?: "ok"
   const cls =
     tone === "ok" ? "border-[oklch(0.7_0.106_160/0.4)] bg-[oklch(0.97_0.035_160)]" :
     tone === "warn" ? "border-[oklch(0.7_0.114_80/0.4)] bg-[oklch(0.97_0.044_80)]" :
-    tone === "bad" ? "border-[oklch(0.7_0.114_30/0.4)] bg-[oklch(0.97_0.035_30)]" :
+    tone === "bad" ? "border-[oklch(0.7_0.114_45/0.4)] bg-[oklch(0.97_0.035_45)]" :
     "border-border/70 bg-card";
   return (
     <div className={`rounded-2xl border p-4 ${cls}`}>

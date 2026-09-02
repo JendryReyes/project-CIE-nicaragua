@@ -22,7 +22,7 @@ const colorClasif: Record<Clasif, string> = {
   INSS: "oklch(0.6 0.123 258)",
   Privada: "oklch(0.55 0.141 292)",
   "Pro-bono": "oklch(0.66 0.084 160)",
-  "Fuera de Contrato": "oklch(0.6 0.158 30)",
+  "Fuera de Contrato": "oklch(0.6 0.158 45)",
 };
 
 function DepuracionPage() {
@@ -236,13 +236,13 @@ function DepuracionPage() {
 
       {/* Alerta destacada */}
       {excedentesSinConstancia.length > 0 && (
-        <div className="rounded-2xl border border-[oklch(0.85_0.106_30)] bg-[oklch(0.97_0.035_30)] p-4">
-          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.4_0.141_30)]">
+        <div className="rounded-2xl border border-[oklch(0.85_0.106_45)] bg-[oklch(0.97_0.035_45)] p-4">
+          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.4_0.141_45)]">
             <AlertTriangle className="h-4 w-4" />
             {excedentesSinConstancia.length} {excedentesSinConstancia.length === 1 ? "niño con" : "niños con"} horas
             clasificadas Fuera de Contrato
           </div>
-          <div className="text-xs text-[oklch(0.4_0.123_30)] mt-1">
+          <div className="text-xs text-[oklch(0.4_0.123_45)] mt-1">
             Excedentes sin constancia médica de soporte. Adjunta la constancia o confirma la clasificación.
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -250,7 +250,7 @@ function DepuracionPage() {
               <button
                 key={g.ninoId}
                 onClick={() => setExpandido((p) => ({ ...p, [g.ninoId]: true }))}
-                className="rounded-full bg-card border border-[oklch(0.85_0.106_30)] px-2.5 py-1 text-[11px] font-medium text-[oklch(0.4_0.141_30)] hover:bg-[oklch(0.95_0.044_30)]"
+                className="rounded-full bg-card border border-[oklch(0.85_0.106_45)] px-2.5 py-1 text-[11px] font-medium text-[oklch(0.4_0.141_45)] hover:bg-[oklch(0.95_0.044_45)]"
               >
                 {g.nombre} · {g.totales["Fuera de Contrato"].horas}h
               </button>

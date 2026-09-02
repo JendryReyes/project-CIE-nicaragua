@@ -129,7 +129,7 @@ function Admision() {
                         <Clock className="h-3 w-3" /> {p.diasEnEtapa} d en etapa · {fmt(p.fechaProximoPaso)}
                       </div>
                       {pend.length > 0 && (
-                        <div className="mt-1.5 flex items-center gap-1 text-[0.68rem] text-[oklch(0.5_0.132_30)]">
+                        <div className="mt-1.5 flex items-center gap-1 text-[0.68rem] text-[oklch(0.5_0.132_45)]">
                           <AlertTriangle className="h-3 w-3" /> {pend.length} doc. obligatorios
                         </div>
                       )}
@@ -294,7 +294,7 @@ function DetalleProspecto({ p, onClose }: { p: Prospecto; onClose: () => void })
                 )}
                 <span className={d.ok ? "" : "text-muted-foreground"}>{d.nombre}</span>
                 {d.obligatorio && !d.ok && (
-                  <span className="ml-auto rounded-full bg-[oklch(0.95_0.053_30)] px-2 py-0.5 text-[0.65rem] text-[oklch(0.45_0.132_30)]">
+                  <span className="ml-auto rounded-full bg-[oklch(0.95_0.053_45)] px-2 py-0.5 text-[0.65rem] text-[oklch(0.45_0.132_45)]">
                     Obligatorio
                   </span>
                 )}
