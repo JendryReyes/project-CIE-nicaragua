@@ -345,9 +345,11 @@ function Seccion({
 }) {
   return (
     <section className="space-y-4">
-      <div className="flex items-end justify-between gap-3 border-b border-border/60 pb-2">
+      <div className="relative flex items-end justify-between gap-3 pb-2.5">
+        <span className="bg-gradient-marca absolute bottom-0 left-0 h-[2px] w-24 rounded-full" aria-hidden />
+        <span className="absolute bottom-0 left-24 right-0 h-px bg-border/60" aria-hidden />
         <div className="flex items-center gap-3 min-w-0">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-semibold tabular">
+          <div className="bg-gradient-suave flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-primary-foreground text-xs font-semibold tabular">
             {numero}
           </div>
           <div className="min-w-0">
