@@ -66,7 +66,7 @@ function PanelSedes() {
       </div>
 
       {/* Totales red CIE */}
-      <div className="rounded-2xl border border-border/70 bg-gradient-to-br from-[oklch(0.96_0.02_240)] to-card p-5">
+      <div className="rounded-2xl border border-border/70 bg-gradient-to-br from-[oklch(0.96_0.014_265)] to-card p-5">
         <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-3">Red CIE consolidada · Q{periodo.quincena} mayo 2026</div>
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
           <Tot label="Facturable" value={`$${totales.monto.toFixed(0)}`} accent />
@@ -110,33 +110,33 @@ function PanelSedes() {
               <svg viewBox="0 0 140 30" className="mt-3 w-full h-8">
                 <polyline
                   fill="none"
-                  stroke="oklch(0.55 0.13 155)"
+                  stroke="oklch(0.55 0.114 160)"
                   strokeWidth="1.5"
                   points={d.spark.map((v, i) => `${(i / 6) * 140},${30 - (v / maxSpark) * 26}`).join(" ")}
                 />
                 {d.spark.map((v, i) => (
-                  <circle key={i} cx={(i / 6) * 140} cy={30 - (v / maxSpark) * 26} r="1.5" fill="oklch(0.55 0.13 155)" />
+                  <circle key={i} cx={(i / 6) * 140} cy={30 - (v / maxSpark) * 26} r="1.5" fill="oklch(0.55 0.114 160)" />
                 ))}
               </svg>
 
               <div className="flex gap-2 mt-3 flex-wrap text-[10px]">
                 {d.excedentes > 0 && (
-                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 bg-[oklch(0.94_0.08_75)] text-[oklch(0.4_0.13_75)]">
+                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 bg-[oklch(0.94_0.07_80)] text-[oklch(0.4_0.114_80)]">
                     <AlertTriangle className="h-3 w-3" /> {d.excedentes} excedentes
                   </span>
                 )}
                 {d.suspensiones > 0 && (
-                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 bg-[oklch(0.94_0.07_55)] text-[oklch(0.45_0.13_55)]">
+                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 bg-[oklch(0.94_0.062_80)] text-[oklch(0.45_0.114_80)]">
                     <PauseCircle className="h-3 w-3" /> {d.suspensiones} pausas
                   </span>
                 )}
                 {d.cartasPorVencer > 0 && (
-                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 bg-[oklch(0.94_0.06_25)] text-[oklch(0.45_0.15_25)]">
+                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 bg-[oklch(0.94_0.053_30)] text-[oklch(0.45_0.132_30)]">
                     {d.cartasPorVencer} cartas x vencer
                   </span>
                 )}
                 {d.excedentes === 0 && d.suspensiones === 0 && d.cartasPorVencer === 0 && (
-                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 bg-[oklch(0.94_0.06_155)] text-[oklch(0.4_0.12_155)]">
+                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)]">
                     <CheckCircle2 className="h-3 w-3" /> Sin alertas
                   </span>
                 )}
@@ -165,10 +165,10 @@ function PanelSedes() {
             <span className="font-medium">{d.sede.nombre}</span>
             <span className="tabular text-right">{d.ninos}</span>
             <span className="tabular text-right">{d.horas}h</span>
-            <span className={`tabular text-right ${d.excedentes > 0 ? "text-[oklch(0.45_0.13_75)] font-medium" : "text-muted-foreground"}`}>{d.excedentes || "—"}</span>
-            <span className={`tabular text-right ${d.suspensiones > 0 ? "text-[oklch(0.45_0.13_55)]" : "text-muted-foreground"}`}>{d.suspensiones || "—"}</span>
+            <span className={`tabular text-right ${d.excedentes > 0 ? "text-[oklch(0.45_0.114_80)] font-medium" : "text-muted-foreground"}`}>{d.excedentes || "—"}</span>
+            <span className={`tabular text-right ${d.suspensiones > 0 ? "text-[oklch(0.45_0.114_80)]" : "text-muted-foreground"}`}>{d.suspensiones || "—"}</span>
             <span className="tabular text-right text-muted-foreground">
-              {d.cartas}{d.cartasPorVencer > 0 && <span className="text-[oklch(0.45_0.15_25)]"> ({d.cartasPorVencer}!)</span>}
+              {d.cartas}{d.cartasPorVencer > 0 && <span className="text-[oklch(0.45_0.132_30)]"> ({d.cartasPorVencer}!)</span>}
             </span>
             <span className="tabular text-right font-display">${d.monto.toFixed(2)}</span>
           </div>
@@ -191,7 +191,7 @@ function Tot({ label, value, accent, warn }: { label: string; value: string; acc
   return (
     <div>
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className={`font-display tabular mt-1 ${accent ? "text-3xl" : "text-2xl"} ${warn ? "text-[oklch(0.5_0.18_25)]" : ""}`}>{value}</div>
+      <div className={`font-display tabular mt-1 ${accent ? "text-3xl" : "text-2xl"} ${warn ? "text-[oklch(0.5_0.158_30)]" : ""}`}>{value}</div>
     </div>
   );
 }

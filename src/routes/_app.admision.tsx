@@ -41,13 +41,13 @@ export const Route = createFileRoute("/_app/admision")({
 const fmt = (f: string) => new Date(f).toLocaleDateString("es-NI", { day: "numeric", month: "short" });
 
 const etapaTono: Record<EtapaAdmision, string> = {
-  Prospecto: "oklch(0.6 0.12 250)",
-  "Contacto inicial": "oklch(0.6 0.13 220)",
-  "Evaluación agendada": "oklch(0.62 0.14 190)",
-  "En evaluación": "oklch(0.62 0.14 160)",
-  "Propuesta de plan": "oklch(0.65 0.15 90)",
-  Documentación: "oklch(0.65 0.15 55)",
-  Admitido: "oklch(0.55 0.16 155)",
+  Prospecto: "oklch(0.6 0.106 258)",
+  "Contacto inicial": "oklch(0.6 0.114 258)",
+  "Evaluación agendada": "oklch(0.62 0.123 160)",
+  "En evaluación": "oklch(0.62 0.123 160)",
+  "Propuesta de plan": "oklch(0.65 0.132 80)",
+  Documentación: "oklch(0.65 0.132 80)",
+  Admitido: "oklch(0.55 0.141 160)",
 };
 
 function Admision() {
@@ -129,7 +129,7 @@ function Admision() {
                         <Clock className="h-3 w-3" /> {p.diasEnEtapa} d en etapa · {fmt(p.fechaProximoPaso)}
                       </div>
                       {pend.length > 0 && (
-                        <div className="mt-1.5 flex items-center gap-1 text-[0.68rem] text-[oklch(0.5_0.15_30)]">
+                        <div className="mt-1.5 flex items-center gap-1 text-[0.68rem] text-[oklch(0.5_0.132_30)]">
                           <AlertTriangle className="h-3 w-3" /> {pend.length} doc. obligatorios
                         </div>
                       )}
@@ -288,13 +288,13 @@ function DetalleProspecto({ p, onClose }: { p: Prospecto; onClose: () => void })
             {p.documentos.map((d) => (
               <div key={d.nombre} className="flex items-center gap-2 text-sm">
                 {d.ok ? (
-                  <CheckCircle2 className="h-4 w-4 text-[oklch(0.55_0.14_155)]" />
+                  <CheckCircle2 className="h-4 w-4 text-[oklch(0.55_0.123_160)]" />
                 ) : (
                   <CircleIcon className="h-4 w-4 text-muted-foreground/60" />
                 )}
                 <span className={d.ok ? "" : "text-muted-foreground"}>{d.nombre}</span>
                 {d.obligatorio && !d.ok && (
-                  <span className="ml-auto rounded-full bg-[oklch(0.95_0.06_30)] px-2 py-0.5 text-[0.65rem] text-[oklch(0.45_0.15_30)]">
+                  <span className="ml-auto rounded-full bg-[oklch(0.95_0.053_30)] px-2 py-0.5 text-[0.65rem] text-[oklch(0.45_0.132_30)]">
                     Obligatorio
                   </span>
                 )}
@@ -312,7 +312,7 @@ function DetalleProspecto({ p, onClose }: { p: Prospecto; onClose: () => void })
           <button
             onClick={admitir}
             disabled={estado === "Activo"}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.16_155)] px-3 py-1.5 text-sm font-medium text-white disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.141_160)] px-3 py-1.5 text-sm font-medium text-white disabled:opacity-50"
           >
             <CheckCircle2 className="h-4 w-4" /> Matricular paciente
           </button>

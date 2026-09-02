@@ -141,7 +141,7 @@ export function CierreQuincenaPanel() {
                   <div
                     className={`h-8 w-8 rounded-full grid place-items-center text-xs font-medium shrink-0 ${
                       done
-                        ? "bg-[oklch(0.55_0.13_155)] text-white"
+                        ? "bg-[oklch(0.55_0.114_160)] text-white"
                         : active
                         ? "bg-foreground text-background"
                         : "bg-muted text-muted-foreground"
@@ -163,7 +163,7 @@ export function CierreQuincenaPanel() {
                 {i < pasosCierre.length - 1 && (
                   <div
                     className={`flex-1 h-px mx-3 ${
-                      done ? "bg-[oklch(0.55_0.13_155)]" : "bg-border"
+                      done ? "bg-[oklch(0.55_0.114_160)]" : "bg-border"
                     }`}
                   />
                 )}
@@ -252,13 +252,13 @@ export function CierreQuincenaPanel() {
           {calculado && estado === "cerrada" && (
             <button
               onClick={enviar}
-              className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.55_0.13_155)] text-white px-4 py-2 text-sm font-medium"
+              className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.55_0.114_160)] text-white px-4 py-2 text-sm font-medium"
             >
               <Send className="h-4 w-4" /> Enviar al INSS
             </button>
           )}
           {estado === "enviada" && (
-            <span className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.94_0.06_155)] text-[oklch(0.4_0.12_155)] px-4 py-2 text-sm font-medium">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)] px-4 py-2 text-sm font-medium">
               <CheckCircle2 className="h-4 w-4" /> Enviada al INSS
             </span>
           )}
@@ -266,7 +266,7 @@ export function CierreQuincenaPanel() {
       </div>
 
       {readonly && (
-        <div className="rounded-xl border border-[oklch(0.7_0.12_155/0.4)] bg-[oklch(0.97_0.04_155)] text-[oklch(0.4_0.12_155)] px-4 py-2.5 text-sm flex items-center gap-2">
+        <div className="rounded-xl border border-[oklch(0.7_0.106_160/0.4)] bg-[oklch(0.97_0.035_160)] text-[oklch(0.4_0.106_160)] px-4 py-2.5 text-sm flex items-center gap-2">
           <Lock className="h-4 w-4" /> Período cerrado · solo lectura
         </div>
       )}
@@ -301,7 +301,7 @@ export function CierreQuincenaPanel() {
 
           {totales.montoDescontado > 0 && (
             <div className="rounded-xl border border-border/70 bg-card px-4 py-2.5 text-sm text-muted-foreground flex items-center gap-2">
-              <PauseCircle className="h-4 w-4 text-[oklch(0.55_0.15_55)]" />
+              <PauseCircle className="h-4 w-4 text-[oklch(0.55_0.132_80)]" />
               Se descontaron{" "}
               <b className="text-foreground">${totales.montoDescontado.toFixed(2)}</b>{" "}
               por suspensiones activas
@@ -325,11 +325,11 @@ export function CierreQuincenaPanel() {
                 onClick={() => setSel(r)}
                 className={`w-full text-left grid grid-cols-[1fr_110px_85px_85px_85px_85px_115px_120px] gap-3 px-4 py-3 border-b border-border/40 text-sm hover:bg-muted/30 transition-colors ${
                   r.estado === "bloqueado"
-                    ? "bg-[oklch(0.97_0.04_25)]"
+                    ? "bg-[oklch(0.97_0.035_30)]"
                     : r.estado === "revisar"
-                    ? "bg-[oklch(0.97_0.05_75)]"
+                    ? "bg-[oklch(0.97_0.044_80)]"
                     : r.estado === "suspendido"
-                    ? "bg-[oklch(0.97_0.04_55)]"
+                    ? "bg-[oklch(0.97_0.035_80)]"
                     : ""
                 }`}
               >
@@ -358,7 +358,7 @@ export function CierreQuincenaPanel() {
                 <span
                   className={`tabular text-right self-center ${
                     r.horasSuspendidas > 0
-                      ? "text-[oklch(0.55_0.15_55)] font-medium"
+                      ? "text-[oklch(0.55_0.132_80)] font-medium"
                       : "text-muted-foreground"
                   }`}
                 >
@@ -403,13 +403,13 @@ function KPI({
 }) {
   const cls =
     tone === "ok"
-      ? "border-[oklch(0.7_0.12_155/0.4)] bg-[oklch(0.97_0.04_155)]"
+      ? "border-[oklch(0.7_0.106_160/0.4)] bg-[oklch(0.97_0.035_160)]"
       : tone === "warn"
-      ? "border-[oklch(0.7_0.13_75/0.4)] bg-[oklch(0.97_0.05_75)]"
+      ? "border-[oklch(0.7_0.114_80/0.4)] bg-[oklch(0.97_0.044_80)]"
       : tone === "bad"
-      ? "border-[oklch(0.7_0.13_25/0.4)] bg-[oklch(0.97_0.04_25)]"
+      ? "border-[oklch(0.7_0.114_30/0.4)] bg-[oklch(0.97_0.035_30)]"
       : tone === "info"
-      ? "border-[oklch(0.7_0.13_55/0.4)] bg-[oklch(0.97_0.04_55)]"
+      ? "border-[oklch(0.7_0.114_80/0.4)] bg-[oklch(0.97_0.035_80)]"
       : "border-border/70 bg-card";
   return (
     <div className={`rounded-2xl border p-4 ${cls}`}>
@@ -426,24 +426,24 @@ function EstadoBadge({
 }) {
   if (estado === "ok")
     return (
-      <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 bg-[oklch(0.94_0.06_155)] text-[oklch(0.4_0.12_155)]">
+      <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)]">
         <CheckCircle2 className="h-3 w-3" /> OK
       </span>
     );
   if (estado === "revisar")
     return (
-      <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 bg-[oklch(0.94_0.08_75)] text-[oklch(0.4_0.13_75)]">
+      <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 bg-[oklch(0.94_0.07_80)] text-[oklch(0.4_0.114_80)]">
         <AlertTriangle className="h-3 w-3" /> Revisar
       </span>
     );
   if (estado === "suspendido")
     return (
-      <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 bg-[oklch(0.94_0.07_55)] text-[oklch(0.45_0.13_55)]">
+      <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 bg-[oklch(0.94_0.062_80)] text-[oklch(0.45_0.114_80)]">
         <PauseCircle className="h-3 w-3" /> Pausa
       </span>
     );
   return (
-    <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 bg-[oklch(0.94_0.06_25)] text-[oklch(0.45_0.15_25)]">
+    <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 bg-[oklch(0.94_0.053_30)] text-[oklch(0.45_0.132_30)]">
       <XCircle className="h-3 w-3" /> Excede
     </span>
   );
@@ -488,8 +488,8 @@ function ConciliacionDrawer({
           </button>
 
           {resumen.suspension && (
-            <div className="rounded-xl bg-[oklch(0.97_0.04_55)] border border-[oklch(0.7_0.13_55/0.4)] p-4">
-              <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.13_55)]">
+            <div className="rounded-xl bg-[oklch(0.97_0.035_80)] border border-[oklch(0.7_0.114_80/0.4)] p-4">
+              <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.114_80)]">
                 <PauseCircle className="h-4 w-4" /> Suspensión activa
               </div>
               <p className="text-xs text-muted-foreground mt-1">{resumen.suspension.motivo}</p>
@@ -525,7 +525,7 @@ function ConciliacionDrawer({
                     Excedentes{" "}
                     <div
                       className={`tabular font-medium ${
-                        a.horasExcedentes > 0 ? "text-[oklch(0.55_0.15_25)]" : "text-foreground"
+                        a.horasExcedentes > 0 ? "text-[oklch(0.55_0.132_30)]" : "text-foreground"
                       }`}
                     >
                       {a.horasExcedentes}h
@@ -544,7 +544,7 @@ function ConciliacionDrawer({
               {[1, 3, 5, 8, 10, 12, 14].map((d) => (
                 <li key={d} className="flex items-center gap-2">
                   <span className="tabular w-16 text-muted-foreground">May {16 + d}</span>
-                  <span className="h-2 w-2 rounded-full bg-[oklch(0.62_0.11_155)]" />
+                  <span className="h-2 w-2 rounded-full bg-[oklch(0.62_0.097_160)]" />
                   <span className="flex-1">Sesión ABA · 1.5h · Lic. Castellón</span>
                   <span className="text-muted-foreground">✓</span>
                 </li>
@@ -553,8 +553,8 @@ function ConciliacionDrawer({
           </div>
 
           {resumen.tieneExcedente && !resumen.tieneConstancia && !readonly && (
-            <div className="rounded-xl bg-[oklch(0.97_0.04_25)] border border-[oklch(0.7_0.13_25/0.4)] p-4">
-              <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.15_25)]">
+            <div className="rounded-xl bg-[oklch(0.97_0.035_30)] border border-[oklch(0.7_0.114_30/0.4)] p-4">
+              <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.132_30)]">
                 <AlertTriangle className="h-4 w-4" /> Excedente sin constancia
               </div>
               <p className="text-xs text-muted-foreground mt-1">
@@ -562,7 +562,7 @@ function ConciliacionDrawer({
               </p>
               <button
                 onClick={() => onConstancia(resumen.ninoId)}
-                className="mt-3 inline-flex items-center gap-2 rounded-md bg-[oklch(0.55_0.16_25)] text-white px-3 py-1.5 text-xs font-medium"
+                className="mt-3 inline-flex items-center gap-2 rounded-md bg-[oklch(0.55_0.141_30)] text-white px-3 py-1.5 text-xs font-medium"
               >
                 <Upload className="h-3.5 w-3.5" /> Cargar constancia médica
               </button>
@@ -570,7 +570,7 @@ function ConciliacionDrawer({
           )}
 
           {resumen.tieneConstancia && resumen.tieneExcedente && (
-            <div className="rounded-xl bg-[oklch(0.97_0.04_155)] border border-[oklch(0.7_0.12_155/0.4)] p-3 text-xs flex items-center gap-2 text-[oklch(0.4_0.12_155)]">
+            <div className="rounded-xl bg-[oklch(0.97_0.035_160)] border border-[oklch(0.7_0.106_160/0.4)] p-3 text-xs flex items-center gap-2 text-[oklch(0.4_0.106_160)]">
               <CheckCircle2 className="h-4 w-4" /> Constancia médica registrada · horas justificadas
             </div>
           )}

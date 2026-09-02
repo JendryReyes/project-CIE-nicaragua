@@ -135,8 +135,8 @@ export function CartasINSSPanel() {
         {cartas.map((c) => {
           const col = estadoCartaColor(c.estado);
           const fila =
-            c.estado === "vencida" ? "bg-[oklch(0.98_0.03_25)]" :
-            c.estado === "por_vencer" ? "bg-[oklch(0.98_0.04_75)]" : "";
+            c.estado === "vencida" ? "bg-[oklch(0.98_0.014_265)]" :
+            c.estado === "por_vencer" ? "bg-[oklch(0.98_0.035_80)]" : "";
           return (
             <div
               key={c.id}
@@ -151,7 +151,7 @@ export function CartasINSSPanel() {
               <span className="tabular text-right">{c.horasAprobadas}h</span>
               <span className="tabular text-right text-xs">
                 <div>{c.vence}</div>
-                <div className={`text-[10px] ${c.diasRestantes < 0 ? "text-[oklch(0.55_0.15_25)]" : c.diasRestantes <= 30 ? "text-[oklch(0.5_0.13_75)]" : "text-muted-foreground"}`}>
+                <div className={`text-[10px] ${c.diasRestantes < 0 ? "text-[oklch(0.55_0.132_30)]" : c.diasRestantes <= 30 ? "text-[oklch(0.5_0.114_80)]" : "text-muted-foreground"}`}>
                   {c.diasRestantes < 0 ? `Hace ${-c.diasRestantes} días` : `En ${c.diasRestantes} días`}
                 </div>
               </span>
@@ -188,9 +188,9 @@ export function CartasINSSPanel() {
 
 function KPI({ label, value, tone }: { label: string; value: string; tone?: "ok" | "warn" | "bad" }) {
   const cls =
-    tone === "ok" ? "border-[oklch(0.7_0.12_155/0.4)] bg-[oklch(0.97_0.04_155)]" :
-    tone === "warn" ? "border-[oklch(0.7_0.13_75/0.4)] bg-[oklch(0.97_0.05_75)]" :
-    tone === "bad" ? "border-[oklch(0.7_0.13_25/0.4)] bg-[oklch(0.97_0.04_25)]" :
+    tone === "ok" ? "border-[oklch(0.7_0.106_160/0.4)] bg-[oklch(0.97_0.035_160)]" :
+    tone === "warn" ? "border-[oklch(0.7_0.114_80/0.4)] bg-[oklch(0.97_0.044_80)]" :
+    tone === "bad" ? "border-[oklch(0.7_0.114_30/0.4)] bg-[oklch(0.97_0.035_30)]" :
     "border-border/70 bg-card";
   return (
     <div className={`rounded-2xl border p-4 ${cls}`}>

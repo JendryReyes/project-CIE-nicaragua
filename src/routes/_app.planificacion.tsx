@@ -39,8 +39,8 @@ function Planificacion() {
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Kpi icon={<CalendarClock className="h-4 w-4" />} label="Programables / mes" value={`${t.programables}h`} hint="capacidad teórica" />
-        <Kpi icon={<TrendingUp className="h-4 w-4 text-[oklch(0.55_0.1_155)]" />} label="Programadas" value={`${t.programadas}h`} hint={`${t.cobertura}% cobertura`} />
-        <Kpi icon={<AlertTriangle className="h-4 w-4 text-[oklch(0.55_0.13_60)]" />} label="Gap no programado" value={`${t.programables - t.programadas}h`} hint="ver causas abajo" />
+        <Kpi icon={<TrendingUp className="h-4 w-4 text-[oklch(0.55_0.088_160)]" />} label="Programadas" value={`${t.programadas}h`} hint={`${t.cobertura}% cobertura`} />
+        <Kpi icon={<AlertTriangle className="h-4 w-4 text-[oklch(0.55_0.114_80)]" />} label="Gap no programado" value={`${t.programables - t.programadas}h`} hint="ver causas abajo" />
         <Kpi icon={<Users className="h-4 w-4" />} label="Niños en plan" value={String(t.ninos)} hint="todas las sedes" />
       </div>
 
@@ -139,7 +139,7 @@ function PorSupervisor() {
           <tbody>
             {supervisoresPlan.map((s) => {
               const pct = Math.round((s.programadas / s.programables) * 100);
-              const tone = pct >= 90 ? "text-[oklch(0.45_0.13_155)]" : pct >= 80 ? "text-[oklch(0.5_0.13_60)]" : "text-[oklch(0.5_0.15_25)]";
+              const tone = pct >= 90 ? "text-[oklch(0.45_0.114_160)]" : pct >= 80 ? "text-[oklch(0.5_0.114_80)]" : "text-[oklch(0.5_0.132_30)]";
               return (
                 <tr key={s.supervisor} className="border-t border-border/40">
                   <td className="px-4 py-3 font-medium">{s.supervisor}</td>
@@ -184,9 +184,9 @@ function PorNino() {
             {ninosPlan.map((n) => {
               const gap = n.inssAprobadas - n.programadas;
               const asistTone =
-                n.asistencia >= 85 ? "bg-[oklch(0.93_0.06_155)] text-[oklch(0.35_0.11_155)]"
-                : n.asistencia >= 70 ? "bg-[oklch(0.95_0.07_60)] text-[oklch(0.45_0.13_60)]"
-                : "bg-[oklch(0.94_0.06_25)] text-[oklch(0.45_0.15_25)]";
+                n.asistencia >= 85 ? "bg-[oklch(0.93_0.053_160)] text-[oklch(0.35_0.097_160)]"
+                : n.asistencia >= 70 ? "bg-[oklch(0.95_0.062_80)] text-[oklch(0.45_0.114_80)]"
+                : "bg-[oklch(0.94_0.053_30)] text-[oklch(0.45_0.132_30)]";
               return (
                 <tr key={n.nino} className="border-t border-border/40 hover:bg-muted/30">
                   <td className="px-4 py-3">
@@ -213,7 +213,7 @@ function PorNino() {
                     {n.motivoGap ? (
                       <span className={`px-2 py-0.5 rounded-full ${motivosColor[n.motivoGap]}`}>{n.motivoGap}</span>
                     ) : (
-                      <span className="text-[oklch(0.45_0.13_155)]">Sin gap</span>
+                      <span className="text-[oklch(0.45_0.114_160)]">Sin gap</span>
                     )}
                   </td>
                 </tr>

@@ -11,9 +11,9 @@ const estancados = [
 
 export function AlertaEstancamiento() {
   return (
-    <div className="rounded-2xl border border-[oklch(0.78_0.13_75)]/50 bg-[oklch(0.97_0.04_75)]/60 p-5">
+    <div className="rounded-2xl border border-[oklch(0.78_0.114_80)]/50 bg-[oklch(0.97_0.035_80)]/60 p-5">
       <div className="flex items-center gap-2 mb-3">
-        <AlertTriangle className="h-4 w-4 text-[oklch(0.55_0.13_60)]" />
+        <AlertTriangle className="h-4 w-4 text-[oklch(0.55_0.114_80)]" />
         <h3 className="font-display text-lg">Alerta de estancamiento</h3>
         <span className="ml-auto text-xs text-muted-foreground">Sin progreso &gt; 3 semanas</span>
       </div>
@@ -30,7 +30,7 @@ export function AlertaEstancamiento() {
                   <div className="text-xs text-muted-foreground truncate">{e.dominio}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-display tabular text-[oklch(0.55_0.13_60)]">{e.semanas}</div>
+                  <div className="text-sm font-display tabular text-[oklch(0.55_0.114_80)]">{e.semanas}</div>
                   <div className="text-[0.6rem] uppercase tracking-wider text-muted-foreground">semanas</div>
                 </div>
               </Link>

@@ -121,7 +121,7 @@ function CarnetPreview({ ninoId, nombre, emitido, onGenerar }: { ninoId: string;
           <div className="font-medium truncate">{nombre}</div>
           <div className="text-xs text-muted-foreground">ID: {ninoId} · {iniciales(nombre)}</div>
           {emitido && (
-            <span className="inline-flex items-center gap-1 mt-2 text-[10px] uppercase tracking-wider rounded-full bg-[oklch(0.94_0.06_155)] text-[oklch(0.4_0.12_155)] px-2 py-0.5">
+            <span className="inline-flex items-center gap-1 mt-2 text-[10px] uppercase tracking-wider rounded-full bg-[oklch(0.94_0.053_160)] text-[oklch(0.4_0.106_160)] px-2 py-0.5">
               <CheckCircle2 className="h-3 w-3" /> Emitido
             </span>
           )}

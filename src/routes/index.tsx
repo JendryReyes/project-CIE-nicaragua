@@ -41,7 +41,7 @@ function LoginPage() {
   return (
     <div className="grid min-h-screen lg:grid-cols-[1.1fr_1fr]">
       {/* Left: hero */}
-      <div className="relative hidden flex-col justify-between bg-[oklch(0.32_0.06_38)] p-12 text-[oklch(0.97_0.02_75)] lg:flex">
+      <div className="relative hidden flex-col justify-between bg-[oklch(0.32_0.053_30)] p-12 text-[oklch(0.97_0.014_265)] lg:flex">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
             <Heart className="h-6 w-6" fill="currentColor" />
@@ -50,13 +50,13 @@ function LoginPage() {
         </div>
 
         <div className="space-y-6 max-w-lg">
-          <p className="text-sm uppercase tracking-[0.2em] text-[oklch(0.78_0.08_50)]">
+          <p className="text-sm uppercase tracking-[0.2em] text-[oklch(0.78_0.07_80)]">
             Nicaragua · Edu-terapéutico
           </p>
           <h1 className="font-display text-5xl leading-[1.05] text-balance">
-            Gestión clínica y facturación INSS para centros <em className="text-[oklch(0.84_0.1_60)]">ABA</em>.
+            Gestión clínica y facturación INSS para centros <em className="text-[oklch(0.84_0.088_80)]">ABA</em>.
           </h1>
-          <p className="text-base leading-relaxed text-[oklch(0.85_0.03_75)]">
+          <p className="text-base leading-relaxed text-[oklch(0.85_0.014_265)]">
             Asistencias, expedientes, planes ABA y la quincena INSS en un solo lugar.
             El cierre que hoy toma 3 días, aquí toma minutos.
           </p>
@@ -68,7 +68,7 @@ function LoginPage() {
           </div>
         </div>
 
-        <p className="text-xs text-[oklch(0.7_0.04_75)]">
+        <p className="text-xs text-[oklch(0.7_0.035_80)]">
           Manual de prestación de servicios · v25/05/2026
         </p>
       </div>
@@ -142,7 +142,7 @@ function Stat({ n, l }: { n: string; l: string }) {
   return (
     <div>
       <div className="font-display text-3xl tabular">{n}</div>
-      <div className="text-xs uppercase tracking-wider text-[oklch(0.78_0.05_60)]">{l}</div>
+      <div className="text-xs uppercase tracking-wider text-[oklch(0.78_0.044_80)]">{l}</div>
     </div>
   );
 }

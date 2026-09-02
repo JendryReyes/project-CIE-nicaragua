@@ -16,12 +16,12 @@ export const Route = createFileRoute("/_app/cupos")({
 });
 
 const tono = {
-  ok: "bg-[oklch(0.94_0.05_155)] text-[oklch(0.36_0.11_155)]",
-  ambar: "bg-[oklch(0.95_0.07_70)] text-[oklch(0.44_0.13_70)]",
-  rojo: "bg-[oklch(0.95_0.06_28)] text-[oklch(0.45_0.15_28)]",
+  ok: "bg-[oklch(0.94_0.044_160)] text-[oklch(0.36_0.097_160)]",
+  ambar: "bg-[oklch(0.95_0.062_80)] text-[oklch(0.44_0.114_80)]",
+  rojo: "bg-[oklch(0.95_0.053_30)] text-[oklch(0.45_0.132_30)]",
 } as const;
 
-const barra = { ok: "oklch(0.6 0.14 155)", ambar: "oklch(0.72 0.15 75)", rojo: "oklch(0.6 0.18 28)" } as const;
+const barra = { ok: "oklch(0.6 0.123 160)", ambar: "oklch(0.72 0.132 80)", rojo: "oklch(0.6 0.158 30)" } as const;
 
 function Cupos() {
   const [sede, setSede] = useState<string>("todas");
@@ -59,8 +59,8 @@ function Cupos() {
       </div>
 
       {criticos.length > 0 && (
-        <div className="rounded-xl border border-[oklch(0.85_0.08_60)] bg-[oklch(0.98_0.03_70)] p-4">
-          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.42_0.14_60)]">
+        <div className="rounded-xl border border-[oklch(0.85_0.07_80)] bg-[oklch(0.98_0.014_265)] p-4">
+          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.42_0.123_80)]">
             <AlertTriangle className="h-4 w-4" /> Alerta automática · {criticos.length} disciplinas al límite de cupo
           </div>
           <div className="mt-2 flex flex-wrap gap-1.5 text-xs">

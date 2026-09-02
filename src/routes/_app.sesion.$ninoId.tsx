@@ -128,9 +128,9 @@ function SesionLive() {
                     <span
                       className={`inline-block text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 ${
                         s.tipo === "Sesión"
-                          ? "bg-[oklch(0.94_0.05_155)] text-[oklch(0.35_0.12_155)]"
+                          ? "bg-[oklch(0.94_0.044_160)] text-[oklch(0.35_0.106_160)]"
                           : s.tipo === "Supervisión"
-                          ? "bg-[oklch(0.94_0.06_240)] text-[oklch(0.4_0.13_240)]"
+                          ? "bg-[oklch(0.94_0.053_258)] text-[oklch(0.4_0.114_258)]"
                           : "bg-muted text-muted-foreground"
                       }`}
                     >
@@ -238,9 +238,9 @@ function SesionLive() {
                                       key={i}
                                       className={`inline-grid place-items-center h-5 w-5 rounded-full text-[10px] font-medium ${
                                         t === "+"
-                                          ? "bg-[oklch(0.94_0.05_155)] text-[oklch(0.35_0.12_155)]"
+                                          ? "bg-[oklch(0.94_0.044_160)] text-[oklch(0.35_0.106_160)]"
                                           : t === "-"
-                                          ? "bg-[oklch(0.94_0.04_25)] text-[oklch(0.45_0.13_25)]"
+                                          ? "bg-[oklch(0.94_0.035_30)] text-[oklch(0.45_0.114_30)]"
                                           : "bg-muted text-muted-foreground"
                                       }`}
                                     >
@@ -316,9 +316,9 @@ function TrialBtn({
 }) {
   const cls =
     tone === "ok"
-      ? "border-[oklch(0.7_0.12_155/0.4)] text-[oklch(0.35_0.12_155)] hover:bg-[oklch(0.94_0.05_155)]"
+      ? "border-[oklch(0.7_0.106_160/0.4)] text-[oklch(0.35_0.106_160)] hover:bg-[oklch(0.94_0.044_160)]"
       : tone === "err"
-      ? "border-[oklch(0.7_0.13_25/0.4)] text-[oklch(0.45_0.13_25)] hover:bg-[oklch(0.94_0.04_25)]"
+      ? "border-[oklch(0.7_0.114_30/0.4)] text-[oklch(0.45_0.114_30)] hover:bg-[oklch(0.94_0.035_30)]"
       : "border-border text-muted-foreground hover:bg-muted";
   return (
     <button

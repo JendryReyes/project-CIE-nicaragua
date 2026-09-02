@@ -20,10 +20,10 @@ export function INSSBadge({
 
   const tone =
     pct >= 100
-      ? { bar: "bg-[oklch(0.55_0.18_25)]", text: "text-[oklch(0.4_0.16_25)]", track: "bg-[oklch(0.94_0.05_25)]" }
+      ? { bar: "bg-[oklch(0.55_0.158_30)]", text: "text-[oklch(0.4_0.141_30)]", track: "bg-[oklch(0.94_0.044_30)]" }
       : pct >= 70
-      ? { bar: "bg-[oklch(0.65_0.14_75)]", text: "text-[oklch(0.4_0.13_75)]", track: "bg-[oklch(0.95_0.04_75)]" }
-      : { bar: "bg-[oklch(0.6_0.11_155)]", text: "text-[oklch(0.4_0.1_155)]", track: "bg-[oklch(0.95_0.04_155)]" };
+      ? { bar: "bg-[oklch(0.65_0.123_80)]", text: "text-[oklch(0.4_0.114_80)]", track: "bg-[oklch(0.95_0.035_80)]" }
+      : { bar: "bg-[oklch(0.6_0.097_160)]", text: "text-[oklch(0.4_0.088_160)]", track: "bg-[oklch(0.95_0.035_160)]" };
 
   const icon =
     pct >= 100 ? <AlertTriangle className="h-3 w-3" /> : <CheckCircle2 className="h-3 w-3" />;
@@ -61,11 +61,11 @@ export function INSSBadge({
           style={{ width: `${Math.min(pct, 100)}%` }}
         />
         {pct > 100 && (
-          <div className="-mt-2 h-2 w-full border-r-2 border-[oklch(0.4_0.16_25)]" style={{ width: "100%" }} />
+          <div className="-mt-2 h-2 w-full border-r-2 border-[oklch(0.4_0.141_30)]" style={{ width: "100%" }} />
         )}
       </div>
       {excedente > 0 && (
-        <div className="text-[11px] text-[oklch(0.5_0.16_25)]">
+        <div className="text-[11px] text-[oklch(0.5_0.141_30)]">
           Excedente: +{excedente}h sobre el límite aprobado
         </div>
       )}

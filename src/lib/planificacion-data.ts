@@ -10,11 +10,11 @@ export type MotivoNoProgramada =
   | "Suspensión activa";
 
 export const motivosColor: Record<MotivoNoProgramada, string> = {
-  "Sin terapeuta disponible": "bg-[oklch(0.94_0.06_25)] text-[oklch(0.45_0.15_25)]",
-  "Sala ocupada":              "bg-[oklch(0.95_0.07_60)] text-[oklch(0.45_0.13_60)]",
-  "Familia sin transporte":    "bg-[oklch(0.93_0.06_290)] text-[oklch(0.4_0.12_290)]",
-  "Checklist incompleto":      "bg-[oklch(0.93_0.05_210)] text-[oklch(0.4_0.12_210)]",
-  "Sin carta INSS vigente":    "bg-[oklch(0.94_0.06_25)] text-[oklch(0.45_0.15_25)]",
+  "Sin terapeuta disponible": "bg-[oklch(0.94_0.053_30)] text-[oklch(0.45_0.132_30)]",
+  "Sala ocupada":              "bg-[oklch(0.95_0.062_80)] text-[oklch(0.45_0.114_80)]",
+  "Familia sin transporte":    "bg-[oklch(0.93_0.053_292)] text-[oklch(0.4_0.106_292)]",
+  "Checklist incompleto":      "bg-[oklch(0.93_0.044_258)] text-[oklch(0.4_0.106_258)]",
+  "Sin carta INSS vigente":    "bg-[oklch(0.94_0.053_30)] text-[oklch(0.45_0.132_30)]",
   "Suspensión activa":         "bg-muted text-muted-foreground",
 };
 

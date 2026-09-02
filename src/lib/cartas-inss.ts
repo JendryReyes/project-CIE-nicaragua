@@ -152,12 +152,12 @@ export function estadoCartaColor(estado: EstadoCarta): {
 } {
   switch (estado) {
     case "vigente":
-      return { bg: "bg-[oklch(0.94_0.05_155)]", text: "text-[oklch(0.4_0.12_155)]", label: "Vigente" };
+      return { bg: "bg-[oklch(0.94_0.044_160)]", text: "text-[oklch(0.4_0.106_160)]", label: "Vigente" };
     case "por_vencer":
-      return { bg: "bg-[oklch(0.94_0.08_75)]", text: "text-[oklch(0.4_0.13_75)]", label: "Por vencer" };
+      return { bg: "bg-[oklch(0.94_0.07_80)]", text: "text-[oklch(0.4_0.114_80)]", label: "Por vencer" };
     case "vencida":
-      return { bg: "bg-[oklch(0.94_0.06_25)]", text: "text-[oklch(0.45_0.15_25)]", label: "Vencida" };
+      return { bg: "bg-[oklch(0.94_0.053_30)]", text: "text-[oklch(0.45_0.132_30)]", label: "Vencida" };
     case "renovada":
-      return { bg: "bg-[oklch(0.94_0.05_200)]", text: "text-[oklch(0.4_0.13_200)]", label: "Renovada" };
+      return { bg: "bg-[oklch(0.94_0.044_258)]", text: "text-[oklch(0.4_0.114_258)]", label: "Renovada" };
   }
 }

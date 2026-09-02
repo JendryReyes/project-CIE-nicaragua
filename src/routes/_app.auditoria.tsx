@@ -32,12 +32,12 @@ const categorias: (CategoriaEvento | "todas")[] = [
 ];
 
 const tono: Record<CategoriaEvento, string> = {
-  clinico: "bg-[oklch(0.94_0.05_290)] text-[oklch(0.4_0.13_290)]",
-  facturacion: "bg-[oklch(0.94_0.05_155)] text-[oklch(0.36_0.11_155)]",
-  matricula: "bg-[oklch(0.95_0.06_60)] text-[oklch(0.42_0.13_60)]",
-  gobernanza: "bg-[oklch(0.94_0.05_250)] text-[oklch(0.4_0.13_250)]",
+  clinico: "bg-[oklch(0.94_0.044_292)] text-[oklch(0.4_0.114_292)]",
+  facturacion: "bg-[oklch(0.94_0.044_160)] text-[oklch(0.36_0.097_160)]",
+  matricula: "bg-[oklch(0.95_0.053_80)] text-[oklch(0.42_0.114_80)]",
+  gobernanza: "bg-[oklch(0.94_0.044_258)] text-[oklch(0.4_0.114_258)]",
   acceso: "bg-muted text-muted-foreground",
-  plataforma: "bg-[oklch(0.94_0.05_200)] text-[oklch(0.38_0.12_200)]",
+  plataforma: "bg-[oklch(0.94_0.044_258)] text-[oklch(0.38_0.106_258)]",
 };
 
 const fmt = (iso: string) =>

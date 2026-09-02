@@ -74,8 +74,8 @@ function PortalFamilia() {
 
         {/* Firmas pendientes */}
         {pendientes.length > 0 && (
-          <section className="bg-[#FDF6E3] border border-[oklch(0.85_0.1_75)] rounded-3xl p-6">
-            <div className="flex items-center gap-2 text-[oklch(0.45_0.13_75)] font-medium">
+          <section className="bg-[#FDF6E3] border border-[oklch(0.85_0.088_80)] rounded-3xl p-6">
+            <div className="flex items-center gap-2 text-[oklch(0.45_0.114_80)] font-medium">
               <Pen className="h-4 w-4" /> Tienes {pendientes.length} documento{pendientes.length > 1 ? "s" : ""} pendiente{pendientes.length > 1 ? "s" : ""} de firma
             </div>
             {pendientes.map((p) => (
@@ -112,7 +112,7 @@ function PortalFamilia() {
 
         {pendientes.length === 0 && (
           <section className="bg-white rounded-3xl p-6 text-center">
-            <CheckCircle2 className="h-10 w-10 mx-auto text-[oklch(0.55_0.16_155)] mb-2" />
+            <CheckCircle2 className="h-10 w-10 mx-auto text-[oklch(0.55_0.141_160)] mb-2" />
             <p className="font-medium">¡Todo al día!</p>
             <p className="text-xs text-muted-foreground mt-1">No hay documentos pendientes de firma.</p>
           </section>

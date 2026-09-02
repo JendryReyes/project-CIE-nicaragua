@@ -37,7 +37,7 @@ export function RbacMatriz() {
                       const v = matriz[r][p.id] ?? "none";
                       return (
                         <td key={r} className="p-3 text-center">
-                          {v === "full" && <Check className="h-4 w-4 text-[oklch(0.5_0.11_155)] mx-auto" />}
+                          {v === "full" && <Check className="h-4 w-4 text-[oklch(0.5_0.097_160)] mx-auto" />}
                           {v === "read" && <Eye className="h-4 w-4 text-muted-foreground mx-auto" />}
                           {v === "none" && <Minus className="h-3 w-3 text-muted-foreground/40 mx-auto" />}
                         </td>
@@ -51,7 +51,7 @@ export function RbacMatriz() {
         </table>
       </div>
       <div className="border-t border-border/60 bg-muted/30 p-3 flex flex-wrap gap-4 text-xs text-muted-foreground">
-        <span className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[oklch(0.5_0.11_155)]" /> Acceso completo</span>
+        <span className="flex items-center gap-1.5"><Check className="h-3.5 w-3.5 text-[oklch(0.5_0.097_160)]" /> Acceso completo</span>
         <span className="flex items-center gap-1.5"><Eye className="h-3.5 w-3.5" /> Solo lectura</span>
         <span className="flex items-center gap-1.5"><Minus className="h-3 w-3 opacity-50" /> Sin acceso</span>
       </div>

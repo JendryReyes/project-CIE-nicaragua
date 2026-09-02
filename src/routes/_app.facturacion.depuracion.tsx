@@ -19,10 +19,10 @@ export const Route = createFileRoute("/_app/facturacion/depuracion")({
 type Clasif = SesionDepuracion["clasificacion"];
 
 const colorClasif: Record<Clasif, string> = {
-  INSS: "oklch(0.6 0.14 200)",
-  Privada: "oklch(0.55 0.16 280)",
-  "Pro-bono": "oklch(0.6 0.14 155)",
-  "Fuera de Contrato": "oklch(0.6 0.18 25)",
+  INSS: "oklch(0.6 0.123 258)",
+  Privada: "oklch(0.55 0.141 292)",
+  "Pro-bono": "oklch(0.6 0.123 160)",
+  "Fuera de Contrato": "oklch(0.6 0.158 30)",
 };
 
 function DepuracionPage() {
@@ -236,13 +236,13 @@ function DepuracionPage() {
 
       {/* Alerta destacada */}
       {excedentesSinConstancia.length > 0 && (
-        <div className="rounded-2xl border border-[oklch(0.85_0.12_25)] bg-[oklch(0.97_0.04_25)] p-4">
-          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.4_0.16_25)]">
+        <div className="rounded-2xl border border-[oklch(0.85_0.106_30)] bg-[oklch(0.97_0.035_30)] p-4">
+          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.4_0.141_30)]">
             <AlertTriangle className="h-4 w-4" />
             {excedentesSinConstancia.length} {excedentesSinConstancia.length === 1 ? "niño con" : "niños con"} horas
             clasificadas Fuera de Contrato
           </div>
-          <div className="text-xs text-[oklch(0.4_0.14_25)] mt-1">
+          <div className="text-xs text-[oklch(0.4_0.123_30)] mt-1">
             Excedentes sin constancia médica de soporte. Adjunta la constancia o confirma la clasificación.
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -250,7 +250,7 @@ function DepuracionPage() {
               <button
                 key={g.ninoId}
                 onClick={() => setExpandido((p) => ({ ...p, [g.ninoId]: true }))}
-                className="rounded-full bg-white border border-[oklch(0.85_0.12_25)] px-2.5 py-1 text-[11px] font-medium text-[oklch(0.4_0.16_25)] hover:bg-[oklch(0.95_0.05_25)]"
+                className="rounded-full bg-white border border-[oklch(0.85_0.106_30)] px-2.5 py-1 text-[11px] font-medium text-[oklch(0.4_0.141_30)] hover:bg-[oklch(0.95_0.044_30)]"
               >
                 {g.nombre} · {g.totales["Fuera de Contrato"].horas}h
               </button>
@@ -286,7 +286,7 @@ function DepuracionPage() {
                       <div className="text-[11px] text-muted-foreground">
                         {sede}
                         {g.matricula !== "activo" && (
-                          <span className="ml-1.5 rounded bg-[oklch(0.95_0.05_60)] px-1 py-0.5 text-[10px]">
+                          <span className="ml-1.5 rounded bg-[oklch(0.95_0.044_80)] px-1 py-0.5 text-[10px]">
                             {g.matricula}
                           </span>
                         )}
@@ -299,16 +299,16 @@ function DepuracionPage() {
                       style={{
                         background:
                           g.pagador === "INSS"
-                            ? "oklch(0.94 0.05 200)"
+                            ? "oklch(0.94 0.044 258)"
                             : g.pagador === "Privado"
-                            ? "oklch(0.95 0.04 280)"
-                            : "oklch(0.94 0.05 155)",
+                            ? "oklch(0.95 0.035 292)"
+                            : "oklch(0.94 0.044 160)",
                         color:
                           g.pagador === "INSS"
-                            ? "oklch(0.35 0.12 200)"
+                            ? "oklch(0.35 0.106 258)"
                             : g.pagador === "Privado"
-                            ? "oklch(0.35 0.14 280)"
-                            : "oklch(0.35 0.12 155)",
+                            ? "oklch(0.35 0.123 292)"
+                            : "oklch(0.35 0.106 160)",
                       }}
                     >
                       {g.pagador}

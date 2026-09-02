@@ -26,7 +26,7 @@ export function PerfilPopover({ user }: { user: UserSesion }) {
           <div className="relative">
             <Avatar nombre={user.nombre} size={36} />
             {/* indicador online */}
-            <span className="absolute -bottom-0.5 -right-0.5 inline-block h-3 w-3 rounded-full border-2 border-background bg-[oklch(0.7_0.18_155)]" />
+            <span className="absolute -bottom-0.5 -right-0.5 inline-block h-3 w-3 rounded-full border-2 border-background bg-[oklch(0.7_0.158_160)]" />
           </div>
         </button>
       </PopoverTrigger>
@@ -35,12 +35,12 @@ export function PerfilPopover({ user }: { user: UserSesion }) {
         <div className="flex items-center gap-3 border-b border-border/60 p-4">
           <div className="relative">
             <Avatar nombre={user.nombre} size={48} />
-            <span className="absolute -bottom-0.5 -right-0.5 inline-block h-3.5 w-3.5 rounded-full border-2 border-background bg-[oklch(0.7_0.18_155)]" />
+            <span className="absolute -bottom-0.5 -right-0.5 inline-block h-3.5 w-3.5 rounded-full border-2 border-background bg-[oklch(0.7_0.158_160)]" />
           </div>
           <div className="min-w-0 flex-1">
             <div className="text-sm font-medium truncate">{user.nombre}</div>
             <div className="text-xs text-muted-foreground truncate">{user.rol}</div>
-            <div className="mt-1 inline-flex items-center gap-1.5 text-[11px] text-[oklch(0.45_0.13_155)]">
+            <div className="mt-1 inline-flex items-center gap-1.5 text-[11px] text-[oklch(0.45_0.114_160)]">
               <Circle className="h-2 w-2 fill-current" />
               En línea
             </div>
@@ -73,7 +73,7 @@ export function PerfilPopover({ user }: { user: UserSesion }) {
           </button>
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm text-[oklch(0.5_0.15_25)] hover:bg-[oklch(0.96_0.04_25)]"
+            className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm text-[oklch(0.5_0.132_30)] hover:bg-[oklch(0.96_0.035_30)]"
           >
             <LogOut className="h-4 w-4" />
             Cerrar sesión
