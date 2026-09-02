@@ -118,7 +118,7 @@ function Tarifas() {
                   <span
                     className={`rounded-full px-2 py-0.5 text-[0.7rem] ${
                       t.activo
-                        ? "bg-[oklch(0.94_0.05_155)] text-[oklch(0.36_0.11_155)]"
+                        ? "bg-[oklch(0.94_0.044_160)] text-[oklch(0.36_0.097_160)]"
                         : "bg-muted text-muted-foreground"
                     }`}
                   >

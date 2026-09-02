@@ -1,11 +1,11 @@
 import { iniciales } from "@/lib/demo-data";
 
 const palette = [
-  "bg-[oklch(0.9_0.05_38)] text-[oklch(0.4_0.12_38)]",
-  "bg-[oklch(0.9_0.05_155)] text-[oklch(0.36_0.1_155)]",
-  "bg-[oklch(0.9_0.05_280)] text-[oklch(0.36_0.1_280)]",
-  "bg-[oklch(0.9_0.05_200)] text-[oklch(0.36_0.1_200)]",
-  "bg-[oklch(0.9_0.05_75)] text-[oklch(0.4_0.12_75)]",
+  "bg-[oklch(0.9_0.044_30)] text-[oklch(0.4_0.106_30)]",
+  "bg-[oklch(0.9_0.044_160)] text-[oklch(0.36_0.088_160)]",
+  "bg-[oklch(0.9_0.044_292)] text-[oklch(0.36_0.088_292)]",
+  "bg-[oklch(0.9_0.044_258)] text-[oklch(0.36_0.088_258)]",
+  "bg-[oklch(0.9_0.044_80)] text-[oklch(0.4_0.106_80)]",
 ];
 
 export function Avatar({ nombre, size = 36 }: { nombre: string; size?: number }) {

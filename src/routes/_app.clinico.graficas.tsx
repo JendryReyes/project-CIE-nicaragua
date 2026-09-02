@@ -46,7 +46,7 @@ function GraficasClinicas() {
     <div className="space-y-6 max-w-[1400px]">
       <div className="flex items-end justify-between flex-wrap gap-3">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.94_0.08_300)] text-[oklch(0.35_0.15_300)] px-3 py-1 text-[11px] font-medium mb-2">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.94_0.07_292)] text-[oklch(0.35_0.132_292)] px-3 py-1 text-[11px] font-medium mb-2">
             <Sparkles className="h-3 w-3" /> Módulo clínico ABA · Etapa 2
           </div>
           <h1 className="font-display text-3xl">Gráficas de progreso</h1>
@@ -106,7 +106,7 @@ function GraficasClinicas() {
           </Field>
 
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center rounded-full bg-[oklch(0.94_0.06_155)] text-[oklch(0.35_0.12_155)] px-2.5 py-0.5 text-xs font-medium">
+            <span className="inline-flex items-center rounded-full bg-[oklch(0.94_0.053_160)] text-[oklch(0.35_0.106_160)] px-2.5 py-0.5 text-xs font-medium">
               En adquisición
             </span>
             <span className="text-xs text-muted-foreground">Fase actual</span>
@@ -123,9 +123,9 @@ function GraficasClinicas() {
           </div>
 
           <div className="grid grid-cols-3 gap-2 pt-2 border-t border-border/60">
-            <Mini icon={<TrendingUp className="h-3.5 w-3.5 text-[oklch(0.55_0.1_155)]" />} label="Pendiente" value={`+${pendiente.toFixed(1)}%`} />
+            <Mini icon={<TrendingUp className="h-3.5 w-3.5 text-[oklch(0.55_0.088_160)]" />} label="Pendiente" value={`+${pendiente.toFixed(1)}%`} />
             <Mini icon={<Target className="h-3.5 w-3.5 text-primary" />} label="Promedio 7d" value={`${promedioUltimaSemana}%`} />
-            <Mini icon={<Sparkles className="h-3.5 w-3.5 text-[oklch(0.55_0.13_300)]" />} label="ETA criterio" value={`~${sesionesParaMeta} ses.`} />
+            <Mini icon={<Sparkles className="h-3.5 w-3.5 text-[oklch(0.55_0.114_292)]" />} label="ETA criterio" value={`~${sesionesParaMeta} ses.`} />
           </div>
         </div>
 
@@ -134,19 +134,19 @@ function GraficasClinicas() {
           <div className="flex items-center justify-between mb-2">
             <h3 className="font-display text-lg">Serie por sesión</h3>
             <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
-              <span className="flex items-center gap-1"><span className="h-2 w-3 rounded bg-[oklch(0.55_0.16_300)]" /> % correcto</span>
-              <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[oklch(0.55_0.18_25)]" /> Criterio 90%</span>
+              <span className="flex items-center gap-1"><span className="h-2 w-3 rounded bg-[oklch(0.55_0.141_292)]" /> % correcto</span>
+              <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[oklch(0.55_0.158_30)]" /> Criterio 90%</span>
               <span className="flex items-center gap-1"><span className="h-2 w-0.5 bg-muted-foreground/50" /> Cambio fase</span>
             </div>
           </div>
           <div className="h-80">
             <ResponsiveContainer>
               <LineChart data={DATOS_MATEO_PECS} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.9 0.01 65)" />
-                <XAxis dataKey="fecha" tick={{ fontSize: 11, fill: "oklch(0.5 0.02 50)" }} />
-                <YAxis domain={[0, 100]} unit="%" tick={{ fontSize: 11, fill: "oklch(0.5 0.02 50)" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.9 0.01 265)" />
+                <XAxis dataKey="fecha" tick={{ fontSize: 11, fill: "oklch(0.5 0.014 265)" }} />
+                <YAxis domain={[0, 100]} unit="%" tick={{ fontSize: 11, fill: "oklch(0.5 0.014 265)" }} />
                 <Tooltip
-                  contentStyle={{ borderRadius: 12, border: "1px solid oklch(0.89 0.018 65)", background: "oklch(0.995 0.005 75)" }}
+                  contentStyle={{ borderRadius: 12, border: "1px solid oklch(0.89 0.014 265)", background: "oklch(0.995 0.005 265)" }}
                   content={({ active, payload }) => {
                     if (!active || !payload?.[0]) return null;
                     const p = payload[0].payload as Punto;
@@ -162,22 +162,22 @@ function GraficasClinicas() {
                 />
                 <ReferenceLine
                   y={90}
-                  stroke="oklch(0.55 0.18 25)"
+                  stroke="oklch(0.55 0.158 30)"
                   strokeDasharray="4 4"
-                  label={{ value: "Criterio 90%", position: "right", fontSize: 10, fill: "oklch(0.45 0.16 25)" }}
+                  label={{ value: "Criterio 90%", position: "right", fontSize: 10, fill: "oklch(0.45 0.141 30)" }}
                 />
                 <ReferenceLine
                   x="14/04"
-                  stroke="oklch(0.5 0.05 50)"
+                  stroke="oklch(0.5 0.044 80)"
                   strokeDasharray="3 3"
-                  label={{ value: "Cambio de fase → prompt gestual", position: "top", fontSize: 10, fill: "oklch(0.4 0.05 50)" }}
+                  label={{ value: "Cambio de fase → prompt gestual", position: "top", fontSize: 10, fill: "oklch(0.4 0.044 80)" }}
                 />
                 <Line
                   type="monotone"
                   dataKey="pct"
-                  stroke="oklch(0.55 0.16 300)"
+                  stroke="oklch(0.55 0.141 292)"
                   strokeWidth={2.5}
-                  dot={{ r: 4, fill: "oklch(0.55 0.16 300)" }}
+                  dot={{ r: 4, fill: "oklch(0.55 0.141 292)" }}
                   activeDot={{ r: 6 }}
                 />
               </LineChart>
@@ -187,13 +187,13 @@ function GraficasClinicas() {
       </div>
 
       {/* Análisis IA */}
-      <div className="rounded-2xl border border-[oklch(0.85_0.08_300)] bg-gradient-to-br from-[oklch(0.98_0.025_300)] to-[oklch(0.97_0.03_200)] p-5">
+      <div className="rounded-2xl border border-[oklch(0.85_0.07_292)] bg-gradient-to-br from-[oklch(0.98_0.014_265)] to-[oklch(0.97_0.014_265)] p-5">
         <div className="flex items-start gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[oklch(0.92_0.08_300)]">
-            <Sparkles className="h-4 w-4 text-[oklch(0.4_0.15_300)]" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[oklch(0.92_0.07_292)]">
+            <Sparkles className="h-4 w-4 text-[oklch(0.4_0.132_292)]" />
           </div>
           <div className="flex-1">
-            <h3 className="font-display text-lg text-[oklch(0.3_0.12_300)]">Análisis IA del progreso</h3>
+            <h3 className="font-display text-lg text-[oklch(0.3_0.106_292)]">Análisis IA del progreso</h3>
             <p className="text-sm text-foreground/85 mt-2 leading-relaxed">
               Durante las últimas <strong>8 sesiones</strong>, el programa muestra una tendencia
               ascendente consistente (pendiente <strong>+{pendiente.toFixed(1)}% por sesión</strong>).
@@ -208,9 +208,9 @@ function GraficasClinicas() {
               impacto positivo claro en la tasa de adquisición.
             </p>
             <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
-              <span className="rounded-full bg-white/60 px-2 py-0.5 border border-border/40">Sin estancamiento</span>
-              <span className="rounded-full bg-white/60 px-2 py-0.5 border border-border/40">Variabilidad baja</span>
-              <span className="rounded-full bg-white/60 px-2 py-0.5 border border-border/40">IOA estimado 92%</span>
+              <span className="rounded-full bg-card/60 px-2 py-0.5 border border-border/40">Sin estancamiento</span>
+              <span className="rounded-full bg-card/60 px-2 py-0.5 border border-border/40">Variabilidad baja</span>
+              <span className="rounded-full bg-card/60 px-2 py-0.5 border border-border/40">IOA estimado 92%</span>
             </div>
           </div>
         </div>

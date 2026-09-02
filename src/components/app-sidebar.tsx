@@ -119,12 +119,14 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border/60 p-4">
         <Link to="/dashboard" className="flex items-center gap-2.5">
-          <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-border/60">
-            <img src={cieLogo.url} alt="CIE" className="h-full w-full object-contain" />
+          <div className="bg-gradient-marca h-10 w-10 shrink-0 rounded-xl p-[1.5px] shadow-suave">
+            <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-[0.6rem] bg-card">
+              <img src={cieLogo.url} alt="CIE" className="h-full w-full object-contain" />
+            </div>
           </div>
 
           <div className="flex flex-col leading-tight">
-            <span className="font-display text-lg font-semibold">CIE</span>
+            <span className="font-display text-gradient-marca text-lg font-semibold">CIE</span>
             <span className="text-[0.65rem] text-muted-foreground">Centro Edu-Terapéutico</span>
           </div>
         </Link>

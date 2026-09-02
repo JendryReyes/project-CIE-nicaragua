@@ -11,9 +11,9 @@ export const Route = createFileRoute("/_app/facturacion/$loteId")({
 });
 
 const areaColor: Record<string, string> = {
-  ABA: "bg-[oklch(0.94_0.05_30)] text-[oklch(0.4_0.13_30)]",
-  Fisioterapia: "bg-[oklch(0.94_0.05_200)] text-[oklch(0.4_0.1_200)]",
-  Logopedia: "bg-[oklch(0.94_0.05_280)] text-[oklch(0.4_0.1_280)]",
+  ABA: "bg-[oklch(0.94_0.044_30)] text-[oklch(0.4_0.114_30)]",
+  Fisioterapia: "bg-[oklch(0.94_0.044_258)] text-[oklch(0.4_0.088_258)]",
+  Logopedia: "bg-[oklch(0.94_0.044_292)] text-[oklch(0.4_0.088_292)]",
 };
 
 function LoteDetalle() {
@@ -65,14 +65,14 @@ function LoteDetalle() {
 
       {/* Alerta de excedentes */}
       {resumen.alertasExcedente > 0 && (
-        <div className="rounded-2xl border border-[oklch(0.85_0.1_25)] bg-[oklch(0.97_0.04_25)] p-5">
+        <div className="rounded-2xl border border-[oklch(0.85_0.088_30)] bg-[oklch(0.97_0.035_30)] p-5">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-[oklch(0.55_0.18_25)] mt-0.5" />
+            <AlertTriangle className="h-5 w-5 text-[oklch(0.55_0.158_30)] mt-0.5" />
             <div className="flex-1">
-              <h3 className="font-display text-lg text-[oklch(0.35_0.15_25)]">
+              <h3 className="font-display text-lg text-[oklch(0.35_0.132_30)]">
                 {resumen.alertasExcedente} niño(s) con horas excedentes sin constancia médica
               </h3>
-              <p className="text-sm text-[oklch(0.4_0.12_25)] mt-1">
+              <p className="text-sm text-[oklch(0.4_0.106_30)] mt-1">
                 Estas horas se excluyen automáticamente de la facturación INSS. Si tienes la constancia médica del período anterior,
                 cárgala desde el expediente del niño y vuelve a generar el lote.
               </p>
@@ -113,13 +113,13 @@ function LoteDetalle() {
                 const pctUso = l.horasAprobadas > 0 ? l.horasEjecutadas / l.horasAprobadas : 0;
                 const rowTone =
                   sinCarta || (hayExcedente && !l.constanciaMedica)
-                    ? "bg-[oklch(0.97_0.03_25)] hover:bg-[oklch(0.95_0.04_25)]"
+                    ? "bg-[oklch(0.97_0.014_265)] hover:bg-[oklch(0.95_0.035_30)]"
                     : hayExcedente
-                    ? "bg-[oklch(0.97_0.04_75)] hover:bg-[oklch(0.95_0.05_75)]"
+                    ? "bg-[oklch(0.97_0.035_80)] hover:bg-[oklch(0.95_0.044_80)]"
                     : pctUso >= 0.85 && l.tipo === "INSS"
-                    ? "bg-[oklch(0.98_0.025_75)] hover:bg-[oklch(0.96_0.04_75)]"
+                    ? "bg-[oklch(0.98_0.014_265)] hover:bg-[oklch(0.96_0.035_80)]"
                     : l.tipo === "INSS"
-                    ? "bg-[oklch(0.98_0.02_155)] hover:bg-[oklch(0.96_0.03_155)]"
+                    ? "bg-[oklch(0.98_0.014_265)] hover:bg-[oklch(0.96_0.014_265)]"
                     : "hover:bg-muted/40";
                 return (
                   <tr key={i} className={rowTone}>
@@ -140,7 +140,7 @@ function LoteDetalle() {
                     <td className="px-3 py-3 text-right tabular">
                       {c.limiteRestante}
                       {l.constanciaMedica && (
-                        <span className="ml-1 inline-flex items-center text-[10px] text-[oklch(0.5_0.13_155)]">
+                        <span className="ml-1 inline-flex items-center text-[10px] text-[oklch(0.6_0.078_160)]">
                           +{l.constanciaMedica.horasJustificadas}c
                         </span>
                       )}
@@ -149,17 +149,17 @@ function LoteDetalle() {
                     <td className="px-3 py-3 text-right tabular font-display">{c.facturablesINSS}</td>
                     <td className="px-3 py-3">
                       {sinCarta && (
-                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.5_0.15_25)]">
+                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.5_0.132_30)]">
                           <ShieldAlert className="h-3 w-3" /> Sin carta vigente
                         </span>
                       )}
                       {hayExcedente && l.constanciaMedica && (
-                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.5_0.13_155)]" title={l.constanciaMedica.tipo}>
+                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.6_0.078_160)]" title={l.constanciaMedica.tipo}>
                           <Stethoscope className="h-3 w-3" /> +{c.excedente}h con constancia
                         </span>
                       )}
                       {hayExcedente && !l.constanciaMedica && (
-                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.5_0.18_25)]">
+                        <span className="inline-flex items-center gap-1 text-xs text-[oklch(0.5_0.158_30)]">
                           <AlertTriangle className="h-3 w-3" /> {c.excedente}h excedente excluido
                         </span>
                       )}
@@ -168,7 +168,7 @@ function LoteDetalle() {
                       )}
                       {!hayExcedente && !sinCarta && l.tipo === "INSS" && (
                         <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-                          <CheckCircle2 className="h-3 w-3 text-[oklch(0.55_0.1_155)]" /> OK
+                          <CheckCircle2 className="h-3 w-3 text-[oklch(0.55_0.088_160)]" /> OK
                         </span>
                       )}
                     </td>
@@ -201,12 +201,12 @@ function LoteDetalle() {
               <li key={s.id} className="flex items-center justify-between rounded-lg border border-border/60 px-3 py-2.5">
                 <div className="flex items-center gap-2.5">
                   {s.cargado
-                    ? <FileCheck2 className="h-4 w-4 text-[oklch(0.55_0.1_155)]" />
+                    ? <FileCheck2 className="h-4 w-4 text-[oklch(0.55_0.088_160)]" />
                     : <FileX2 className="h-4 w-4 text-muted-foreground" />}
                   <div>
                     <div className="text-sm">{s.nombre}</div>
                     {s.requerido && !s.cargado && (
-                      <div className="text-[11px] text-[oklch(0.5_0.18_25)]">Requerido</div>
+                      <div className="text-[11px] text-[oklch(0.5_0.158_30)]">Requerido</div>
                     )}
                   </div>
                 </div>
@@ -243,8 +243,8 @@ function LoteDetalle() {
 function Kpi({ label, value, hint, tone }: { label: string; value: string; hint?: string; tone?: "primary" | "success" | "warn" | "neutral" }) {
   const toneCls =
     tone === "primary" ? "text-primary" :
-    tone === "success" ? "text-[oklch(0.5_0.1_155)]" :
-    tone === "warn" ? "text-[oklch(0.5_0.18_25)]" : "";
+    tone === "success" ? "text-[oklch(0.5_0.088_160)]" :
+    tone === "warn" ? "text-[oklch(0.5_0.158_30)]" : "";
   return (
     <div className="rounded-2xl border border-border/70 bg-card p-4">
       <div className="text-xs uppercase tracking-wider text-muted-foreground">{label}</div>

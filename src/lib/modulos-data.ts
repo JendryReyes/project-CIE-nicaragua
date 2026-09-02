@@ -10,9 +10,9 @@ export const tarifa: Record<AreaFact, number> = {
 };
 
 export const areaColor: Record<AreaFact, string> = {
-  ABA: "oklch(0.55 0.18 265)",          // morado-azul
-  Logo: "oklch(0.6 0.16 30)",           // naranja-rojo
-  Fisio: "oklch(0.55 0.14 200)",        // teal
+  ABA: "oklch(0.55 0.158 258)",          // morado-azul
+  Logo: "oklch(0.6 0.141 30)",           // naranja-rojo
+  Fisio: "oklch(0.55 0.123 258)",        // teal
 };
 
 export type NinoFact = {

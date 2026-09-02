@@ -103,7 +103,7 @@ function NinosList() {
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    {n.inss ? <span className="text-xs text-[oklch(0.5_0.1_155)]">● Cubierto</span> : <span className="text-xs text-muted-foreground">Privado</span>}
+                    {n.inss ? <span className="text-xs text-[oklch(0.5_0.088_160)]">● Cubierto</span> : <span className="text-xs text-muted-foreground">Privado</span>}
                   </td>
                   <td className="px-4 py-3">
                     <EstadoPill estado={n.estado} />
@@ -132,8 +132,8 @@ function Select<T extends string>({ value, onChange, options }: { value: T; onCh
 
 function EstadoPill({ estado }: { estado: string }) {
   const map: Record<string, string> = {
-    activo: "bg-[oklch(0.94_0.05_155)] text-[oklch(0.4_0.1_155)]",
-    evaluacion: "bg-[oklch(0.94_0.05_60)] text-[oklch(0.4_0.13_60)]",
+    activo: "bg-[oklch(0.94_0.044_160)] text-[oklch(0.4_0.088_160)]",
+    evaluacion: "bg-[oklch(0.94_0.044_80)] text-[oklch(0.4_0.114_80)]",
     pausa: "bg-muted text-muted-foreground",
   };
   const labels: Record<string, string> = { activo: "Activo", evaluacion: "Evaluación", pausa: "En pausa" };

@@ -28,9 +28,9 @@ export const Route = createFileRoute("/_app/incidentes")({
 });
 
 const sevTono = {
-  alta: "bg-[oklch(0.95_0.06_28)] text-[oklch(0.45_0.15_28)]",
-  media: "bg-[oklch(0.95_0.07_70)] text-[oklch(0.44_0.13_70)]",
-  baja: "bg-[oklch(0.94_0.05_155)] text-[oklch(0.36_0.11_155)]",
+  alta: "bg-[oklch(0.95_0.053_30)] text-[oklch(0.45_0.132_30)]",
+  media: "bg-[oklch(0.95_0.062_80)] text-[oklch(0.44_0.114_80)]",
+  baja: "bg-[oklch(0.94_0.044_160)] text-[oklch(0.36_0.097_160)]",
 } as const;
 
 const faseIdx = { registro: 0, revision: 1, correctivo: 2, cerrado: 3 } as const;
@@ -71,8 +71,8 @@ function Incidentes() {
       </div>
 
       {r.sinCorrectivas > 0 && (
-        <div className="rounded-xl border border-[oklch(0.85_0.08_28)] bg-[oklch(0.98_0.02_28)] p-4">
-          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.15_28)]">
+        <div className="rounded-xl border border-[oklch(0.85_0.07_30)] bg-[oklch(0.98_0.014_265)] p-4">
+          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.132_30)]">
             <AlertTriangle className="h-4 w-4" /> Alerta automática · {r.sinCorrectivas} incidentes abiertos sin plan
             correctivo registrado
           </div>
@@ -166,7 +166,7 @@ function Incidentes() {
       </div>
 
       {sel && (
-        <div className="fixed inset-0 z-40 flex justify-end bg-black/30" onClick={() => setSel(null)}>
+        <div className="fixed inset-0 z-40 flex justify-end bg-foreground/30" onClick={() => setSel(null)}>
           <aside
             onClick={(e) => e.stopPropagation()}
             className="h-full w-full max-w-xl overflow-y-auto border-l border-border/60 bg-background p-6"

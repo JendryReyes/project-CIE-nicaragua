@@ -26,9 +26,9 @@ export const Route = createFileRoute("/_app/pagadores")({
 const fmt = (f: string) => new Date(f).toLocaleDateString("es-NI", { day: "numeric", month: "short", year: "numeric" });
 
 const pagadorTono: Record<string, string> = {
-  INSS: "bg-[oklch(0.94_0.05_155)] text-[oklch(0.36_0.11_155)]",
-  Privado: "bg-[oklch(0.94_0.05_250)] text-[oklch(0.4_0.13_250)]",
-  "Pro-bono": "bg-[oklch(0.94_0.05_290)] text-[oklch(0.4_0.13_290)]",
+  INSS: "bg-[oklch(0.94_0.044_160)] text-[oklch(0.36_0.097_160)]",
+  Privado: "bg-[oklch(0.94_0.044_258)] text-[oklch(0.4_0.114_258)]",
+  "Pro-bono": "bg-[oklch(0.94_0.044_292)] text-[oklch(0.4_0.114_292)]",
   "Otra aseguradora": "bg-muted text-muted-foreground",
 };
 
@@ -69,8 +69,8 @@ function Pagadores() {
       </div>
 
       {alertas.length > 0 && (
-        <div className="rounded-xl border border-[oklch(0.85_0.08_30)] bg-[oklch(0.98_0.02_30)] p-4">
-          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.15_30)]">
+        <div className="rounded-xl border border-[oklch(0.85_0.07_30)] bg-[oklch(0.98_0.014_265)] p-4">
+          <div className="flex items-center gap-2 text-sm font-medium text-[oklch(0.45_0.132_30)]">
             <AlertTriangle className="h-4 w-4" /> Alerta automática · {alertas.length} autorizaciones fuera de rango
           </div>
           <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
@@ -159,15 +159,15 @@ function Pagadores() {
                     {!a ? (
                       <span className="text-xs text-muted-foreground">N/A</span>
                     ) : e!.excedeCarta ? (
-                      <span className="rounded-full bg-[oklch(0.95_0.06_28)] px-2 py-0.5 text-[0.7rem] text-[oklch(0.45_0.15_28)]">
+                      <span className="rounded-full bg-[oklch(0.95_0.053_30)] px-2 py-0.5 text-[0.7rem] text-[oklch(0.45_0.132_30)]">
                         Excede carta
                       </span>
                     ) : e!.excedeTDR ? (
-                      <span className="rounded-full bg-[oklch(0.95_0.07_70)] px-2 py-0.5 text-[0.7rem] text-[oklch(0.44_0.13_70)]">
+                      <span className="rounded-full bg-[oklch(0.95_0.062_80)] px-2 py-0.5 text-[0.7rem] text-[oklch(0.44_0.114_80)]">
                         Supera tope autorizado
                       </span>
                     ) : (
-                      <span className="rounded-full bg-[oklch(0.94_0.05_155)] px-2 py-0.5 text-[0.7rem] text-[oklch(0.36_0.11_155)]">
+                      <span className="rounded-full bg-[oklch(0.94_0.044_160)] px-2 py-0.5 text-[0.7rem] text-[oklch(0.36_0.097_160)]">
                         {e!.pct}% usado
                       </span>
                     )}
@@ -190,7 +190,7 @@ function DetallePagador({ p, onClose }: { p: PagadorNino; onClose: () => void })
   const pr = prorratear({ montoMensual: 480, mes: 6, anio: 2026, ingreso: p.ingresoMes, egreso: p.egresoMes });
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/30" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex justify-end bg-foreground/30" onClick={onClose}>
       <div
         className="h-full w-full max-w-lg overflow-y-auto bg-background p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
@@ -261,10 +261,10 @@ function DetallePagador({ p, onClose }: { p: PagadorNino; onClose: () => void })
                   width: `${Math.min(100, estadoAutorizacion(a).pct)}%`,
                   background:
                     estadoAutorizacion(a).pct >= 100
-                      ? "oklch(0.6 0.18 28)"
+                      ? "oklch(0.6 0.158 30)"
                       : estadoAutorizacion(a).pct >= 85
-                        ? "oklch(0.72 0.15 75)"
-                        : "oklch(0.6 0.14 155)",
+                        ? "oklch(0.72 0.132 80)"
+                        : "oklch(0.66 0.084 160)",
                 }}
               />
             </div>
@@ -301,7 +301,7 @@ function DetallePagador({ p, onClose }: { p: PagadorNino; onClose: () => void })
             </div>
           )}
           {pr.parcial && (
-            <div className="mt-2 text-xs text-[oklch(0.45_0.14_60)]">
+            <div className="mt-2 text-xs text-[oklch(0.45_0.123_80)]">
               Mes parcial detectado ({p.ingresoMes ? `ingreso ${fmt(p.ingresoMes)}` : ""}
               {p.egresoMes ? ` egreso ${fmt(p.egresoMes)}` : ""}). Se factura solo el período efectivo.
             </div>

@@ -74,7 +74,7 @@ function Familias() {
                 <td className="text-center"><EstadoBadge e={f.estado} /></td>
                 <td className="text-center">
                   {f.firmasPendientes > 0
-                    ? <span className="inline-flex items-center gap-1 rounded-full bg-[oklch(0.94_0.06_75)] text-[oklch(0.4_0.13_75)] px-2 py-0.5 text-[10px] font-medium tabular">{f.firmasPendientes} pendiente{f.firmasPendientes > 1 ? "s" : ""}</span>
+                    ? <span className="inline-flex items-center gap-1 rounded-full bg-[oklch(0.94_0.053_80)] text-[oklch(0.4_0.114_80)] px-2 py-0.5 text-[10px] font-medium tabular">{f.firmasPendientes} pendiente{f.firmasPendientes > 1 ? "s" : ""}</span>
                     : <span className="text-xs text-muted-foreground">—</span>}
                 </td>
                 <td className="pl-3 text-xs text-muted-foreground flex items-center gap-1 pt-3"><Clock className="h-3 w-3" /> {f.ultimoAcceso}</td>
@@ -94,7 +94,7 @@ function Familias() {
 
 function KPI({ label, value, icon, highlight }: { label: string; value: string; icon?: React.ReactNode; highlight?: boolean }) {
   return (
-    <div className={`rounded-2xl border p-4 ${highlight ? "border-[oklch(0.7_0.13_75/0.4)] bg-[oklch(0.97_0.05_75)]" : "border-border/70 bg-card"}`}>
+    <div className={`rounded-2xl border p-4 ${highlight ? "border-[oklch(0.7_0.114_80/0.4)] bg-[oklch(0.97_0.044_80)]" : "border-border/70 bg-card"}`}>
       <div className="flex items-center justify-between text-[10px] uppercase tracking-wider text-muted-foreground">
         <span>{label}</span>{icon}
       </div>
@@ -105,8 +105,8 @@ function KPI({ label, value, icon, highlight }: { label: string; value: string; 
 
 function EstadoBadge({ e }: { e: EstadoPortal }) {
   const map = {
-    activo: ["bg-[oklch(0.94_0.05_155)] text-[oklch(0.35_0.12_155)]", "Activo"],
-    invitado: ["bg-[oklch(0.94_0.06_75)] text-[oklch(0.4_0.13_75)]", "Invitado"],
+    activo: ["bg-[oklch(0.94_0.044_160)] text-[oklch(0.35_0.106_160)]", "Activo"],
+    invitado: ["bg-[oklch(0.94_0.053_80)] text-[oklch(0.4_0.114_80)]", "Invitado"],
     sin_acceso: ["bg-muted text-muted-foreground", "Sin acceso"],
   } as const;
   const [cls, lbl] = map[e];

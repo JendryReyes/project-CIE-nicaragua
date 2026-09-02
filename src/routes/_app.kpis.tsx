@@ -19,9 +19,9 @@ export const Route = createFileRoute("/_app/kpis")({
 });
 
 const tono = {
-  ok: "border-[oklch(0.88_0.06_155)] bg-[oklch(0.98_0.02_155)]",
-  atencion: "border-[oklch(0.88_0.07_70)] bg-[oklch(0.99_0.02_70)]",
-  critico: "border-[oklch(0.88_0.07_28)] bg-[oklch(0.99_0.02_28)]",
+  ok: "border-[oklch(0.88_0.053_160)] bg-[oklch(0.98_0.014_265)]",
+  atencion: "border-[oklch(0.88_0.062_80)] bg-[oklch(0.99_0.014_265)]",
+  critico: "border-[oklch(0.88_0.062_30)] bg-[oklch(0.99_0.014_265)]",
 } as const;
 
 function Kpis() {
@@ -67,9 +67,9 @@ function Kpis() {
                   <div className="mt-1 font-display text-2xl">{k.valor}</div>
                   <div className="mt-1 flex items-center gap-1 text-xs">
                     {k.tendencia >= 0 ? (
-                      <TrendingUp className="h-3.5 w-3.5 text-[oklch(0.55_0.14_155)]" />
+                      <TrendingUp className="h-3.5 w-3.5 text-[oklch(0.63_0.084_160)]" />
                     ) : (
-                      <TrendingDown className="h-3.5 w-3.5 text-[oklch(0.55_0.15_28)]" />
+                      <TrendingDown className="h-3.5 w-3.5 text-[oklch(0.55_0.132_30)]" />
                     )}
                     <span className="text-muted-foreground">
                       {k.tendencia > 0 ? "+" : ""}
@@ -106,7 +106,7 @@ function Kpis() {
                   <td className="px-3 py-2 text-xs">{s.objetivo}</td>
                   <td className="px-3 py-2 text-xs">{s.medido}</td>
                   <td className="px-3 py-2 text-xs">
-                    <span className="rounded-full bg-[oklch(0.94_0.05_155)] px-2 py-0.5 text-[oklch(0.36_0.11_155)]">
+                    <span className="rounded-full bg-[oklch(0.94_0.044_160)] px-2 py-0.5 text-[oklch(0.36_0.097_160)]">
                       {s.ok ? "Dentro del SLA" : "Fuera del SLA"}
                     </span>
                   </td>

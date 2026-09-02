@@ -152,10 +152,10 @@ function Biblioteca() {
               <div className="mt-4 pt-3 border-t border-border/50 space-y-2">
                 <div className="flex justify-between text-xs">
                   <span className="text-muted-foreground inline-flex items-center gap-1"><Users className="h-3 w-3" /> Cupo INSS</span>
-                  <span className={`tabular font-medium ${lleno ? "text-[oklch(0.55_0.13_60)]" : ""}`}>{s.cupoOcupado}/{s.cupoINSS}</span>
+                  <span className={`tabular font-medium ${lleno ? "text-[oklch(0.55_0.114_80)]" : ""}`}>{s.cupoOcupado}/{s.cupoINSS}</span>
                 </div>
                 <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-                  <div className={`h-full rounded-full ${lleno ? "bg-[oklch(0.65_0.13_60)]" : "bg-primary"}`} style={{ width: `${pct}%` }} />
+                  <div className={`h-full rounded-full ${lleno ? "bg-[oklch(0.65_0.114_80)]" : "bg-primary"}`} style={{ width: `${pct}%` }} />
                 </div>
                 <div className="flex justify-between items-center">
                   <div className="text-[0.65rem] text-muted-foreground">Edad: {s.edadMin}–{s.edadMax} años</div>
@@ -206,7 +206,7 @@ function DetalleServicio({ servicio, onClose }: { servicio: ServicioCIE | null; 
             <span className="tabular font-medium">{pct}%</span>
           </div>
           <div className="h-2 rounded-full bg-muted overflow-hidden">
-            <div className={`h-full ${pct >= 90 ? "bg-[oklch(0.65_0.13_60)]" : "bg-primary"}`} style={{ width: `${pct}%` }} />
+            <div className={`h-full ${pct >= 90 ? "bg-[oklch(0.65_0.114_80)]" : "bg-primary"}`} style={{ width: `${pct}%` }} />
           </div>
         </div>
 

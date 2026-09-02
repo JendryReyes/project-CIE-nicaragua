@@ -56,7 +56,7 @@ export function TourGuiado() {
     <>
       <button
         onClick={() => navigate({ to: rutas[0] })}
-        className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.85_0.08_300)] bg-[oklch(0.97_0.04_300)] text-[oklch(0.4_0.15_300)] px-3 py-1.5 text-xs font-medium hover:bg-[oklch(0.94_0.06_300)] transition-colors"
+        className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.85_0.07_292)] bg-[oklch(0.97_0.035_292)] text-[oklch(0.4_0.132_292)] px-3 py-1.5 text-xs font-medium hover:bg-[oklch(0.94_0.053_292)] transition-colors"
         title="Tour guiado del sistema"
       >
         <Sparkles className="h-3.5 w-3.5" />

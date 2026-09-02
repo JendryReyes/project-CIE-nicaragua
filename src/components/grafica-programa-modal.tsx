@@ -53,14 +53,14 @@ export function GraficaProgramaModal({
   const eta = Math.max(1, Math.ceil((90 - 75) / pendiente));
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-foreground/50 backdrop-blur-sm" onClick={onClose}>
       <div
         className="bg-card rounded-2xl border border-border/70 shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <header className="sticky top-0 bg-card/95 backdrop-blur border-b border-border/60 px-6 py-4 flex items-start justify-between gap-4 z-10">
           <div className="min-w-0">
-            <div className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.94_0.08_300)] text-[oklch(0.35_0.15_300)] px-2.5 py-0.5 text-[10px] font-medium mb-1.5">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[oklch(0.94_0.07_292)] text-[oklch(0.35_0.132_292)] px-2.5 py-0.5 text-[10px] font-medium mb-1.5">
               <Sparkles className="h-3 w-3" /> Gráfica de progreso
             </div>
             <h2 className="font-display text-xl leading-tight truncate">{programaNombre}</h2>
@@ -83,25 +83,25 @@ export function GraficaProgramaModal({
 
         <div className="p-6 space-y-5">
           <div className="grid grid-cols-3 gap-3">
-            <Mini icon={<TrendingUp className="h-3.5 w-3.5 text-[oklch(0.55_0.1_155)]" />} label="Pendiente" value={`+${pendiente.toFixed(1)}%`} />
+            <Mini icon={<TrendingUp className="h-3.5 w-3.5 text-[oklch(0.55_0.088_160)]" />} label="Pendiente" value={`+${pendiente.toFixed(1)}%`} />
             <Mini icon={<Target className="h-3.5 w-3.5 text-primary" />} label="Promedio 7d" value={`${promedio7d}%`} />
-            <Mini icon={<Sparkles className="h-3.5 w-3.5 text-[oklch(0.55_0.13_300)]" />} label="ETA criterio" value={`~${eta} ses.`} />
+            <Mini icon={<Sparkles className="h-3.5 w-3.5 text-[oklch(0.55_0.114_292)]" />} label="ETA criterio" value={`~${eta} ses.`} />
           </div>
 
           <div className="rounded-2xl border border-border/70 bg-card p-4">
             <div className="flex items-center justify-between mb-2">
               <h3 className="font-display text-sm">Serie por sesión</h3>
               <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
-                <span className="flex items-center gap-1"><span className="h-2 w-3 rounded bg-[oklch(0.55_0.16_300)]" /> % correcto</span>
-                <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[oklch(0.55_0.18_25)]" /> Criterio 90%</span>
+                <span className="flex items-center gap-1"><span className="h-2 w-3 rounded bg-[oklch(0.55_0.141_292)]" /> % correcto</span>
+                <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[oklch(0.55_0.158_30)]" /> Criterio 90%</span>
               </div>
             </div>
             <div className="h-72">
               <ResponsiveContainer>
                 <LineChart data={DATOS_DEMO} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.9 0.01 65)" />
-                  <XAxis dataKey="fecha" tick={{ fontSize: 11, fill: "oklch(0.5 0.02 50)" }} />
-                  <YAxis domain={[0, 100]} unit="%" tick={{ fontSize: 11, fill: "oklch(0.5 0.02 50)" }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.9 0.01 265)" />
+                  <XAxis dataKey="fecha" tick={{ fontSize: 11, fill: "oklch(0.5 0.014 265)" }} />
+                  <YAxis domain={[0, 100]} unit="%" tick={{ fontSize: 11, fill: "oklch(0.5 0.014 265)" }} />
                   <Tooltip
                     content={({ active, payload }) => {
                       if (!active || !payload?.[0]) return null;
@@ -116,22 +116,22 @@ export function GraficaProgramaModal({
                       );
                     }}
                   />
-                  <ReferenceLine y={90} stroke="oklch(0.55 0.18 25)" strokeDasharray="4 4"
-                    label={{ value: "Criterio 90%", position: "right", fontSize: 10, fill: "oklch(0.45 0.16 25)" }} />
-                  <Line type="monotone" dataKey="pct" stroke="oklch(0.55 0.16 300)" strokeWidth={2.5}
-                    dot={{ r: 4, fill: "oklch(0.55 0.16 300)" }} activeDot={{ r: 6 }} />
+                  <ReferenceLine y={90} stroke="oklch(0.55 0.158 30)" strokeDasharray="4 4"
+                    label={{ value: "Criterio 90%", position: "right", fontSize: 10, fill: "oklch(0.45 0.141 30)" }} />
+                  <Line type="monotone" dataKey="pct" stroke="oklch(0.55 0.141 292)" strokeWidth={2.5}
+                    dot={{ r: 4, fill: "oklch(0.55 0.141 292)" }} activeDot={{ r: 6 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[oklch(0.85_0.08_300)] bg-gradient-to-br from-[oklch(0.98_0.025_300)] to-[oklch(0.97_0.03_200)] p-4">
+          <div className="rounded-2xl border border-[oklch(0.85_0.07_292)] bg-gradient-to-br from-[oklch(0.98_0.014_265)] to-[oklch(0.97_0.014_265)] p-4">
             <div className="flex items-start gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[oklch(0.92_0.08_300)] shrink-0">
-                <Sparkles className="h-3.5 w-3.5 text-[oklch(0.4_0.15_300)]" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[oklch(0.92_0.07_292)] shrink-0">
+                <Sparkles className="h-3.5 w-3.5 text-[oklch(0.4_0.132_292)]" />
               </div>
               <div>
-                <h3 className="font-display text-sm text-[oklch(0.3_0.12_300)]">Análisis IA</h3>
+                <h3 className="font-display text-sm text-[oklch(0.3_0.106_292)]">Análisis IA</h3>
                 <p className="text-xs text-foreground/85 mt-1.5 leading-relaxed">
                   Tendencia ascendente consistente (pendiente <strong>+{pendiente.toFixed(1)}% por sesión</strong>).
                   Promedio reciente <strong>{promedio7d}%</strong>. A este ritmo, criterio en{" "}

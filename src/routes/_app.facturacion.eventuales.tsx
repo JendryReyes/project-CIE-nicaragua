@@ -101,7 +101,7 @@ function EventualesPage() {
         <div className="ml-auto text-xs text-muted-foreground">
           {filtrados.length} servicios · ${totalIncluido.toFixed(2)} incluidos en lote
           {horasMissing > 0 && (
-            <span className="ml-2 text-[oklch(0.55_0.16_30)]">· {horasMissing} con adjuntos pendientes</span>
+            <span className="ml-2 text-[oklch(0.55_0.141_30)]">· {horasMissing} con adjuntos pendientes</span>
           )}
         </div>
       </div>
@@ -184,7 +184,7 @@ function AdjBtn({ ok, onClick, disabled }: { ok: boolean; onClick: () => void; d
         disabled
           ? "border-border/40 text-muted-foreground/40 cursor-not-allowed"
           : ok
-          ? "border-[oklch(0.7_0.14_155)] bg-[oklch(0.95_0.06_155)] text-[oklch(0.4_0.14_155)] hover:opacity-80"
+          ? "border-[oklch(0.7_0.123_160)] bg-[oklch(0.95_0.053_160)] text-[oklch(0.4_0.123_160)] hover:opacity-80"
           : "border-border text-muted-foreground hover:bg-muted"
       }`}
       title={disabled ? "No aplica" : ok ? "Adjuntado" : "Marcar como adjuntado"}
@@ -213,7 +213,7 @@ function NuevoEventual({
   const nino = ninos.find((n) => n.id === ninoId)!;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={onCancel}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 backdrop-blur-sm" onClick={onCancel}>
       <div
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-lg rounded-2xl bg-background border border-border shadow-xl"

@@ -101,7 +101,7 @@ function Equipo() {
                   {politicaSeguridad.mfaObligatorio.map((r) => (
                     <span
                       key={r}
-                      className="rounded-full bg-[oklch(0.94_0.05_155)] px-2 py-0.5 text-xs text-[oklch(0.36_0.11_155)]"
+                      className="rounded-full bg-[oklch(0.94_0.044_160)] px-2 py-0.5 text-xs text-[oklch(0.36_0.097_160)]"
                     >
                       {r}
                     </span>

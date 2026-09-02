@@ -132,15 +132,15 @@ function Ejecucion() {
         {vista === "Anual" ? (
           <>
             <KPI label="Programadas" value={totalProg} icon={<Calendar className="h-4 w-4" />} />
-            <KPI label="Ejecutadas" value={totalEjec} icon={<CheckCircle2 className="h-4 w-4 text-[oklch(0.55_0.16_155)]" />} />
-            <KPI label="No ejecutadas" value={totalNo} icon={<AlertTriangle className="h-4 w-4 text-[oklch(0.6_0.18_25)]" />} warn />
+            <KPI label="Ejecutadas" value={totalEjec} icon={<CheckCircle2 className="h-4 w-4 text-[oklch(0.63_0.096_160)]" />} />
+            <KPI label="No ejecutadas" value={totalNo} icon={<AlertTriangle className="h-4 w-4 text-[oklch(0.6_0.158_30)]" />} warn />
             <KPI label="% Cumplimiento" value={`${cumple}%`} accent />
           </>
         ) : (
           <>
             <KPI label="Programadas (May)" value={mensual.prog} icon={<Calendar className="h-4 w-4" />} />
-            <KPI label="Ejecutadas (May)" value={mensual.ejec} icon={<CheckCircle2 className="h-4 w-4 text-[oklch(0.55_0.16_155)]" />} />
-            <KPI label="No ejecutadas" value={mensual.noEjec} icon={<AlertTriangle className="h-4 w-4 text-[oklch(0.6_0.18_25)]" />} warn />
+            <KPI label="Ejecutadas (May)" value={mensual.ejec} icon={<CheckCircle2 className="h-4 w-4 text-[oklch(0.63_0.096_160)]" />} />
+            <KPI label="No ejecutadas" value={mensual.noEjec} icon={<AlertTriangle className="h-4 w-4 text-[oklch(0.6_0.158_30)]" />} warn />
             <KPI label="% Cumplimiento" value={`${Math.round((mensual.ejec/mensual.prog)*100)}%`} accent />
           </>
         )}
@@ -170,7 +170,7 @@ function Ejecucion() {
               </thead>
               <tbody>
                 {ejecucionAnual.map((fila, ri) => {
-                  const colorRow = ri===1 ? "text-[oklch(0.45_0.15_155)]" : ri===4 ? "text-[oklch(0.45_0.15_25)]" : "";
+                  const colorRow = ri===1 ? "text-[oklch(0.45_0.132_160)]" : ri===4 ? "text-[oklch(0.45_0.132_30)]" : "";
                   return (
                     <tr key={fila.fila} className="border-t border-border/40">
                       <td className={`px-3 py-2 font-medium sticky left-0 bg-card ${colorRow}`}>{fila.fila}</td>
@@ -210,14 +210,14 @@ function Ejecucion() {
                   <div className="col-span-3 font-medium text-sm">{w.sem}</div>
                   <div className="col-span-6">
                     <div className="h-2 rounded-full bg-muted overflow-hidden">
-                      <div className={`h-full ${pct >= 90 ? "bg-[oklch(0.6_0.16_155)]" : pct >= 85 ? "bg-primary" : "bg-[oklch(0.6_0.18_25)]"}`} style={{ width: `${pct}%` }} />
+                      <div className={`h-full ${pct >= 90 ? "bg-[oklch(0.66_0.096_160)]" : pct >= 85 ? "bg-primary" : "bg-[oklch(0.6_0.158_30)]"}`} style={{ width: `${pct}%` }} />
                     </div>
                     <div className="flex justify-between text-[11px] text-muted-foreground mt-1 tabular">
                       <span>{w.ejec} ejecutadas</span><span>{w.noEjec} no ejec · {w.reprog} reprog</span>
                     </div>
                   </div>
                   <div className="col-span-2 text-right tabular text-sm">{w.prog} prog</div>
-                  <div className={`col-span-1 text-right font-display text-lg tabular ${pct >= 90 ? "text-[oklch(0.5_0.14_155)]" : pct >= 85 ? "text-foreground" : "text-[oklch(0.55_0.16_25)]"}`}>{pct}%</div>
+                  <div className={`col-span-1 text-right font-display text-lg tabular ${pct >= 90 ? "text-[oklch(0.6_0.084_160)]" : pct >= 85 ? "text-foreground" : "text-[oklch(0.55_0.141_30)]"}`}>{pct}%</div>
                 </button>
               );
             })}
@@ -240,12 +240,12 @@ function Ejecucion() {
                   <div className="font-display text-lg">{s.sede}</div>
                   <div className="text-[11px] text-muted-foreground">{s.ciudad}</div>
                 </div>
-                <div className={`font-display text-2xl tabular ${s.cumple >= 90 ? "text-[oklch(0.5_0.14_155)]" : s.cumple >= 85 ? "text-foreground" : "text-[oklch(0.55_0.16_25)]"}`}>
+                <div className={`font-display text-2xl tabular ${s.cumple >= 90 ? "text-[oklch(0.6_0.084_160)]" : s.cumple >= 85 ? "text-foreground" : "text-[oklch(0.55_0.141_30)]"}`}>
                   {s.cumple}%
                 </div>
               </div>
               <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
-                <div className={`h-full ${s.cumple >= 90 ? "bg-[oklch(0.6_0.16_155)]" : s.cumple >= 85 ? "bg-primary" : "bg-[oklch(0.6_0.18_25)]"}`} style={{ width: `${s.cumple}%` }} />
+                <div className={`h-full ${s.cumple >= 90 ? "bg-[oklch(0.66_0.096_160)]" : s.cumple >= 85 ? "bg-primary" : "bg-[oklch(0.6_0.158_30)]"}`} style={{ width: `${s.cumple}%` }} />
               </div>
               <div className="flex justify-between text-[11px] text-muted-foreground mt-1.5 tabular">
                 <span>{s.ejec}h ejecutadas</span><span>Total {s.prog}h</span>
@@ -265,7 +265,7 @@ function DetalleDrawer({ detalle, onClose }: { detalle: DetalleCelda; onClose: (
   const trend = pct >= 90;
   return (
     <>
-      <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
+      <div className="fixed inset-0 bg-foreground/30 z-40" onClick={onClose} />
       <aside className="fixed inset-y-0 right-0 w-full max-w-[480px] bg-background border-l border-border/70 z-50 shadow-2xl overflow-y-auto">
         <header className="sticky top-0 bg-background/95 backdrop-blur border-b border-border/60 p-4 flex items-start justify-between gap-3">
           <div>
@@ -281,22 +281,22 @@ function DetalleDrawer({ detalle, onClose }: { detalle: DetalleCelda; onClose: (
         <div className="p-4 space-y-5">
           <div className="grid grid-cols-2 gap-2">
             <Stat label="Programadas" value={detalle.programadas} />
-            <Stat label="Ejecutadas" value={detalle.ejecutadas} color="text-[oklch(0.45_0.15_155)]" />
+            <Stat label="Ejecutadas" value={detalle.ejecutadas} color="text-[oklch(0.45_0.132_160)]" />
             <Stat label="Reprogramadas" value={detalle.reprog} />
-            <Stat label="No ejecutadas" value={detalle.noEjec} color="text-[oklch(0.5_0.16_25)]" />
+            <Stat label="No ejecutadas" value={detalle.noEjec} color="text-[oklch(0.5_0.141_30)]" />
           </div>
 
           <div className="rounded-xl border border-border/70 p-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs text-muted-foreground uppercase tracking-wider">Cumplimiento</span>
-              <span className={`flex items-center gap-1 text-xs ${trend ? "text-[oklch(0.5_0.14_155)]":"text-[oklch(0.55_0.16_25)]"}`}>
+              <span className={`flex items-center gap-1 text-xs ${trend ? "text-[oklch(0.6_0.084_160)]":"text-[oklch(0.55_0.141_30)]"}`}>
                 {trend ? <TrendingUp className="h-3 w-3"/> : <TrendingDown className="h-3 w-3"/>}
                 {trend ? "Sobre meta" : "Bajo meta (90%)"}
               </span>
             </div>
             <div className="font-display text-4xl tabular">{pct}%</div>
             <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
-              <div className={`h-full ${pct >= 90 ? "bg-[oklch(0.6_0.16_155)]" : pct >= 85 ? "bg-primary" : "bg-[oklch(0.6_0.18_25)]"}`} style={{ width: `${pct}%` }} />
+              <div className={`h-full ${pct >= 90 ? "bg-[oklch(0.66_0.096_160)]" : pct >= 85 ? "bg-primary" : "bg-[oklch(0.6_0.158_30)]"}`} style={{ width: `${pct}%` }} />
             </div>
           </div>
 
@@ -312,10 +312,10 @@ function DetalleDrawer({ detalle, onClose }: { detalle: DetalleCelda; onClose: (
                     <div key={d.label} className="p-3">
                       <div className="flex justify-between text-sm mb-1.5">
                         <span className="font-medium">{d.label}</span>
-                        <span className="tabular text-muted-foreground">{d.ejec}/{d.prog} · <span className={p>=90?"text-[oklch(0.5_0.14_155)]":""}>{p}%</span></span>
+                        <span className="tabular text-muted-foreground">{d.ejec}/{d.prog} · <span className={p>=90?"text-[oklch(0.6_0.084_160)]":""}>{p}%</span></span>
                       </div>
                       <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-                        <div className={`h-full ${p >= 90 ? "bg-[oklch(0.6_0.16_155)]" : p >= 85 ? "bg-primary" : "bg-[oklch(0.6_0.18_25)]"}`} style={{ width: `${p}%` }} />
+                        <div className={`h-full ${p >= 90 ? "bg-[oklch(0.66_0.096_160)]" : p >= 85 ? "bg-primary" : "bg-[oklch(0.6_0.158_30)]"}`} style={{ width: `${p}%` }} />
                       </div>
                     </div>
                   );
@@ -354,7 +354,7 @@ function Stat({ label, value, color }: { label: string; value: number; color?: s
 
 function KPI({ label, value, hint, icon, accent, warn }: { label: string; value: string|number; hint?: string; icon?: React.ReactNode; accent?: boolean; warn?: boolean }) {
   return (
-    <div className={`rounded-2xl border p-4 ${warn ? "border-[oklch(0.88_0.1_25)] bg-[oklch(0.98_0.03_25)]" : "border-border/70 bg-card"}`}>
+    <div className={`rounded-2xl border p-4 ${warn ? "border-[oklch(0.88_0.088_30)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"}`}>
       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">{icon}<span>{label}</span></div>
       <div className={`font-display text-3xl mt-1 tabular ${accent ? "text-primary":""}`}>{value}</div>
       {hint && <div className="text-[11px] text-muted-foreground mt-0.5">{hint}</div>}

@@ -13,10 +13,10 @@ type Tab = typeof tabs[number];
 
 const areaLabel: Record<MatriculaArea, string> = { conducta: "Conducta / ABA", logopedia: "Logopedia", fisio: "Fisioterapia", ocupacional: "T. Ocupacional" };
 const areaColor: Record<MatriculaArea, string> = {
-  conducta: "bg-[oklch(0.93_0.06_155)] text-[oklch(0.35_0.11_155)]",
-  logopedia: "bg-[oklch(0.93_0.05_210)] text-[oklch(0.4_0.12_210)]",
-  fisio: "bg-[oklch(0.95_0.07_60)] text-[oklch(0.45_0.13_60)]",
-  ocupacional: "bg-[oklch(0.93_0.06_290)] text-[oklch(0.4_0.12_290)]",
+  conducta: "bg-[oklch(0.93_0.053_160)] text-[oklch(0.35_0.097_160)]",
+  logopedia: "bg-[oklch(0.93_0.044_258)] text-[oklch(0.4_0.106_258)]",
+  fisio: "bg-[oklch(0.95_0.062_80)] text-[oklch(0.45_0.114_80)]",
+  ocupacional: "bg-[oklch(0.93_0.053_292)] text-[oklch(0.4_0.106_292)]",
 };
 
 const fmt = (f: string) => new Date(f).toLocaleDateString("es-NI", { day: "numeric", month: "short", year: "numeric" });
@@ -45,7 +45,7 @@ function Matricula() {
           <h1 className="font-display text-3xl">Módulo de Matrícula</h1>
           <p className="text-sm text-muted-foreground mt-1">Ingresos · Egresos · Suspensiones · Mayo 2026</p>
         </div>
-        <button className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.55_0.16_155)] text-white px-3 py-1.5 text-sm font-medium hover:opacity-90">
+        <button className="inline-flex items-center gap-1.5 rounded-lg bg-[oklch(0.63_0.096_160)] text-primary-foreground px-3 py-1.5 text-sm font-medium hover:opacity-90">
           <Plus className="h-4 w-4" /> Nuevo ingreso
         </button>
       </div>
@@ -56,7 +56,7 @@ function Matricula() {
           <button key={t} onClick={() => setTab(t)} className={`px-3 py-2 text-sm border-b-2 -mb-px ${tab === t ? "border-primary text-primary font-medium" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
             {t}
             {t === "Suspensiones" && r.suspendidos > 0 && (
-              <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[oklch(0.6_0.18_25)] text-white text-[10px] px-1">{r.suspendidos}</span>
+              <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[oklch(0.6_0.158_30)] text-primary-foreground text-[10px] px-1">{r.suspendidos}</span>
             )}
           </button>
         ))}
@@ -65,7 +65,7 @@ function Matricula() {
       {/* KPIs siempre visibles */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <button onClick={() => setTab("Activos")} className="text-left">
-          <KPI icon={<UserPlus className="h-4 w-4 text-[oklch(0.55_0.16_155)]" />} label="Activos" value={r.activos} hint={`+${r.ingresosMes} este mes · ver lista →`} clickable />
+          <KPI icon={<UserPlus className="h-4 w-4 text-[oklch(0.63_0.096_160)]" />} label="Activos" value={r.activos} hint={`+${r.ingresosMes} este mes · ver lista →`} clickable />
         </button>
         <button onClick={() => setTab("Ingresos")} className="text-left">
           <KPI icon={<UserPlus className="h-4 w-4" />} label="Ingresos · mes" value={r.ingresosMes} hint="alta clínica" clickable />
@@ -74,7 +74,7 @@ function Matricula() {
           <KPI icon={<UserMinus className="h-4 w-4" />} label="Egresos · mes" value={r.egresosMes} hint="mudanza familiar" clickable />
         </button>
         <button onClick={() => setTab("Suspensiones")} className="text-left">
-          <KPI icon={<AlertCircle className="h-4 w-4 text-[oklch(0.6_0.18_25)]" />} label="Suspensiones" value={r.suspendidos} hint="revisar conducta" warn clickable />
+          <KPI icon={<AlertCircle className="h-4 w-4 text-[oklch(0.6_0.158_30)]" />} label="Suspensiones" value={r.suspendidos} hint="revisar conducta" warn clickable />
         </button>
       </div>
 
@@ -130,10 +130,10 @@ function ResumenGeneral({ onOpen }: { onOpen: (m: MovimientoNino) => void }) {
             <div>
               <div className="flex justify-between text-xs mb-1">
                 <span>Acreditadas por INSS</span>
-                <span className="tabular font-medium text-[oklch(0.45_0.13_155)]">{Math.round(r.horasProgramadas * (r.cobertura / 100))}h</span>
+                <span className="tabular font-medium text-[oklch(0.45_0.114_160)]">{Math.round(r.horasProgramadas * (r.cobertura / 100))}h</span>
               </div>
               <div className="h-2 rounded-full bg-muted overflow-hidden">
-                <div className="h-full bg-[oklch(0.6_0.12_155)]" style={{ width: `${r.cobertura}%` }} />
+                <div className="h-full bg-[oklch(0.6_0.106_160)]" style={{ width: `${r.cobertura}%` }} />
               </div>
               <div className="text-[10px] text-muted-foreground mt-1 tabular">{r.cobertura}% cobertura · {r.horasSubrogadas}h subrogadas</div>
             </div>
@@ -244,7 +244,7 @@ function TablaMovimientos({ titulo, rows, onOpen, q, setQ, sede, setSede, varian
                   <td className="px-4 py-3 tabular text-xs">{fmt(m.fecha)}</td>
                   <td className="px-4 py-3 text-xs">
                     {variante === "ingreso" ? (
-                      <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full font-medium ${m.cobertura === "INSS" ? "bg-[oklch(0.93_0.05_210)] text-[oklch(0.4_0.12_210)]" : "bg-muted text-muted-foreground"}`}>{m.cobertura}</span>
+                      <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full font-medium ${m.cobertura === "INSS" ? "bg-[oklch(0.93_0.044_258)] text-[oklch(0.4_0.106_258)]" : "bg-muted text-muted-foreground"}`}>{m.cobertura}</span>
                     ) : (
                       m.destino ?? "—"
                     )}
@@ -252,8 +252,8 @@ function TablaMovimientos({ titulo, rows, onOpen, q, setQ, sede, setSede, varian
                   <td className="px-4 py-3 text-xs">
                     {variante === "ingreso" ? (
                       m.documentosFaltantes.length === 0
-                        ? <span className="inline-flex items-center gap-1 text-[oklch(0.45_0.13_155)]"><CheckCircle2 className="h-3.5 w-3.5" /> Completos</span>
-                        : <span className="inline-flex items-center gap-1 text-[oklch(0.55_0.13_60)]"><AlertCircle className="h-3.5 w-3.5" /> Faltan {m.documentosFaltantes.length}</span>
+                        ? <span className="inline-flex items-center gap-1 text-[oklch(0.45_0.114_160)]"><CheckCircle2 className="h-3.5 w-3.5" /> Completos</span>
+                        : <span className="inline-flex items-center gap-1 text-[oklch(0.55_0.114_80)]"><AlertCircle className="h-3.5 w-3.5" /> Faltan {m.documentosFaltantes.length}</span>
                     ) : (
                       m.informeEgreso ? <span className="inline-flex items-center gap-1"><FileText className="h-3.5 w-3.5" /> {m.informeEgreso}</span> : "—"
                     )}
@@ -270,9 +270,9 @@ function TablaMovimientos({ titulo, rows, onOpen, q, setQ, sede, setSede, varian
 
 function Suspensiones({ rows, onOpen, q, setQ, sede, setSede }: { rows: MovimientoNino[]; onOpen: (m: MovimientoNino) => void; q: string; setQ: (s: string) => void; sede: string; setSede: (s: string) => void }) {
   return (
-    <div className="rounded-2xl border border-[oklch(0.88_0.1_25)] bg-[oklch(0.98_0.03_25)]/60 overflow-hidden">
-      <div className="p-4 border-b border-[oklch(0.88_0.1_25)]/60">
-        <h3 className="font-display text-base inline-flex items-center gap-2"><AlertCircle className="h-4 w-4 text-[oklch(0.6_0.18_25)]" /> Suspensiones activas</h3>
+    <div className="rounded-2xl border border-[oklch(0.88_0.088_30)] bg-[oklch(0.98_0.014_265)]/60 overflow-hidden">
+      <div className="p-4 border-b border-[oklch(0.88_0.088_30)]/60">
+        <h3 className="font-display text-base inline-flex items-center gap-2"><AlertCircle className="h-4 w-4 text-[oklch(0.6_0.158_30)]" /> Suspensiones activas</h3>
         <p className="text-xs text-muted-foreground mt-0.5">{rows.length} expediente{rows.length === 1 ? "" : "s"} con seguimiento pendiente.</p>
       </div>
       <Toolbar q={q} setQ={setQ} sede={sede} setSede={setSede} />
@@ -281,7 +281,7 @@ function Suspensiones({ rows, onOpen, q, setQ, sede, setSede }: { rows: Movimien
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4">
           {rows.map((m) => (
-            <article key={m.expediente} className="rounded-xl border border-[oklch(0.88_0.1_25)] bg-card p-4">
+            <article key={m.expediente} className="rounded-xl border border-[oklch(0.88_0.088_30)] bg-card p-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2.5">
                   <div className="h-10 w-10 rounded-full bg-muted grid place-items-center text-xs font-medium">{m.iniciales}</div>
@@ -380,7 +380,7 @@ function ListaActivos({ onOpen, q, setQ, sede, setSede }: { onOpen: (m: Movimien
                 </td>
                 <td className="px-4 py-3 text-xs">{m.terapeutaAsignado}</td>
                 <td className="px-4 py-3">
-                  <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full font-medium ${m.cobertura === "INSS" ? "bg-[oklch(0.93_0.05_210)] text-[oklch(0.4_0.12_210)]" : "bg-muted text-muted-foreground"}`}>{m.cobertura}</span>
+                  <span className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full font-medium ${m.cobertura === "INSS" ? "bg-[oklch(0.93_0.044_258)] text-[oklch(0.4_0.106_258)]" : "bg-muted text-muted-foreground"}`}>{m.cobertura}</span>
                 </td>
               </tr>
             ))}
@@ -394,7 +394,7 @@ function ListaActivos({ onOpen, q, setQ, sede, setSede }: { onOpen: (m: Movimien
 function DetalleDrawer({ m, onClose }: { m: MovimientoNino; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex" onClick={onClose}>
-      <div className="flex-1 bg-black/40" />
+      <div className="flex-1 bg-foreground/40" />
       <aside className="w-full max-w-[520px] h-full bg-card border-l border-border overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         <div className="sticky top-0 bg-card border-b border-border p-5 flex items-start justify-between gap-3 z-10">
           <div className="flex items-center gap-3">
@@ -440,10 +440,10 @@ function DetalleDrawer({ m, onClose }: { m: MovimientoNino; onClose: () => void 
           <Section title="Documentación · checklist INSS">
             <ul className="space-y-1.5 text-sm">
               {m.documentosOk.map((d) => (
-                <li key={d} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[oklch(0.5_0.11_155)]" /><span>{d}</span></li>
+                <li key={d} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[oklch(0.5_0.097_160)]" /><span>{d}</span></li>
               ))}
               {m.documentosFaltantes.map((d) => (
-                <li key={d} className="flex items-center gap-2"><CircleIcon className="h-4 w-4 text-[oklch(0.55_0.13_60)]" /><span className="text-[oklch(0.45_0.13_60)]">{d}</span></li>
+                <li key={d} className="flex items-center gap-2"><CircleIcon className="h-4 w-4 text-[oklch(0.55_0.114_80)]" /><span className="text-[oklch(0.45_0.114_80)]">{d}</span></li>
               ))}
               {m.documentosOk.length === 0 && m.documentosFaltantes.length === 0 && (
                 <li className="text-xs text-muted-foreground">Sin documentación registrada.</li>
@@ -511,7 +511,7 @@ function Row({ k, v }: { k: string; v: string }) {
 
 function KPI({ icon, label, value, hint, warn, clickable }: { icon: React.ReactNode; label: string; value: string | number; hint?: string; warn?: boolean; clickable?: boolean }) {
   return (
-    <div className={`rounded-2xl border p-4 transition-colors ${warn ? "border-[oklch(0.88_0.1_25)] bg-[oklch(0.98_0.03_25)]" : "border-border/70 bg-card"} ${clickable ? "hover:border-primary/60 hover:bg-muted/30" : ""}`}>
+    <div className={`rounded-2xl border p-4 transition-colors ${warn ? "border-[oklch(0.88_0.088_30)] bg-[oklch(0.98_0.014_265)]" : "border-border/70 bg-card"} ${clickable ? "hover:border-primary/60 hover:bg-muted/30" : ""}`}>
       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">{icon}<span>{label}</span></div>
       <div className="font-display text-3xl mt-1 tabular">{value}</div>
       {hint && <div className="text-[11px] text-muted-foreground mt-0.5">{hint}</div>}
@@ -521,9 +521,9 @@ function KPI({ icon, label, value, hint, warn, clickable }: { icon: React.ReactN
 
 function Pill({ tipo }: { tipo: "ingreso" | "egreso" | "suspension" }) {
   const map = {
-    ingreso: "bg-[oklch(0.94_0.06_155)] text-[oklch(0.35_0.13_155)]",
+    ingreso: "bg-[oklch(0.94_0.053_160)] text-[oklch(0.35_0.114_160)]",
     egreso: "bg-muted text-muted-foreground",
-    suspension: "bg-[oklch(0.95_0.08_25)] text-[oklch(0.45_0.15_25)]",
+    suspension: "bg-[oklch(0.95_0.07_30)] text-[oklch(0.45_0.132_30)]",
   } as const;
   const label = { ingreso: "Ingreso", egreso: "Egreso", suspension: "Suspensión" }[tipo];
   return <span className={`text-[10px] uppercase tracking-wider rounded-full px-2 py-0.5 font-medium ${map[tipo]}`}>{label}</span>;
@@ -551,9 +551,9 @@ function MiniBars() {
             <div key={i} className="flex-1 flex flex-col items-center gap-1 h-full justify-end">
               <span className="text-[10px] tabular text-muted-foreground">{total}</span>
               <div className="w-full flex flex-col-reverse rounded-md overflow-hidden border border-border/40" style={{ height: `${h}%`, minHeight: 8 }}>
-                <div style={{ flexGrow: d.ing }} className="bg-[oklch(0.6_0.14_155)]" title={`Ingresos: ${d.ing}`} />
-                <div style={{ flexGrow: d.egr }} className="bg-[oklch(0.65_0.12_60)]" title={`Egresos: ${d.egr}`} />
-                <div style={{ flexGrow: d.sus }} className="bg-[oklch(0.6_0.18_25)]" title={`Suspensiones: ${d.sus}`} />
+                <div style={{ flexGrow: d.ing }} className="bg-[oklch(0.66_0.084_160)]" title={`Ingresos: ${d.ing}`} />
+                <div style={{ flexGrow: d.egr }} className="bg-[oklch(0.65_0.106_80)]" title={`Egresos: ${d.egr}`} />
+                <div style={{ flexGrow: d.sus }} className="bg-[oklch(0.6_0.158_30)]" title={`Suspensiones: ${d.sus}`} />
               </div>
               <span className="text-[10px] text-muted-foreground tabular">S{i + 1}</span>
             </div>
@@ -561,9 +561,9 @@ function MiniBars() {
         })}
       </div>
       <div className="flex items-center gap-4 text-[11px] text-muted-foreground pt-2 border-t border-border/40">
-        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.6_0.14_155)]" /> Ingresos</span>
-        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.65_0.12_60)]" /> Egresos</span>
-        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.6_0.18_25)]" /> Suspensiones</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.66_0.084_160)]" /> Ingresos</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.65_0.106_80)]" /> Egresos</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[oklch(0.6_0.158_30)]" /> Suspensiones</span>
       </div>
     </div>
   );

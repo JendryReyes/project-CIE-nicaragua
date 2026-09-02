@@ -36,12 +36,12 @@ export const estadosMatricula: EstadoMatriculaTDR[] = [
 ];
 
 export const estadoColor: Record<EstadoMatriculaTDR, string> = {
-  Prospecto: "bg-[oklch(0.94_0.04_250)] text-[oklch(0.42_0.13_250)]",
-  "En admisión": "bg-[oklch(0.95_0.07_60)] text-[oklch(0.42_0.13_60)]",
-  Activo: "bg-[oklch(0.93_0.06_155)] text-[oklch(0.35_0.11_155)]",
-  "Suspensión temporal": "bg-[oklch(0.95_0.06_30)] text-[oklch(0.45_0.15_30)]",
+  Prospecto: "bg-[oklch(0.94_0.035_258)] text-[oklch(0.42_0.114_258)]",
+  "En admisión": "bg-[oklch(0.95_0.062_80)] text-[oklch(0.42_0.114_80)]",
+  Activo: "bg-[oklch(0.93_0.053_160)] text-[oklch(0.35_0.097_160)]",
+  "Suspensión temporal": "bg-[oklch(0.95_0.053_30)] text-[oklch(0.45_0.132_30)]",
   "Lista de espera": "bg-muted text-muted-foreground",
-  Egresado: "bg-[oklch(0.93_0.02_260)] text-muted-foreground",
+  Egresado: "bg-[oklch(0.93_0.014_265)] text-muted-foreground",
 };
 
 export const motivosEgreso = [

@@ -58,7 +58,7 @@ function Dashboard() {
         </div>
         <Link
           to="/asistencia"
-          className="inline-flex w-fit items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90"
+          className="bg-gradient-suave inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-suave transition-opacity hover:opacity-90"
         >
           Tomar asistencia <ArrowUpRight className="h-4 w-4" />
         </Link>
@@ -99,10 +99,10 @@ function Dashboard() {
             </ul>
           </div>
 
-          <div className="rounded-2xl border border-[oklch(0.88_0.1_60/0.5)] bg-[oklch(0.98_0.03_60)]/50 p-5">
+          <div className="rounded-2xl border border-[oklch(0.88_0.088_80/0.5)] bg-[oklch(0.98_0.014_265)]/50 p-5">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-display text-base flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4 text-[oklch(0.55_0.13_60)]" /> Checklist del Manual — pendientes
+                <AlertTriangle className="h-4 w-4 text-[oklch(0.55_0.114_80)]" /> Checklist del Manual — pendientes
               </h3>
               <Link to="/matricula" className="text-xs text-primary hover:underline">Resolver</Link>
             </div>
@@ -116,7 +116,7 @@ function Dashboard() {
                     <div className="font-medium truncate">{m.nino}</div>
                     <div className="text-[10px] text-muted-foreground truncate">{m.documentosFaltantes.join(" · ")}</div>
                   </div>
-                  <span className="text-[10px] text-[oklch(0.5_0.13_60)] font-medium shrink-0">Falta {m.documentosFaltantes.length}</span>
+                  <span className="text-[10px] text-[oklch(0.5_0.114_80)] font-medium shrink-0">Falta {m.documentosFaltantes.length}</span>
                 </li>
               ))}
             </ul>
@@ -134,8 +134,8 @@ function Dashboard() {
       >
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           <Kpi to="/planificacion" icon={<CalendarClock className="h-4 w-4" />} label="Programables" value={`${plan.programables}h`} />
-          <Kpi to="/planificacion" icon={<TrendingUp className="h-4 w-4 text-[oklch(0.55_0.1_155)]" />} label="Programadas" value={`${plan.programadas}h`} hint={`${plan.cobertura}% cobertura`} tone="success" />
-          <Kpi to="/planificacion" icon={<AlertTriangle className="h-4 w-4 text-[oklch(0.55_0.13_60)]" />} label="Gap" value={`${plan.programables - plan.programadas}h`} tone="warning" />
+          <Kpi to="/planificacion" icon={<TrendingUp className="h-4 w-4 text-[oklch(0.55_0.088_160)]" />} label="Programadas" value={`${plan.programadas}h`} hint={`${plan.cobertura}% cobertura`} tone="success" />
+          <Kpi to="/planificacion" icon={<AlertTriangle className="h-4 w-4 text-[oklch(0.55_0.114_80)]" />} label="Gap" value={`${plan.programables - plan.programadas}h`} tone="warning" />
           <Kpi to="/planificacion" icon={<TrendingUp className="h-4 w-4" />} label="Niños en plan" value={String(plan.ninos)} />
         </div>
 
@@ -246,8 +246,8 @@ function Dashboard() {
       >
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           <Kpi to="/asistencia" icon={<CheckCircle2 className="h-4 w-4" />} label="A tiempo" value={String(punt.aTiempo)} hint={`${punt.pctATiempo}% del total`} tone="success" />
-          <Kpi to="/asistencia" icon={<Timer className="h-4 w-4 text-[oklch(0.55_0.13_60)]" />} label="Tarde (≥15 min)" value={String(punt.tarde)} hint={`${punt.tardeLeve} leves`} tone="warning" />
-          <Kpi to="/asistencia" icon={<XCircle className="h-4 w-4 text-[oklch(0.55_0.15_25)]" />} label="Ausentes" value={String(punt.ausentes)} />
+          <Kpi to="/asistencia" icon={<Timer className="h-4 w-4 text-[oklch(0.55_0.114_80)]" />} label="Tarde (≥15 min)" value={String(punt.tarde)} hint={`${punt.tardeLeve} leves`} tone="warning" />
+          <Kpi to="/asistencia" icon={<XCircle className="h-4 w-4 text-[oklch(0.55_0.132_30)]" />} label="Ausentes" value={String(punt.ausentes)} />
           <Kpi to="/asistencia" icon={<Clock className="h-4 w-4" />} label="Desviación promedio" value={`${punt.desviacion} min`} hint="atrasos > 0 min" />
         </div>
 
@@ -276,9 +276,9 @@ function Dashboard() {
                     <tr key={s.sede} className="border-t border-border/40">
                       <td className="px-4 py-3 font-medium">{s.sede}</td>
                       <td className="px-4 py-3 tabular text-right">{s.atendidos}</td>
-                      <td className="px-4 py-3 tabular text-right text-[oklch(0.45_0.13_155)] font-medium">{s.aTiempo} <span className="text-[10px] text-muted-foreground">({pct}%)</span></td>
-                      <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.13_60)]">{s.tardeLeve}</td>
-                      <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.15_25)] font-medium">{s.tarde}</td>
+                      <td className="px-4 py-3 tabular text-right text-[oklch(0.45_0.114_160)] font-medium">{s.aTiempo} <span className="text-[10px] text-muted-foreground">({pct}%)</span></td>
+                      <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.114_80)]">{s.tardeLeve}</td>
+                      <td className="px-4 py-3 tabular text-right text-[oklch(0.5_0.132_30)] font-medium">{s.tarde}</td>
                       <td className="px-4 py-3 tabular text-right">{s.ausentes}</td>
                       <td className="px-4 py-3 tabular text-right">{s.desviacionPromMin} min</td>
                     </tr>
@@ -345,9 +345,11 @@ function Seccion({
 }) {
   return (
     <section className="space-y-4">
-      <div className="flex items-end justify-between gap-3 border-b border-border/60 pb-2">
+      <div className="relative flex items-end justify-between gap-3 pb-2.5">
+        <span className="bg-gradient-marca absolute bottom-0 left-0 h-[2px] w-24 rounded-full" aria-hidden />
+        <span className="absolute bottom-0 left-24 right-0 h-px bg-border/60" aria-hidden />
         <div className="flex items-center gap-3 min-w-0">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-semibold tabular">
+          <div className="bg-gradient-suave flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-primary-foreground text-xs font-semibold tabular">
             {numero}
           </div>
           <div className="min-w-0">
@@ -381,16 +383,16 @@ function CartasPorVencerCard() {
   const porVencer = cartas.filter((c) => c.estado === "por_vencer").length;
   if (cartas.length === 0) return null;
   return (
-    <div className="rounded-2xl border border-[oklch(0.7_0.13_75/0.4)] bg-[oklch(0.98_0.04_75)] p-5">
+    <div className="rounded-2xl border border-[oklch(0.7_0.114_80/0.4)] bg-[oklch(0.98_0.035_80)] p-5">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <FileText className="h-4 w-4 text-[oklch(0.5_0.13_75)]" />
+          <FileText className="h-4 w-4 text-[oklch(0.5_0.114_80)]" />
           <h3 className="font-display text-lg">Cartas INSS por vencer</h3>
         </div>
         <Link to="/facturacion/cartas" className="text-xs text-primary hover:underline">Gestionar</Link>
       </div>
       <p className="text-xs text-muted-foreground mb-3">
-        {vencidas > 0 && <span className="text-[oklch(0.5_0.15_25)] font-medium">{vencidas} vencidas</span>}
+        {vencidas > 0 && <span className="text-[oklch(0.5_0.132_30)] font-medium">{vencidas} vencidas</span>}
         {vencidas > 0 && porVencer > 0 && " · "}
         {porVencer > 0 && <span>{porVencer} por vencer en 30 días</span>}
       </p>
@@ -405,7 +407,7 @@ function CartasPorVencerCard() {
                 <div className="font-medium truncate">{c.ninoNombre}</div>
                 <div className="text-[10px] text-muted-foreground truncate">{c.area} · {c.numero}</div>
               </div>
-              <div className={`shrink-0 inline-flex items-center gap-1 text-[10px] font-medium ${c.diasRestantes < 0 ? "text-[oklch(0.5_0.15_25)]" : "text-[oklch(0.5_0.13_75)]"}`}>
+              <div className={`shrink-0 inline-flex items-center gap-1 text-[10px] font-medium ${c.diasRestantes < 0 ? "text-[oklch(0.5_0.132_30)]" : "text-[oklch(0.5_0.114_80)]"}`}>
                 {c.diasRestantes < 0 ? <XCircle className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}
                 {c.diasRestantes < 0 ? `Hace ${-c.diasRestantes}d` : `${c.diasRestantes}d`}
               </div>
@@ -418,9 +420,12 @@ function CartasPorVencerCard() {
 }
 
 function Kpi({ to, icon, label, value, hint, tone }: { to: string; icon: React.ReactNode; label: string; value: string; hint?: string; tone?: "primary" | "success" | "warning" }) {
-  const toneCls = tone === "primary" ? "text-primary" : tone === "success" ? "text-[oklch(0.55_0.1_155)]" : tone === "warning" ? "text-[oklch(0.55_0.13_60)]" : "text-muted-foreground";
+  const toneCls = tone === "primary" ? "text-primary" : tone === "success" ? "text-success" : tone === "warning" ? "text-[oklch(0.55_0.114_80)]" : "text-muted-foreground";
   return (
-    <Link to={to} className="block rounded-2xl border border-border/70 bg-card p-5 transition-colors hover:border-primary/40 hover:bg-muted/40">
+    <Link
+      to={to}
+      className="border-gradient-top block overflow-hidden rounded-2xl border border-border/70 bg-gradient-kpi p-5 transition-shadow hover:shadow-suave"
+    >
       <div className={`flex items-center gap-2 text-xs uppercase tracking-wider ${toneCls}`}>
         {icon}
         <span>{label}</span>
@@ -433,11 +438,11 @@ function Kpi({ to, icon, label, value, hint, tone }: { to: string; icon: React.R
 
 function INSSChip({ estado }: { estado: string }) {
   const map: Record<string, string> = {
-    pagado: "text-[oklch(0.5_0.1_155)]",
-    enviado: "text-[oklch(0.5_0.13_60)]",
+    pagado: "text-[oklch(0.5_0.088_160)]",
+    enviado: "text-[oklch(0.5_0.114_80)]",
     borrador: "text-muted-foreground",
-    aprobado: "text-[oklch(0.5_0.1_200)]",
-    rechazado: "text-[oklch(0.5_0.15_25)]",
+    aprobado: "text-[oklch(0.5_0.088_258)]",
+    rechazado: "text-[oklch(0.5_0.132_30)]",
   };
   return <div className={`text-[0.65rem] uppercase tracking-wider mt-0.5 ${map[estado]}`}>{estado}</div>;
 }

@@ -71,10 +71,10 @@ const NOTIFS_INICIALES: Notif[] = [
 ];
 
 const toneCls: Record<Notif["tono"], string> = {
-  warning: "bg-[oklch(0.94_0.06_60)] text-[oklch(0.45_0.13_60)]",
-  success: "bg-[oklch(0.94_0.05_155)] text-[oklch(0.4_0.1_155)]",
-  info: "bg-[oklch(0.94_0.05_240)] text-[oklch(0.4_0.1_240)]",
-  danger: "bg-[oklch(0.94_0.06_25)] text-[oklch(0.45_0.15_25)]",
+  warning: "bg-[oklch(0.94_0.053_80)] text-[oklch(0.45_0.114_80)]",
+  success: "bg-[oklch(0.94_0.044_160)] text-[oklch(0.4_0.088_160)]",
+  info: "bg-[oklch(0.94_0.044_258)] text-[oklch(0.4_0.088_258)]",
+  danger: "bg-[oklch(0.94_0.053_30)] text-[oklch(0.45_0.132_30)]",
 };
 
 export function NotificacionesPopover() {
