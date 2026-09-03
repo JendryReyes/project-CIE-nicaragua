@@ -246,6 +246,7 @@ const todos = [
   "/reportes",
   "/familias",
   "/equipo",
+  "/usuarios",
   "/auditoria",
 ];
 
