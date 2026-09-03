@@ -624,11 +624,31 @@ function InvitarPanel({ onClose }: { onClose: () => void }) {
           </div>
           <Field label="Credencial profesional" ph="BCBA / RBT / Licencia" />
           <Field label="Vence" ph="2027-12-31" />
+          <div>
+            <div className="text-muted-foreground mb-1">Idioma preferido</div>
+            <select className="w-full rounded-lg border border-border/70 bg-background px-2.5 py-1.5 outline-none">
+              {["Español", "Inglés"].map((i) => (
+                <option key={i}>{i}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <div className="text-muted-foreground mb-1">Rotación de contraseña</div>
+            <select className="w-full rounded-lg border border-border/70 bg-background px-2.5 py-1.5 outline-none">
+              {["90 días (predeterminado)", "60 días", "30 días"].map((i) => (
+                <option key={i}>{i}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <label className="flex items-center gap-2 text-xs text-muted-foreground">
+          <input type="checkbox" className="accent-[var(--primary)]" />
+          Restringir el acceso administrativo a la red segura / VPN del centro
+        </label>
+        <label className="flex items-center gap-2 text-xs text-muted-foreground">
           <input type="checkbox" defaultChecked className="accent-[var(--primary)]" />
-          Exigir doble factor en el primer ingreso
+          Exigir doble factor (2FA) en el primer ingreso — obligatorio para Administrador de Organización
         </label>
 
         <div className="flex justify-end gap-2">

@@ -54,14 +54,16 @@ export const cicloVida = [
 ];
 
 export const funcionalidades = [
-  { titulo: "Alta e invitación", detalle: "Invitar por correo, reenviar o revocar invitación, alta masiva por plantilla." },
-  { titulo: "Roles y permisos", detalle: "Un rol principal por usuario; permisos derivados de la matriz de gobernanza." },
-  { titulo: "Ámbito por sede", detalle: "Usuario limitado a una o varias sedes; sólo dirección ve el consolidado." },
+  { titulo: "Alta e invitación", detalle: "Invitar por correo, reenviar o revocar invitación; el correo se envía en el idioma del destinatario." },
+  { titulo: "Roles y permisos", detalle: "Un rol principal por usuario bajo mínimo privilegio; permisos derivados de la matriz de la sección 1.4." },
+  { titulo: "Ámbito por sede", detalle: "Aislamiento lógico por sede (RLS); sólo el Administrador de Organización ve el consolidado." },
   { titulo: "Cartera asignada", detalle: "Terapeutas y supervisores solo acceden a los niños que tienen asignados." },
-  { titulo: "Seguridad de cuenta", detalle: "MFA obligatorio por rol, reinicio de contraseña, cierre remoto de sesiones." },
+  { titulo: "Seguridad de cuenta", detalle: "2FA obligatorio para Administración, rotación de contraseña a 90 días y cierre remoto de sesiones." },
   { titulo: "Credenciales profesionales", detalle: "Registro de licencia/certificación con fecha de vencimiento y alerta." },
   { titulo: "Suspensión y baja", detalle: "Suspender sin borrar, reasignar cartera y conservar firmas históricas." },
-  { titulo: "Trazabilidad", detalle: "Cada cambio de rol, sede o estado se registra en la bitácora de auditoría." },
+  { titulo: "Trazabilidad", detalle: "Creación, edición, desactivación, invitación y cambio de rol quedan en bitácora inmutable (10 años)." },
+  { titulo: "Idioma del usuario", detalle: "Idioma predeterminado de la organización, sobrescribible por cada usuario (interfaz, correos y reportes)." },
+  { titulo: "Sesión clínica continua", detalle: "La sesión móvil no expira mientras exista una sesión clínica activa; sin reautenticar a media terapia." },
 ];
 
 // 1.5 Autenticación y control de acceso
