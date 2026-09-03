@@ -23,6 +23,7 @@ import {
   Stethoscope,
   ShieldAlert,
   Gauge,
+  UsersRound,
 
 } from "lucide-react";
 import cieLogo from "@/assets/cie-logo.png.asset.json";
@@ -74,6 +75,7 @@ const administracion = [
 
 const gobernanza = [
   { title: "Equipo y permisos", url: "/equipo", icon: Shield },
+  { title: "Gestión de usuarios", url: "/usuarios", icon: UsersRound },
   { title: "Bitácora de auditoría", url: "/auditoria", icon: FileClock },
 ];
 
