@@ -1,3 +1,3 @@
 # Roadmap
 
-- [ ] Proponer modelos visuales distintos para reorganizar Configuración y Portal Principal usando las capturas de referencia.
+- [ ] Rediseñar desde cero Configuración y Portal Principal con navegación estratégica, sin tarjetas típicas; usar capturas solo para identificar problemas actuales.
