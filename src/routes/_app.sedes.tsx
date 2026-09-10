@@ -452,6 +452,9 @@ function FormularioSede({
       correo: "",
       matriz: false,
       estado: "activa",
+      horaApertura: "08:00",
+      horaCierre: "17:00",
+      umbralAlerta: 85,
     },
   );
   const set = (k: keyof SedeInfo, v: string) =>
@@ -463,43 +466,141 @@ function FormularioSede({
         : {}),
     }));
 
+  const umbral = f.umbralAlerta ?? 85;
   const valido = f.nombre.trim() && f.codigo.trim();
+
   return (
-    <Modal titulo={sede ? `Editar ${sede.nombre}` : "Nueva sede"} onCerrar={onCerrar}>
-      <div className="grid grid-cols-2 gap-4">
-        <Campo label="Nombre" value={f.nombre} onChange={(v) => set("nombre", v)} autoFocus />
-        <Campo label="Código" value={f.codigo} onChange={(v) => set("codigo", v)} placeholder="XX-000" />
-        <Campo label="Ciudad" value={f.ciudad} onChange={(v) => set("ciudad", v)} />
-        <Campo label="Teléfono" value={f.telefono} onChange={(v) => set("telefono", v)} />
-        <div className="col-span-2">
-          <Campo label="Dirección" value={f.direccion} onChange={(v) => set("direccion", v)} />
-        </div>
-        <div className="col-span-2">
-          <Campo label="Correo" value={f.correo} onChange={(v) => set("correo", v)} type="email" />
-        </div>
-        <label className="col-span-2 flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={f.matriz}
-            onChange={(e) => setF((p) => ({ ...p, matriz: e.target.checked }))}
-            className="h-4 w-4 rounded border-border accent-[oklch(0.55_0.18_260)]"
-          />
-          Es sede matriz
-        </label>
-      </div>
-      <div className="mt-6 flex justify-end gap-2">
-        <button onClick={onCerrar} className="px-4 py-2 rounded-lg border border-border text-sm font-medium hover:bg-muted">
-          Cancelar
-        </button>
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-background">
+      {/* Cabecera minimal, sin tarjeta */}
+      <div className="sticky top-0 z-10 flex items-center gap-3 bg-background/85 px-6 py-4 backdrop-blur lg:px-12">
         <button
-          disabled={!valido}
-          onClick={() => onGuardar(f)}
-          className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 disabled:opacity-40"
+          onClick={onCerrar}
+          aria-label="Volver"
+          className="rounded-full p-2 text-muted-foreground transition-colors hover:text-foreground"
         >
-          {sede ? "Guardar cambios" : "Crear sede"}
+          <X className="h-4 w-4" />
         </button>
+        <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+          Configuración · Sedes clínicas
+        </span>
       </div>
-    </Modal>
+
+      <div className="mx-auto w-full max-w-3xl px-6 pb-40 lg:px-0">
+        {/* Nombre como titular editable */}
+        <div className="pt-6">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
+            {sede ? "Editar sede" : "Nueva sede"}
+          </span>
+          <input
+            value={f.nombre}
+            autoFocus
+            onChange={(e) => set("nombre", e.target.value)}
+            placeholder="Nombre de la sede"
+            aria-label="Nombre de la sede"
+            className="mt-3 w-full border-b border-transparent bg-transparent pb-2 font-display text-4xl leading-tight tracking-tight text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary lg:text-5xl"
+          />
+          <p className="mt-3 text-sm text-muted-foreground">
+            Datos generales, horario de atención y umbral de alerta de capacidad.
+          </p>
+        </div>
+
+        {/* 01 Identidad */}
+        <Bloque numero="01" titulo="Identidad">
+          <div className="grid gap-x-12 gap-y-8 sm:grid-cols-2">
+            <Campo label="Código" value={f.codigo} onChange={(v) => set("codigo", v)} placeholder="XX-000" mono />
+            <Campo label="Ciudad" value={f.ciudad} onChange={(v) => set("ciudad", v)} placeholder="Managua" />
+            <div className="sm:col-span-2">
+              <Campo
+                label="Dirección física"
+                value={f.direccion}
+                onChange={(v) => set("direccion", v)}
+                placeholder="Dirección exacta de la clínica"
+              />
+            </div>
+            <label className="flex cursor-pointer items-center gap-2 text-sm text-foreground sm:col-span-2">
+              <input
+                type="checkbox"
+                checked={f.matriz}
+                onChange={(e) => setF((p) => ({ ...p, matriz: e.target.checked }))}
+                className="h-4 w-4 rounded border-border accent-primary"
+              />
+              Marcar como sede matriz
+            </label>
+          </div>
+        </Bloque>
+
+        {/* 02 Contacto */}
+        <Bloque numero="02" titulo="Contacto">
+          <div className="grid gap-x-12 gap-y-8 sm:grid-cols-2">
+            <Campo label="Teléfono de recepción" value={f.telefono} onChange={(v) => set("telefono", v)} placeholder="+505 0000 0000" />
+            <Campo label="Correo institucional" value={f.correo} onChange={(v) => set("correo", v)} type="email" placeholder="sede@evolua.app" />
+          </div>
+        </Bloque>
+
+        {/* 03 Operación */}
+        <Bloque numero="03" titulo="Operación">
+          <div className="grid gap-x-12 gap-y-8 sm:grid-cols-2">
+            <Campo label="Hora de apertura" value={f.horaApertura ?? ""} onChange={(v) => set("horaApertura", v)} type="time" />
+            <Campo label="Hora de cierre" value={f.horaCierre ?? ""} onChange={(v) => set("horaCierre", v)} type="time" />
+          </div>
+
+          <div className="mt-10">
+            <div className="flex items-baseline justify-between">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Umbral de alerta de capacidad
+              </span>
+              <span
+                className={`tabular font-display text-3xl ${
+                  umbral >= 95 ? "text-destructive" : umbral >= 85 ? "text-warning" : "text-success"
+                }`}
+              >
+                {umbral}%
+              </span>
+            </div>
+            <input
+              type="range"
+              min={50}
+              max={100}
+              value={umbral}
+              aria-label="Umbral de alerta de capacidad"
+              onChange={(e) => setF((p) => ({ ...p, umbralAlerta: Number(e.target.value) }))}
+              className="mt-4 h-1 w-full cursor-pointer appearance-none rounded-full bg-border accent-primary"
+            />
+            <p className="mt-3 text-xs text-muted-foreground">
+              Dispara alertas cuando la ocupación de la sede supere este porcentaje.
+            </p>
+          </div>
+        </Bloque>
+      </div>
+
+      {/* Barra de acciones flotante */}
+      <div className="fixed inset-x-0 bottom-6 z-20 flex justify-center px-6">
+        <div className="flex items-center gap-2 rounded-full bg-card/90 px-3 py-2 shadow-suave backdrop-blur">
+          <button onClick={onCerrar} className="rounded-full px-5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground">
+            Cancelar
+          </button>
+          <button
+            disabled={!valido}
+            onClick={() => onGuardar(f)}
+            className="rounded-full bg-gradient-suave px-7 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-95 disabled:opacity-40"
+          >
+            {sede ? "Guardar cambios" : "Crear sede"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Bloque({ numero, titulo, children }: { numero: string; titulo: string; children: React.ReactNode }) {
+  return (
+    <section className="mt-14 border-t border-border/60 pt-8">
+      <div className="mb-8 flex items-baseline gap-3">
+        <span className="tabular text-xs font-semibold text-primary">{numero}</span>
+        <h2 className="font-display text-xl text-foreground">{titulo}</h2>
+      </div>
+      {children}
+    </section>
   );
 }
 
@@ -510,6 +611,7 @@ function Campo({
   placeholder,
   type = "text",
   autoFocus,
+  mono,
 }: {
   label: string;
   value: string;
@@ -517,17 +619,22 @@ function Campo({
   placeholder?: string;
   type?: string;
   autoFocus?: boolean;
+  mono?: boolean;
 }) {
   return (
-    <label className="block">
-      <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</span>
+    <label className="group block">
+      <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground transition-colors group-focus-within:text-primary">
+        {label}
+      </span>
       <input
         type={type}
         value={value}
         placeholder={placeholder}
         autoFocus={autoFocus}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1 block w-full rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+        className={`mt-2 block w-full border-b border-border bg-transparent pb-2 text-lg text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary ${
+          mono ? "font-mono text-base uppercase tracking-wider" : ""
+        }`}
       />
     </label>
   );
