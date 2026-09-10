@@ -6,3 +6,4 @@
 ## Sedes Clínicas (diseño)
 - Capacidad por disciplina NO inline en la tabla: usar acordeón dentro de la fila (hasta 6+ disciplinas sin romper el layout).
 - Regenerar prototipos de sedes con acordeón anidado de capacidad.
+- Descartar los primeros prototipos; crear modelos más limpios, ordenados y con menor carga visual.
