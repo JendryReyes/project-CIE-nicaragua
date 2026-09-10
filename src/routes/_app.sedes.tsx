@@ -627,15 +627,17 @@ function Campo({
   mono?: boolean;
 }) {
   return (
-    <label className="group block space-y-2">
-      <span className="block text-sm font-semibold text-foreground">{label}</span>
+    <label className="group block">
+      <span className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+        {label}
+      </span>
       <input
         type={type}
         value={value}
         placeholder={placeholder}
         autoFocus={autoFocus}
         onChange={(e) => onChange(e.target.value)}
-        className={`w-full rounded-xl border border-border bg-muted/40 px-4 py-3.5 text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-card focus:ring-2 focus:ring-primary/20 ${
+        className={`mt-1.5 w-full border-b border-border bg-transparent pb-2.5 text-[15px] text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary ${
           mono ? "font-mono uppercase tracking-wider" : ""
         }`}
       />
