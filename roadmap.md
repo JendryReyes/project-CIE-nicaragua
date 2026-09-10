@@ -7,3 +7,5 @@
 - Capacidad por disciplina NO inline en la tabla: usar acordeón dentro de la fila (hasta 6+ disciplinas sin romper el layout).
 - Regenerar prototipos de sedes con acordeón anidado de capacidad.
 - Descartar los primeros prototipos; crear modelos más limpios, ordenados y con menor carga visual.
+- Usar `image-37.png` como referencia visual directa: misma paleta azul/blanca, tipografía, tabla continua y densidad; adaptar solo las funciones de sede.
+- Hacer visibles y accesibles todas las funciones sin saturar ni romper la tabla; capacidad detallada dentro del acordeón.
