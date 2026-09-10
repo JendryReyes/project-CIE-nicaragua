@@ -28,6 +28,9 @@ export const sedesInfo: SedeInfo[] = [
     correo: "santodomingo@evolua.app",
     matriz: true,
     estado: "activa",
+    horaApertura: "08:00",
+    horaCierre: "17:00",
+    umbralAlerta: 85,
   },
   {
     nombre: "Las Colinas",
@@ -39,6 +42,9 @@ export const sedesInfo: SedeInfo[] = [
     correo: "lascolinas@evolua.app",
     matriz: false,
     estado: "activa",
+    horaApertura: "08:00",
+    horaCierre: "17:00",
+    umbralAlerta: 85,
   },
   {
     nombre: "Estelí",
@@ -50,6 +56,9 @@ export const sedesInfo: SedeInfo[] = [
     correo: "esteli@evolua.app",
     matriz: false,
     estado: "activa",
+    horaApertura: "08:00",
+    horaCierre: "17:00",
+    umbralAlerta: 85,
   },
   {
     nombre: "Masaya",
@@ -61,6 +70,9 @@ export const sedesInfo: SedeInfo[] = [
     correo: "masaya@evolua.app",
     matriz: false,
     estado: "pausada",
+    horaApertura: "08:00",
+    horaCierre: "16:00",
+    umbralAlerta: 90,
   },
   {
     nombre: "León",
@@ -72,5 +84,8 @@ export const sedesInfo: SedeInfo[] = [
     correo: "leon@evolua.app",
     matriz: false,
     estado: "activa",
+    horaApertura: "08:00",
+    horaCierre: "17:00",
+    umbralAlerta: 85,
   },
 ];
