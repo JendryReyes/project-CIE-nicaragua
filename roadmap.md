@@ -10,4 +10,5 @@
 - Usar `image-37.png` como referencia visual directa: misma paleta azul/blanca, tipografía, tabla continua y densidad; adaptar solo las funciones de sede.
 - Hacer visibles y accesibles todas las funciones sin saturar ni romper la tabla; capacidad detallada dentro del acordeón.
 - Modelo aprobado: lista limpia tipo `image-38.png` (encabezado + botón Nueva Sede, cabecera Sede/Ubicación/Estado/Acciones, monograma, badge Matriz, pill de estado, kebab, pie con conteo).
-- Mostrar sobre ese modelo TODA la información necesaria: búsqueda, filtros, código/ID, contacto (teléfono y correo), niños activos, terapeutas, saturación, y capacidad por 6+ disciplinas dentro del acordeón.
+- Mostrar sobre ese modelo TODA la información necesaria: búsqueda, código/ID, contacto (teléfono y correo), niños activos, terapeutas, saturación, y capacidad por 6+ disciplinas dentro del acordeón.
+- NO usar filtros desplegables de Estado ni Ciudad: la búsqueda única ya cubre nombre, código, dirección, teléfono y correo; el estado se ve en la propia fila.
