@@ -64,7 +64,7 @@ const aba = [
 ];
 
 const administracion = [
-  { title: "Panel de sedes", url: "/sedes", icon: Building2 },
+  { title: "Sedes clínicas", url: "/sedes", icon: Building2 },
   { title: "Facturación", url: "/facturacion", icon: Receipt },
   { title: "Pagadores y cartas", url: "/pagadores", icon: CreditCard },
   { title: "Tarifario", url: "/tarifas", icon: Tags },
