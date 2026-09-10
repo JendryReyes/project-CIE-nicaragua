@@ -10,9 +10,10 @@ import {
   Eye,
   Pencil,
   LayoutGrid,
+  ArrowRight,
 } from "lucide-react";
 import { sedesInfo, type SedeInfo, type EstadoSede } from "@/lib/sedes-admin-data";
-import { cupos, ocupacion, estadoCupo, type Cupo } from "@/lib/cupos-data";
+import { cupos, disciplinas, type Cupo, type Disciplina } from "@/lib/cupos-data";
 
 export const Route = createFileRoute("/_app/sedes")({
   head: () => ({
