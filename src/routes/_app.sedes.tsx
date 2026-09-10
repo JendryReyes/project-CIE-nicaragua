@@ -37,6 +37,7 @@ type Dialogo =
 
 function SedesClinicas() {
   const [lista, setLista] = useState<SedeInfo[]>(sedesInfo);
+  const [registros, setRegistros] = useState<Cupo[]>(cupos);
   const [busqueda, setBusqueda] = useState("");
   const [expandida, setExpandida] = useState<string | null>(null);
   const [menu, setMenu] = useState<string | null>(null);
@@ -54,11 +55,34 @@ function SedesClinicas() {
   }, [lista, busqueda]);
 
   const capacidadDe = (nombre: string) => {
-    const cs = cupos.filter((c) => c.sede === nombre);
+    const cs = registros.filter((c) => c.sede === nombre);
     const cap = cs.reduce((a, c) => a + c.capacidad, 0);
     const occ = cs.reduce((a, c) => a + c.ocupados + c.reservados, 0);
     return { cs, cap, occ, pct: cap ? Math.round((occ / cap) * 100) : 0 };
   };
+
+  const cambiarCupo = (sede: string, disciplina: Disciplina, valor: number) =>
+    setRegistros((rs) => {
+      const existe = rs.some((r) => r.sede === sede && r.disciplina === disciplina);
+      if (!existe) {
+        return [
+          ...rs,
+          {
+            sede,
+            disciplina,
+            capacidad: valor,
+            ocupados: 0,
+            reservados: 0,
+            listaEspera: 0,
+            horasSemanaCapacidad: valor * 6,
+            horasSemanaProgramadas: 0,
+          },
+        ];
+      }
+      return rs.map((r) =>
+        r.sede === sede && r.disciplina === disciplina ? { ...r, capacidad: valor } : r,
+      );
+    });
 
   const toggleEstado = (codigo: string) =>
     setLista((ls) =>
