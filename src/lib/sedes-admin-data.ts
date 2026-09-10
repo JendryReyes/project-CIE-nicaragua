@@ -12,6 +12,9 @@ export type SedeInfo = {
   correo: string;
   matriz: boolean;
   estado: EstadoSede;
+  horaApertura?: string;
+  horaCierre?: string;
+  umbralAlerta?: number;
 };
 
 export const sedesInfo: SedeInfo[] = [
