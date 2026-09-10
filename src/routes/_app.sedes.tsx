@@ -140,7 +140,7 @@ function SedesClinicas() {
               <tr className="bg-muted/40">
                 <th className="px-6 py-3.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Sede / Info</th>
                 <th className="px-6 py-3.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Contacto</th>
-                <th className="px-6 py-3.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Capacidad</th>
+                <th className="px-6 py-3.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Saturación</th>
                 <th className="px-6 py-3.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Estado</th>
                 <th className="px-6 py-3.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-right">Acciones</th>
               </tr>
@@ -150,7 +150,13 @@ function SedesClinicas() {
                 const { cs, cap, occ, pct } = capacidadDe(s.nombre);
                 const abierta = expandida === s.codigo;
                 const tonoBarra =
-                  pct >= 100 ? "bg-[oklch(0.65_0.132_45)]" : pct >= 90 ? "bg-[oklch(0.7_0.114_80)]" : "bg-primary";
+                  pct >= 85 ? "bg-[oklch(0.65_0.132_45)]" : pct >= 70 ? "bg-[oklch(0.7_0.114_80)]" : "bg-[oklch(0.63_0.078_160)]";
+                const tonoChip =
+                  pct >= 85
+                    ? "bg-[oklch(0.96_0.03_45)] text-[oklch(0.5_0.13_45)]"
+                    : pct >= 70
+                      ? "bg-[oklch(0.96_0.04_80)] text-[oklch(0.5_0.11_80)]"
+                      : "bg-[oklch(0.95_0.04_160)] text-[oklch(0.44_0.09_160)]";
                 return (
                   <FilaSede
                     key={s.codigo}
@@ -159,9 +165,12 @@ function SedesClinicas() {
                     occ={occ}
                     pct={pct}
                     tonoBarra={tonoBarra}
+                    tonoChip={tonoChip}
                     abierta={abierta}
                     menuAbierto={menu === s.codigo}
-                    disciplinas={cs}
+                    registros={cs}
+                    disciplinasCatalogo={disciplinas}
+                    onCupo={(d, v) => cambiarCupo(s.nombre, d, v)}
                     onToggle={() => setExpandida(abierta ? null : s.codigo)}
                     onMenu={() => setMenu(menu === s.codigo ? null : s.codigo)}
                     onAccion={(a) => {
@@ -216,15 +225,18 @@ function FilaSede(props: {
   occ: number;
   pct: number;
   tonoBarra: string;
+  tonoChip: string;
   abierta: boolean;
   menuAbierto: boolean;
-  disciplinas: Cupo[];
+  registros: Cupo[];
+  disciplinasCatalogo: Disciplina[];
   onToggle: () => void;
   onMenu: () => void;
   onAccion: (a: "detalle" | "editar" | "capacidad") => void;
   onEstado: () => void;
+  onCupo: (d: Disciplina, valor: number) => void;
 }) {
-  const { s, cap, occ, pct, tonoBarra, abierta, menuAbierto, disciplinas } = props;
+  const { s, cap, occ, pct, tonoBarra, tonoChip, abierta, menuAbierto, registros, disciplinasCatalogo } = props;
   return (
     <>
       <tr className="hover:bg-muted/40 transition-colors">
@@ -254,13 +266,17 @@ function FilaSede(props: {
           </div>
         </td>
         <td className="px-6 py-4">
-          <button onClick={props.onToggle} className="flex items-center gap-2 group" title="Ver capacidad por disciplina">
-            <div className="w-14 bg-muted rounded-full h-1.5">
-              <div className={`${tonoBarra} h-1.5 rounded-full`} style={{ width: `${Math.min(pct, 100)}%` }} />
-            </div>
-            <span className="text-xs font-medium text-muted-foreground tabular">
-              {occ}/{cap}
+          <button
+            onClick={props.onToggle}
+            className="flex items-center gap-2"
+            title="Ver capacidad por disciplina"
+            aria-expanded={abierta}
+          >
+            <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${tonoChip}`}>
+              <span className={`h-1.5 w-1.5 rounded-full ${tonoBarra}`} />
+              {pct}%
             </span>
+            <span className="text-xs text-muted-foreground tabular">{occ}/{cap}</span>
             <ChevronDown className={`h-3.5 w-3.5 text-muted-foreground transition-transform ${abierta ? "rotate-180" : ""}`} />
           </button>
         </td>
@@ -307,43 +323,76 @@ function FilaSede(props: {
       </tr>
       {abierta && (
         <tr className="bg-muted/25">
-          <td colSpan={5} className="px-6 py-4 border-t border-border/50">
-            <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-3">
-              Capacidad por disciplina
-            </div>
-            {disciplinas.length === 0 ? (
-              <p className="text-xs text-muted-foreground">Sin disciplinas configuradas en esta sede.</p>
-            ) : (
-              <div className="divide-y divide-border/40 rounded-lg border border-border/60 bg-card overflow-hidden">
-                {disciplinas.map((c) => {
-                  const est = estadoCupo(c);
-                  const dot =
-                    est.tone === "ok"
-                      ? "bg-[oklch(0.63_0.078_160)]"
-                      : est.tone === "ambar"
-                        ? "bg-[oklch(0.7_0.114_80)]"
-                        : "bg-[oklch(0.65_0.132_45)]";
-                  return (
-                    <div key={c.disciplina} className="grid grid-cols-[1fr_110px_110px_110px_130px] items-center gap-4 px-4 py-2.5 text-sm">
-                      <span className="font-medium text-foreground">{c.disciplina}</span>
-                      <span className="text-xs text-muted-foreground tabular">
-                        Cupos <span className="font-semibold text-foreground">{c.ocupados + c.reservados}/{c.capacidad}</span>
+          <td colSpan={5} className="px-6 py-5 border-t border-border/50">
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {disciplinasCatalogo.map((d) => {
+                const c = registros.find((r) => r.disciplina === d);
+                const usados = c ? c.ocupados + c.reservados : 0;
+                const pctD = c && c.capacidad ? Math.round((usados / c.capacidad) * 100) : 0;
+                const sinDatos = !c || (c.ocupados === 0 && c.reservados === 0);
+                const tono =
+                  pctD >= 85
+                    ? { txt: "text-[oklch(0.58_0.132_45)]", bar: "bg-[oklch(0.65_0.132_45)]", chip: "bg-[oklch(0.96_0.03_45)] text-[oklch(0.5_0.13_45)]", label: "Crítico" }
+                    : pctD >= 70
+                      ? { txt: "text-[oklch(0.6_0.114_80)]", bar: "bg-[oklch(0.7_0.114_80)]", chip: "bg-[oklch(0.96_0.04_80)] text-[oklch(0.5_0.11_80)]", label: "Alerta" }
+                      : { txt: "text-[oklch(0.55_0.078_160)]", bar: "bg-[oklch(0.63_0.078_160)]", chip: "bg-[oklch(0.95_0.04_160)] text-[oklch(0.44_0.09_160)]", label: "Óptimo" };
+                return (
+                  <div
+                    key={d}
+                    className={`rounded-xl border border-border/70 bg-card p-4 ${sinDatos ? "opacity-70" : ""}`}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        {d}
                       </span>
-                      <span className="text-xs text-muted-foreground tabular">
-                        Espera <span className="font-semibold text-foreground">{c.listaEspera}</span>
-                      </span>
-                      <span className="text-xs text-muted-foreground tabular">
-                        {c.horasSemanaProgramadas}/{c.horasSemanaCapacidad} h/sem
-                      </span>
-                      <span className="flex items-center gap-1.5 text-xs">
-                        <span className={`h-2 w-2 rounded-full ${dot}`} />
-                        <span className="text-muted-foreground">{est.label} · {ocupacion(c)}%</span>
-                      </span>
+                      <label className="flex items-center gap-2 shrink-0">
+                        <span className="text-[11px] text-muted-foreground">Cupo Máx.</span>
+                        <input
+                          type="number"
+                          min={0}
+                          value={c?.capacidad ?? 0}
+                          onChange={(e) => props.onCupo(d, Math.max(0, Number(e.target.value) || 0))}
+                          aria-label={`Cupo máximo de ${d} en ${s.nombre}`}
+                          className="w-16 rounded-md border border-border bg-background px-2 py-1 text-sm font-semibold text-foreground text-center tabular focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                        />
+                      </label>
                     </div>
-                  );
-                })}
-              </div>
-            )}
+                    {sinDatos ? (
+                      <>
+                        <div className="mt-4 h-1.5 rounded-full bg-muted" />
+                        <p className="mt-2 text-xs text-muted-foreground">Sin datos registrados</p>
+                      </>
+                    ) : (
+                      <>
+                        <div className="mt-3 flex items-end justify-between gap-3">
+                          <span className={`text-lg font-semibold tabular ${tono.txt}`}>
+                            {usados} / {c!.capacidad}
+                          </span>
+                          <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${tono.chip}`}>
+                            {pctD}% {tono.label}
+                          </span>
+                        </div>
+                        <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
+                          <div className={`h-1.5 rounded-full ${tono.bar}`} style={{ width: `${Math.min(pctD, 100)}%` }} />
+                        </div>
+                        <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground tabular">
+                          <span>Lista de espera: {c!.listaEspera}</span>
+                          <span>{c!.horasSemanaProgramadas}/{c!.horasSemanaCapacidad} h/sem</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={() => props.onAccion("detalle")}
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:opacity-80 transition-opacity"
+              >
+                Gestionar capacidad detallada <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
           </td>
         </tr>
       )}
