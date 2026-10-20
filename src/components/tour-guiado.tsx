@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Sparkles, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 type Paso = {
@@ -59,6 +60,8 @@ export function TourGuiado() {
   };
   const actual = paso !== null ? PASOS[paso] : null;
   const ultimo = paso === PASOS.length - 1;
+  const [montado, setMontado] = useState(false);
+  useEffect(() => setMontado(true), []);
 
   return (
     <>
@@ -71,11 +74,11 @@ export function TourGuiado() {
         <span className="hidden md:inline">Tour guiado</span>
       </button>
 
-      {actual && paso !== null && (
+      {montado && actual && paso !== null && createPortal(
         <div
           role="dialog"
           aria-label="Tour guiado"
-          className="fixed bottom-4 right-4 left-4 sm:left-auto z-[60] sm:w-[380px] rounded-2xl border border-border bg-card text-card-foreground shadow-2xl p-5"
+          className="fixed bottom-4 right-4 left-4 sm:left-auto z-[100] sm:w-[380px] max-h-[calc(100vh-2rem)] overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-2xl p-5"
         >
           <div className="flex items-start justify-between gap-3">
             <div className="text-[11px] font-medium uppercase tracking-wide text-primary">
@@ -108,7 +111,8 @@ export function TourGuiado() {
               {ultimo ? "Finalizar" : "Siguiente"} {!ultimo && <ChevronRight className="h-4 w-4" />}
             </button>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );
