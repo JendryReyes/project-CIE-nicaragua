@@ -471,9 +471,9 @@ function FormularioSede({
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-background">
-      <div className="mx-auto max-w-3xl px-6 pb-40 pt-10 md:px-10">
+      <div className="mx-auto max-w-2xl px-6 pb-24 pt-10 md:px-10">
         {/* Breadcrumb + cerrar */}
-        <div className="mb-14 flex items-center justify-between">
+        <div className="mb-12 flex items-center justify-between">
           <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
             Configuración <span className="mx-1.5 text-border">·</span> Sedes clínicas
           </p>
@@ -498,114 +498,107 @@ function FormularioSede({
           aria-label="Nombre de la sede"
           className="mt-3 w-full border-b border-border bg-transparent pb-3 font-display text-4xl text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary md:text-5xl"
         />
-        <p className="mt-3 text-sm text-muted-foreground">
-          Datos generales, horario de atención y umbral de alerta de capacidad.
-        </p>
 
-        {/* 01 · Identidad */}
-        <Seccion numero="01" titulo="Identidad">
-          <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+        {/* Filas tipográficas: etiqueta a la izquierda, valor a la derecha */}
+        <div className="mt-12 divide-y divide-border/50">
+          <Fila label="Código">
             <Campo label="Código" value={f.codigo} onChange={(v) => set("codigo", v)} placeholder="XX-000" mono />
+          </Fila>
+          <Fila label="Ciudad">
             <Campo label="Ciudad" value={f.ciudad} onChange={(v) => set("ciudad", v)} placeholder="Managua" />
-            <div className="sm:col-span-2">
-              <Campo label="Dirección física" value={f.direccion} onChange={(v) => set("direccion", v)} placeholder="Dirección exacta de la clínica" />
+          </Fila>
+          <Fila label="Dirección">
+            <Campo label="Dirección física" value={f.direccion} onChange={(v) => set("direccion", v)} placeholder="Dirección exacta de la clínica" />
+          </Fila>
+          <Fila label="Teléfono">
+            <Campo label="Teléfono de recepción" value={f.telefono} onChange={(v) => set("telefono", v)} placeholder="+505 0000 0000" />
+          </Fila>
+          <Fila label="Correo">
+            <Campo label="Correo institucional" value={f.correo} onChange={(v) => set("correo", v)} type="email" placeholder="sede@evolua.app" />
+          </Fila>
+          <Fila label="Horario">
+            <div className="flex items-center gap-4">
+              <Campo label="Hora de apertura" value={f.horaApertura ?? ""} onChange={(v) => set("horaApertura", v)} type="time" />
+              <span className="text-border">—</span>
+              <Campo label="Hora de cierre" value={f.horaCierre ?? ""} onChange={(v) => set("horaCierre", v)} type="time" />
             </div>
-            <label className="flex cursor-pointer items-center gap-2.5 text-sm text-foreground sm:col-span-2">
+          </Fila>
+          <Fila label="Matriz">
+            <label className="flex cursor-pointer items-center gap-2.5 text-sm text-foreground">
               <input
                 type="checkbox"
                 checked={f.matriz}
                 onChange={(e) => setF((p) => ({ ...p, matriz: e.target.checked }))}
                 className="h-4 w-4 rounded border-border accent-primary"
               />
-              Marcar como sede matriz
+              Esta es la sede matriz
             </label>
-          </div>
-        </Seccion>
-
-        {/* 02 · Contacto */}
-        <Seccion numero="02" titulo="Contacto">
-          <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
-            <Campo label="Teléfono de recepción" value={f.telefono} onChange={(v) => set("telefono", v)} placeholder="+505 0000 0000" />
-            <Campo label="Correo institucional" value={f.correo} onChange={(v) => set("correo", v)} type="email" placeholder="sede@evolua.app" />
-          </div>
-        </Seccion>
-
-        {/* 03 · Operación */}
-        <Seccion numero="03" titulo="Operación">
-          <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
-            <Campo label="Hora de apertura" value={f.horaApertura ?? ""} onChange={(v) => set("horaApertura", v)} type="time" />
-            <Campo label="Hora de cierre" value={f.horaCierre ?? ""} onChange={(v) => set("horaCierre", v)} type="time" />
-          </div>
-
-          <div className="mt-12">
-            <div className="flex items-baseline justify-between">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Umbral de alerta de capacidad
-              </span>
+          </Fila>
+          <Fila
+            label="Umbral"
+            hint="Dispara alertas cuando la ocupación de la sede supere este porcentaje."
+          >
+            <div className="flex items-center gap-5">
+              <input
+                type="range"
+                min={50}
+                max={100}
+                value={umbral}
+                aria-label="Umbral de alerta de capacidad"
+                onChange={(e) => setF((p) => ({ ...p, umbralAlerta: Number(e.target.value) }))}
+                className="h-1 w-full max-w-xs cursor-pointer appearance-none rounded-full bg-border accent-primary"
+              />
               <span
-                className={`tabular font-display text-3xl ${
+                className={`tabular font-display text-2xl ${
                   umbral >= 95 ? "text-destructive" : umbral >= 85 ? "text-warning" : "text-success"
                 }`}
               >
                 {umbral}%
               </span>
             </div>
-            <input
-              type="range"
-              min={50}
-              max={100}
-              value={umbral}
-              aria-label="Umbral de alerta de capacidad"
-              onChange={(e) => setF((p) => ({ ...p, umbralAlerta: Number(e.target.value) }))}
-              className="mt-4 h-1 w-full cursor-pointer appearance-none rounded-full bg-border accent-primary"
-            />
-            <p className="mt-3 text-xs text-muted-foreground">
-              Dispara alertas cuando la ocupación de la sede supere este porcentaje.
-            </p>
-          </div>
-        </Seccion>
+          </Fila>
+        </div>
 
-        {/* Barra flotante de acciones */}
-        <div className="pointer-events-none fixed inset-x-0 bottom-6 z-10 flex justify-center px-6">
-          <div className="pointer-events-auto flex items-center gap-5 rounded-full border border-border bg-card px-6 py-3 shadow-suave">
-            <button
-              onClick={onCerrar}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Descartar
-            </button>
-            <span className="h-4 w-px bg-border" />
-            <button
-              disabled={!valido}
-              onClick={() => onGuardar(f)}
-              className="rounded-full bg-gradient-suave px-6 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-95 disabled:opacity-40"
-            >
-              {sede ? "Guardar cambios" : "Crear sede"}
-            </button>
-          </div>
+        {/* Acciones al pie, sin barra flotante */}
+        <div className="mt-12 flex items-center justify-between border-t border-border pt-6">
+          <button
+            onClick={onCerrar}
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Descartar
+          </button>
+          <button
+            disabled={!valido}
+            onClick={() => onGuardar(f)}
+            className="rounded-full bg-gradient-suave px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-95 disabled:opacity-40"
+          >
+            {sede ? "Guardar cambios" : "Crear sede"}
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-function Seccion({
-  numero,
-  titulo,
+function Fila({
+  label,
+  hint,
   children,
 }: {
-  numero: string;
-  titulo: string;
+  label: string;
+  hint?: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-16 border-t border-border pt-8">
-      <h2 className="mb-10 flex items-baseline gap-3 font-display text-xl text-foreground">
-        <span className="text-xs font-semibold tracking-widest text-primary">{numero}</span>
-        {titulo}
-      </h2>
-      {children}
-    </section>
+    <div className="grid gap-x-8 py-5 sm:grid-cols-[150px_1fr] sm:items-baseline">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        {label}
+      </span>
+      <div>
+        {children}
+        {hint && <p className="mt-2 text-xs text-muted-foreground">{hint}</p>}
+      </div>
+    </div>
   );
 }
 
@@ -627,21 +620,17 @@ function Campo({
   mono?: boolean;
 }) {
   return (
-    <label className="group block">
-      <span className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-        {label}
-      </span>
-      <input
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        autoFocus={autoFocus}
-        onChange={(e) => onChange(e.target.value)}
-        className={`mt-1.5 w-full border-b border-border bg-transparent pb-2.5 text-[15px] text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary ${
-          mono ? "font-mono uppercase tracking-wider" : ""
-        }`}
-      />
-    </label>
+    <input
+      type={type}
+      value={value}
+      placeholder={placeholder}
+      autoFocus={autoFocus}
+      onChange={(e) => onChange(e.target.value)}
+      aria-label={label}
+      className={`w-full border-b border-border bg-transparent pb-2 text-[15px] text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary ${
+        mono ? "font-mono uppercase tracking-wider" : ""
+      }`}
+    />
   );
 }
 
